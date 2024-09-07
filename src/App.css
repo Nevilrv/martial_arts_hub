@@ -1,38 +1,199 @@
-.App {
+/* Fonts start */
+
+/* poppins-100 - latin */
+@font-face {
+  font-display: swap;
+  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 100;
+  src: url("./assets/fonts/poppins-v21-latin-100.woff2") format("woff2");
+  /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* poppins-200 - latin */
+@font-face {
+  font-display: swap;
+  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 200;
+  src: url("./assets/fonts/poppins-v21-latin-200.woff2") format("woff2");
+  /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* poppins-300 - latin */
+@font-face {
+  font-display: swap;
+  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 300;
+  src: url("./assets/fonts/poppins-v21-latin-300.woff2") format("woff2");
+  /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* poppins-regular - latin */
+@font-face {
+  font-display: swap;
+  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  src: url("./assets/fonts/poppins-v21-latin-regular.woff2") format("woff2");
+  /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* poppins-500 - latin */
+@font-face {
+  font-display: swap;
+  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  src: url("./assets/fonts/poppins-v21-latin-500.woff2") format("woff2");
+  /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* poppins-600 - latin */
+@font-face {
+  font-display: swap;
+  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  src: url("./assets/fonts/poppins-v21-latin-600.woff2") format("woff2");
+  /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* poppins-700 - latin */
+@font-face {
+  font-display: swap;
+  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  src: url("./assets/fonts/poppins-v21-latin-700.woff2") format("woff2");
+  /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* poppins-800 - latin */
+@font-face {
+  font-display: swap;
+  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 800;
+  src: url("./assets/fonts/poppins-v21-latin-800.woff2") format("woff2");
+  /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* poppins-900 - latin */
+@font-face {
+  font-display: swap;
+  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 900;
+  src: url("./assets/fonts/poppins-v21-latin-900.woff2") format("woff2");
+  /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* Fonts end */
+
+body {
+  @apply bg-primary;
+  font-family: "Poppins";
+}
+.slick-dots {
+  display: flex !important;
+  bottom: -70px !important;
+  width: 94% !important;
+}
+.slider-1 .slick-dots li {
+  width: 100% !important;
+  margin: 0 !important;
+  height: auto !important;
+}
+.slider-1 .slick-dots li button {
+  width: 100% !important;
+  height: auto !important;
+}
+.slider-1 .slick-dots li button:before {
+  width: 100% !important;
+  height: 2px !important;
+  content: "" !important;
+  background-color: #0f0f0f40;
+}
+.slider-1 .slick-dots li.slick-active button:before {
+  background-color: #0f0f0f !important;
+  height: 6px !important;
+  top: -2px;
+}
+.slider-1 .slick-prev,
+.slick-next {
+  bottom: -70px !important;
+  top: inherit !important;
+  transform: translate(0, 0) !important;
+}
+.slider-1 .slick-prev,
+.slider-1 .slick-prev:hover {
+  right: 20px !important;
+  left: inherit;
+  height: 36px !important;
+  width: 36px !important;
+  border-radius: 50%;
+  border: 1px solid #000;
+  background: url(./assets/images/slider_arrow.svg);
+  color: #000 !important;
+  background-size: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.slick-prev:before {
+  content: "" !important;
+}
+.slider-1 .slick-next,
+.slider-1 .slick-next:hover {
+  left: inherit;
+  height: 36px !important;
+  width: 36px !important;
+  border-radius: 50%;
+  border: 1px solid #000;
+  background: url(./assets/images/slider_arrow.svg);
+  color: #ffff;
+  rotate: 180deg;
+  background-size: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.slick-next:before {
+  content: "" !important;
+}
+
+.Titile {
+  background: linear-gradient(
+    90deg,
+    rgba(113, 113, 113, 0.13) 0%,
+    rgba(113, 113, 113, 0.15) 44%,
+    rgba(113, 113, 113, 0.08) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: Poppins;
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 76.8px;
+  letter-spacing: -0.04em;
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.Main-circle {
+  width: 420px;
+  height: 420px;
+  background: #71717124;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+@media (max-width: 568px) {
+  .Titile {
+    font-size: 53px;
   }
 }

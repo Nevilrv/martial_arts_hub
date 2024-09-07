@@ -1,24 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import MainLayout from "./components/layouts/MainLayout";
+import { lazy, Suspense } from "react";
+import Spinner from "./components/layouts/Spinner";
+import { Routing } from "./components/shared/Routing";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+// components
+const StudentHome = lazy(() =>
+  import("./components/pages/Student/homepage/Index")
+);
 
 function App() {
+  const routes = [
+    {
+      path: Routing.Initial,
+      component: StudentHome,
+      // isPrivateRoute: false,
+    },
+    // Add other routes as needed
+  ];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Suspense fallback={<Spinner />}>
+        <BrowserRouter>
+          <MainLayout>
+            <Routes>
+              {routes.map((route, index) => (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    route.isPrivateRoute ? (
+                      // <PrivateRoute>
+                      <route.component />
+                    ) : (
+                      // </PrivateRoute>
+                      <route.component />
+                    )
+                  }
+                />
+              ))}
+            </Routes>
+          </MainLayout>
+        </BrowserRouter>
+      </Suspense>
+    </>
   );
 }
 
