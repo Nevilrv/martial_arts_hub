@@ -43,6 +43,7 @@ jobs:
           cd /var/www/html/martial_arts_hub || exit
           git pull origin main
           npm install
+          npm run build
         EOF
       env:
         EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
