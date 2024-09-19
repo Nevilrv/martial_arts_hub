@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Node.js CI and Deploy
 
 on:
   push:
@@ -7,8 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     strategy:
@@ -17,11 +16,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: pwd
-    - run: cd /var/www/html/martial_arts_hub
-    - run: npm install
+
+    # Deploy to EC2 via SSH
+    - name: Deploy to EC2
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y openssh-client
+        echo "${{ secrets.EC2_SSH_KEY }}" > ec2-key.pem
+        chmod 600 ec2-key.pem
+
+        # Replace with your EC2 instance's user, IP, and path
+        ssh -o StrictHostKeyChecking=no -i ec2-key.pem ubuntu@13.60.119.208 'cd /var/www/html/martial_arts_hub && git pull origin main && npm install'
+      env:
+        EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
