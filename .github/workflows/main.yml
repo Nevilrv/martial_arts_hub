@@ -17,15 +17,32 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # Deploy to EC2 via SSH
-    - name: Deploy to EC2
+    - name: Set up SSH
       run: |
         sudo apt-get update
         sudo apt-get install -y openssh-client
         echo "${{ secrets.EC2_SSH_KEY }}" > ec2-key.pem
         chmod 600 ec2-key.pem
+      env:
+        EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
 
-        # Replace with your EC2 instance's user, IP, and path
-        ssh -o StrictHostKeyChecking=no -i ec2-key.pem ubuntu@13.60.119.208 'cd /var/www/html/martial_arts_hub && git pull origin main && npm install'
+    - name: Install Node.js on EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ec2-key.pem ubuntu@13.60.119.208 << 'EOF'
+          curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          node -v
+          npm -v
+        EOF
+      env:
+        EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+
+    - name: Deploy to EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ec2-key.pem ubuntu@13.60.119.208 << 'EOF'
+          cd /var/www/html/martial_arts_hub || exit
+          git pull origin main
+          npm install
+        EOF
       env:
         EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
