@@ -22,4 +22,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - run: pwd
+    - run: cd /var/www/html/martial_arts_hub
     - run: npm install
