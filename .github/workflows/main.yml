@@ -1,0 +1,49 @@
+name: Node.js CI and Deploy
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up SSH
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y openssh-client
+        echo "${{ secrets.EC2_SSH_KEY }}" > ec2-key.pem
+        chmod 600 ec2-key.pem
+      env:
+        EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+
+    - name: Install Node.js on EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ec2-key.pem ubuntu@13.60.119.208 << 'EOF'
+          curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          node -v
+          npm -v
+        EOF
+      env:
+        EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+
+    - name: Deploy to EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ec2-key.pem ubuntu@13.60.119.208 << 'EOF'
+          cd /var/www/html/martial_arts_hub || exit
+          git pull origin main
+          npm install
+          npm run build
+        EOF
+      env:
+        EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
