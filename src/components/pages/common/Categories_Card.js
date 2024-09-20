@@ -1,7 +1,7 @@
 import React from "react";
-import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
+import {IoIosArrowRoundForward } from "react-icons/io";
 
-const Categories_Card = ({data}) => {
+const CategoriesCard = ({data}) => {
   return (
     <>
       <div className="group mr-6">
@@ -20,4 +20,4 @@ const Categories_Card = ({data}) => {
   );
 };
 
-export default Categories_Card;
+export default CategoriesCard;

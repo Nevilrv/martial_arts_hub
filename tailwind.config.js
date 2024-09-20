@@ -19,6 +19,10 @@ module.exports = {
         100:"#FFB423"
       },
       green: "#25C277",
+      red:{
+        100:"#E1D2D1",
+        200:"#CB3530"
+      }
     },
     extend: {
       padding: {

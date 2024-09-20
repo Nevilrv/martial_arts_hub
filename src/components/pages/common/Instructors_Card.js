@@ -1,9 +1,8 @@
 import React from "react";
-import { BiHeart, BiSolidStar, BiStar } from "react-icons/bi";
+import { BiHeart, BiSolidStar } from "react-icons/bi";
 
-const Instructors_Card = ({ data }) => {
+const InstructorsCard = ({ data }) => {
   const roundedRating = Math.round(data.rating); 
-  console.log(roundedRating,"=========>");
   // Round to nearest half-star
   const filledStars = Math.floor(roundedRating);
   const halfStar = roundedRating - filledStars > 0;
@@ -14,8 +13,8 @@ const Instructors_Card = ({ data }) => {
         <div className="relative">
           <img
             src={data.image}
-            alt="image"
-            className="grayscale w-full object-top h-[355px] object-cover"
+            alt={data.image}
+            className="grayscale hover:grayscale-0 w-full object-top h-[355px] object-cover"
           />
           <div className="h-[34px] w-[34px] bg-white rounded-full absolute top-4 right-3 flex items-center justify-center">
             <BiHeart />
@@ -59,4 +58,4 @@ const Instructors_Card = ({ data }) => {
   );
 };
 
-export default Instructors_Card;
+export default InstructorsCard;

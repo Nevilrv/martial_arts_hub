@@ -1,81 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import SportsPsychology from "../../../../assets/images/SportsPsychology.png";
 import Physio from "../../../../assets/images/Physio.png";
 import MartialArts from "../../../../assets/images/MartialArts.png";
 import Workout from "../../../../assets/images/Workout.png";
 import Nutrition from "../../../../assets/images/Nutrition.png";
-import Categories_Section from "../../common/Categories_Section";
 import { IoIosArrowRoundForward } from "react-icons/io";
-import Instructors_Card from "../../common/Instructors_Card";
-import Slider from "react-slick";
-var settings = {
-  dots: true,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-  initialSlide: 0,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        infinite: true,
-        dots: true,
-      },
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 2,
-        initialSlide: 2,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: false,
-      },
-    },
-  ],
-};
+import {
+  ArtsJourney,
+  HeandWithDots,
+  NoteIcon,
+  VerifyUser,
+} from "../../../../assets/icon";
+import CategoriesSection from "../../common/Categories_Section";
+import Instructors from "../../common/Instructors";
+import GetInTouch from "../../common/Get_In_Touch";
+import SignUp from "../Signup/SignUp";
+import Login from "../Login/Login";
+import { useLocation } from "react-router-dom";
 
-const Instructors = [
+const AskedQuestions = [
   {
-    image:
-      "https://s3-alpha-sig.figma.com/img/dc6f/92f6/b78cdb7cd5b4314108aa35cbf0763912?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=RTZfdEYNal~fS5Dou~uzsBqzV9FcOzlOsxxlR2zYo1zzp~e9tUeEtDpiauteTio3SiFFd8P0h7kbdY3l96z-iyNRyRecMSkGXjDVteBvpl~Js845MJcVigX4YdlMVXDDLQW2uWaBx4rk5f4lf5TTekPjsqi1W56VChBVSv0GtA30ir3WaILFXzU0i7e0aZC3-IK6kTKZecXK4gwNkMCbbOomRx7ydOSDh5U9sUVlSx-IayykRBOob4U~y0~ItfEyU1A7lS1PWPz1F7zEcKVYah1etH6SH5XRqK5nHlu7W2XIRE5mBXhdpkOWDdOkKuAkW5PLtGKt3Mvuq3SotpTFLA__",
-    rating: "4.3 (1200 Ratings)",
-    name: "Keyn Mojho",
-    experience: 8,
+    title: "What age groups can participate in martial arts classes?",
+    body: "For now our classes are designed for adults only.",
   },
   {
-    image:
-      "https://s3-alpha-sig.figma.com/img/825e/eb81/b4deed3c1c7883da9ff02315e9e79ea6?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kUzbIhae2k6uZbbun-ZXVHD41az6UTTgzw8Ec8xxtAGcjw790bG9fCJGWTdoXeeMYiBJxhpsTVNBVFMZMrwU26M~rTI9NGpWxN7pGb5sz-JKZQQat9ZrMQ33t1C9CrM458FznDDaffB6BhuoJj~PebKgmq994QflcCgtSt9ICNX7ZS8~FS4drwcnmRSVWghzsBptkm4HyaxiXqcM9VqfJ7x4pHJ9d2nJY5xgZHyGR3M0TNguyqDx0KutKl3E6sRI30rwSOQGzP6IEkMnw-mOtl5BTwfQo5V7kDzfJXA1DJ5DdiGP19N6HMboOlm4oTM6l83NhM4clw6RKaVI~DNioA__",
-    rating: "4.3 (1200 Ratings)",
-    name: "Marry Jhon",
-    experience: 2,
+    title: "Do I need any prior experience to join?",
+    body: "For now our classes are designed for adults only.",
   },
   {
-    image:
-      "https://s3-alpha-sig.figma.com/img/118f/1446/b44f8ff982e7a6e3699beeb0c29a1bff?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Fww80~xlKLda~aOXTKCUeeVV28jSJE7TiMUPXvI84P04CAXjPwwtwxw1Rv6X9bxTMS6ggJWlA6YIim5xFY6v8vl3547FGApYNKTKmt-mnbnROAsyZpqAgoIzqlE6289fGUE6VKKE0BNniQ2FXwGSwbauP2YEdoWs0QtT-SVOUNocCdIBl1La8FTwT0a7b~qQnJcZU6G6Bb6YUcvycSrb~QQeQ~rdE7cjnpN8BCgjLsoj4vuW8TjCih7Lnv7eeMhtTWlLbyVsIMEZiPfjRH5cyZgyDFj-KQZowL0K4z7YDV23xvvjEznO6vuVz4-o5-NgHk6KhwaJIJQcZQk92XSZEA__",
-    rating: "4.3 (1200 Ratings)",
-    name: "Jhon Martin",
-    experience: 5,
+    title: "What should I wear to my first class?",
+    body: "For now our classes are designed for adults only.",
   },
   {
-    image:
-      "https://s3-alpha-sig.figma.com/img/edda/4dab/45d447da6eb55dd2f7b47a447fa47e25?Expires=1726444800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=X9qZwNab2VI27izaKzNzA8wn7llFQ0ByDXawQyJMFnFua9vvHlLPhyUJ-~6W~S6g~XUJh1Hqw0HN7um3-MpwxsnSfCNq6IfFUYHiFpJpV7mXXi1ZhxcINNTif5p3upi9hnD-om3XqiGCyVPWGJRab8fMzVM7VVg1lh15mm2cIT50MT4X3AgQchI7GiVrVZNCZdQe4DDaeqvF~9Z5eJz6bMDoGDFRJ2gB~RSI1f-t~z2qUsvz9z6wtD8LbnIaO~0w5xUa2uxa2IAkWvx02Aes5NKBjStlrEo~p5twe2GPhIsDwAeKn5ULYFDn36mvCCOFCbBt1KSvJnCT1Lx7SDihXQ__",
-    rating: "4.3 (1200 Ratings)",
-    name: "Kiya Jhon",
-    experience: 5,
+    title: "How often should I attend classes to see progress?",
+    body: "For now our classes are designed for adults only.",
+  },
+  {
+    title: "Is martial arts training safe?",
+    body: "For now our classes are designed for adults only.",
   },
 ];
 
 const Index = () => {
+  const [openId, setOpenId] = useState("");
+
+  const [openModel, setOpenModel] = useState(true);
+
+  const handleToggle = (id) => {
+    setOpenId(openId === id ? null : id);
+  };
+  const { pathname } = useLocation();
+  console.log("🚀 ~ Index ~ path̥name:", pathname);
+
   return (
     <>
       {/* Hero section start */}
@@ -98,7 +74,7 @@ const Index = () => {
       </section>
       {/* Hero section start */}
       {/* Services section start */}
-      <section className="bg-black px-6 lg:px-8 py-[76px] grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
+      <section className="bg-black px-3 lg:px-8 py-[76px] grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
         <div className="flex flex-col justify-center items-center">
           <img src={SportsPsychology} alt="" />
           <h2 className="text-white text-[22px] leading-[26.4px] text-center mt-4">
@@ -151,9 +127,9 @@ const Index = () => {
       </section>
       {/* Services section end */}
       {/* Categories section start */}
-      <Categories_Section />
+      <CategoriesSection />
       {/* Categories section end */}
-      <section className="px-6 lg:px-8">
+      <section className="px-3 lg:px-8">
         <div className="py-14 md:px-14 px-3 bg-gay-300 rounded-2xl">
           <div className="flex items-center justify-between flex-wrap gap-y-5">
             <div>
@@ -166,7 +142,7 @@ const Index = () => {
                 offerings.
               </p>
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 md:w-auto w-full">
               <input
                 type="text"
                 className="border border-white/30 md:w-[485px] w-full h-[50px] rounded-full pl-8 focus:outline-none bg-gay-100/10 placeholder:text-white/50 text-white"
@@ -186,7 +162,7 @@ const Index = () => {
         </div>
       </section>
       {/* we are section start */}
-      <section className="py-20 px-6 lg:px-8">
+      <section className="py-20 px-3 lg:px-8">
         <h2 className="Titile">martial arts hub.</h2>
         <div className="-mt-7">
           <h2 className="text-black text-[40px] font-medium leading-10 text-center">
@@ -222,7 +198,7 @@ const Index = () => {
       {/* we are section end */}
 
       {/* Ready to Learn section start */}
-      <section className="bg-black py-[107px] px-6 lg:px-8">
+      <section className="bg-black py-[107px] px-3 lg:px-8">
         <h2 className="text-[40px] text-white font-medium text-center">
           Ready to Learn?
         </h2>
@@ -249,10 +225,10 @@ const Index = () => {
       {/* Ready to Learn section end */}
 
       {/* Join Us section start */}
-      <section className="py-space px-6 lg:px-8">
+      <section className="py-space px-3 lg:px-8">
         <h2 className="text-center text-[40px] font-medium">Why Join Us</h2>
         <div>
-          <div className="h-[420px] w-[420px] bg-gay-400/15 rounded-full mt-[188px] mx-auto flex items-center justify-center relative">
+          <div className="h-[420px] w-[420px] bg-gay-400/15 rounded-full mt-[188px] mx-auto  items-center justify-center relative lg:flex hidden">
             <div className="h-[285px] w-[285px] bg-primary rounded-full border-2 flex items-center justify-center">
               <h2 className="text-black text-[28px] font-bold tracking-[-1px]">
                 martial arts hub.
@@ -343,39 +319,250 @@ const Index = () => {
               </div>
             </div>
           </div>
+          <div className="lg:hidden grid md:grid-cols-2 grid-cols-1 gap-5 mt-[50px]">
+            <div className="h-[160px] bg-gay-400 rounded-3xl pt-[35px] relative sm:pl-8 px-3">
+              <h2 className="text-white text-xl font-semibold">
+                Expert Instructors
+              </h2>
+              <p className="text-white/50 text-[13px] max-w-[255px]">
+                Our highly qualified instructors bring years of experience and
+                passion to every class.
+              </p>
+              <div className="h-[38px] w-[38px] bg-gay-400 border-[3px] border-gay-200 rounded-full text-white text-[13px] flex items-center justify-center absolute bottom-[-13px] right-2">
+                1.
+              </div>
+            </div>
+            <div className="h-[160px] bg-black rounded-3xl pt-[35px] relative sm:pl-8 px-3">
+              <h2 className="text-white text-xl font-semibold">
+                Diverse Styles
+              </h2>
+              <p className="text-white/50 text-[13px] max-w-[255px]">
+                We offer a variety of martial arts styles, including Karate,
+                Taekwondo, Brazilian Jiu-Jitsu, Muay Thai, and Judo.
+              </p>
+              <div className="h-[38px] w-[38px] bg-black border-[3px] border-gay-200 rounded-full text-white text-[13px] flex items-center justify-center absolute bottom-[-13px] right-2">
+                2.
+              </div>
+            </div>
+            <div className="h-[160px] bg-gay-400 rounded-3xl pt-[35px] relative sm:pl-8 px-3">
+              <h2 className="text-white text-xl font-semibold">
+                Supportive Community
+              </h2>
+              <p className="text-white/50 text-[13px] max-w-[255px]">
+                Join a welcoming and encouraging community that fosters growth
+                and camaraderie.
+              </p>
+              <div className="h-[38px] w-[38px] bg-gay-400 border-[3px] border-gay-200 rounded-full text-white text-[13px] flex items-center justify-center absolute bottom-[-13px] right-2">
+                3.
+              </div>
+            </div>
+            <div className="h-[160px] bg-black rounded-3xl pt-[35px] relative sm:pl-8 px-3">
+              <h2 className="text-white text-xl font-semibold">
+                Holistic Development
+              </h2>
+              <p className="text-white/50 text-[13px] max-w-[255px]">
+                Our programs focus on physical fitness, mental resilience, and
+                building confidence.
+              </p>
+              <div className="h-[38px] w-[38px] bg-black border-[3px] border-gay-200 rounded-full text-white text-[13px] flex items-center justify-center absolute bottom-[-13px] right-2">
+                4.
+              </div>
+            </div>
+            <div className="h-[160px] bg-gay-400 rounded-3xl pt-[35px] relative sm:pl-8 px-3">
+              <h2 className="text-white text-xl font-semibold">
+                Flexible Training
+              </h2>
+              <p className="text-white/50 text-[13px] max-w-[255px]">
+                We provide classes for all ages and skill levels, ensuring
+                everyone can find their perfect fit.
+              </p>
+              <div className="h-[38px] w-[38px] bg-gay-400 border-[3px] border-gay-200 rounded-full text-white text-[13px] flex items-center justify-center absolute bottom-[-13px] right-2">
+                5.
+              </div>
+            </div>
+            <div className="h-[160px] bg-black rounded-3xl pt-[35px] relative sm:pl-8 px-3">
+              <h2 className="text-white text-xl font-semibold">
+                Community Focus
+              </h2>
+              <p className="text-white/50 text-[13px] max-w-[255px]">
+                Join a community dedicated to your personal growth and
+                excellence.
+              </p>
+              <div className="h-[38px] w-[38px] bg-black border-[3px] border-gay-200 rounded-full text-white text-[13px] flex items-center justify-center absolute bottom-[-13px] right-2">
+                6.
+              </div>
+            </div>
+          </div>
         </div>
       </section>
       {/* Join Us section end */}
       {/* Instructors section start */}
-      <section className="py-space px-6 lg:px-8">
-        <h2 className="font-medium text-[32px]">Our Instructors</h2>
-        <Slider {...settings} className="mt-5 slider-2">
-          {Instructors.map((items, i) => (
-            <Instructors_Card data={items} />
-          ))}
-        </Slider>
-      </section>
+      <Instructors />
       {/* Instructors section end */}
       {/* Download the App */}
-      <section className="bg-black py-[107px] px-6 lg:px-8">
+      <section className="bg-black py-[107px] px-3 lg:px-8">
         <h2 className="text-[40px] text-white font-medium text-center">
-        Download the App to Get more <span className="border-b border-white">Benefits</span>
+          Download the App to Get more{" "}
+          <span className="border-b border-white">Benefits</span>
         </h2>
         <p className="text-[22px] text-center text-white/50 mt-5 max-w-[820px] mx-auto">
-        Join us and begin your journey towards ultimate fitness, where you will feel empowered, stronger, healthier, and more confident than ever before.
+          Join us and begin your journey towards ultimate fitness, where you
+          will feel empowered, stronger, healthier, and more confident than ever
+          before.
         </p>
         <div className="flex items-center justify-center mt-8 gap-4 flex-wrap">
           <button className="px-6 py-3 text-black flex items-center bg-white rounded-full text-lg font-medium">
-          Get the App
+            Get the App
             <IoIosArrowRoundForward className="text-black text-2xl group-hover:text-black  rotate-[-46deg]" />
           </button>
         </div>
-
       </section>
       {/* Download the App */}
       {/* Work section start */}
-      <section></section>
+      <section className="">
+        <div className="px-3 lg:px-8 py-space">
+          <h2 className="text-black text-[40px] text-center">
+            How does it Work?
+          </h2>
+          <p className="text-black/50 text-lg text-center">
+            Below are the steps of how to join as a student:
+          </p>
+          <div className="mt-12">
+            <div className="flex items-center md:justify-between justify-center dotes-border relative flex-wrap gap-y-10">
+              <div>
+                <div className="h-[192px] w-[192px] rounded-full bg-gay-200 flex items-center justify-center">
+                  <NoteIcon />
+                </div>
+                <h2 className="text-xl text-center mt-4 max-w-[205px]">
+                  Sign Up
+                </h2>
+                <p className="text-sm text-black/70 max-w-[214px] mx-auto text-center mt-1">
+                  Quickly create your account and join our martial arts
+                  community.
+                </p>
+              </div>
+              <div>
+                <div className="h-[192px] w-[192px] rounded-full bg-gay-200 flex items-center justify-center">
+                  <VerifyUser />
+                </div>
+                <h2 className="text-xl text-center mt-4 max-w-[205px]">
+                  Get Verified
+                </h2>
+                <p className="text-sm text-black/70 max-w-[214px] mx-auto text-center mt-1">
+                  Complete our simple verification for a safe and secure
+                  training environment.
+                </p>
+              </div>
+              <div>
+                <div className="h-[192px] w-[192px] rounded-full bg-gay-200 flex items-center justify-center">
+                  <HeandWithDots />
+                </div>
+                <h2 className="text-xl text-center mt-4 max-w-[205px]">
+                  Choose your instructor/coach
+                </h2>
+                <p className="text-sm text-black/70 max-w-[214px] mx-auto text-center mt-1">
+                  Select from our experienced instructors to match your style
+                  and goals.
+                </p>
+              </div>
+              <div>
+                <div className="h-[192px] w-[192px] rounded-full bg-gay-200 flex items-center justify-center">
+                  <ArtsJourney />
+                </div>
+                <h2 className="text-xl text-center mt-4 max-w-[205px]">
+                  Begin your martial arts journey
+                </h2>
+                <p className="text-sm text-black/70 max-w-[214px] mx-auto text-center mt-1">
+                  Start training, learn, and achieve your goals with our
+                  supportive community.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="bg-gay-300 px-3 lg:px-8 py-12">
+          <div className="flex items-center justify-between flex-wrap gap-y-5">
+            <p className="max-w-[960px] text-white text-[22px] font-light">
+              <span className="font-semibold">
+                Join our network of martial arts professionals
+              </span>{" "}
+              and empower students with your knowledge. Enjoy the benefits of
+              online teaching with a dedicated support system.
+            </p>
+            <button className="px-6 py-5 text-black flex items-center bg-white rounded-full text-lg font-medium">
+              Lead the Way
+              <IoIosArrowRoundForward className="text-black text-2xl group-hover:text-black  rotate-[-46deg]" />
+            </button>
+          </div>
+        </div>
+      </section>
       {/* Work section end */}
+      {/* Frequently Asked start */}
+      <section className="py-space px-3 lg:px-8">
+        <h2 className="text-black text-[40px] text-center">
+          Frequently Asked Questions
+        </h2>
+        <p className="text-black/50 text-lg text-center max-w-[750px] mx-auto">
+          Welcome to our FAQ section! Here, you'll find answers to common
+          questions about our martial arts classes, training, and what to
+          expect.
+        </p>
+
+        <div className="mt-12">
+          {AskedQuestions.map((question, index) => (
+            <div
+              key={index}
+              className="bg-white/50 py-6 md:px-10 px-5 rounded-xl mt-5"
+            >
+              <h2 id={`accordion-heading-${index}`}>
+                <button
+                  type="button"
+                  className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 dark:border-gray-700 dark:text-gray-400 gap-3 focus:outline-none"
+                  onClick={() => handleToggle(index)}
+                  aria-expanded={openId === index}
+                  aria-controls={`accordion-body-${index}`}
+                >
+                  <span>{question.title}</span>
+                  <svg
+                    className={`w-3 h-3 ${
+                      openId === index ? "" : "rotate-180"
+                    } shrink-0`}
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 10 6"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 5 5 1 1 5"
+                    />
+                  </svg>
+                </button>
+              </h2>
+              {openId === index && (
+                <div
+                  id={`accordion-body-${index}`}
+                  aria-labelledby={`accordion-heading-${index}`}
+                >
+                  <div className="py-2 border-gray-200 dark:border-gray-700">
+                    <p className="mb-2 text-black/50">{question.body}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+      {/* Frequently Asked end */}
+      <GetInTouch />
+      {pathname === "signup" ? (
+        <SignUp open={openModel} onClose={setOpenModel} />
+      ) : pathname === "login" ? (
+        <Login open={openModel} onClose={setOpenModel} />
+      ) : null}
     </>
   );
 };
