@@ -12,7 +12,7 @@ import PrivateRoute from "./utils/PrivateRoute";
 
 // components
 const StudentHome = lazy(() =>
-  import("./components/pages/Student/Homepage/Index")
+  import("./components/pages/Student/homepage/Index")
 );
 const StudentLogin = lazy(() =>
   import("./components/pages/Student/Login/Login")
