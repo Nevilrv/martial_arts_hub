@@ -51,7 +51,7 @@ const Login = () => {
       );
       localStorage.setItem("token", JSON.stringify(result?.Token));
       localStorage.setItem("is_login", true);
-      navigate(Routing.Login);
+      navigate(Routing.StudentDashboard);
       toast.success(result?.message);
     } else {
       setLoading(false);

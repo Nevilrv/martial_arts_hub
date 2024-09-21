@@ -11,18 +11,24 @@ module.exports = {
       gay: {
         100: "#F6F5F9",
         200: "#C7C6BF",
+        250: "#CFCDC7",
         300: "#6B6B6B",
         400: "#717171",
-        500:"#BCBCBC"
+        500: "#BCBCBC",
+        600: "#D9D7CF",
       },
-      yellow:{
-        100:"#FFB423"
+      yellow: {
+        100: "#FFB423",
       },
       green: "#25C277",
-      red:{
-        100:"#E1D2D1",
-        200:"#CB3530"
-      }
+      Green: {
+        50: "#CDD6D2",
+        200:"#34B175"
+      },
+      red: {
+        100: "#E1D2D1",
+        200: "#CB3530",
+      },
     },
     extend: {
       padding: {

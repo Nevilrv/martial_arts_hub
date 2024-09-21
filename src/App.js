@@ -1,4 +1,4 @@
-import { BrowserRouter, Link, Route, Router, Routes } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import "./App.css";
 import MainLayout from "./components/layouts/MainLayout";
 import { lazy, Suspense } from "react";
@@ -25,6 +25,9 @@ const Instructor_profile = lazy(() =>
 );
 const AttendTraining = lazy(() =>
   import("./components/pages/Student/Training/AttendTraining")
+);
+const StudentDashboard = lazy(() =>
+  import("./components/pages/Student/Dashboard/Dashboard_page/Dashboard")
 );
 
 function App() {
@@ -54,6 +57,11 @@ function App() {
       component: AttendTraining,
       isPrivateRoute: false,
     },
+    {
+      path: Routing.StudentDashboard,
+      component: StudentDashboard,
+      isPrivateRoute: true,
+    },
     // Add other routes as needed
   ];
 
@@ -82,21 +90,31 @@ function App() {
               path="*"
               element={
                 <>
-                  <main className="h-screen w-full flex flex-col justify-center items-center bg-primary">
-                    <h1 className="text-9xl font-extrabold text-white tracking-widest">
-                      404
-                    </h1>
-                    <div className="bg-[#FF6A3D] px-2 text-sm rounded rotate-12 absolute">
-                      Page Not Found
+                  <main className="relative isolate min-h-full">
+                    <img
+                      alt=""
+                      src="https://images.unsplash.com/photo-1545972154-9bb223aac798?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3050&q=80&exp=8&con=-15&sat=-75"
+                      className="absolute inset-0 -z-10 h-full w-full object-cover object-top"
+                    />
+                    <div className="mx-auto max-w-7xl px-6 py-32 text-center sm:py-40 lg:px-8">
+                      <p className="text-base font-semibold leading-8 text-white">
+                        404
+                      </p>
+                      <h1 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-5xl">
+                        Page not found
+                      </h1>
+                      <p className="mt-4 text-base text-white/70 sm:mt-6">
+                        Sorry, we couldn’t find the page you’re looking for.
+                      </p>
+                      <div className="mt-10 flex justify-center">
+                        <Link
+                        to={Routing.Initial}
+                          className="text-sm font-semibold leading-7 text-white"
+                        >
+                          <span aria-hidden="true">&larr;</span> Back to home
+                        </Link>
+                      </div>
                     </div>
-                    <button className="mt-5">
-                      <a className="relative inline-block text-sm font-medium text-[#FF6A3D] group active:text-orange-500 focus:outline-none focus:ring">
-                        <span className="absolute inset-0 transition-transform translate-x-0.5 translate-y-0.5 bg-[#FF6A3D] group-hover:translate-y-0 group-hover:translate-x-0" />
-                        <span className="relative block px-8 py-3 bg-primary border border-current">
-                          <Link to={Routing.Initial}>Go Home</Link>
-                        </span>
-                      </a>
-                    </button>
                   </main>
                 </>
               }

@@ -50,7 +50,6 @@ const Index = () => {
     setOpenId(openId === id ? null : id);
   };
   const { pathname } = useLocation();
-  console.log("🚀 ~ Index ~ path̥name:", pathname);
 
   return (
     <>
