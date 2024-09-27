@@ -1,10 +1,10 @@
 import React from "react";
 
-const OutlineBtn = ({text,className,icon}) => {
+const OutlineBtn = ({text,className,icon,onClick}) => {
   return (
-    <div className={`px-5 py-3 rounded-full border border-gay-300 flex items-center justify-center ${className}`}>
+    <button className={`px-5 py-3 rounded-full border border-gay-300 flex items-center justify-center ${className}`} onClick={onClick}>
       {icon} {text}
-    </div>
+    </button>
   );
 };
 

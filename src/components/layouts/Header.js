@@ -1,21 +1,81 @@
-import React, { useState } from "react";
-import { Dialog, DialogPanel } from "@headlessui/react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Radio,
+  RadioGroup,
+} from "@headlessui/react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Routing } from "../shared/Routing";
 import { IoMdClose } from "react-icons/io";
 import { FaBars } from "react-icons/fa6";
+import { BiCheckCircle } from "react-icons/bi";
 
 const Header = () => {
+  const navigate = useNavigate();
   const navigation = [
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about" },
     { name: "Contact Us", href: "/contact" },
     { name: "Categories", href: "/categories" },
   ];
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const Studentnavigation = [
+    { name: "Dashboard", href: Routing.StudentDashboard },
+    { name: "My Profile", href: Routing.StudentProfile },
+    { name: "Messages", href: Routing.StudentMessages },
+  ];
+
+  const Instructornavigation = [
+    { name: "Dashboard", href: Routing.InstructorDashboard },
+    { name: "My Profile", href: Routing.InstructorProfile },
+    { name: "Create Class", href: Routing.InstructorCreateClass },
+    { name: "Chat", href: Routing.InstructorChat },
+    { name: "Message Requests", href: Routing.InstructorMessageRequests },
+  ];
+
+  const mailingLists = [
+    { id: 1, title: "Login as Student" },
+    { id: 2, title: "Login as Instructor" },
+  ];
 
   const location = useLocation();
   const currentLocation = location.pathname;
+  const loggedIn = localStorage.getItem("token");
+
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loginModel, SetLoginModel] = useState(false);
+  const [selectedMailingLists, setSelectedMailingLists] = useState("");
+
+  const heandleLogOut = () => {
+    localStorage.clear();
+    navigate(Routing.Initial);
+  };
+
+  const handleChange = (event) => {
+    setSelectedMailingLists(event);
+    SetLoginModel(false);
+  };
+
+  useEffect(
+    () => {
+      if (selectedMailingLists.title === "Login as Student") {
+        navigate(Routing.StudentLogin);
+      } else if (selectedMailingLists.title === "Login as Instructor") {
+        navigate(Routing.InstructorLogin);
+      }
+    },
+    // eslint-disable-next-line
+    [selectedMailingLists]
+  );
+
+  const userName = JSON.parse(localStorage.getItem("email"))?.charAt(0);
+
+  const Role = JSON.parse(localStorage.getItem("Role"));
 
   return (
     <>
@@ -24,7 +84,7 @@ const Header = () => {
           aria-label="Global"
           className="mx-auto flex items-center justify-between p-6 lg:px-8"
         >
-          <div className="flex lg:flex-1">
+          <div className="flex flex-1">
             <h2 className="font-extrabold text-lg leading-[21.6px] tracking-[-1px]">
               martial arts hub.
             </h2>
@@ -36,14 +96,14 @@ const Header = () => {
               className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
             >
               <span className="sr-only">Open main menu</span>
-              {/* <Bars3Icon aria-hidden="true" className="h-6 w-6" /> */}
               <FaBars />
             </button>
           </div>
+
           <div className="hidden lg:flex lg:gap-x-12">
-            {navigation.map((item) => (
+            {navigation.map((item, i) => (
               <Link
-                key={item.name}
+                key={i}
                 to={item.href}
                 className={`text-sm leading-6 hover:text-black ${
                   currentLocation === item.href
@@ -54,13 +114,79 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
-            <Link
-              to={Routing.Login}
-              className="text-sm border border-black rounded-full py-[5px] px-[13px]"
-            >
-              Login
-            </Link>
+            {!loggedIn && (
+              <p
+                className="text-sm border border-black rounded-full py-[5px] px-[13px] cursor-pointer"
+                onClick={() => SetLoginModel(true)}
+              >
+                Login
+              </p>
+            )}
           </div>
+          {loggedIn && (
+            <Menu as="div" className="relative ml-12">
+              <div>
+                <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none">
+                  <span className="absolute -inset-1.5" />
+                  <span className="sr-only">Open user menu</span>
+                  {/* <img
+                    alt=""
+                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    className="h-9 w-9 rounded-full border p-1"
+                  /> */}
+                  <p className="h-9 w-9 rounded-full border p-1 flex items-center justify-center">
+                    <span className="bg-black h-6 w-6 rounded-full flex items-center justify-center text-white font-bold">
+                      {userName}
+                    </span>
+                  </p>
+                </MenuButton>
+              </div>
+              <MenuItems
+                transition
+                className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-primary py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+              >
+                {Role === "Student" &&
+                  Studentnavigation?.map((item, i) => (
+                    <MenuItem>
+                      <Link
+                        key={i}
+                        to={item.href}
+                        className={`block px-4 py-2 text-lg text-black ${
+                          currentLocation === item.href
+                            ? "font-semibold underline"
+                            : ""
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    </MenuItem>
+                  ))}
+                {Role === "Instructor" &&
+                  Instructornavigation?.map((item, i) => (
+                    <MenuItem>
+                      <Link
+                        key={i}
+                        to={item.href}
+                        className={`block px-4 py-2 text-lg text-black ${
+                          currentLocation === item.href
+                            ? "font-semibold underline"
+                            : ""
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    </MenuItem>
+                  ))}
+                <MenuItem onClick={heandleLogOut}>
+                  <p
+                    className={`block px-4 py-2 text-lg text-black cursor-pointer`}
+                  >
+                    Log Out
+                  </p>
+                </MenuItem>
+              </MenuItems>
+            </Menu>
+          )}
         </nav>
         <Dialog
           open={mobileMenuOpen}
@@ -116,6 +242,57 @@ const Header = () => {
           </DialogPanel>
         </Dialog>
       </header>
+
+      <Dialog
+        className="relative z-10"
+        open={loginModel}
+        onClose={SetLoginModel}
+      >
+        <DialogBackdrop
+          transition
+          className="fixed inset-0 bg-black bg-opacity-50 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
+        />
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <DialogPanel
+              transition
+              className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg sm:p-6 data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
+            >
+              <RadioGroup
+                value={selectedMailingLists}
+                onChange={handleChange}
+                className="my-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3"
+              >
+                {mailingLists.map((mailingList) => (
+                  <Radio
+                    key={mailingList.id}
+                    value={mailingList}
+                    aria-label={mailingList.title}
+                    // ariaDescription={`${mailingList.description} to ${mailingList.users}`}
+                    className="group relative flex cursor-pointer rounded-lg border border-gray-300 bg-white p-4 shadow-sm focus:outline-none data-[focus]:border-indigo-600 data-[focus]:ring-2 data-[focus]:ring-indigo-600"
+                  >
+                    <span className="flex flex-1">
+                      <span className="flex flex-col">
+                        <span className="block text-sm font-medium text-gray-900">
+                          {mailingList.title}
+                        </span>
+                      </span>
+                    </span>
+                    <BiCheckCircle
+                      aria-hidden="true"
+                      className="h-5 w-5 text-indigo-600 [.group:not([data-checked])_&]:invisible"
+                    />
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent group-data-[focus]:border group-data-[checked]:border-indigo-600"
+                    />
+                  </Radio>
+                ))}
+              </RadioGroup>
+            </DialogPanel>
+          </div>
+        </div>
+      </Dialog>
     </>
   );
 };

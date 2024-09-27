@@ -6,10 +6,60 @@ import Inputfild from "../../common/Inputfild";
 import BigButton from "../../common/BigButton";
 import { Link, useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
+import SignUp_image from "../../../../assets/images/SignupImage.jpeg";
+import { toast } from "react-toastify";
+import { StudentSignUp } from "../../../services/auth";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [userdata, setUserdata] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirm_password: "",
+  });
+
+  const handleChange = (e) => {
+    setUserdata({
+      ...userdata,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleLogin = async () => {
+    setLoading(true);
+    const data = {
+      name: userdata.name,
+      email: userdata.email,
+      password: userdata.password,
+      confirm_password:userdata.confirm_password
+    };
+    const result = await StudentSignUp(data);
+    if (result?.success === true) {
+      setLoading(false);
+      localStorage.setItem(
+        "Student_id",
+        JSON.stringify(result?.data?.studentId)
+      );
+      localStorage.setItem(
+        "Student_email",
+        JSON.stringify(result?.data?.email)
+      );
+      localStorage.setItem(
+        "Role",
+        JSON.stringify(result?.data?.role)
+      );
+      localStorage.setItem("token", JSON.stringify(result?.Token));
+      localStorage.setItem("is_login", true);
+      navigate(Routing.StudentDashboard);
+      toast.success(result?.message);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
 
   useEffect(() => {
     if (open === false) {
@@ -35,9 +85,9 @@ const SignUp = () => {
                 <div className="flex items-start gap-9 lg:flex-nowrap flex-wrap lg:justify-start justify-center">
                   <div className="relative after:absolute after:bg-[linear-gradient(180deg,_#09090900_0%,_#090909_100%)] after:h-1/2 after:w-full after:bottom-0 after:left-0 after:z-20 after:backdrop-blur-[1.2999999523162842px] rounded-[20px] overflow-hidden lg:block hidden">
                     <img
-                      src="https://s3-alpha-sig.figma.com/img/2fe6/1b02/a6fc3775810732971788141798f832b9?Expires=1727049600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VCY~PdmIDE8YdbmZD2nFNH2lBIzAGUqiGwjF9cdIT3KsjHL3vnp5kgMqmNUB6qRvhVjT9HMOkACoONlbIMmkChj~ybpo-sBakxJbpUTBUN17bYrUyi1iSB6rhl2mUY0isgf-mqkrINVv3NdKNXNYBZOz0~6Q-nN8zdHRrhEHLAUoaxZRdmnF53LFQtNysAdxwOd9tou1Ei-pJSCEmvzK5YGMlLMSA5xP5Ev4hZJOnHnlNzEgpmvrXmL21WHbGsBw26TIJggI8LfeBnoVNnrs~VDTKmBrb2qbel-cFdXVv6roRrYbbA~8I1iE7BWmk9fAxiJASWTa7njMMvpLOBE9ow__"
+                      src={SignUp_image}
                       alt=""
-                      className="max-w-[555px] h-[795px] object-cover object-[55%] grayscale"
+                      className="max-w-[555px] h-[795px] object-cover object-[30%] grayscale"
                     />
                     <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-[495px] z-40 text-[44px]">
                       <BiSolidQuoteLeft className="text-white" />
@@ -71,32 +121,42 @@ const SignUp = () => {
                     </p>
                     <div className="mt-[31px] flex flex-col gap-y-6">
                       <Inputfild
+                        onChange={handleChange}
                         type={"text"}
                         placeholder={"Name here"}
                         Label={"Name"}
+                        name={"name"}
                       />
                       <Inputfild
+                        onChange={handleChange}
                         type={"email"}
                         placeholder={"Email"}
                         Label={"Email"}
+                        name={"email"}
                       />
                       <Inputfild
+                        onChange={handleChange}
                         type={"password"}
                         placeholder={"Create Password"}
                         Label={"Create Password"}
                         iconposition="right-4"
+                        name={"password"}
                       />
                       <Inputfild
+                        onChange={handleChange}
                         type={"password"}
                         placeholder={"Re-enter Password"}
                         Label={"Re-enter Password"}
                         iconposition="right-4"
+                        name={"confirm_password"}
                       />
                     </div>
                     <div className="mt-11 flex flex-col gap-3">
                       <BigButton
                         text={"Create an Account"}
                         bg_color={"black"}
+                        onClick={handleLogin}
+                        loading={loading}
                       />
                       <BigButton
                         text={`Log In with Google`}
@@ -106,7 +166,7 @@ const SignUp = () => {
                     </div>
                     <p className="text-sm text-black/50 text-center mt-10">
                       Already have an account?{" "}
-                      <Link to={Routing.Login} className="font-bold text-black">
+                      <Link to={Routing.StudentLogin} className="font-bold text-black">
                         Log In
                       </Link>
                     </p>

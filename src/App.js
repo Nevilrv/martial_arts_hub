@@ -12,7 +12,7 @@ import PrivateRoute from "./utils/PrivateRoute";
 
 // components
 const StudentHome = lazy(() =>
-  import("./components/pages/Student/Homepage/Index")
+  import("./components/pages/Student/homepage/Index")
 );
 const StudentLogin = lazy(() =>
   import("./components/pages/Student/Login/Login")
@@ -27,7 +27,30 @@ const AttendTraining = lazy(() =>
   import("./components/pages/Student/Training/AttendTraining")
 );
 const StudentDashboard = lazy(() =>
-  import("./components/pages/Student/Dashboard/Dashboard_page/Dashboard")
+  import("./components/pages/Student/Dashboard/Dashboard")
+);
+const StudentMyClass = lazy(() =>
+  import("./components/pages/Student/MyClass/MyClass")
+);
+
+// Instructor Components
+const InstructorLogin = lazy(() =>
+  import("./components/pages/Instructor/Login/Index")
+);
+const InstructorSignup = lazy(() =>
+  import("./components/pages/Instructor/Signup/Index")
+);
+const InstructorProfile = lazy(() =>
+  import("./components/pages/Instructor/Profile/Profile")
+);
+const InstructorDashboard = lazy(() =>
+  import("./components/pages/Instructor/Dashboard/Dashboard/Index")
+);
+const InstructorCreateClass = lazy(() =>
+  import("./components/pages/Instructor/CreateClass/CreateClass")
+);
+const InstructorMyclass = lazy(() =>
+  import("./components/pages/Instructor/MyClass/MyClass")
 );
 
 function App() {
@@ -36,38 +59,100 @@ function App() {
       path: Routing.Initial,
       component: StudentHome,
       isPrivateRoute: false,
+      
     },
+    // Student Routs
     {
-      path: Routing.Signup,
+      path: Routing.StudentSignup,
       component: StudentSignup,
       isPrivateRoute: false,
+      
     },
     {
-      path: Routing.Login,
+      path: Routing.StudentLogin,
       component: StudentLogin,
       isPrivateRoute: false,
+      
     },
     {
-      path: Routing.InstructorProfile,
+      path: Routing.InstructorDetails,
       component: Instructor_profile,
       isPrivateRoute: false,
+      
     },
     {
       path: Routing.AttendTraining,
       component: AttendTraining,
       isPrivateRoute: false,
+      
     },
     {
       path: Routing.StudentDashboard,
       component: StudentDashboard,
       isPrivateRoute: true,
+      
     },
+    {
+      path: Routing.StudentMyClass,
+      component: StudentMyClass,
+      isPrivateRoute: true,
+      
+    },
+    // Instructor Routs
+    {
+      path: Routing.InstructorSignup,
+      component: InstructorSignup,
+      isPrivateRoute: false,
+      
+    },
+    {
+      path: Routing.InstructorProfile,
+      component: InstructorProfile,
+      Layout: false,
+    },
+    {
+      path: Routing.InstructorLogin,
+      component: InstructorLogin,
+      isPrivateRoute: false,
+      
+    },
+    {
+      path: Routing.InstructorDashboard,
+      component: InstructorDashboard,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.InstructorCreateClass,
+      component: InstructorCreateClass,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.InstructorMyClass,
+      component: InstructorMyclass,
+      isPrivateRoute: true,
+    },
+    // {
+    //   path: Routing.InstructorCreateClass,
+    //   component: InstructorDashboard,
+    //   isPrivateRoute: true,
+    // },
+    // {
+    //   path: Routing.AttendTraining,
+    //   component: AttendTraining,
+    //   isPrivateRoute: false,
+    // },
+    // {
+    //   path: Routing.StudentDashboard,
+    //   component: StudentDashboard,
+    //   isPrivateRoute: true,
+    // },
+
     // Add other routes as needed
   ];
 
   return (
     <>
-      <ToastContainer />
+        <ToastContainer />
       <Suspense fallback={<Spinner />}>
         <MainLayout>
           <Routes>
