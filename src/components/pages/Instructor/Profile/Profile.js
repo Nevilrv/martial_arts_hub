@@ -1,15 +1,97 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
 import Inputfild from "../../common/Inputfild";
-import { TbCameraPlus } from "react-icons/tb";
 import { IoCamera } from "react-icons/io5";
 import { MdCloudUpload } from "react-icons/md";
 import NormalBtn from "../../common/NormalBtn";
+import { toast } from "react-toastify";
+import { InstructorProfile } from "../../../services/Instructor/instructor_auth/auth";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const [instructorDetails, setInstructorDetails] = useState({
+    email: JSON.parse(localStorage.getItem("email")),
+    name: "",
+    country_code: "+91",
+    mobileNo: "",
+    profile_picture: "",
+    category: "Boxing",
+    availability: "",
+    bio: "",
+    tagline: "",
+    experience: "",
+    trainingHistory: "",
+    certifications: "",
+    keywords: "",
+    idProof: "",
+    firstFreeSessionHourlyRate: "",
+    classTypeFirstFreeSession: "",
+    privateSessionOnlineHourlyRate: "",
+    privateSessionFaceToFaceHourlyRate: "",
+  });
+  const formData = new FormData();
+  const handleChange = (e) => {
+    setInstructorDetails({
+      ...instructorDetails,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const heandleImage = (e) => {
+    setInstructorDetails({
+      ...instructorDetails,
+      [e.target.name]: e.currentTarget.files[0],
+    });
+  };
+
+  const handleSaveProfile = async () => {
+    const formData = new FormData();
+    formData.append("email", instructorDetails.email);
+    formData.append("name", instructorDetails.name);
+    formData.append("country_code", instructorDetails.country_code);
+    formData.append("mobileNo", instructorDetails.mobileNo);
+    formData.append("profile_picture", instructorDetails.profile_picture);
+    formData.append("category", instructorDetails.category);
+    formData.append("availability", instructorDetails.availability);
+    formData.append("bio", instructorDetails.bio);
+    formData.append("tagline", instructorDetails.tagline);
+    formData.append("experience", instructorDetails.experience);
+    formData.append("trainingHistory", instructorDetails.trainingHistory);
+    formData.append("certifications", instructorDetails.certifications);
+    formData.append("keywords", instructorDetails.keywords);
+    formData.append("idProof", instructorDetails.idProof);
+    formData.append(
+      "firstFreeSessionHourlyRate",
+      instructorDetails.firstFreeSessionHourlyRate
+    );
+    formData.append(
+      "classTypeFirstFreeSession",
+      instructorDetails.classTypeFirstFreeSession
+    );
+    formData.append(
+      "privateSessionOnlineHourlyRate",
+      instructorDetails.privateSessionOnlineHourlyRate
+    );
+    formData.append(
+      "privateSessionFaceToFaceHourlyRate",
+      instructorDetails.privateSessionFaceToFaceHourlyRate
+    );
+    setLoading(true);
+    const result = await InstructorProfile(formData);
+    if (result?.success === true) {
+      setLoading(false);
+      console.log(result, "=======>");
+      toast.success(result?.message);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+
   return (
     <>
       <div className="mt-12 px-3 lg:px-20">
@@ -30,8 +112,9 @@ const Profile = () => {
                 type={"text"}
                 placeholder={"Name"}
                 Label={"Name"}
+                onChange={handleChange}
                 name={"name"}
-                Labelclass={"text-[#000] font-medium"}
+                Labelclass={"text-black/100 font-medium"}
                 className={"rounded-xl md:w-full h-[70px]"}
               />
             </div>
@@ -45,8 +128,8 @@ const Profile = () => {
             </div>
             <input
               type="file"
-              name=""
-              id=""
+              name="profile_picture"
+              onChange={heandleImage}
               className="h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer"
             />
           </div>
@@ -58,7 +141,9 @@ const Profile = () => {
               placeholder={"Email"}
               Label={"Email"}
               name={"email"}
-              Labelclass={"text-[#000] font-medium"}
+              value={instructorDetails.email}
+              onChange={handleChange}
+              Labelclass={"text-black/100 font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
@@ -67,18 +152,20 @@ const Profile = () => {
               type={"number"}
               placeholder={"Mobile No."}
               Label={"Mobile No."}
-              name={"mobile_number"}
-              Labelclass={"text-[#000] font-medium"}
+              name={"mobileNo"}
+              onChange={handleChange}
+              Labelclass={"text-black/100 font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
           <div className="md:col-span-2 col-span-1">
             <Inputfild
-              type={"text"}
+              type={"date"}
               placeholder={"Add Availability"}
               Label={"Add Availability"}
               name={"availability"}
-              Labelclass={"text-[#000] font-medium"}
+              onChange={handleChange}
+              Labelclass={"text-black/100 font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
@@ -87,6 +174,7 @@ const Profile = () => {
               Add Bio
             </label>
             <textarea
+              onChange={handleChange}
               name={"bio"}
               placeholder={"Write about you"}
               className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[150px] rounded-xl p-6`}
@@ -98,8 +186,9 @@ const Profile = () => {
               placeholder={"Add tagline"}
               Label={"Add tagline"}
               name={"tagline"}
-              Labelclass={"text-[#000] font-medium"}
+              onChange={handleChange}
               className={"rounded-xl md:w-full h-[70px]"}
+              Labelclass={"text-black/100 font-medium"}
             />
           </div>
           <div className="md:col-span-2 col-span-1">
@@ -108,6 +197,7 @@ const Profile = () => {
             </label>
             <textarea
               name={"experience"}
+              onChange={handleChange}
               placeholder={"Add experience here"}
               className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[150px] rounded-xl p-6`}
             />
@@ -117,7 +207,8 @@ const Profile = () => {
               Add Training History
             </label>
             <textarea
-              name={"traininghistory"}
+              name={"trainingHistory"}
+              onChange={handleChange}
               placeholder={"Add Training History"}
               className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[150px] rounded-xl p-6`}
             />
@@ -128,6 +219,7 @@ const Profile = () => {
             </label>
             <textarea
               name={"certifications"}
+              onChange={handleChange}
               placeholder={"Add your Certifications"}
               className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[150px] rounded-xl p-6`}
             />
@@ -138,7 +230,8 @@ const Profile = () => {
               placeholder={"Add Keywords"}
               Label={"Add Keywords"}
               name={"keywords"}
-              Labelclass={"text-[#000] font-medium"}
+              onChange={handleChange}
+              Labelclass={"text-black/100 font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
@@ -148,7 +241,8 @@ const Profile = () => {
               placeholder={"Add Keywords"}
               Label={"Add Keywords"}
               name={"keywords"}
-              Labelclass={"text-[#000] font-medium"}
+              onChange={handleChange}
+              Labelclass={"text-black/100 font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
@@ -167,8 +261,9 @@ const Profile = () => {
               </div>
               <input
                 type="file"
-                name=""
+                name="idProof"
                 id=""
+                onChange={heandleImage}
                 className="h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer"
               />
             </div>
@@ -183,44 +278,56 @@ const Profile = () => {
               type={"text"}
               placeholder={"Add hourly rates here"}
               Label={"Do you want to give first free session?"}
-              name={"rate"}
-              Labelclass={"text-[#000] font-medium"}
+              name={"firstFreeSessionHourlyRate"}
+              onChange={handleChange}
+              Labelclass={"text-black/100 font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
           <div>
             <Inputfild
               type={"text"}
+              onChange={handleChange}
               placeholder={"eg. Online"}
-              Label={"Class Type for first free session (Online/Face-to-Face/Both)"}
-              name={"type"}
-              Labelclass={"text-[#000] font-medium"}
+              Label={
+                "Class Type for first free session (Online/Face-to-Face/Both)"
+              }
+              name={"classTypeFirstFreeSession"}
+              Labelclass={"text-black/100 font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
           <div>
             <Inputfild
-              type={"text"}
+              type={"number"}
               placeholder={"eg. Online"}
-              Label={"Class Type for Private Lesson (1-on-1) (Online/Face-to-Face/Both)"}
-              name={"rate"}
-              Labelclass={"text-[#000] font-medium"}
+              Label={
+                "Class Type for Private Lesson (1-on-1) (Online/Face-to-Face/Both)"
+              }
+              name={"privateSessionOnlineHourlyRate"}
+              onChange={handleChange}
+              Labelclass={"text-black/100 font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
           <div>
             <Inputfild
-              type={"text"}
+              type={"number"}
               placeholder={"Add hourly rates here"}
               Label={"Do you want to give first free session?"}
-              name={"rate"}
-              Labelclass={"text-[#000] font-medium"}
+              name={"privateSessionFaceToFaceHourlyRate"}
+              onChange={handleChange}
+              Labelclass={"text-black/100 font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
         </div>
         <div className="mt-16 flex justify-end">
-          <NormalBtn text={"Save Info & Create Profile"}   />
+          <NormalBtn
+            text={"Save Info & Create Profile"}
+            onClick={handleSaveProfile}
+            loading={loading}
+          />
         </div>
       </div>
     </>

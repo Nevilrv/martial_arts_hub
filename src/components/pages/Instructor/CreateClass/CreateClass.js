@@ -10,18 +10,22 @@ import {
 } from "@headlessui/react";
 import { TfiAngleDown } from "react-icons/tfi";
 import NormalBtn from "../../common/NormalBtn";
-import { useNavigate } from "react-router-dom";
-import { Instructor_Create_Class } from "../../../services/Instructor/createClass/Index";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Instructor_Create_Class, Instructor_Edit_Class } from "../../../services/Instructor/createClass/Index";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const CreateClass = () => {
+  const { id } = useParams();
+
   const tabs = [
     { name: "Dashboard", href: Routing.InstructorDashboard },
     { name: "My Classes", href: Routing.InstructorMyClass },
-    { name: "Message Requests", href:"" },
+    { name: "Message Requests", href: Routing.InstructorMessageRequest },
     { name: "Chat", href: "" },
-    { name: "Earnings Report", href:""},
-    { name: "Reviews", href:""},
+    { name: "Booking Overview", href: Routing.InstructorBooking  },
+    { name: "Earnings Report", href: "" },
+    { name: "Reviews", href: Routing.InstructorReviews },
     { name: "Create Class", href: Routing.InstructorCreateClass },
   ];
   const TimeSlot = [
@@ -51,13 +55,12 @@ const CreateClass = () => {
     "11:00",
     "11:30",
   ];
-
   const [selectedTimeSlot, setselectedTimeSlot] = useState(TimeSlot[0]);
   const [shift, setshift] = useState("AM");
   const [classType, setClassType] = useState("Online");
-
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [classdata, setClassdata] = useState({});
   const [FormData, setFormData] = useState({
     className: "",
     date: "",
@@ -86,7 +89,7 @@ const CreateClass = () => {
     const result = await Instructor_Create_Class(body);
     if (result?.success === true) {
       setLoading(false);
-      console.log(result,"=======>");
+      console.log(result, "=======>");
       navigate(Routing.InstructorDashboard);
       toast.success(result?.message);
     } else {
@@ -94,6 +97,26 @@ const CreateClass = () => {
       toast.error(result?.message);
     }
   };
+
+  const getClassdata = async () => {
+    const result = await Instructor_Edit_Class(id);
+    if (result?.success === true) {
+      setLoading(false);
+      console.log(result, "=======>");
+      setClassdata(result.data)
+      toast.success(result?.message);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+    setselectedTimeSlot(classdata.timeSlot)
+    setshift(classdata.shift)
+  };
+  console.log(classdata,"=====>classdata");
+  
+  useEffect(() => {
+    getClassdata()
+  }, [])
 
   return (
     <>

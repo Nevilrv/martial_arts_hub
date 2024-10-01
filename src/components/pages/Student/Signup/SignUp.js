@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
 import SignUp_image from "../../../../assets/images/SignupImage.jpeg";
 import { toast } from "react-toastify";
-import { StudentSignUp } from "../../../services/auth";
+import { StudentSignUp } from "../../../services/student/auth";
 
 const SignUp = () => {
   const navigate = useNavigate();

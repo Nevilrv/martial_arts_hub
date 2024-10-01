@@ -6,9 +6,9 @@ import BigButton from "../../common/BigButton";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
-import { StudentLogin } from "../../../services/auth";
 import { toast } from "react-toastify";
 import Login_image from "../../../../assets/images/LoginImage.png"
+import { StudentLogin } from "../../../services/student/auth";
 
 const Login = () => {
   const navigate = useNavigate();

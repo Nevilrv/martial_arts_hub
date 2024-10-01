@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Tab from "../../common/Tab/Index";
 import { Routing } from "../../../shared/Routing";
 import OutlineBtn from "../../common/OutlineBtn";
@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import OngoingClasses from "./OngoingClasses";
 import CompletedClasses from "./CompletedClasses";
+import { Instructor_get_Upcoming_Classes } from "../../../services/Instructor/createClass/Index";
+import { toast } from "react-toastify";
 
 const MyClass = () => {
   const navigate = useNavigate();
@@ -15,14 +17,44 @@ const MyClass = () => {
   const tabs = [
     { name: "Dashboard", href: Routing.InstructorDashboard },
     { name: "My Classes", href: Routing.InstructorMyClass },
-    { name: "Message Requests", href: "" },
+    { name: "Message Requests", href: Routing.InstructorMessageRequest },
     { name: "Chat", href: "" },
+    { name: "Booking Overview", href: Routing.InstructorBooking  },
     { name: "Earnings Report", href: "" },
-    { name: "Reviews", href: "" },
+    { name: "Reviews", href: Routing.InstructorReviews },
     { name: "Create Class", href: Routing.InstructorCreateClass },
   ];
 
   const [calssType, setcalssType] = useState("Upcoming Classes");
+  const [upcomingClass, setUpcomingClass] = useState([]);
+  // eslint-disable-next-line
+  const [loading, setLoading] = useState(false);
+
+  const id = JSON.parse(localStorage.getItem("_id"));
+
+  const Get_Upcoming_Classes = async () => {
+    const result = await Instructor_get_Upcoming_Classes(id);
+    if (result?.success === true) {
+      setLoading(false);
+      if (calssType==="Upcoming Classes") {
+        setUpcomingClass(result.data.upcoming);
+      }
+      else if(calssType==="Ongoing Classes"){
+        setUpcomingClass(result.data.ongoing);
+      }
+      else if(calssType==="Completed Classes"){
+        setUpcomingClass(result.data.complete);
+      }
+      toast.success(result?.message);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+  useEffect(() => {
+    Get_Upcoming_Classes();
+    // eslint-disable-next-line
+  }, [calssType]);
 
   return (
     <>
@@ -57,11 +89,11 @@ const MyClass = () => {
       </div>
       <div className="mt-6">
         {calssType === "Upcoming Classes" ? (
-          <UpcomingClass />
+          <UpcomingClass data={upcomingClass} />
         ) : calssType === "Ongoing Classes" ? (
-          <OngoingClasses />
+          <OngoingClasses data={upcomingClass} />
         ) : calssType === "Completed Classes" ? (
-          <CompletedClasses />
+          <CompletedClasses data={upcomingClass} />
         ) : null}
       </div>
     </>

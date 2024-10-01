@@ -26,3 +26,20 @@ export const InstructorSignUp = async (body) => {
     return error?.response?.data;
   }
 };
+
+export const InstructorProfile = async (formData) => {
+  try {
+    let response = await axios({
+      method: "PUT",
+      url: `${baseURL}/instructor/add/profile/${JSON.parse(localStorage.getItem("_id"))}`,
+      data: formData,
+      headers: {
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};

@@ -9,7 +9,7 @@ const Dashboard = () => {
   const tabs = [
     { name: "Dashboard", href: Routing.StudentDashboard },
     { name: "My Messages", href: Routing.StudentMessages },
-    { name: "My Classes", href: Routing.StudentClasses },
+    { name: "My Classes", href: Routing.StudentMyClass },
     { name: "My Invoices", href: Routing.StudentInvoices },
     { name: "Raise Dispute", href: Routing.StudentDispute },
   ];

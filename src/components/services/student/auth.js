@@ -1,5 +1,5 @@
 import axios from "axios";
-import { baseURL } from "./URL";
+import { baseURL } from "../URL";
 
 export const StudentLogin = async (body) => {
   try {

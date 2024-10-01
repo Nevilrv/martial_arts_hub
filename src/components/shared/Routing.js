@@ -23,7 +23,11 @@ export const Routing = {
   InstructorProfile: "/instructor/profile",
   InstructorDashboard:"/instructor/dashboard",
   InstructorCreateClass:"/instructor/create_class",
+  InstructorEditClass:"/instructor/edit_class/:id",
   InstructorMyClass:"/instructor/my_class",
+  InstructorBooking:"/instructor/booking",
+  InstructorReviews:"/instructor/reviews",
+  InstructorMessageRequest:"/instructor/message_request",
 
 
   // Admin

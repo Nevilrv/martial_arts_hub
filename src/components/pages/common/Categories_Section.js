@@ -118,7 +118,6 @@ const CategoriesSection = () => {
       },
     ],
   };
-
   return (
     <>
       <section className="py-space">

@@ -52,6 +52,16 @@ const InstructorCreateClass = lazy(() =>
 const InstructorMyclass = lazy(() =>
   import("./components/pages/Instructor/MyClass/MyClass")
 );
+const InstructorMessageRequest = lazy(() =>
+  import("./components/pages/Instructor/MessageRequests/AllMessage")
+);
+const InstructorBooking = lazy(() =>
+  import("./components/pages/Instructor/Booking/index")
+);
+const InstructorReviews = lazy(() =>
+  import("./components/pages/Instructor/Reviews/index")
+);
+
 
 function App() {
   const routes = [
@@ -127,25 +137,30 @@ function App() {
       isPrivateRoute: true,
     },
     {
+      path: Routing.InstructorEditClass,
+      component: InstructorCreateClass,
+      isPrivateRoute: true,
+    },
+    {
       path: Routing.InstructorMyClass,
       component: InstructorMyclass,
       isPrivateRoute: true,
     },
-    // {
-    //   path: Routing.InstructorCreateClass,
-    //   component: InstructorDashboard,
-    //   isPrivateRoute: true,
-    // },
-    // {
-    //   path: Routing.AttendTraining,
-    //   component: AttendTraining,
-    //   isPrivateRoute: false,
-    // },
-    // {
-    //   path: Routing.StudentDashboard,
-    //   component: StudentDashboard,
-    //   isPrivateRoute: true,
-    // },
+    {
+      path: Routing.InstructorMessageRequest,
+      component: InstructorMessageRequest,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.InstructorBooking,
+      component: InstructorBooking,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.InstructorReviews,
+      component: InstructorReviews,
+      isPrivateRoute: true,
+    },
 
     // Add other routes as needed
   ];

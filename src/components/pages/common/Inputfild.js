@@ -9,20 +9,22 @@ const Inputfild = ({
   iconposition,
   name,
   onChange,
-  Labelclass
+  Labelclass,
+  value
 }) => {
   const [show, setshow] = useState(false);
 
   return (
     <>
       <div>
-        <label className={`text-sm text-black/50 block ${Labelclass}`}>{Label}</label>
+        <label className={`text-sm text-black/50 block ${Labelclass} `}>{Label}</label>
         <div className="relative">
           <input
             onChange={onChange}
             type={show === true ? "text" : type}
             name={name}
-            autocomplete="given-name"
+            value={value}
+            autoComplete="given-name"
             placeholder={placeholder}
             className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 md:w-[450px] w-full h-[55px] rounded-full ${
               type === "password" ? "pr-11" : null

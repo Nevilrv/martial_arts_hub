@@ -6,6 +6,7 @@ module.exports = {
       transparent: "transparent",
       current: "currentColor",
       primary: "#E1DFD7",
+      primary_dark: "#D6D3CA",
       black: "#0F0F0F",
       white: "#fff",
       gay: {

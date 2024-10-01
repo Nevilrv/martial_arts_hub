@@ -107,7 +107,7 @@ const Header = () => {
                 to={item.href}
                 className={`text-sm leading-6 hover:text-black ${
                   currentLocation === item.href
-                    ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-2 after:left-0"
+                    ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
                     : "text-black/50 font-normal"
                 }`}
               >
@@ -143,7 +143,7 @@ const Header = () => {
               </div>
               <MenuItems
                 transition
-                className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-primary py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                className="absolute right-0 z-10 mt-2 w-[235px] origin-top-right rounded-md bg-primary py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
               >
                 {Role === "Student" &&
                   Studentnavigation?.map((item, i) => (
@@ -215,9 +215,9 @@ const Header = () => {
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
-                  {navigation.map((item) => (
+                  {navigation.map((item, i) => (
                     <Link
-                      key={item.name}
+                      key={i}
                       to={item.href}
                       className={`-mx-3 block rounded-lg px-3 py-2 text-sm leading-6 hover:text-black ${
                         currentLocation === item.href
@@ -230,12 +230,14 @@ const Header = () => {
                   ))}
                 </div>
                 <div className="py-6">
-                  <a
-                    href="/"
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    Log in
-                  </a>
+                  {!loggedIn && (
+                    <p
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 cursor-pointer"
+                      onClick={() => SetLoginModel(true)}
+                    >
+                      Login
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

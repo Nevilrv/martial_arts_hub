@@ -10,13 +10,14 @@ import DashboardCard from '../../../common/Dashboard/DashboardCard';
 const Index = () => {
 
     const tabs = [
-        { name: "Dashboard", href: Routing.InstructorDashboard },
-        { name: "My Classes", href: Routing.InstructorMyClass },
-        { name: "Message Requests", href:"" },
-        { name: "Chat", href: "" },
-        { name: "Earnings Report", href:""},
-        { name: "Reviews", href:""},
-        { name: "Create Class", href: Routing.InstructorCreateClass },
+      { name: "Dashboard", href: Routing.InstructorDashboard },
+      { name: "My Classes", href: Routing.InstructorMyClass },
+      { name: "Message Requests", href: Routing.InstructorMessageRequest },
+      { name: "Chat", href: "" },
+      { name: "Booking Overview", href: Routing.InstructorBooking  },
+      { name: "Earnings Report", href: "" },
+      { name: "Reviews", href: Routing.InstructorReviews },
+      { name: "Create Class", href: Routing.InstructorCreateClass },
       ];
       const ProfileDetals = [
         {

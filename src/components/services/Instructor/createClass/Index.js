@@ -31,3 +31,17 @@ export const Instructor_get_Upcoming_Classes = async (id) => {
     return error?.response?.data;
   }
 };
+export const Instructor_Edit_Class = async (id) => {
+  try {
+    let response = await axios({
+      method: "GET",
+      url: `${baseURL}/instructor/update/classdetail/${id}`,
+      headers: {
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
