@@ -3,12 +3,12 @@ import { WorkOut } from "../../../../assets/icon";
 import Wrestling from "../../../../assets/images/Wrestling.png";
 import { RiEditBoxFill } from "react-icons/ri";
 import OutlineBtn from "../../common/OutlineBtn";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Student_get_Upcoming_Classes } from "../../../services/student/class";
 
 const UpcomingClass = () => {
-  const navigate = useNavigate();
+  // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
   const [upcomingClass, setUpcomingClass] = useState([]);
 

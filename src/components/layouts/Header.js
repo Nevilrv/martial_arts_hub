@@ -15,6 +15,8 @@ import { Routing } from "../shared/Routing";
 import { IoMdClose } from "react-icons/io";
 import { FaBars } from "react-icons/fa6";
 import { BiCheckCircle } from "react-icons/bi";
+import { Allert_Popup_Icon } from "../../assets/icon";
+import OutlineBtn from "../pages/common/OutlineBtn"
 
 const Header = () => {
   const navigate = useNavigate();
@@ -49,10 +51,13 @@ const Header = () => {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loginModel, SetLoginModel] = useState(false);
+  const [isOpen, SetisOpen] = useState(false);
   const [selectedMailingLists, setSelectedMailingLists] = useState("");
 
   const heandleLogOut = () => {
     localStorage.clear();
+    SetisOpen(false)
+    setSelectedMailingLists("")
     navigate(Routing.Initial);
   };
 
@@ -65,8 +70,10 @@ const Header = () => {
     () => {
       if (selectedMailingLists.title === "Login as Student") {
         navigate(Routing.StudentLogin);
+        setSelectedMailingLists("")
       } else if (selectedMailingLists.title === "Login as Instructor") {
         navigate(Routing.InstructorLogin);
+        setSelectedMailingLists("")
       }
     },
     // eslint-disable-next-line
@@ -177,7 +184,7 @@ const Header = () => {
                       </Link>
                     </MenuItem>
                   ))}
-                <MenuItem onClick={heandleLogOut}>
+                <MenuItem onClick={()=>SetisOpen(true)}>
                   <p
                     className={`block px-4 py-2 text-lg text-black cursor-pointer`}
                   >
@@ -291,6 +298,38 @@ const Header = () => {
                   </Radio>
                 ))}
               </RadioGroup>
+            </DialogPanel>
+          </div>
+        </div>
+      </Dialog>
+
+      <Dialog className="relative z-10" open={isOpen} onClose={SetisOpen}>
+        <DialogBackdrop
+          transition
+          className="fixed inset-0 bg-black/60 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
+        />
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <DialogPanel
+              transition
+              className="relative transform overflow-hidden rounded-lg bg-primary px-6 pb-6 pt-[80px] text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full md:max-w-[575px]  data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
+            >
+              <div>
+                <div className="flex items-center justify-center">
+                  <Allert_Popup_Icon />
+                </div>
+                <h1 className="text-center mt-3 font-semibold text-3xl">
+                  Are you sure?
+                </h1>
+                <p className="max-w-[334px] mx-auto text-center text-black/50 mt-1">
+                  Are you sure you want to log out from your martial arts hub
+                  account?
+                </p>
+                <div className="flex items-center gap-3 mt-14">
+                  <OutlineBtn text={"Log Out"} className={"border-black/30 w-[260px] font-medium text-xl"} onClick={heandleLogOut} />
+                  <OutlineBtn text={"Go Back"} className={"bg-black text-white w-[260px] font-medium text-xl"} onClick={()=>SetisOpen(false)} />
+                </div>
+              </div>
             </DialogPanel>
           </div>
         </div>

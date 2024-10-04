@@ -23,7 +23,7 @@ const UpcomingClass = (props) => {
           </p>
         </div>
       ) : (
-        props.data?.map((upcoming_class) => {
+        props?.data?.map((upcoming_class) => {
           return (
             <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400">
               <div className="flex items-center">

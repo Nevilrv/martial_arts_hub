@@ -33,7 +33,6 @@ const Profile = () => {
     privateSessionOnlineHourlyRate: "",
     privateSessionFaceToFaceHourlyRate: "",
   });
-  const formData = new FormData();
   const handleChange = (e) => {
     setInstructorDetails({
       ...instructorDetails,

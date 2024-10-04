@@ -16,6 +16,20 @@ export const Instructor_Create_Class = async (body) => {
     return error?.response?.data;
   }
 };
+export const Instructor_End_Class = async (id) => {
+  try {
+    let response = await axios({
+      method: "DELETE",
+      url: `${baseURL}/instructor/class/delete/${id}`,
+      headers: {
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
 
 export const Instructor_get_Upcoming_Classes = async (id) => {
   try {

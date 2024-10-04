@@ -61,6 +61,15 @@ const InstructorBooking = lazy(() =>
 const InstructorReviews = lazy(() =>
   import("./components/pages/Instructor/Reviews/index")
 );
+const InstructorEarnings = lazy(() =>
+  import("./components/pages/Instructor/EarningsReport/EarningsReport")
+);
+const InstructorChat = lazy(() =>
+  import("./components/pages/Instructor/Chat/Chat")
+);
+const InstructorCreateSlot = lazy(() =>
+  import("./components/pages/Instructor/CreateSlot/CreateSlot")
+);
 
 
 function App() {
@@ -159,6 +168,21 @@ function App() {
     {
       path: Routing.InstructorReviews,
       component: InstructorReviews,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.InstructorEarnings,
+      component: InstructorEarnings,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.InstructorChat,
+      component: InstructorChat,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.InstructorCreateSlot,
+      component: InstructorCreateSlot,
       isPrivateRoute: true,
     },
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Tab from "../../common/Tab/Index";
+import Tabs from "../index";
 import { Routing } from "../../../shared/Routing";
 import {
   Label,
@@ -11,23 +11,16 @@ import {
 import { TfiAngleDown } from "react-icons/tfi";
 import NormalBtn from "../../common/NormalBtn";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Instructor_Create_Class, Instructor_Edit_Class } from "../../../services/Instructor/createClass/Index";
+import {
+  Instructor_Create_Class,
+  Instructor_Edit_Class,
+} from "../../../services/Instructor/createClass/Index";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 
 const CreateClass = () => {
   const { id } = useParams();
 
-  const tabs = [
-    { name: "Dashboard", href: Routing.InstructorDashboard },
-    { name: "My Classes", href: Routing.InstructorMyClass },
-    { name: "Message Requests", href: Routing.InstructorMessageRequest },
-    { name: "Chat", href: "" },
-    { name: "Booking Overview", href: Routing.InstructorBooking  },
-    { name: "Earnings Report", href: "" },
-    { name: "Reviews", href: Routing.InstructorReviews },
-    { name: "Create Class", href: Routing.InstructorCreateClass },
-  ];
   const TimeSlot = [
     "--Select time--",
     "12:00",
@@ -79,13 +72,14 @@ const CreateClass = () => {
     const body = {
       className: FormData.className,
       date: FormData.date,
-      duration: FormData.duration,
+      duration: FormData.duration * 60,
       aboutClass: FormData.aboutClass,
       rate: FormData.rate,
       classType: classType,
       shift: shift,
       timeSlot: selectedTimeSlot,
     };
+
     const result = await Instructor_Create_Class(body);
     if (result?.success === true) {
       setLoading(false);
@@ -103,68 +97,147 @@ const CreateClass = () => {
     if (result?.success === true) {
       setLoading(false);
       console.log(result, "=======>");
-      setClassdata(result.data)
+      setClassdata(result.data);
       toast.success(result?.message);
     } else {
       setLoading(false);
       toast.error(result?.message);
     }
-    setselectedTimeSlot(classdata.timeSlot)
-    setshift(classdata.shift)
+    setselectedTimeSlot(classdata.timeSlot);
+    setshift(classdata.shift);
   };
-  console.log(classdata,"=====>classdata");
-  
+
   useEffect(() => {
-    getClassdata()
-  }, [])
+    getClassdata();
+  }, []);
 
   return (
     <>
-      <Tab tabs={tabs} />
-      <div className="mt-11 px-3 lg:px-8">
-        <h1 className="text-black text-3xl font-semibold">Create Class</h1>
-        <p className="text-black/70 text-base">
-          Please fill below given details to create new class
-        </p>
-        <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 gap-y-11 mt-10">
-          <div>
-            <label className="text-base font-medium text-black block">
-              Name your Class
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                name="className"
-                placeholder="Give name to your class"
-                className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[80px] rounded-2xl"
-                onChange={(e) => handleChange(e)}
-              />
+      <Tabs>
+        <div className="mt-11 px-3 lg:px-8">
+          <h1 className="text-black text-3xl font-semibold">Create Class</h1>
+          <p className="text-black/70 text-base">
+            Please fill below given details to create new class
+          </p>
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 gap-y-11 mt-10">
+            <div>
+              <label className="text-base font-medium text-black block">
+                Name your Class
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  name="className"
+                  placeholder="Give name to your class"
+                  className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[80px] rounded-2xl"
+                  onChange={(e) => handleChange(e)}
+                />
+              </div>
             </div>
-          </div>
-          <div>
-            <label className="text-base font-medium text-black block">
-              Date of Class
-            </label>
-            <div className="relative">
-              <input
-                type="date"
-                name="date"
-                placeholder="DD/MM/YY"
-                className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[80px] rounded-2xl"
-                onChange={(e) => handleChange(e)}
-              />
+            <div>
+              <label className="text-base font-medium text-black block">
+                Date of Class
+              </label>
+              <div className="relative">
+                <input
+                  type="date"
+                  name="date"
+                  placeholder="DD/MM/YY"
+                  className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[80px] rounded-2xl"
+                  onChange={(e) => handleChange(e)}
+                />
+              </div>
             </div>
-          </div>
-          <div className="flex items-center justify-between gap-3">
-            <div className="w-full">
-              <Listbox value={selectedTimeSlot} onChange={setselectedTimeSlot}>
+            <div className="flex items-center justify-between gap-3">
+              <div className="w-full">
+                <Listbox
+                  value={selectedTimeSlot}
+                  onChange={setselectedTimeSlot}
+                >
+                  <Label className="text-base font-medium text-black block">
+                    Time Slot
+                  </Label>
+                  <div className="relative mt-2">
+                    <ListboxButton className="relative w-full cursor-pointer bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 h-[80px] rounded-2xl">
+                      <span className="block truncate text-left">
+                        {selectedTimeSlot}
+                      </span>
+                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                        <TfiAngleDown
+                          aria-hidden="true"
+                          className="h-5 w-5 text-gray-400"
+                        />
+                      </span>
+                    </ListboxButton>
+
+                    <ListboxOptions
+                      transition
+                      className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg"
+                    >
+                      {TimeSlot.map((person, i) => (
+                        <ListboxOption
+                          key={i}
+                          value={person}
+                          className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900"
+                        >
+                          <span className="block truncate font-normal group-data-[selected]:font-semibold cursor-pointer">
+                            {person}
+                          </span>
+                        </ListboxOption>
+                      ))}
+                    </ListboxOptions>
+                  </div>
+                </Listbox>
+              </div>
+              <div className="w-[30%]">
+                <Listbox value={shift} onChange={setshift}>
+                  <div className="relative mt-2">
+                    <Label className="text-base font-medium text-black block">
+                      shift
+                    </Label>
+                    <ListboxButton className="relative w-full cursor-pointer bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 h-[80px] rounded-2xl">
+                      <span className="block truncate text-left">{shift}</span>
+                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                        <TfiAngleDown
+                          aria-hidden="true"
+                          className="h-5 w-5 text-gray-400"
+                        />
+                      </span>
+                    </ListboxButton>
+                    <ListboxOptions
+                      transition
+                      className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg"
+                    >
+                      <ListboxOption
+                        value="AM"
+                        className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900"
+                      >
+                        <span className="block truncate font-normal group-data-[selected]:font-semibold cursor-pointer">
+                          AM
+                        </span>
+                      </ListboxOption>
+                      <ListboxOption
+                        value="PM"
+                        className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900"
+                      >
+                        <span className="block truncate font-normal group-data-[selected]:font-semibold cursor-pointer">
+                          PM
+                        </span>
+                      </ListboxOption>
+                    </ListboxOptions>
+                  </div>
+                </Listbox>
+              </div>
+            </div>
+            <div>
+              <Listbox value={classType} onChange={setClassType}>
                 <Label className="text-base font-medium text-black block">
-                  Time Slot
+                  Class Type
                 </Label>
                 <div className="relative mt-2">
                   <ListboxButton className="relative w-full cursor-pointer bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 h-[80px] rounded-2xl">
                     <span className="block truncate text-left">
-                      {selectedTimeSlot}
+                      {classType}
                     </span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                       <TfiAngleDown
@@ -178,151 +251,77 @@ const CreateClass = () => {
                     transition
                     className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg"
                   >
-                    {TimeSlot.map((person, i) => (
-                      <ListboxOption
-                        key={i}
-                        value={person}
-                        className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900"
-                      >
-                        <span className="block truncate font-normal group-data-[selected]:font-semibold cursor-pointer">
-                          {person}
-                        </span>
-                      </ListboxOption>
-                    ))}
-                  </ListboxOptions>
-                </div>
-              </Listbox>
-            </div>
-            <div className="w-[30%]">
-              <Listbox value={shift} onChange={setshift}>
-                <div className="relative mt-2">
-                  <Label className="text-base font-medium text-black block">
-                    shift
-                  </Label>
-                  <ListboxButton className="relative w-full cursor-pointer bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 h-[80px] rounded-2xl">
-                    <span className="block truncate text-left">{shift}</span>
-                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                      <TfiAngleDown
-                        aria-hidden="true"
-                        className="h-5 w-5 text-gray-400"
-                      />
-                    </span>
-                  </ListboxButton>
-                  <ListboxOptions
-                    transition
-                    className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg"
-                  >
                     <ListboxOption
-                      value="AM"
+                      value={"face-to-face"}
                       className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900"
                     >
                       <span className="block truncate font-normal group-data-[selected]:font-semibold cursor-pointer">
-                        AM
+                        Face To Face
                       </span>
                     </ListboxOption>
                     <ListboxOption
-                      value="PM"
+                      value={"online"}
                       className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900"
                     >
                       <span className="block truncate font-normal group-data-[selected]:font-semibold cursor-pointer">
-                        PM
+                        Online
                       </span>
                     </ListboxOption>
                   </ListboxOptions>
                 </div>
               </Listbox>
             </div>
-          </div>
-          <div>
-            <Listbox value={classType} onChange={setClassType}>
-              <Label className="text-base font-medium text-black block">
-                Class Type
-              </Label>
-              <div className="relative mt-2">
-                <ListboxButton className="relative w-full cursor-pointer bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 h-[80px] rounded-2xl">
-                  <span className="block truncate text-left">{classType}</span>
-                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                    <TfiAngleDown
-                      aria-hidden="true"
-                      className="h-5 w-5 text-gray-400"
-                    />
-                  </span>
-                </ListboxButton>
-
-                <ListboxOptions
-                  transition
-                  className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg"
-                >
-                  <ListboxOption
-                    value={"face-to-face"}
-                    className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900"
-                  >
-                    <span className="block truncate font-normal group-data-[selected]:font-semibold cursor-pointer">
-                      Face To Face
-                    </span>
-                  </ListboxOption>
-                  <ListboxOption
-                    value={"online"}
-                    className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900"
-                  >
-                    <span className="block truncate font-normal group-data-[selected]:font-semibold cursor-pointer">
-                      Online
-                    </span>
-                  </ListboxOption>
-                </ListboxOptions>
+            <div>
+              <label className="text-base font-medium text-black block">
+                Class Duration
+              </label>
+              <div className="relative">
+                <input
+                  type="number"
+                  name="duration"
+                  placeholder="eg. 1 hr/2 hr"
+                  className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[80px] rounded-2xl"
+                  onChange={(e) => handleChange(e)}
+                />
               </div>
-            </Listbox>
-          </div>
-          <div>
-            <label className="text-base font-medium text-black block">
-              Class Duration
-            </label>
-            <div className="relative">
-              <input
-                type="number"
-                name="duration"
-                placeholder="eg. 1 hr/2 hr"
-                className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[80px] rounded-2xl"
-                onChange={(e) => handleChange(e)}
-              />
+            </div>
+            <div>
+              <label className="text-base font-medium text-black block">
+                Class Rate
+              </label>
+              <div className="relative">
+                <input
+                  type="number"
+                  name="rate"
+                  placeholder="eg. $5, $10"
+                  className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[80px] rounded-2xl"
+                  onChange={(e) => handleChange(e)}
+                />
+              </div>
+            </div>
+            <div className="md:col-span-2 col-span-1">
+              <label className="text-base font-medium text-black block">
+                About the class
+              </label>
+              <div className="relative">
+                <textarea
+                  name="aboutClass"
+                  placeholder="Write about your class in details"
+                  className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[185px] pt-6 rounded-2xl"
+                  onChange={(e) => handleChange(e)}
+                />
+              </div>
             </div>
           </div>
-          <div>
-            <label className="text-base font-medium text-black block">
-              Class Rate
-            </label>
-            <div className="relative">
-              <input
-                type="number"
-                name="rate"
-                placeholder="eg. $5, $10"
-                className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[80px] rounded-2xl"
-                onChange={(e) => handleChange(e)}
-              />
-            </div>
-          </div>
-          <div className="md:col-span-2 col-span-1">
-            <label className="text-base font-medium text-black block">
-              About the class
-            </label>
-            <div className="relative">
-              <textarea
-                name="aboutClass"
-                placeholder="Write about your class in details"
-                className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[185px] pt-6 rounded-2xl"
-                onChange={(e) => handleChange(e)}
-              />
-            </div>
+          <div className="flex items-center justify-end mt-16">
+            <NormalBtn
+              text={"Create Class"}
+              onClick={handleSubmit}
+              loading={loading}
+            />
           </div>
         </div>
-        <div className="flex items-center justify-end mt-16">
-          <NormalBtn
-            text={"Create Class"}
-            onClick={handleSubmit}
-            loading={loading}
-          />
-        </div>
-      </div>
+      </Tabs>
     </>
   );
 };

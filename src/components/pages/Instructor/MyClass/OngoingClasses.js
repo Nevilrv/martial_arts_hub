@@ -1,16 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { WorkOut } from "../../../../assets/icon";
 import Wrestling from "../../../../assets/images/Wrestling.png";
 import { RiEditBoxFill } from "react-icons/ri";
 import OutlineBtn from "../../common/OutlineBtn";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Instructor_End_Class, Instructor_get_Upcoming_Classes } from "../../../services/Instructor/createClass/Index";
 
 const OngoingClasses = (props) => {
   const navigate = useNavigate();
-  
+  // eslint-disable-next-line
+  const [loading, setLoading] = useState(false)
+  // eslint-disable-next-line;
+  const [upcomingClass, setUpcomingClass] = useState([]);
+  const id = JSON.parse(localStorage.getItem("_id"));
+
+  const Get_Upcoming_Classes = async () => {
+    const result = await Instructor_get_Upcoming_Classes(id);
+    if (result?.success === true) {
+      setLoading(false);
+      setUpcomingClass(result.data.upcoming);
+      toast.success(result?.message);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+  useEffect(() => {
+    Get_Upcoming_Classes();
+    // eslint-disable-next-line
+  }, []);
+
+  const heandleEndclass = async (id) => {
+    const result = await Instructor_End_Class(id);
+    if (result?.success === true) {
+      setLoading(false);
+      Get_Upcoming_Classes()
+      toast.success(result?.message);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+
   return (
     <>
-      {props?.data?.length <= 0 ? (
+      {upcomingClass.length <= 0 ? (
         <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
           <WorkOut height={"110"} width={"110"} />
           <h2 className="text-[26px] font-medium text-center mt-7">
@@ -22,7 +57,7 @@ const OngoingClasses = (props) => {
           </p>
         </div>
       ) : (
-        props.data?.map((upcoming_class) => {
+        upcomingClass.map((upcoming_class) => {
           return (
             <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400">
               <div className="flex items-center">
@@ -88,12 +123,17 @@ const OngoingClasses = (props) => {
               <div className="flex items-center gap-3">
                 <OutlineBtn
                   text={"Join Class"}
-                  onClick={()=>window.open(upcoming_class?.instructor_url)}
-                  className={"bg-[#CFDED7] border-green text-green font-semibold"}
+                  onClick={() => window.open(upcoming_class?.instructor_url)}
+                  className={
+                    "bg-[#CFDED7] border-green text-green font-semibold"
+                  }
                 />
                 <OutlineBtn
                   text={"End Class"}
-                  className={"bg-red-100 border-red-200 text-red-200 font-semibold"}
+                  onClick={() => heandleEndclass(upcoming_class?.classId)}
+                  className={
+                    "bg-red-100 border-red-200 text-red-200 font-semibold"
+                  }
                 />
               </div>
             </div>

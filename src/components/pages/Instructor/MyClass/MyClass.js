@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Tab from "../../common/Tab/Index";
+import Tabs from "../index";
 import { Routing } from "../../../shared/Routing";
 import OutlineBtn from "../../common/OutlineBtn";
 import UpcomingClass from "./UpcomingClass";
@@ -13,17 +13,6 @@ import { toast } from "react-toastify";
 
 const MyClass = () => {
   const navigate = useNavigate();
-
-  const tabs = [
-    { name: "Dashboard", href: Routing.InstructorDashboard },
-    { name: "My Classes", href: Routing.InstructorMyClass },
-    { name: "Message Requests", href: Routing.InstructorMessageRequest },
-    { name: "Chat", href: "" },
-    { name: "Booking Overview", href: Routing.InstructorBooking  },
-    { name: "Earnings Report", href: "" },
-    { name: "Reviews", href: Routing.InstructorReviews },
-    { name: "Create Class", href: Routing.InstructorCreateClass },
-  ];
 
   const [calssType, setcalssType] = useState("Upcoming Classes");
   const [upcomingClass, setUpcomingClass] = useState([]);
@@ -58,7 +47,7 @@ const MyClass = () => {
 
   return (
     <>
-      <Tab tabs={tabs} />
+      <Tabs>
       <div className="mt-11 px-3 lg:px-8">
         <div className="flex items-center justify-between">
           <h1 className="text-black text-3xl font-semibold">My Classes</h1>
@@ -96,6 +85,7 @@ const MyClass = () => {
           <CompletedClasses data={upcomingClass} />
         ) : null}
       </div>
+      </Tabs>
     </>
   );
 };

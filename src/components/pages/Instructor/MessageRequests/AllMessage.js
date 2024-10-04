@@ -1,27 +1,18 @@
 import React, { useState } from "react";
-import { Routing } from "../../../shared/Routing";
-import Tab from "../../common/Tab/Index";
 import OutlineBtn from "../../common/OutlineBtn";
 import All_Message from "./All_Message";
 import MessageRequestAccept from "./MessageRequestAccept";
 import MessageRequestDeclined from "./MessageRequestDeclined";
+import Tabs from "../index";
 
 const AllMessage = () => {
-  const tabs = [
-    { name: "Dashboard", href: Routing.InstructorDashboard },
-    { name: "My Classes", href: Routing.InstructorMyClass },
-    { name: "Message Requests", href: Routing.InstructorMessageRequest },
-    { name: "Chat", href: "" },
-    { name: "Booking Overview", href: Routing.InstructorBooking  },
-    { name: "Earnings Report", href: "" },
-    { name: "Reviews", href: Routing.InstructorReviews },
-    { name: "Create Class", href: Routing.InstructorCreateClass },
-  ];
+
   const [calssType, setcalssType] = useState("All");
+  
 
   return (
     <>
-      <Tab tabs={tabs} />
+      <Tabs>
       <div className="mt-11 px-3 lg:px-8">
         <div className="flex items-center justify-between">
           <h1 className="text-black text-3xl font-semibold">
@@ -76,6 +67,7 @@ const AllMessage = () => {
           <MessageRequestDeclined />
         ) : null}
       </div>
+      </Tabs>
     </>
   );
 };

@@ -1,26 +1,17 @@
 import React, { useState } from "react";
 import { Routing } from "../../../shared/Routing";
-import Tab from "../../common/Tab/Index";
 import OutlineBtn from "../../common/OutlineBtn";
 import ActiveBookingRequests from "./ActiveBookingRequests";
 import ConfirmedBookingRequests from "./ConfirmedBookingRequests";
+import Tabs from "../index";
 
 const Index = () => {
-  const tabs = [
-    { name: "Dashboard", href: Routing.InstructorDashboard },
-    { name: "My Classes", href: Routing.InstructorMyClass },
-    { name: "Message Requests", href: Routing.InstructorMessageRequest },
-    { name: "Chat", href: "" },
-    { name: "Booking Overview", href: Routing.InstructorBooking  },
-    { name: "Earnings Report", href: "" },
-    { name: "Reviews", href: Routing.InstructorReviews },
-    { name: "Create Class", href: Routing.InstructorCreateClass },
-  ];
+  
   const [calssType, setcalssType] = useState("Active Booking Requests");
 
   return (
     <>
-      <Tab tabs={tabs} />
+    <Tabs>
       <div className="mt-11 px-3 lg:px-8">
         <div className="flex items-center justify-between">
           <h1 className="text-black text-3xl font-semibold">
@@ -53,6 +44,7 @@ const Index = () => {
           <ConfirmedBookingRequests />
         ) : null} 
       </div>
+    </Tabs>
     </>
   );
 };

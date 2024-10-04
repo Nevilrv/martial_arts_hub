@@ -4,10 +4,10 @@ import { Envelop } from '../../../assets/icon'
 const GetInTouch = () => {
   return (
     <>
-      <section className="py-space px-3 lg:px-8 bg-black">
+      <section className="py-[40px] px-3 lg:px-8 bg-black">
         <div className="flex items-center justify-between flex-wrap">
           <div>
-            <h2 className="text-[40px] text-white max-w-[320px]">
+            <h2 className="text-[40px] text-white">
               Get in touch with us anytime!
             </h2>
             <p className="text-white/50 text-lg mt-3">
