@@ -10,13 +10,17 @@ module.exports = {
       black: "#0F0F0F",
       white: "#fff",
       gay: {
+        50:"#9A9892",
         100: "#F6F5F9",
         200: "#C7C6BF",
         250: "#CFCDC7",
         300: "#6B6B6B",
+        350: "#C6C6C6",
         400: "#717171",
         500: "#BCBCBC",
         600: "#D9D7CF",
+        650: "#6F6F6F",
+        700: "#D2CFC9",
       },
       yellow: {
         100: "#FFB423",

@@ -37,7 +37,6 @@ const Index = () => {
     const result = await InstructorSignUp(data);
     if (result?.success === true) {
       setLoading(false);
-      console.log(result,"=======>");
       localStorage.setItem(
         "Role",
         JSON.stringify(result?.data?.role)

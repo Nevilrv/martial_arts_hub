@@ -20,9 +20,9 @@ const All_Message = () => {
           </p>
         </div>  */}
 
-      <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400">
+      <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400 min-w-[975px]">
         <div className="flex items-center">
-          <div className="w-[82px] h-[82px] overflow-hidden rounded-full">
+          <div className="min-w-[82px] h-[82px] overflow-hidden rounded-full">
             <img
               src={User}
               alt="Wrestling"
@@ -54,12 +54,12 @@ const All_Message = () => {
         <div className="flex items-center gap-3">
           <OutlineBtn
             text={"See Profile"}
-            className={"bg-transparent border-black text-black"}
+            className={"bg-transparent border-black text-black w-[148px]"}
             onClick={() => setStudentProfile(true)}
           />
           <OutlineBtn
             text={"View Request"}
-            className={"bg-green border-none text-white font-medium"}
+            className={"bg-green border-none text-white font-medium w-[159px]"}
             onClick={() => setMessageRequest(true)}
           />
         </div>

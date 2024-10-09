@@ -19,7 +19,7 @@ const OngoingClasses = (props) => {
     const result = await Instructor_get_Upcoming_Classes(id);
     if (result?.success === true) {
       setLoading(false);
-      setUpcomingClass(result.data.upcoming);
+      setUpcomingClass(result.data.ongoing);
       toast.success(result?.message);
     } else {
       setLoading(false);
@@ -45,7 +45,7 @@ const OngoingClasses = (props) => {
 
   return (
     <>
-      {upcomingClass.length <= 0 ? (
+      {upcomingClass?.length <= 0 ? (
         <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
           <WorkOut height={"110"} width={"110"} />
           <h2 className="text-[26px] font-medium text-center mt-7">
@@ -57,9 +57,9 @@ const OngoingClasses = (props) => {
           </p>
         </div>
       ) : (
-        upcomingClass.map((upcoming_class) => {
+        upcomingClass?.map((upcoming_class) => {
           return (
-            <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400">
+            <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400 min-w-[975px]">
               <div className="flex items-center">
                 <div className="w-[125px] h-[85px] overflow-hidden rounded-lg">
                   <img src={Wrestling} alt="Wrestling" />

@@ -16,7 +16,7 @@ const ConfirmedBookingRequests = () => {
           </p>
         </div>  */}
 
-      <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400">
+      <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400 min-w-[975px]">
         <div className="flex items-center">
           <div className="w-[82px] h-[82px] overflow-hidden rounded-full">
             <img

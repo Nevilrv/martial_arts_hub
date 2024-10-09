@@ -15,35 +15,35 @@ const MyClass = () => {
   const navigate = useNavigate();
 
   const [calssType, setcalssType] = useState("Upcoming Classes");
-  const [upcomingClass, setUpcomingClass] = useState([]);
-  // eslint-disable-next-line
-  const [loading, setLoading] = useState(false);
+  // const [upcomingClass, setUpcomingClass] = useState([]);
+  // // eslint-disable-next-line
+  // const [loading, setLoading] = useState(false);
 
-  const id = JSON.parse(localStorage.getItem("_id"));
+  // const id = JSON.parse(localStorage.getItem("_id"));
 
-  const Get_Upcoming_Classes = async () => {
-    const result = await Instructor_get_Upcoming_Classes(id);
-    if (result?.success === true) {
-      setLoading(false);
-      if (calssType==="Upcoming Classes") {
-        setUpcomingClass(result.data.upcoming);
-      }
-      else if(calssType==="Ongoing Classes"){
-        setUpcomingClass(result.data.ongoing);
-      }
-      else if(calssType==="Completed Classes"){
-        setUpcomingClass(result.data.complete);
-      }
-      toast.success(result?.message);
-    } else {
-      setLoading(false);
-      toast.error(result?.message);
-    }
-  };
-  useEffect(() => {
-    Get_Upcoming_Classes();
-    // eslint-disable-next-line
-  }, [calssType]);
+  // const Get_Upcoming_Classes = async () => {
+  //   const result = await Instructor_get_Upcoming_Classes(id);
+  //   if (result?.success === true) {
+  //     setLoading(false);
+  //     if (calssType==="Upcoming Classes") {
+  //       setUpcomingClass(result.data.upcoming);
+  //     }
+  //     else if(calssType==="Ongoing Classes"){
+  //       setUpcomingClass(result.data.ongoing);
+  //     }
+  //     else if(calssType==="Completed Classes"){
+  //       setUpcomingClass(result.data.complete);
+  //     }
+  //     toast.success(result?.message);
+  //   } else {
+  //     setLoading(false);
+  //     toast.error(result?.message);
+  //   }
+  // };
+  // useEffect(() => {
+  //   Get_Upcoming_Classes();
+  //   // eslint-disable-next-line
+  // }, [calssType]);
 
   return (
     <>
@@ -58,7 +58,7 @@ const MyClass = () => {
             onClick={() => navigate(Routing.InstructorCreateClass)}
           />
         </div>
-        <div className="flex items-center mt-6 gap-2">
+        <div className="md:flex grid sm:grid-cols-2 grid-cols-1 items-center mt-6 gap-2">
           <OutlineBtn
             text={"Upcoming Classes"}
             className={`${calssType === "Upcoming Classes"?"bg-gay-300 text-white font-semibold":null}`}
@@ -76,13 +76,13 @@ const MyClass = () => {
           />
         </div>
       </div>
-      <div className="mt-6">
+      <div className="mt-6 w-full overflow-x-auto">
         {calssType === "Upcoming Classes" ? (
-          <UpcomingClass data={upcomingClass} />
+          <UpcomingClass />
         ) : calssType === "Ongoing Classes" ? (
-          <OngoingClasses data={upcomingClass} />
+          <OngoingClasses />
         ) : calssType === "Completed Classes" ? (
-          <CompletedClasses data={upcomingClass} />
+          <CompletedClasses />
         ) : null}
       </div>
       </Tabs>

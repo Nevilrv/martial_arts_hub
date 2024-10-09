@@ -7,8 +7,9 @@ import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
 import { toast } from "react-toastify";
-import Login_image from "../../../../assets/images/LoginImage.png"
+import Login_image from "../../../../assets/images/LoginImage.png";
 import { StudentLogin } from "../../../services/student/auth";
+import Spinner from "../../../layouts/Spinner";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -42,18 +43,9 @@ const Login = () => {
     const result = await StudentLogin(data);
     if (result?.success === true) {
       setLoading(false);
-      localStorage.setItem(
-        "_id",
-        JSON.stringify(result?.data?.studentId)
-      );
-      localStorage.setItem(
-        "Role",
-        JSON.stringify(result?.data?.role)
-      );
-      localStorage.setItem(
-        "email",
-        JSON.stringify(result?.data?.email)
-      );
+      localStorage.setItem("_id", JSON.stringify(result?.data?.studentId));
+      localStorage.setItem("Role", JSON.stringify(result?.data?.role));
+      localStorage.setItem("email", JSON.stringify(result?.data?.email));
       localStorage.setItem("token", JSON.stringify(result?.Token));
       localStorage.setItem("is_login", true);
       navigate(Routing.StudentDashboard);
@@ -66,6 +58,8 @@ const Login = () => {
 
   return (
     <>
+      {loading && <Spinner />}
+
       <Dialog open={open} onClose={setOpen} className="relative z-10">
         <DialogBackdrop
           transition
@@ -145,7 +139,6 @@ const Login = () => {
                         text={"Log In to your account"}
                         bg_color={"black"}
                         onClick={handleLogin}
-                        loading={loading}
                       />
                       <BigButton
                         text={`Log In with Google`}

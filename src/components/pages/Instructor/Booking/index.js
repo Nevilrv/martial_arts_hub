@@ -18,7 +18,7 @@ const Index = () => {
             Message Requests
           </h1>
         </div>
-        <div className="flex items-center mt-6 gap-2">
+        <div className="md:flex grid sm:grid-cols-2 grid-cols-1 items-center mt-6 gap-2">
           <OutlineBtn
             text={"Received/Active Booking Requests"}
             className={`${
@@ -37,7 +37,7 @@ const Index = () => {
           />
         </div>
       </div>
-      <div className="mt-6">
+      <div className="mt-6 w-full overflow-x-auto">
          {calssType === "Active Booking Requests" ? (
           <ActiveBookingRequests />
         ) : calssType === "Confirmed Booking Requests" ? (

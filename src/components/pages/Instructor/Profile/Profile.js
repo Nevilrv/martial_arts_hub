@@ -83,8 +83,8 @@ const Profile = () => {
     const result = await InstructorProfile(formData);
     if (result?.success === true) {
       setLoading(false);
-      console.log(result, "=======>");
       toast.success(result?.message);
+      navigate(Routing.InstructorDashboard)
     } else {
       setLoading(false);
       toast.error(result?.message);

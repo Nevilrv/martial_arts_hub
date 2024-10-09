@@ -73,7 +73,7 @@ const Index = () => {
       </section>
       {/* Hero section start */}
       {/* Services section start */}
-      <section className="bg-black px-3 lg:px-8 py-[76px] grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
+      <section className="bg-black px-3 gap-y-12 lg:px-8 py-[76px] grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
         <div className="flex flex-col justify-center items-center">
           <img src={SportsPsychology} alt="" />
           <h2 className="text-white text-[22px] leading-[26.4px] text-center mt-4">

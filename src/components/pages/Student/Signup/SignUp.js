@@ -9,6 +9,7 @@ import { Routing } from "../../../shared/Routing";
 import SignUp_image from "../../../../assets/images/SignupImage.jpeg";
 import { toast } from "react-toastify";
 import { StudentSignUp } from "../../../services/student/auth";
+import Spinner from "../../../layouts/Spinner";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -34,23 +35,14 @@ const SignUp = () => {
       name: userdata.name,
       email: userdata.email,
       password: userdata.password,
-      confirm_password:userdata.confirm_password
+      confirm_password: userdata.confirm_password,
     };
     const result = await StudentSignUp(data);
     if (result?.success === true) {
       setLoading(false);
-      localStorage.setItem(
-        "Student_id",
-        JSON.stringify(result?.data?.studentId)
-      );
-      localStorage.setItem(
-        "Student_email",
-        JSON.stringify(result?.data?.email)
-      );
-      localStorage.setItem(
-        "Role",
-        JSON.stringify(result?.data?.role)
-      );
+      localStorage.setItem("_id", JSON.stringify(result?.data?.studentId));
+      localStorage.setItem("email", JSON.stringify(result?.data?.email));
+      localStorage.setItem("Role", JSON.stringify(result?.data?.role));
       localStorage.setItem("token", JSON.stringify(result?.Token));
       localStorage.setItem("is_login", true);
       navigate(Routing.StudentDashboard);
@@ -69,6 +61,7 @@ const SignUp = () => {
 
   return (
     <>
+      {loading && <Spinner />}
       <Dialog open={open} onClose={setOpen} className="relative z-10">
         <DialogBackdrop
           transition
@@ -156,7 +149,6 @@ const SignUp = () => {
                         text={"Create an Account"}
                         bg_color={"black"}
                         onClick={handleLogin}
-                        loading={loading}
                       />
                       <BigButton
                         text={`Log In with Google`}
@@ -166,7 +158,10 @@ const SignUp = () => {
                     </div>
                     <p className="text-sm text-black/50 text-center mt-10">
                       Already have an account?{" "}
-                      <Link to={Routing.StudentLogin} className="font-bold text-black">
+                      <Link
+                        to={Routing.StudentLogin}
+                        className="font-bold text-black"
+                      >
                         Log In
                       </Link>
                     </p>

@@ -12,7 +12,7 @@ const ProfileCard = ({ ProfileDetals }) => {
             <CameraIcon />
           </div>
         </div>
-        <h2 className="text-black text-2xl font-semibold text-center mt-4">
+        <h2 className="text-black text-2xl font-semibold text-center mt-4 break-words sm:max-w-[370px] max-w-[240px] mx-auto">
           {JSON.parse(localStorage.getItem("email"))}
         </h2>
         <div className="mt-[6px] mb-14 w-[115px] h-[30px] bg-Green-50 mx-auto rounded-full text-Green-200 flex items-center  justify-center gap-1 text-[14px]">

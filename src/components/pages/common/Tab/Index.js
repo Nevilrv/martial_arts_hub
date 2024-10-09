@@ -1,6 +1,4 @@
-import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react';
 import React, { useState } from 'react'
-import { TfiAngleDown } from 'react-icons/tfi';
 import { Link, useLocation } from 'react-router-dom';
 
 const Index = ({tabs,children}) => {
@@ -71,7 +69,7 @@ const Index = ({tabs,children}) => {
                 <Link
                   key={tab.name}
                   to={tab.href}
-                  className={`whitespace-nowrap pb-6 text-lg ${tab.href===pathname?"font-bold text-white border-b-4":"text-white/50"}`}
+                  className={`whitespace-nowrap sm:pb-6 text-lg ${tab.href===pathname?"font-bold text-white border-b-4":"text-white/50"}`}
                 >
                   {tab.name}
                 </Link>

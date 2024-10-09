@@ -32,6 +32,15 @@ const StudentDashboard = lazy(() =>
 const StudentMyClass = lazy(() =>
   import("./components/pages/Student/MyClass/MyClass")
 );
+const StudentMyInvoice = lazy(() =>
+  import("./components/pages/Student/MyInvoices/MyInvoice")
+);
+const StudentDispute = lazy(() =>
+  import("./components/pages/Student/Dispute/RaiseDispute")
+);
+const StudentNewDispute = lazy(() =>
+  import("./components/pages/Student/Dispute/NewDispute")
+);
 
 // Instructor Components
 const InstructorLogin = lazy(() =>
@@ -117,6 +126,24 @@ function App() {
       isPrivateRoute: true,
       
     },
+    {
+      path: Routing.StudentInvoices,
+      component: StudentMyInvoice,
+      isPrivateRoute: true,
+      
+    },
+    {
+      path: Routing.StudentDispute,
+      component: StudentDispute,
+      isPrivateRoute: true,
+      
+    },
+    {
+      path: Routing.StudentNewDispute,
+      component: StudentNewDispute,
+      isPrivateRoute: true,
+      
+    },
     // Instructor Routs
     {
       path: Routing.InstructorSignup,
@@ -191,7 +218,7 @@ function App() {
 
   return (
     <>
-        <ToastContainer />
+       
       <Suspense fallback={<Spinner />}>
         <MainLayout>
           <Routes>
@@ -246,6 +273,7 @@ function App() {
           </Routes>
         </MainLayout>
       </Suspense>
+      <ToastContainer />
     </>
   );
 }

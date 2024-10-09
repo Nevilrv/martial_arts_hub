@@ -7,7 +7,7 @@ import OutlineBtn from "../../common/OutlineBtn";
 import { toast } from "react-toastify";
 import { Student_get_Upcoming_Classes } from "../../../services/student/class";
 
-const UpcomingClass = () => {
+const CompletedClasses = () => {
   // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
   const [upcomingClass, setUpcomingClass] = useState([]);
@@ -106,4 +106,4 @@ const UpcomingClass = () => {
   );
 };
 
-export default UpcomingClass;
+export default CompletedClasses;

@@ -1,17 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { WorkOut } from "../../../../assets/icon";
 import Wrestling from "../../../../assets/images/Wrestling.png";
 import { RiEditBoxFill } from "react-icons/ri";
 import OutlineBtn from "../../common/OutlineBtn";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Instructor_get_Upcoming_Classes } from "../../../services/Instructor/createClass/Index";
 
 const UpcomingClass = (props) => {
   const navigate = useNavigate();
-  console.log(props.data, "=====>props");
+  // eslint-disable-next-line
+  const [loading, setLoading] = useState(false)
+  // eslint-disable-next-line;
+  const [upcomingClass, setUpcomingClass] = useState([]);
+  const id = JSON.parse(localStorage.getItem("_id"));
+
+  const Get_Upcoming_Classes = async () => {
+    const result = await Instructor_get_Upcoming_Classes(id);
+    if (result?.success === true) {
+      setLoading(false);
+      setUpcomingClass(result.data.upcoming);
+      toast.success(result?.message);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+  useEffect(() => {
+    Get_Upcoming_Classes();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <>
-      {props?.data?.length <= 0 ? (
+      {upcomingClass?.length <= 0 ? (
         <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
           <WorkOut height={"110"} width={"110"} />
           <h2 className="text-[26px] font-medium text-center mt-7">
@@ -23,9 +45,9 @@ const UpcomingClass = (props) => {
           </p>
         </div>
       ) : (
-        props?.data?.map((upcoming_class) => {
+        upcomingClass?.map((upcoming_class) => {
           return (
-            <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400">
+            <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400 min-w-[975px]">
               <div className="flex items-center">
                 <div className="w-[125px] h-[85px] overflow-hidden rounded-lg">
                   <img src={Wrestling} alt="Wrestling" />

@@ -7,11 +7,12 @@ export const Routing = {
   StudentLogin: "/student/login",
   StudentSignup: "/student/signup",
   StudentDashboard:"/student/dashboard",
-  StudentMessages:"/student/messages",
-  StudentMyClass:"/student/classes",
-  StudentInvoices:"/student/invoices",
+  StudentMessages:"/student/message",
+  StudentMyClass:"/student/class",
+  StudentInvoices:"/student/invoice",
   StudentProfile:"/student/profile",
   StudentDispute:"/student/dispute",
+  StudentNewDispute:"/student/new_dispute",
 
 
 

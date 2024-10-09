@@ -19,12 +19,12 @@ const AllMessage = () => {
             Message Requests
           </h1>
         </div>
-        <div className="flex items-center mt-6 gap-2">
+        <div className="md:flex grid sm:grid-cols-2 grid-cols-1 items-center mt-6 gap-2">
           <OutlineBtn
             text={"All"}
             className={`${
               calssType === "All" ? "bg-gay-300 text-white font-semibold" : null
-            } h-[45px] w-[125px] text-[15px] `}
+            } h-[45px] md:w-[125px] text-[15px] `}
             onClick={() => setcalssType("All")}
           />
           <OutlineBtn
@@ -33,7 +33,7 @@ const AllMessage = () => {
               calssType === "Pending"
                 ? "bg-gay-300 text-white font-semibold"
                 : null
-            } h-[45px] w-[125px] text-[15px] `}
+            } h-[45px] md:w-[125px] text-[15px] `}
             onClick={() => setcalssType("Pending")}
           />
           <OutlineBtn
@@ -42,7 +42,7 @@ const AllMessage = () => {
               calssType === "Accepted"
                 ? "bg-gay-300 text-white font-semibold"
                 : null
-            } h-[45px] w-[125px] text-[15px] `}
+            } h-[45px] md:w-[125px] text-[15px] `}
             onClick={() => setcalssType("Accepted")}
           />
           <OutlineBtn
@@ -51,12 +51,12 @@ const AllMessage = () => {
               calssType === "Declined"
                 ? "bg-gay-300 text-white font-semibold"
                 : null
-            } h-[45px] w-[125px] text-[15px] `}
+            } h-[45px] md:w-[125px] text-[15px] `}
             onClick={() => setcalssType("Declined")}
           />
         </div>
       </div>
-      <div className="mt-6">
+      <div className="mt-6 w-full overflow-x-auto">
         {calssType === "All" ? (
           <All_Message />
         ) : calssType === "Pending" ? (

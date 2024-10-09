@@ -12,7 +12,7 @@ const EarningsReport = () => {
     <>
       <Tabs>
         <div className="mt-11 px-3 lg:px-8">
-          <div className="flex items-center justify-between">
+          <div className="flex gap-5 items-center justify-between">
             <div>
               <h1 className="text-black text-3xl font-semibold">
                 Earnings Report
@@ -26,7 +26,7 @@ const EarningsReport = () => {
               <h1 className="text-red-200 text-3xl font-semibold">$99.00</h1>
             </div>
           </div>
-          <div className="flex items-center mt-5 gap-2">
+          <div className="md:flex grid sm:grid-cols-2 grid-cols-1 items-center mt-5 gap-2">
             <OutlineBtn
               text={"Filter by"}
               icon={<TbFilterSearch className="text-[#6B6B6B] mr-1" />}
@@ -52,8 +52,8 @@ const EarningsReport = () => {
             />
           </div>
         </div>
-        <div>
-          <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400">
+        <div className="w-full overflow-x-auto">
+          <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400 min-w-[675px]">
             <div className="flex items-center">
               <div className="w-[60px] h-[60px] overflow-hidden rounded-full">
                 <img
@@ -84,40 +84,6 @@ const EarningsReport = () => {
               </div>
             </div>
             <h1 className="text-red-200 text-xl font-semibold">$4.99</h1>
-          </div>
-        </div>
-        <div>
-          <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400">
-            <div className="flex items-center">
-              <div className="w-[60px] h-[60px] overflow-hidden rounded-full">
-                <img
-                  src={User}
-                  alt="Wrestling"
-                  className="w-full h-full object-cover object-top grayscale scale-x-[-1]"
-                />
-              </div>
-              <div className="ml-5">
-                <h2 className="text-black texrt-[20px] font-semibold">
-                  Emily Roberts
-                </h2>
-                <div className="flex items-center">
-                  <p className="text-[13px] text-black/70  mt-0.5">
-                    <span className="font-medium">Class Name: </span>Boxing
-                  </p>
-                  <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
-                  <p className="text-[13px] text-black/70  mt-0.5">
-                    <span className="font-medium">Class Date: </span>
-                    26 July, 2024
-                  </p>
-                  <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
-                  <p className="text-[13px] text-black/70  mt-0.5">
-                    <span className="font-medium"> Joined on:</span>
-                    15 July, 2024
-                  </p>
-                </div>
-              </div>
-            </div>
-            <h1 className="text-red-200 text-xl font-semibold">$5.99</h1>
           </div>
         </div>
       </Tabs>

@@ -16,7 +16,8 @@ import { IoMdClose } from "react-icons/io";
 import { FaBars } from "react-icons/fa6";
 import { BiCheckCircle } from "react-icons/bi";
 import { Allert_Popup_Icon } from "../../assets/icon";
-import OutlineBtn from "../pages/common/OutlineBtn"
+import OutlineBtn from "../pages/common/OutlineBtn";
+import Popup from "../pages/common/Popup";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -50,30 +51,25 @@ const Header = () => {
   const loggedIn = localStorage.getItem("token");
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [loginModel, SetLoginModel] = useState(false);
   const [isOpen, SetisOpen] = useState(false);
   const [selectedMailingLists, setSelectedMailingLists] = useState("");
+  const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
 
   const heandleLogOut = () => {
     localStorage.clear();
-    SetisOpen(false)
-    setSelectedMailingLists("")
+    SetisOpen(false);
+    setSelectedMailingLists("");
     navigate(Routing.Initial);
-  };
-
-  const handleChange = (event) => {
-    setSelectedMailingLists(event);
-    SetLoginModel(false);
   };
 
   useEffect(
     () => {
       if (selectedMailingLists.title === "Login as Student") {
         navigate(Routing.StudentLogin);
-        setSelectedMailingLists("")
+        setSelectedMailingLists("");
       } else if (selectedMailingLists.title === "Login as Instructor") {
         navigate(Routing.InstructorLogin);
-        setSelectedMailingLists("")
+        setSelectedMailingLists("");
       }
     },
     // eslint-disable-next-line
@@ -84,9 +80,28 @@ const Header = () => {
 
   const Role = JSON.parse(localStorage.getItem("Role"));
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const position = window.scrollY;
+      setScrollPosition({ x: window.scrollX, y: position });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const headerClasses = `sticky top-0 left-0 z-[9] ${
+    scrollPosition.y >= 50
+      ? "bg-primary/6  0 backdrop-filter backdrop-blur-lg"
+      : "bg-transparent"
+  }`;
+
   return (
     <>
-      <header className="bg-transparent">
+      <header className={headerClasses}>
         <nav
           aria-label="Global"
           className="mx-auto flex items-center justify-between p-6 lg:px-8"
@@ -121,15 +136,21 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
-            {!loggedIn && (
-              <p
-                className="text-sm border border-black rounded-full py-[5px] px-[13px] cursor-pointer"
-                onClick={() => SetLoginModel(true)}
-              >
-                Login
-              </p>
-            )}
           </div>
+
+          <OutlineBtn
+            text={"Be Come a Instructor"}
+            className={"bg-black text-white mx-12 h-[42px] sm:block hidden"}
+            onClick={() => navigate(Routing.InstructorLogin)}
+          />
+          {!loggedIn && (
+            <p
+              className="text-sm border border-black rounded-full py-[5px] px-[13px] cursor-pointer ml-3 sm:block hidden"
+              onClick={() => navigate(Routing.StudentLogin)}
+            >
+              Login
+            </p>
+          )}
           {loggedIn && (
             <Menu as="div" className="relative ml-12">
               <div>
@@ -184,7 +205,7 @@ const Header = () => {
                       </Link>
                     </MenuItem>
                   ))}
-                <MenuItem onClick={()=>SetisOpen(true)}>
+                <MenuItem onClick={() => SetisOpen(true)}>
                   <p
                     className={`block px-4 py-2 text-lg text-black cursor-pointer`}
                   >
@@ -201,7 +222,7 @@ const Header = () => {
           className="lg:hidden"
         >
           <div className="fixed inset-0 z-10" />
-          <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:ring-1 sm:ring-gray-900/10">
+          <DialogPanel className="fixed inset-y-0 right-0 z-[999999] w-full overflow-y-auto bg-white px-6 py-6 sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
               <Link to="/" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
@@ -240,100 +261,40 @@ const Header = () => {
                   {!loggedIn && (
                     <p
                       className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 cursor-pointer"
-                      onClick={() => SetLoginModel(true)}
+                      onClick={() => {navigate(Routing.StudentLogin);setMobileMenuOpen(false)}}
                     >
                       Login
                     </p>
                   )}
                 </div>
+                <OutlineBtn
+                  text={"Be Come a Instructor"}
+                  className={
+                    "bg-black text-white sm:hidden block"
+                  }
+                  onClick={() => {
+                    navigate(Routing.InstructorLogin);
+                    setMobileMenuOpen(false);
+                  }}
+                />
               </div>
             </div>
           </DialogPanel>
         </Dialog>
       </header>
-
-      <Dialog
-        className="relative z-10"
-        open={loginModel}
-        onClose={SetLoginModel}
-      >
-        <DialogBackdrop
-          transition
-          className="fixed inset-0 bg-black bg-opacity-50 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
-        />
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <DialogPanel
-              transition
-              className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg sm:p-6 data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
-            >
-              <RadioGroup
-                value={selectedMailingLists}
-                onChange={handleChange}
-                className="my-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3"
-              >
-                {mailingLists.map((mailingList) => (
-                  <Radio
-                    key={mailingList.id}
-                    value={mailingList}
-                    aria-label={mailingList.title}
-                    // ariaDescription={`${mailingList.description} to ${mailingList.users}`}
-                    className="group relative flex cursor-pointer rounded-lg border border-gray-300 bg-white p-4 shadow-sm focus:outline-none data-[focus]:border-indigo-600 data-[focus]:ring-2 data-[focus]:ring-indigo-600"
-                  >
-                    <span className="flex flex-1">
-                      <span className="flex flex-col">
-                        <span className="block text-sm font-medium text-gray-900">
-                          {mailingList.title}
-                        </span>
-                      </span>
-                    </span>
-                    <BiCheckCircle
-                      aria-hidden="true"
-                      className="h-5 w-5 text-indigo-600 [.group:not([data-checked])_&]:invisible"
-                    />
-                    <span
-                      aria-hidden="true"
-                      className="pointer-events-none absolute -inset-px rounded-lg border-2 border-transparent group-data-[focus]:border group-data-[checked]:border-indigo-600"
-                    />
-                  </Radio>
-                ))}
-              </RadioGroup>
-            </DialogPanel>
-          </div>
-        </div>
-      </Dialog>
-
-      <Dialog className="relative z-10" open={isOpen} onClose={SetisOpen}>
-        <DialogBackdrop
-          transition
-          className="fixed inset-0 bg-black/60 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
-        />
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <DialogPanel
-              transition
-              className="relative transform overflow-hidden rounded-lg bg-primary px-6 pb-6 pt-[80px] text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full md:max-w-[575px]  data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
-            >
-              <div>
-                <div className="flex items-center justify-center">
-                  <Allert_Popup_Icon />
-                </div>
-                <h1 className="text-center mt-3 font-semibold text-3xl">
-                  Are you sure?
-                </h1>
-                <p className="max-w-[334px] mx-auto text-center text-black/50 mt-1">
-                  Are you sure you want to log out from your martial arts hub
-                  account?
-                </p>
-                <div className="flex items-center gap-3 mt-14">
-                  <OutlineBtn text={"Log Out"} className={"border-black/30 w-[260px] font-medium text-xl"} onClick={heandleLogOut} />
-                  <OutlineBtn text={"Go Back"} className={"bg-black text-white w-[260px] font-medium text-xl"} onClick={()=>SetisOpen(false)} />
-                </div>
-              </div>
-            </DialogPanel>
-          </div>
-        </div>
-      </Dialog>
+      <Popup
+        Icons={<Allert_Popup_Icon />}
+        Headding={"Are you sure?"}
+        BodyText={
+          "Are you sure you want to log out from your martial arts hub account?"
+        }
+        isOpen={isOpen}
+        SetisOpen={SetisOpen}
+        onClick={heandleLogOut}
+        BtnText={"Log Out"}
+        BtnText2={"Go Back"}
+        BtnText2Click={() => SetisOpen(false)}
+      />
     </>
   );
 };
