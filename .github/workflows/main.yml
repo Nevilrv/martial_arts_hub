@@ -17,6 +17,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Set up SSH
+      run: |
+        echo "${{ secrets.EC2_SSH_KEY }}" > ec2-key.pem
+        chmod 600 ec2-key.pem
+      env:
+        EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+
     - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no -i ec2-key.pem ubuntu@13.60.119.208 << 'EOF'
