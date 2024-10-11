@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Routing } from "../../../shared/Routing";
 import ProfileCard from "../../common/Dashboard/ProfileCard";
 import DashboardCard from "../../common/Dashboard/DashboardCard";
 import { FaPaperPlane } from "react-icons/fa6";
 import { Thunderstorm, WorkOut } from "../../../../assets/icon";
 import Tabs from "../Tabs";
+import { StudentDashboard } from "../../../services/student/Profile/Profile";
+import ClassRequestcard from "./ClassRequestcard";
+import RecentClasses from "./RecentClasses";
+import Spinner from "../../../layouts/Spinner";
 const Dashboard = () => {
   const ProfileDetals = [
     {
@@ -20,7 +24,6 @@ const Dashboard = () => {
       details: "5%",
     },
   ];
-
   const ClassCard = {
     CardTitle: "Class Requests",
     CardIcon: <FaPaperPlane className="text-[#BDBBB5] text-4xl" />,
@@ -43,17 +46,38 @@ const Dashboard = () => {
       "You haven't bought any courses yet! when you join any course it’s details will be shown here.",
     CardDetailsclassName: "max-w-full",
   };
+  const [studentData, setStudentData] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const Getdata = async () => {
+    setLoading(true);
+    const result = await StudentDashboard();
+    if (result?.success === true) {
+      setLoading(false);
+      console.log(result.data, "========>Instructors data");
+      setStudentData(result.data);
+    } else {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    Getdata();
+  }, []);
 
   return (
     <>
+      {loading && <Spinner />}
       <Tabs>
         <div className="mt-10 px-3 lg:px-8 grid lg:grid-cols-3 gap-5">
-          <ProfileCard ProfileDetals={ProfileDetals} />
+          <ProfileCard ProfileDetals={studentData.profile} />
           <div className="lg:col-span-2 grid lg:grid-cols-2 gap-5">
-            <DashboardCard cardDetails={ClassCard} />
+            <ClassRequestcard
+              cardDetails={ClassCard}
+              data={studentData.ClassRequests}
+            />
             <DashboardCard cardDetails={PaymentsCard} />
             <div className="lg:col-span-2 bg-gay-600 rounded-3xl">
-              <DashboardCard cardDetails={RecentClasseCard} />
+              <RecentClasses cardDetails={RecentClasseCard} />
             </div>
           </div>
         </div>

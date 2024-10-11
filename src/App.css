@@ -332,7 +332,7 @@ input[type="number"] {
   background-color: #0000009f;
   backdrop-filter:blur(4px);
   z-index: 99999999;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
@@ -340,7 +340,6 @@ input[type="number"] {
   justify-content: center;
   color: #fff;
 }
-
 .lds-ring,
 .lds-ring div {
   box-sizing: border-box;
@@ -380,12 +379,6 @@ input[type="number"] {
     transform: rotate(360deg);
   }
 }
-
-
-
-
-
-
 /* spnner css end */
 
 @media (max-width: 879px) {

@@ -6,9 +6,9 @@ import Instructor2 from "../../../assets/images/Instructor-2.png";
 import Instructor3 from "../../../assets/images/Instructor-3.png";
 import Instructor4 from "../../../assets/images/Instructor-4.png";
 import { GetInstructors } from "../../services/student/Homepage/Homepage";
+import Spinner from "../../layouts/Spinner";
 
 const Instructors = () => {
-
   const [Instructors, setInstructors] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -46,8 +46,6 @@ const Instructors = () => {
       },
     ],
   };
-
-
 
   const Instructorsdata = [
     {
@@ -105,7 +103,7 @@ const Instructors = () => {
     const result = await GetInstructors();
     if (result?.success === true) {
       setLoading(false);
-      console.log(result.data,"========>Instructors data");
+      console.log(result.data, "========>Instructors data");
       setInstructors(result.data);
     } else {
       setLoading(false);
@@ -118,6 +116,7 @@ const Instructors = () => {
 
   return (
     <>
+      {loading && <Spinner />}
       <section className="py-space px-3 lg:px-8">
         <h2 className="font-medium text-[32px]">Our Instructors</h2>
         <Slider {...settings} className="mt-5 slider-2 relative">

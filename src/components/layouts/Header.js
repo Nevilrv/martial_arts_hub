@@ -137,12 +137,13 @@ const Header = () => {
               </Link>
             ))}
           </div>
-
-          <OutlineBtn
-            text={"Be Come a Instructor"}
-            className={"bg-black text-white mx-12 h-[42px] sm:flex hidden "}
-            onClick={() => navigate(Routing.InstructorLogin)}
-          />
+          {!loggedIn && (
+            <OutlineBtn
+              text={"Be Come a Instructor"}
+              className={"bg-black text-white mx-12 h-[42px] sm:flex hidden "}
+              onClick={() => navigate(Routing.InstructorLogin)}
+            />
+          )}
           {!loggedIn && (
             <p
               className="text-sm border border-black rounded-full py-[5px] px-[13px] cursor-pointer ml-3 sm:block hidden"
@@ -152,7 +153,7 @@ const Header = () => {
             </p>
           )}
           {loggedIn && (
-            <Menu as="div" className="relative">
+            <Menu as="div" className="relative ml-12">
               <div>
                 <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none">
                   <span className="absolute -inset-1.5" />
@@ -261,22 +262,25 @@ const Header = () => {
                   {!loggedIn && (
                     <p
                       className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 cursor-pointer"
-                      onClick={() => {navigate(Routing.StudentLogin);setMobileMenuOpen(false)}}
+                      onClick={() => {
+                        navigate(Routing.StudentLogin);
+                        setMobileMenuOpen(false);
+                      }}
                     >
                       Login
                     </p>
                   )}
                 </div>
-                <OutlineBtn
-                  text={"Be Come a Instructor"}
-                  className={
-                    "bg-black text-white sm:hidden block"
-                  }
-                  onClick={() => {
-                    navigate(Routing.InstructorLogin);
-                    setMobileMenuOpen(false);
-                  }}
-                />
+                {!loggedIn && (
+                  <OutlineBtn
+                    text={"Be Come a Instructor"}
+                    className={"bg-black text-white sm:hidden block"}
+                    onClick={() => {
+                      navigate(Routing.InstructorLogin);
+                      setMobileMenuOpen(false);
+                    }}
+                  />
+                )}
               </div>
             </div>
           </DialogPanel>

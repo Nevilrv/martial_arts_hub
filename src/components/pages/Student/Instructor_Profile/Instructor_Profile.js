@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import OutlineBtn from "../../common/OutlineBtn";
 import { HiMiniSignal } from "react-icons/hi2";
 import { BsPatchCheckFill, BsQuote } from "react-icons/bs";
@@ -10,6 +10,12 @@ import user from "../../../../assets/images/user.png";
 import GetInTouch from "../../common/Get_In_Touch";
 import Instructor4 from "../../../../assets/images/Instructor-4.png";
 import { BiHeart } from "react-icons/bi";
+import {
+  GetInstructorDetails,
+  InstructorLike,
+} from "../../../services/student/Homepage/Homepage";
+import Spinner from "../../../layouts/Spinner";
+import { useParams } from "react-router-dom";
 
 const InstructorProfile = () => {
   var settings = {
@@ -50,48 +56,68 @@ const InstructorProfile = () => {
     ],
   };
 
-  
+  const [Instructor, setInstructor] = useState({});
+  const [loading, setLoading] = useState(false);
+  const { id } = useParams();
+
+  const getInstructor = async () => {
+    setLoading(true);
+    const result = await GetInstructorDetails(id);
+    if (result?.success === true) {
+      setLoading(false);
+      setInstructor(result.data);
+    } else {
+      setLoading(false);
+    }
+  };
+
+  const HeandleLike = async () => {
+    setLoading(true);
+    const result = await InstructorLike(
+      id,
+      JSON.parse(localStorage.getItem("_id"))
+    );
+    if (result?.success === true) {
+      setLoading(false);
+      console.log(result.data);
+    } else {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getInstructor();
+  }, [id]);
+
   return (
     <>
+      {loading && <Spinner />}
       <div className="pt-[80px]">
         <div className="px-3 lg:px-8">
           <div className="grid md:grid-cols-3 grid-cols-1 md:px-8 gap-[71px]">
             <div className="md:col-span-2">
               <div className="flex items-center gap-2">
-                <OutlineBtn text={"Martial Arts"} />
-                <OutlineBtn text={"Karate"} />
-                <OutlineBtn text={"Taekwondo"} />
-                <OutlineBtn text={"Jiu-Jitsu"} />
+                <OutlineBtn text={Instructor.category} />
               </div>
               <div className="mt-8">
                 <h2 className="text-[40px] font-semibold md:w-[80%]">
-                  I’m here to support your fitness ambitions, cut fat, and
-                  develop strong, flexible muscles.
+                  {Instructor.tagline}
                 </h2>
               </div>
               <div className="mt-8 bg-gay-200 rounded-[20px] px-9 py-7">
                 <h2 className="text-[26px] font-semibold">Instructor</h2>
-                <p className="text-black/70 text-lg">
-                  Top-rated instructor. Highly skilled, extensive experience,
-                  certified qualifications, and prompt responses. Alex is eager
-                  to schedule your first Pilates session.
-                </p>
+                <p className="text-black/70 text-lg">{Instructor.bio}</p>
               </div>
               <div className="mt-20">
                 <h2 className="text-[22px] font-semibold text-black">
                   About Me
                 </h2>
                 <p className="text-black/70 text-lg text-justify my-4">
-                  Hi, I'm Kia John! I started my martial arts journey 5 years
-                  ago and have been dedicated to improving my skills ever since.
+                  Hi, I'm {Instructor.name}! I started my martial arts journey{" "}
+                  {Instructor.experience}.
                 </p>
                 <p className="text-black/70 text-lg text-justify">
-                  Training in Karate, Taekwondo, Brazilian Jiu-Jitsu has boosted
-                  my confidence, discipline, and physical fitness. I enjoy the
-                  challenges and continuous learning that come with martial
-                  arts. Outside of training, I love [hobbies/interests], which
-                  help keep me balanced and active. I'm grateful to be part of
-                  such a supportive martial arts community!
+                  {Instructor.certifications}
                 </p>
               </div>
               <div className="mt-14">
@@ -132,9 +158,9 @@ const InstructorProfile = () => {
                 <div className="flex gap-2 my-5 flex-col">
                   <p className="flex items-center gap-2 text-black/70 text-lg">
                     <BsPatchCheckFill className="text-gay-400" />
-                    Over 20 years of martial arts experience
+                    Over {Instructor.experience}
                   </p>
-                  <p className="flex items-center gap-2 text-black/70 text-lg">
+                  {/* <p className="flex items-center gap-2 text-black/70 text-lg">
                     <BsPatchCheckFill className="text-gay-400" />
                     Specialized in Karate, Taekwondo, and Brazilian Jiu-Jitsu
                   </p>
@@ -145,7 +171,7 @@ const InstructorProfile = () => {
                   <p className="flex items-center gap-2 text-black/70 text-lg">
                     <BsPatchCheckFill className="text-gay-400" />
                     Trained under renowned martial arts masters globally
-                  </p>
+                  </p> */}
                 </div>
               </div>
               <div className="mt-14">
@@ -155,9 +181,9 @@ const InstructorProfile = () => {
                 <div className="grid grid-cols-2 gap-2 my-5 justify-between">
                   <p className="flex items-center gap-2 text-black/70 text-lg">
                     <BsPatchCheckFill className="text-gay-400" />
-                    5th Degree Black Belt in Karate
+                    {Instructor.certifications}
                   </p>
-                  <p className="flex items-center gap-2 text-black/70 text-lg">
+                  {/* <p className="flex items-center gap-2 text-black/70 text-lg">
                     <BsPatchCheckFill className="text-gay-400" />
                     Certified Personal Trainer (CPT)
                   </p>
@@ -172,7 +198,7 @@ const InstructorProfile = () => {
                   <p className="flex items-center gap-2 text-black/70 text-lg">
                     <BsPatchCheckFill className="text-gay-400" />
                     Certified Brazilian Jiu-Jitsu Instructor
-                  </p>
+                  </p> */}
                 </div>
               </div>
               <div className="mt-14">
@@ -183,10 +209,10 @@ const InstructorProfile = () => {
                   <div>
                     <p className="flex items-center gap-2 text-red text-base">
                       <BsPatchCheckFill className="" />
-                      First Free Session
+                      Online Lesson
                     </p>
                     <p className="text-black text-lg pl-5">
-                      Book your first introductory session for free!
+                      {Instructor.privateSessionOnlineHourlyRate}
                     </p>
                   </div>
                   <div>
@@ -194,7 +220,9 @@ const InstructorProfile = () => {
                       <BsPatchCheckFill className="" />
                       Private Lesson (1-on-1)
                     </p>
-                    <p className="text-black text-lg pl-5">$75 per hour</p>
+                    <p className="text-black text-lg pl-5">
+                      ${Instructor.privateSessionFaceToFaceHourlyRate} per hour
+                    </p>
                   </div>
                 </div>
               </div>
@@ -239,9 +267,18 @@ const InstructorProfile = () => {
             </div>
             <div>
               <div className="rounded-[25px] overflow-hidden relative">
-                <img src={Instructor4} alt={Instructor4} className="w-full" />
-                <div className="h-[34px] w-[34px] bg-white rounded-full absolute top-4 right-3 flex items-center justify-center">
-                  <BiHeart  className="text-2xl"/>
+                <img
+                  src={Instructor.profile_picture}
+                  alt={Instructor4}
+                  className="w-full h-[613px] grayscale hover:grayscale-0 object-cover"
+                />
+
+                {/* <img src={Instructor4} alt={Instructor4} className="w-full" /> */}
+                <div
+                  className="h-[34px] w-[34px] bg-white rounded-full absolute top-4 right-3 flex items-center justify-center cursor-pointer"
+                  onClick={HeandleLike}
+                >
+                  <BiHeart className="text-2xl" />
                 </div>
                 <div className="instructor_profile_shape"></div>
               </div>
