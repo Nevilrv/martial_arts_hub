@@ -8,6 +8,7 @@ module.exports = {
       primary: "#E1DFD7",
       primary_dark: "#D6D3CA",
       black: "#0F0F0F",
+      Dark_black: "#000",
       white: "#fff",
       gay: {
         50:"#9A9892",

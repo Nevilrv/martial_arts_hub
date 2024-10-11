@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
@@ -7,7 +7,11 @@ import { IoCamera } from "react-icons/io5";
 import { MdCloudUpload } from "react-icons/md";
 import NormalBtn from "../../common/NormalBtn";
 import { toast } from "react-toastify";
-import { InstructorProfile } from "../../../services/Instructor/instructor_auth/auth";
+import {
+  Get_Instructor_Details,
+  InstructorProfile,
+} from "../../../services/Instructor/instructor_auth/auth";
+import Spinner from "../../../layouts/Spinner";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -33,6 +37,7 @@ const Profile = () => {
     privateSessionOnlineHourlyRate: "",
     privateSessionFaceToFaceHourlyRate: "",
   });
+  console.log("🚀 ~ Profile ~ instructorDetails:", instructorDetails);
   const handleChange = (e) => {
     setInstructorDetails({
       ...instructorDetails,
@@ -84,15 +89,55 @@ const Profile = () => {
     if (result?.success === true) {
       setLoading(false);
       toast.success(result?.message);
-      navigate(Routing.InstructorDashboard)
+      navigate(Routing.InstructorDashboard);
     } else {
       setLoading(false);
       toast.error(result?.message);
     }
   };
 
+  const getinstructorDetails = async () => {
+    setLoading(true);
+    const result = await Get_Instructor_Details();
+    if (result?.success === true) {
+      setLoading(false);
+      console.log(result.data, "======>getinstructorDetails");
+      setInstructorDetails({
+        email: result.data.email,
+        name: result.data.name,
+        country_code: "+91",
+        mobileNo: result.data.mobileNo,
+        profile_picture: result.data.profile_picture,
+        category: result.data.category,
+        availability: result.data.availability,
+        bio: result.data.bio,
+        tagline: result.data.tagline,
+        experience: result.data.experience,
+        trainingHistory: result.data.trainingHistory,
+        certifications: result.data.certifications,
+        keywords: result.data.keywords,
+        idProof: result.data.idProof,
+        firstFreeSessionHourlyRate: result.data.firstFreeSessionHourlyRate,
+        classTypeFirstFreeSession: result.data.classTypeFirstFreeSession,
+        privateSessionOnlineHourlyRate:
+          result.data.privateSessionOnlineHourlyRate,
+        privateSessionFaceToFaceHourlyRate:
+          result.data.privateSessionFaceToFaceHourlyRate,
+      });
+      toast.success(result?.message);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+
+  useEffect(() => {
+    getinstructorDetails();
+  }, []);
+
   return (
     <>
+      {loading && <Spinner />}
       <div className="mt-12 px-3 lg:px-20">
         <FaArrowLeft
           className="text-2xl cursor-pointer"
@@ -113,16 +158,32 @@ const Profile = () => {
                 Label={"Name"}
                 onChange={handleChange}
                 name={"name"}
-                Labelclass={"text-black/100 font-medium"}
+                value={instructorDetails.name}
+                Labelclass={"text-Dark_black font-medium"}
                 className={"rounded-xl md:w-full h-[70px]"}
               />
             </div>
           </div>
-          <div className="md:w-[245px] w-full h-[202px] rounded-xl bg-[#DAD8D0] flex items-center justify-center relative">
+          <div className="md:w-[245px] w-full h-[202px] rounded-xl overflow-hidden bg-[#DAD8D0] flex items-center justify-center relative">
+            {instructorDetails?.profile_picture === null ||
+            instructorDetails?.profile_picture === "" ? (
+              <div className="flex items-center justify-center flex-col absolute top-0 left-0 h-full w-full bg-[#DAD8D0]">
+                <IoCamera className="text-black/20 text-4xl" />
+                <p className="text-black/20 text-[13px] font-medium">
+                  Add Profile Picture
+                </p>
+              </div>
+            ) : (
+              <img
+                src={instructorDetails.profile_picture}
+                alt=""
+                className="h-full object-cover absolute top-0 left-0"
+              />
+            )}
             <div className="flex items-center justify-center flex-col">
               <IoCamera className="text-black/20 text-4xl" />
-              <p className="text-black/20 text-[13px] font-medium">
-                Add Profile Picture
+              <p className="text-black text-[13px] font-medium">
+                {instructorDetails?.profile_picture?.name}
               </p>
             </div>
             <input
@@ -142,7 +203,7 @@ const Profile = () => {
               name={"email"}
               value={instructorDetails.email}
               onChange={handleChange}
-              Labelclass={"text-black/100 font-medium"}
+              Labelclass={"text-Dark_black font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
@@ -153,7 +214,8 @@ const Profile = () => {
               Label={"Mobile No."}
               name={"mobileNo"}
               onChange={handleChange}
-              Labelclass={"text-black/100 font-medium"}
+              value={instructorDetails.mobileNo}
+              Labelclass={"text-Dark_black font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
@@ -164,7 +226,8 @@ const Profile = () => {
               Label={"Add Availability"}
               name={"availability"}
               onChange={handleChange}
-              Labelclass={"text-black/100 font-medium"}
+              value={instructorDetails.availability.slice(0, 10)}
+              Labelclass={"text-Dark_black font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
@@ -175,6 +238,7 @@ const Profile = () => {
             <textarea
               onChange={handleChange}
               name={"bio"}
+              value={instructorDetails.bio}
               placeholder={"Write about you"}
               className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[150px] rounded-xl p-6`}
             />
@@ -187,7 +251,8 @@ const Profile = () => {
               name={"tagline"}
               onChange={handleChange}
               className={"rounded-xl md:w-full h-[70px]"}
-              Labelclass={"text-black/100 font-medium"}
+              Labelclass={"text-Dark_black font-medium"}
+              value={instructorDetails.tagline}
             />
           </div>
           <div className="md:col-span-2 col-span-1">
@@ -198,6 +263,7 @@ const Profile = () => {
               name={"experience"}
               onChange={handleChange}
               placeholder={"Add experience here"}
+              value={instructorDetails.experience}
               className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[150px] rounded-xl p-6`}
             />
           </div>
@@ -208,6 +274,7 @@ const Profile = () => {
             <textarea
               name={"trainingHistory"}
               onChange={handleChange}
+              value={instructorDetails.trainingHistory}
               placeholder={"Add Training History"}
               className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[150px] rounded-xl p-6`}
             />
@@ -219,6 +286,7 @@ const Profile = () => {
             <textarea
               name={"certifications"}
               onChange={handleChange}
+              value={instructorDetails.certifications}
               placeholder={"Add your Certifications"}
               className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[150px] rounded-xl p-6`}
             />
@@ -230,38 +298,46 @@ const Profile = () => {
               Label={"Add Keywords"}
               name={"keywords"}
               onChange={handleChange}
-              Labelclass={"text-black/100 font-medium"}
+              value={instructorDetails.keywords}
+              Labelclass={"text-Dark_black font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
-          <div className="md:col-span-2 col-span-1">
-            <Inputfild
-              type={"text"}
-              placeholder={"Add Keywords"}
-              Label={"Add Keywords"}
-              name={"keywords"}
-              onChange={handleChange}
-              Labelclass={"text-black/100 font-medium"}
-              className={"rounded-xl md:w-full h-[70px]"}
-            />
-          </div>
+
           <div className="md:col-span-2 col-span-1">
             <label className={`text-sm text-black block font-medium`}>
               Upload ID Proof (Aadhar Card/Driving License/Instructor
               Certificate)
             </label>
             <div className="h-[200px] rounded-xl bg-[#DAD8D0] flex items-center justify-center relative mt-1">
-              <div className="flex items-center justify-center flex-col">
-                <MdCloudUpload className="text-black/20 text-4xl" />
-                <p className="text-black/20 text-[13px] font-medium text-center">
-                  Upload ID Proof (Aadhar Card/Driving License/Instructor
-                  Certificate) here
-                </p>
-              </div>
+              {instructorDetails?.idProof === null ||
+              instructorDetails?.idProof === "" ? (
+                <div className="flex items-center justify-center flex-col">
+                  <MdCloudUpload className="text-black/20 text-4xl" />
+                  <p className="text-black/20 text-[13px] font-medium text-center">
+                    Upload ID Proof (Aadhar Card/Driving License/Instructor
+                    Certificate) here
+                  </p>
+                </div>
+              ) : (
+                  <img
+                    src={instructorDetails.idProof}
+                    alt=""
+                    className="h-full text-center object-cover absolute top-0 left-1/2 -translate-x-1/2"
+                  />
+              )}
+              {instructorDetails?.idProof.name && (
+                <div className="flex items-center justify-center flex-col">
+                  <MdCloudUpload className="text-black/20 text-4xl" />
+                  <p className="text-black text-[13px] font-medium text-center">
+                    {instructorDetails.idProof.name}
+                  </p>
+                </div>
+              )}
               <input
                 type="file"
                 name="idProof"
-                id=""
+                // value={instructorDetails.idProof}
                 onChange={heandleImage}
                 className="h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer"
               />
@@ -279,7 +355,8 @@ const Profile = () => {
               Label={"Do you want to give first free session?"}
               name={"firstFreeSessionHourlyRate"}
               onChange={handleChange}
-              Labelclass={"text-black/100 font-medium"}
+              value={instructorDetails.firstFreeSessionHourlyRate}
+              Labelclass={"text-Dark_black font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
@@ -292,7 +369,8 @@ const Profile = () => {
                 "Class Type for first free session (Online/Face-to-Face/Both)"
               }
               name={"classTypeFirstFreeSession"}
-              Labelclass={"text-black/100 font-medium"}
+              value={instructorDetails.classTypeFirstFreeSession}
+              Labelclass={"text-Dark_black font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
@@ -300,12 +378,13 @@ const Profile = () => {
             <Inputfild
               type={"number"}
               placeholder={"eg. Online"}
+              value={instructorDetails.privateSessionOnlineHourlyRate}
               Label={
                 "Class Type for Private Lesson (1-on-1) (Online/Face-to-Face/Both)"
               }
               name={"privateSessionOnlineHourlyRate"}
               onChange={handleChange}
-              Labelclass={"text-black/100 font-medium"}
+              Labelclass={"text-Dark_black font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
@@ -316,7 +395,8 @@ const Profile = () => {
               Label={"Do you want to give first free session?"}
               name={"privateSessionFaceToFaceHourlyRate"}
               onChange={handleChange}
-              Labelclass={"text-black/100 font-medium"}
+              value={instructorDetails.privateSessionFaceToFaceHourlyRate}
+              Labelclass={"text-Dark_black font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>

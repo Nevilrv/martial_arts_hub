@@ -27,11 +27,30 @@ export const InstructorSignUp = async (body) => {
   }
 };
 
+export const Get_Instructor_Details = async () => {
+  try {
+    let response = await axios({
+      method: "GET",
+      url: `${baseURL}/instructor/myprofile/${JSON.parse(
+        localStorage.getItem("_id")
+      )}`,
+      headers: {
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
+
 export const InstructorProfile = async (formData) => {
   try {
     let response = await axios({
       method: "PUT",
-      url: `${baseURL}/instructor/add/profile/${JSON.parse(localStorage.getItem("_id"))}`,
+      url: `${baseURL}/instructor/add/profile/${JSON.parse(
+        localStorage.getItem("_id")
+      )}`,
       data: formData,
       headers: {
         Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,

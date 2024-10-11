@@ -14,7 +14,7 @@ const RaiseDispute = () => {
           <div className="flex items-center justify-between">
             <h1 className="text-black text-3xl font-semibold">Disputes</h1>
           </div>
-          <div className="flex items-center mt-6 gap-2">
+          <div className="md:flex grid sm:grid-cols-2 grid-cols-1 items-center mt-6 gap-2">
             <OutlineBtn
               text={"Active Disputes"}
               className={`${

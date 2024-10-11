@@ -49,9 +49,11 @@ const InstructorProfile = () => {
       },
     ],
   };
+
+  
   return (
     <>
-      <div className="pt-space">
+      <div className="pt-[80px]">
         <div className="px-3 lg:px-8">
           <div className="grid md:grid-cols-3 grid-cols-1 md:px-8 gap-[71px]">
             <div className="md:col-span-2">

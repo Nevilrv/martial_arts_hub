@@ -140,7 +140,7 @@ const Header = () => {
 
           <OutlineBtn
             text={"Be Come a Instructor"}
-            className={"bg-black text-white mx-12 h-[42px] sm:block hidden"}
+            className={"bg-black text-white mx-12 h-[42px] sm:flex hidden "}
             onClick={() => navigate(Routing.InstructorLogin)}
           />
           {!loggedIn && (
@@ -152,7 +152,7 @@ const Header = () => {
             </p>
           )}
           {loggedIn && (
-            <Menu as="div" className="relative ml-12">
+            <Menu as="div" className="relative">
               <div>
                 <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none">
                   <span className="absolute -inset-1.5" />

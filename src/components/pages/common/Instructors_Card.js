@@ -1,18 +1,21 @@
 import React from "react";
 import { BiHeart, BiSolidStar } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 const InstructorsCard = ({ data }) => {
-  const roundedRating = Math.round(data.rating); 
+  const roundedRating = Math.round(data.rating);
   // Round to nearest half-star
   const filledStars = Math.floor(roundedRating);
   const halfStar = roundedRating - filledStars > 0;
+
+  const navigate = useNavigate();
 
   return (
     <>
       <div className="w-full pr-[24px]">
         <div className="relative">
           <img
-            src={data.image}
+            src={data.profile_picture}
             alt={data.image}
             className="grayscale hover:grayscale-0 w-full object-top h-[355px] object-cover"
           />
@@ -41,11 +44,9 @@ const InstructorsCard = ({ data }) => {
             </span>
           </div>
           <h2 className="text-black text-xl font-medium">{data.name}</h2>
-          <p className="text-black/50 text-sm">
-            {data.experience}+ years of experience
-          </p>
+          <p className="text-black/50 text-sm">{data.experience}</p>
           <div className="flex items-center mt-4">
-            <button className="bg-black text-white text-xs text-center py-2 px-3 rounded-full">
+            <button className="bg-black text-white text-xs text-center py-2 px-3 rounded-full" onClick={()=>navigate(`/student/instructor_profile/${data.instructorId}`)}>
               View Profile
             </button>
             <button className="ml-2 bg-transparent border border-black/50 text-black text-xs text-center py-2 px-3 rounded-full">

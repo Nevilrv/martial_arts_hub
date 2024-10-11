@@ -10,7 +10,8 @@ const ClosedDisput = () => {
 
   return (
     <>
-      <table class="table-fixed w-full">
+    <div className="w-full overflow-x-auto">
+      <table class="table-fixed min-w-[769px] w-full">
         <thead className="h-12">
           <tr>
             <th className="text-gay-650 bg-gay-700 text-left pl-6 rounded-tl-lg">
@@ -68,6 +69,7 @@ const ClosedDisput = () => {
           </tr> */}
         </tbody>
       </table>
+    </div>
 
       <div className="mt-20 flex justify-end">
         <OutlineBtn

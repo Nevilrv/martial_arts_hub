@@ -1,6 +1,6 @@
 export const Routing = {
   // Student
-  InstructorDetails: "/student/instructor_profile",
+  InstructorDetails: "/student/instructor_profile/:id",
   AttendTraining:"/student/training",
   // student dashboard tab
   Initial: "/",

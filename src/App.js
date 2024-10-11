@@ -41,6 +41,9 @@ const StudentDispute = lazy(() =>
 const StudentNewDispute = lazy(() =>
   import("./components/pages/Student/Dispute/NewDispute")
 );
+const StudentProfile = lazy(() =>
+  import("./components/pages/Student/Profile/StudentProfile")
+);
 
 // Instructor Components
 const InstructorLogin = lazy(() =>
@@ -141,6 +144,12 @@ function App() {
     {
       path: Routing.StudentNewDispute,
       component: StudentNewDispute,
+      isPrivateRoute: true,
+      
+    },
+    {
+      path: Routing.StudentProfile,
+      component: StudentProfile,
       isPrivateRoute: true,
       
     },
