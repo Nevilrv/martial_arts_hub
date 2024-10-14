@@ -10,9 +10,11 @@ export const Routing = {
   StudentMessages:"/student/message",
   StudentMyClass:"/student/class",
   StudentInvoices:"/student/invoice",
-  StudentProfile:"/student/profile",
+  StudentProfile:"/student/my_profile",
   StudentDispute:"/student/dispute",
   StudentNewDispute:"/student/new_dispute",
+  StudentBookClass:"/student/bookclass!",
+
 
 
 

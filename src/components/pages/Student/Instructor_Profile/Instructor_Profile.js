@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import OutlineBtn from "../../common/OutlineBtn";
 import { HiMiniSignal } from "react-icons/hi2";
 import { BsPatchCheckFill, BsQuote } from "react-icons/bs";
-import { IoIosArrowRoundForward } from "react-icons/io";
+import { IoIosArrowRoundForward, IoMdShare } from "react-icons/io";
 import Instructors from "../../common/Instructors";
 import Slider from "react-slick";
 import { FaStar } from "react-icons/fa";
@@ -12,10 +12,16 @@ import Instructor4 from "../../../../assets/images/Instructor-4.png";
 import { BiHeart } from "react-icons/bi";
 import {
   GetInstructorDetails,
+  GetLikesChek,
   InstructorLike,
 } from "../../../services/student/Homepage/Homepage";
 import Spinner from "../../../layouts/Spinner";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { FaHeart } from "react-icons/fa6";
+import { AiOutlineMessage } from "react-icons/ai";
+import { ShareIcon } from "../../../../assets/icon";
+import { Routing } from "../../../shared/Routing";
 
 const InstructorProfile = () => {
   var settings = {
@@ -58,7 +64,9 @@ const InstructorProfile = () => {
 
   const [Instructor, setInstructor] = useState({});
   const [loading, setLoading] = useState(false);
+  const [Like, setLike] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const getInstructor = async () => {
     setLoading(true);
@@ -79,7 +87,26 @@ const InstructorProfile = () => {
     );
     if (result?.success === true) {
       setLoading(false);
-      console.log(result.data);
+      setLike(!Like);
+    } else {
+      if (result.message === "Invalid token, Please Log-Out and Log-In again") {
+        toast.error("Please Login");
+      }
+      setLoading(false);
+    }
+  };
+
+  const CheckLikes = async () => {
+    setLoading(true);
+    const result = await GetLikesChek(JSON.parse(localStorage.getItem("_id")));
+    if (result?.success === true) {
+      setLoading(false);
+      console.log(result.data, "=======>like api");
+      result.data.forEach((data) => {
+        if (data.instructorId === id) {
+          setLike(true); // Set like to false if condition matches
+        }
+      });
     } else {
       setLoading(false);
     }
@@ -87,6 +114,7 @@ const InstructorProfile = () => {
 
   useEffect(() => {
     getInstructor();
+    CheckLikes();
   }, [id]);
 
   return (
@@ -274,13 +302,83 @@ const InstructorProfile = () => {
                 />
 
                 {/* <img src={Instructor4} alt={Instructor4} className="w-full" /> */}
-                <div
-                  className="h-[34px] w-[34px] bg-white rounded-full absolute top-4 right-3 flex items-center justify-center cursor-pointer"
-                  onClick={HeandleLike}
-                >
-                  <BiHeart className="text-2xl" />
-                </div>
+                {Like === false ? (
+                  <div
+                    className="h-[34px] w-[34px] bg-white rounded-full absolute top-4 right-3 flex items-center justify-center cursor-pointer"
+                    onClick={HeandleLike}
+                  >
+                    <BiHeart className="text-2xl" />
+                  </div>
+                ) : (
+                  <div
+                    className="h-[34px] w-[34px] bg-red-150 rounded-full absolute top-4 right-3 flex items-center justify-center cursor-pointer"
+                    onClick={HeandleLike}
+                  >
+                    <FaHeart className="text-xl text-red-200" />
+                  </div>
+                )}
                 <div className="instructor_profile_shape"></div>
+              </div>
+              <h2 className="text-[26px] font-bold text-black mt-6">
+                Kiya Jhon
+              </h2>
+              <div className="mt-3 flex items-center gap-x-1">
+                <div className="flex items-center gap-0.5">
+                  <FaStar className="text-yellow-100 text-lg" />
+                  <FaStar className="text-yellow-100 text-lg" />
+                  <FaStar className="text-yellow-100 text-lg" />
+                  <FaStar className="text-yellow-100 text-lg" />
+                  <FaStar className="text-gay-500 text-lg" />
+                </div>
+                <p className="text-black/50 text-sm">
+                  4.3 <span className="underline">(25 Reviews)</span>
+                </p>
+              </div>
+              <div className="grid grid-cols-2 mt-10 gap-4">
+                <h2 className="text-lg text-Dark_black font-semibold">
+                  Hourly Fee
+                </h2>
+                <h2 className="text-lg text-Dark_black font-semibold text-right">
+                  $5
+                </h2>
+                <h2 className="text-lg text-Dark_black font-semibold">
+                  Response Time
+                </h2>
+                <h2 className="text-lg text-Dark_black font-semibold text-right">
+                  1 Hour
+                </h2>
+                <h2 className="text-lg text-Dark_black font-semibold">
+                  Number of Students
+                </h2>
+                <h2 className="text-lg text-Dark_black font-semibold text-right">
+                  45+
+                </h2>
+              </div>
+
+              <div className="mt-10 flex flex-col justify-center items-center gap-4">
+                <OutlineBtn
+                  onClick={() => navigate(Routing.StudentBookClass)}
+                  text={"Book Now"}
+                  className={
+                    "sm:w-[375px] w-full h-[60px] bg-black text-white font-medium border-none"
+                  }
+                />
+                <OutlineBtn
+                  text={"Send a message"}
+                  icon={
+                    <AiOutlineMessage className="text-black text-2xl mr-3" />
+                  }
+                  className={
+                    "sm:w-[375px] w-full h-[60px] bg-transparent text-black font-medium"
+                  }
+                />
+                <OutlineBtn
+                  text={"Share Instructor’s Profile"}
+                  icon={<IoMdShare className="text-black text-xl mr-3" />}
+                  className={
+                    "sm:w-[375px] w-full h-[60px] bg-transparent text-black font-medium"
+                  }
+                />
               </div>
             </div>
           </div>

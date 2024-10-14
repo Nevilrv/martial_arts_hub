@@ -9,6 +9,7 @@ import { StudentDashboard } from "../../../services/student/Profile/Profile";
 import ClassRequestcard from "./ClassRequestcard";
 import RecentClasses from "./RecentClasses";
 import Spinner from "../../../layouts/Spinner";
+import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const ProfileDetals = [
     {
@@ -48,6 +49,7 @@ const Dashboard = () => {
   };
   const [studentData, setStudentData] = useState({});
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const Getdata = async () => {
     setLoading(true);
@@ -57,6 +59,10 @@ const Dashboard = () => {
       console.log(result.data, "========>Instructors data");
       setStudentData(result.data);
     } else {
+      if (result.message === "Invalid token, Please Log-Out and Log-In again") {
+        localStorage.clear();
+        navigate(Routing.StudentLogin);
+      }
       setLoading(false);
     }
   };

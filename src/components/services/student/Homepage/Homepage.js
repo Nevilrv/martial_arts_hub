@@ -37,3 +37,17 @@ export const InstructorLike = async (instructorId, studentId) => {
     return error?.response?.data;
   }
 };
+export const GetLikesChek = async (studentId) => {
+  try {
+    let response = await axios({
+      method: "GET",
+      url: `${baseURL}/student/favorite/instructor/${studentId}`,
+      headers: {
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};

@@ -26,3 +26,19 @@ export const StudentSignUp = async (body) => {
     return error?.response?.data;
   }
 };
+
+export const ForgetpasswordOtp = async (body) => {
+  try {
+    let response = await axios({
+      method: "POST",
+      url: `${baseURL}/student/forgetpassword/otp`,
+      data: body,
+      headers: {
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};

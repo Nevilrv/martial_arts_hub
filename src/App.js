@@ -41,6 +41,9 @@ const StudentDispute = lazy(() =>
 const StudentNewDispute = lazy(() =>
   import("./components/pages/Student/Dispute/NewDispute")
 );
+const BookClass = lazy(() =>
+  import("./components/pages/Student/BookClass/BookClass")
+);
 const StudentProfile = lazy(() =>
   import("./components/pages/Student/Profile/StudentProfile")
 );
@@ -83,82 +86,74 @@ const InstructorCreateSlot = lazy(() =>
   import("./components/pages/Instructor/CreateSlot/CreateSlot")
 );
 
-
 function App() {
   const routes = [
     {
       path: Routing.Initial,
       component: StudentHome,
       isPrivateRoute: false,
-      
     },
     // Student Routs
     {
       path: Routing.StudentSignup,
       component: StudentSignup,
       isPrivateRoute: false,
-      
     },
     {
       path: Routing.StudentLogin,
       component: StudentLogin,
       isPrivateRoute: false,
-      
     },
     {
       path: Routing.InstructorDetails,
       component: Instructor_profile,
       isPrivateRoute: false,
-      
     },
     {
       path: Routing.AttendTraining,
       component: AttendTraining,
       isPrivateRoute: false,
-      
     },
     {
       path: Routing.StudentDashboard,
       component: StudentDashboard,
       isPrivateRoute: true,
-      
     },
     {
       path: Routing.StudentMyClass,
       component: StudentMyClass,
       isPrivateRoute: true,
-      
     },
     {
       path: Routing.StudentInvoices,
       component: StudentMyInvoice,
       isPrivateRoute: true,
-      
     },
     {
       path: Routing.StudentDispute,
       component: StudentDispute,
       isPrivateRoute: true,
-      
     },
     {
       path: Routing.StudentNewDispute,
       component: StudentNewDispute,
       isPrivateRoute: true,
-      
+    },
+    {
+      path: Routing.StudentBookClass,
+      component: BookClass,
+      isPrivateRoute: true,
     },
     {
       path: Routing.StudentProfile,
       component: StudentProfile,
       isPrivateRoute: true,
-      
     },
     // Instructor Routs
     {
       path: Routing.InstructorSignup,
       component: InstructorSignup,
       isPrivateRoute: false,
-      
     },
     {
       path: Routing.InstructorProfile,
@@ -169,7 +164,6 @@ function App() {
       path: Routing.InstructorLogin,
       component: InstructorLogin,
       isPrivateRoute: false,
-      
     },
     {
       path: Routing.InstructorDashboard,
@@ -227,7 +221,6 @@ function App() {
 
   return (
     <>
-       
       <Suspense fallback={<Spinner />}>
         <MainLayout>
           <Routes>
@@ -268,7 +261,7 @@ function App() {
                       </p>
                       <div className="mt-10 flex justify-center">
                         <Link
-                        to={Routing.Initial}
+                          to={Routing.Initial}
                           className="text-sm font-semibold leading-7 text-white"
                         >
                           <span aria-hidden="true">&larr;</span> Back to home

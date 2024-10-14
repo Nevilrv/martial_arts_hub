@@ -95,7 +95,7 @@ const Header = () => {
 
   const headerClasses = `sticky top-0 left-0 z-[9] ${
     scrollPosition.y >= 50
-      ? "bg-primary/6  0 backdrop-filter backdrop-blur-lg"
+      ? "bg-primary/60 backdrop-filter backdrop-blur-lg"
       : "bg-transparent"
   }`;
 
@@ -130,7 +130,7 @@ const Header = () => {
                 className={`text-sm leading-6 hover:text-black ${
                   currentLocation === item.href
                     ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
-                    : "text-black/50 font-normal"
+                    : "text-black/70 font-normal"
                 }`}
               >
                 {item.name}

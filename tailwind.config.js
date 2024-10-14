@@ -34,6 +34,7 @@ module.exports = {
       },
       red: {
         100: "#E1D2D1",
+        150: "#F4DEDC",
         200: "#CB3530",
       },
     },
