@@ -139,7 +139,7 @@ const Header = () => {
           </div>
           {!loggedIn && (
             <OutlineBtn
-              text={"Be Come a Instructor"}
+              text={"Become an Instructor"}
               className={"bg-black text-white mx-12 h-[42px] sm:flex hidden "}
               onClick={() => navigate(Routing.InstructorLogin)}
             />
@@ -273,7 +273,7 @@ const Header = () => {
                 </div>
                 {!loggedIn && (
                   <OutlineBtn
-                    text={"Be Come a Instructor"}
+                    text={"Become an Instructor"}
                     className={"bg-black text-white sm:hidden block"}
                     onClick={() => {
                       navigate(Routing.InstructorLogin);

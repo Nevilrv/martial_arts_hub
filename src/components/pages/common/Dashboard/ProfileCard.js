@@ -39,7 +39,7 @@ const ProfileCard = ({ ProfileDetals }) => {
             <div className="flex items-center">
               <p className="text-base">Joined on:</p>
               <h4 className="text-black/70 font-semibold ml-1">
-                {ProfileDetals?.createdAt.slice(0, 10)}
+                {ProfileDetals?.createdAt?.slice(0, 10)}
               </h4>
             </div>
             <>

@@ -79,7 +79,7 @@ const All_Message = () => {
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <DialogPanel
               transition
-              className="relative transform overflow-hidden rounded-lg bg-primary px-11 py-12 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:w-full sm:max-w-5xl data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
+              className="relative transform overflow-hidden rounded-lg bg-primary md:px-11 px-3 py-12 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:w-[95%] md:max-w-5xl data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95 overflow-x-auto"
             >
               <div className="flex items-center">
                 <FaArrowLeft
@@ -89,8 +89,8 @@ const All_Message = () => {
                 <h2 className="font-semibold text-lg ml-4">Message Request</h2>
               </div>
               <div className="mt-10">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
+                <div className="flex items-center sm:justify-between justify-center flex-wrap">
+                  <div className="flex items-center flex-wrap">
                     <div className="w-[70px] h-[70px] rounded-full overflow-hidden">
                       <img src={User} alt="User" className="grayscale" />
                     </div>
@@ -113,18 +113,18 @@ const All_Message = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex md:flex-row flex-col items-center gap-3 md:w-auto w-full md:mt-0 mt-3">
                     <OutlineBtn
                       text={"Decline"}
-                      className={"bg-transparent border-red-200 text-red-200"}
+                      className={"bg-transparent border-red-200 text-red-200 w-full"}
                     />
                     <OutlineBtn
                       text={"Accept"}
-                      className={"bg-green border-none text-white font-medium"}
+                      className={"bg-green border-none text-white font-medium w-full"}
                     />
                   </div>
                 </div>
-                <div className="mt-6 py-6 px-5">
+                <div className="mt-6 py-6 md:px-5">
                   <p className="text-base text-black font-medium break-words">
                     Hello Instructor, My name is Emily Roberts, and I am
                     interested in joining your online martial arts course. Could

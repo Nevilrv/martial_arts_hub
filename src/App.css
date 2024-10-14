@@ -386,9 +386,14 @@ input[type="number"] {
     display: none;
   }
 }
-
+@media (max-width: 768px) {
+.slick-dots{
+  bottom: -20px !important;
+}
+}
 @media (max-width: 568px) {
   .Titile {
     font-size: 53px;
+    line-height: 55px;
   }
 }

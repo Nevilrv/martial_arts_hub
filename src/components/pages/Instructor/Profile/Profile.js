@@ -226,7 +226,7 @@ const Profile = () => {
               Label={"Add Availability"}
               name={"availability"}
               onChange={handleChange}
-              value={instructorDetails.availability.slice(0, 10)}
+              value={instructorDetails?.availability?.slice(0, 10)}
               Labelclass={"text-Dark_black font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />

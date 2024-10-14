@@ -51,7 +51,7 @@ const Index = () => {
       );
       localStorage.setItem("token", JSON.stringify(result?.Token));
       localStorage.setItem("is_login", true);
-      navigate(Routing.InstructorDashboard);
+      navigate(Routing.InstructorProfile);
       toast.success(result?.message);
     } else {
       setLoading(false);

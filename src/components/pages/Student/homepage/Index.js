@@ -55,10 +55,10 @@ const Index = () => {
     <>
       {/* Hero section start */}
       <section className="md:py-space pb-10">
-        <h1 className="text-[70px] text-center font-extrabold">
+        <h1 className="sm:text-[70px] text-[47px] text-center font-extrabold">
           martial arts hub.
         </h1>
-        <p className="text-[22px] text-center max-w-[669px] mx-auto leading-[31.9px]">
+        <p className="text-[22px] text-center max-w-[669px] mx-auto leading-[31.9px] px-2">
           The place to begin or elevate your martial arts journey. Created by
           martial artists for martial artists.
         </p>
@@ -206,7 +206,7 @@ const Index = () => {
           we've got you covered.
         </p>
         <p className="text-xl text-center text-white/50 mt-5 max-w-screen-lg mx-auto">
-          Join our online classes and learn from world-class martial arts
+          Join Us online classes and learn from world-class martial arts
           instructors. Train at your own pace and master the art of self-defense
           or message our instructors for personalized guidance.
         </p>
@@ -224,7 +224,7 @@ const Index = () => {
       {/* Ready to Learn section end */}
 
       {/* Join Us section start */}
-      <section className="py-space px-3 lg:px-8">
+      <section className="md:py-space py-20 px-3 lg:px-8">
         <h2 className="text-center text-[40px] font-medium">Why Join Us</h2>
         <div>
           <div className="h-[420px] w-[420px] bg-gay-400/15 rounded-full mt-[188px] mx-auto  items-center justify-center relative lg:flex hidden">

@@ -98,7 +98,7 @@ const CategoriesSection = () => {
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 768,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
@@ -120,7 +120,7 @@ const CategoriesSection = () => {
   };
   return (
     <>
-      <section className="py-space">
+      <section className="md:py-space py-10">
         <div className="px-3 lg:px-8">
           <div className="flex items-center justify-between flex-wrap gap-y-3">
             <h2 className="md:text-[32px] text-[23px] font-medium leading-10">

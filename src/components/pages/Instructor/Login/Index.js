@@ -85,8 +85,8 @@ const Index = () => {
               <Inputfild
                 onChange={handleChange}
                 type={"password"}
-                placeholder={"Create Password"}
-                Label={"Create Password"}
+                placeholder={"Password"}
+                Label={"Password"}
                 iconposition="right-4"
                 name={"password"}
                 className={"md:w-full"}

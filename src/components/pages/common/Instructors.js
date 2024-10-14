@@ -117,7 +117,7 @@ const Instructors = () => {
   return (
     <>
       {loading && <Spinner />}
-      <section className="py-space px-3 lg:px-8">
+      <section className="md:py-space pb-20 px-3 lg:px-8">
         <h2 className="font-medium text-[32px]">Our Instructors</h2>
         <Slider {...settings} className="mt-5 slider-2 relative">
           {Instructors.map((items, i) => (
