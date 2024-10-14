@@ -89,7 +89,7 @@ const InstructorProfile = () => {
       setLoading(false);
       setLike(!Like);
     } else {
-      if (result.message === "Invalid token, Please Log-Out and Log-In again") {
+      if (result?.message === "Invalid token, Please Log-Out and Log-In again") {
         toast.error("Please Login");
       }
       setLoading(false);

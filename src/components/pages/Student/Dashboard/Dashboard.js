@@ -59,7 +59,7 @@ const Dashboard = () => {
       console.log(result.data, "========>Instructors data");
       setStudentData(result.data);
     } else {
-      if (result.message === "Invalid token, Please Log-Out and Log-In again") {
+      if (result?.message === "Invalid token, Please Log-Out and Log-In again") {
         localStorage.clear();
         navigate(Routing.StudentLogin);
       }
