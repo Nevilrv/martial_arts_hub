@@ -32,7 +32,7 @@ const GetInTouch = () => {
             />
             <input
               type="email"
-              placeholder="Email ID"
+              placeholder="Email"
               className="bg-transparent border border-white/30 text-lg placeholder:text-lg placeholder:text-white/50 text-white py-5 pl-8 md:min-w-[485px] w-full rounded-2xl"
             />
             <textarea
@@ -40,7 +40,7 @@ const GetInTouch = () => {
               className="bg-transparent border border-white/30 text-lg placeholder:text-lg placeholder:text-white/50 text-white py-5 pl-8 md:min-w-[485px] w-full rounded-2xl min-h-[150px]"
             ></textarea>
             <button className="md:w-[485px] w-full h-[70px] font-medium rounded-full bg-white text-black flex items-center justify-center text-xl mt-5">
-              Send My Message
+            Send Message
             </button>
           </div>
         </div>

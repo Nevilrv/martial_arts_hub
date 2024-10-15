@@ -4,6 +4,7 @@ import CategoriesCard from "../../common/Categories_Card";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import Wrestling from "../../../../assets/images/Wrestling.png";
 import Boxing from "../../../../assets/images/Boxing.png";
+import StudentProfile from "./StudentProfile";
 
 const My_Profile = () => {
 
@@ -27,6 +28,7 @@ const My_Profile = () => {
 
   return (
     <>
+    <StudentProfile>
       <div className="border border-[#71717194] py-7 px-6 rounded-lg min-h-[212px] mt-14">
         <p className="font-semibold text-lg">About Me</p>
         <p className="text-black/70 mt-1">
@@ -132,6 +134,7 @@ const My_Profile = () => {
           </div>
         </div>
       </div>
+      </StudentProfile>
     </>
   );
 };

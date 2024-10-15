@@ -45,7 +45,22 @@ const BookClass = lazy(() =>
   import("./components/pages/Student/BookClass/BookClass")
 );
 const StudentProfile = lazy(() =>
-  import("./components/pages/Student/Profile/StudentProfile")
+  import("./components/pages/Student/Profile/My_Profile")
+);
+const StudentLogInDetails = lazy(() =>
+  import("./components/pages/Student/Profile/LogInDetails")
+);
+const StudentForgotPassword = lazy(() =>
+  import("./components/pages/Student/Profile/ForgotPassword")
+);
+const Student_Reset_Password = lazy(() =>
+  import("./components/pages/Student/Profile/ResetPassword")
+);
+const Student_Favorite_Instructor = lazy(() =>
+  import("./components/pages/Student/Profile/FavoriteInstructor")
+);
+const Student_Booking_History = lazy(() =>
+  import("./components/pages/Student/Profile/BookingHistory")
 );
 
 // Instructor Components
@@ -147,6 +162,31 @@ function App() {
     {
       path: Routing.StudentProfile,
       component: StudentProfile,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.StudentLogInDetails,
+      component: StudentLogInDetails,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.Student_Forgot_Password,
+      component: StudentForgotPassword,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.Student_Reset_Password,
+      component: Student_Reset_Password,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.Student_Favorite_Instructors,
+      component: Student_Favorite_Instructor,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.Student_Booking_History,
+      component: Student_Booking_History,
       isPrivateRoute: true,
     },
     // Instructor Routs

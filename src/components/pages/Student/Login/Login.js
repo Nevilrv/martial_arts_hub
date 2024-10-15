@@ -129,8 +129,8 @@ const Login = () => {
                         type={"password"}
                         name={"password"}
                         onChange={handleChange}
-                        placeholder={"Create Password"}
-                        Label={"Create Password"}
+                        placeholder={"Password"}
+                        Label={"Password"}
                         iconposition="right-[10%]"
                       />
                     </div>

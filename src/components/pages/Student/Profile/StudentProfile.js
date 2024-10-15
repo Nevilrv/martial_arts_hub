@@ -2,38 +2,36 @@ import React from "react";
 import { FaQuoteRight } from "react-icons/fa6";
 import GetInTouch from "../../common/Get_In_Touch";
 import { Link, useLocation } from "react-router-dom";
-import My_Profile from "./My_Profile";
-import LogInDetails from "./LogInDetails";
 import { BiPencil } from "react-icons/bi";
 import { ShareIcon } from "../../../../assets/icon";
 import OutlineBtn from "../../common/OutlineBtn";
-import ForgotPassword from "./ForgotPassword";
+import { Routing } from "../../../shared/Routing";
 
-const StudentProfile = () => {
+const StudentProfile = ({children}) => {
   const ProfileTeab = [
     {
       name: "My Profile",
-      pathname: "/student/my_profile",
+      pathname: Routing.StudentProfile,
     },
     {
       name: "Log In Details",
-      pathname: "/myprofile",
+      pathname: Routing.StudentLogInDetails,
     },
     {
       name: "Forgot Password",
-      pathname: "/myprofile",
+      pathname: Routing.Student_Forgot_Password,
     },
     {
       name: "Reset Password",
-      pathname: "/myprofile",
+      pathname: Routing.Student_Reset_Password,
     },
     {
       name: "Favorite Instructors",
-      pathname: "/myprofile",
+      pathname: Routing.Student_Favorite_Instructors,
     },
     {
       name: "Booking History",
-      pathname: "/myprofile",
+      pathname: Routing.Student_Booking_History,
     },
   ];
   const { pathname } = useLocation();
@@ -65,6 +63,7 @@ const StudentProfile = () => {
             {ProfileTeab.map((items) => (
               <div className="pb-6 border-b border-black/30">
                 <Link
+                to={items.pathname}
                   className={`${
                     pathname === items.pathname
                       ? "underline text-black font-bold text-xl"
@@ -107,9 +106,7 @@ const StudentProfile = () => {
             Your profile is incomplete.{" "}
             <span className="text-red-200 underline">Complete Now</span>
           </p>
-          {/* <My_Profile /> */}
-          {/* <LogInDetails /> */}
-          <ForgotPassword />
+          {children}
         </div>
       </div>
       <GetInTouch />

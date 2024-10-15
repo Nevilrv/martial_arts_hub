@@ -11,9 +11,14 @@ export const Routing = {
   StudentMyClass:"/student/class",
   StudentInvoices:"/student/invoice",
   StudentProfile:"/student/my_profile",
+  StudentLogInDetails:"/student/log_in_details",
+  Student_Forgot_Password:"/student/forgot_password",
+  Student_Reset_Password:"/student/reset_password",
+  Student_Favorite_Instructors:"/student/favorite_instructors",
+  Student_Booking_History:"/student/booking_history",
   StudentDispute:"/student/dispute",
   StudentNewDispute:"/student/new_dispute",
-  StudentBookClass:"/student/bookclass!",
+  StudentBookClass:"/student/bookclass",
 
 
 

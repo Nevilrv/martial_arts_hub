@@ -33,7 +33,7 @@ const Dashboard = () => {
       "You haven't send any course inquiry requests yet! when you send It’s details will be shown here.",
   };
   const PaymentsCard = {
-    CardTitle: "PaymentsCard",
+    CardTitle: "Payments",
     CardIcon: <Thunderstorm />,
     CardHeadding: "Nothing to Show!",
     CardDetails:
