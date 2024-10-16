@@ -62,6 +62,9 @@ const Student_Favorite_Instructor = lazy(() =>
 const Student_Booking_History = lazy(() =>
   import("./components/pages/Student/Profile/BookingHistory")
 );
+const StudentMessages = lazy(() =>
+  import("./components/pages/Student/Message/Message")
+);
 
 // Instructor Components
 const InstructorLogin = lazy(() =>
@@ -101,6 +104,10 @@ const InstructorCreateSlot = lazy(() =>
   import("./components/pages/Instructor/CreateSlot/CreateSlot")
 );
 
+// admin
+const AdminLogin = lazy(() => import("./components/pages/admin/Login/Login"));
+const Dashboard = lazy(() => import("./components/pages/admin/Dashboard/Dashboard"));
+
 function App() {
   const routes = [
     {
@@ -132,6 +139,11 @@ function App() {
     {
       path: Routing.StudentDashboard,
       component: StudentDashboard,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.StudentMessages,
+      component: StudentMessages,
       isPrivateRoute: true,
     },
     {
@@ -254,6 +266,18 @@ function App() {
       path: Routing.InstructorCreateSlot,
       component: InstructorCreateSlot,
       isPrivateRoute: true,
+    },
+
+    // admin Routes
+    {
+      path: Routing.AdminLogin,
+      component: AdminLogin,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.AdminDashboard,
+      component: Dashboard,
+      isPrivateRoute: false,
     },
 
     // Add other routes as needed

@@ -3,15 +3,23 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { useLocation } from "react-router-dom";
 import { Routing } from "../shared/Routing";
+import Adminlayout from "./Adminlayout";
 
 const MainLayout = ({ children }) => {
-  const {pathname} = useLocation();
-  
+  const { pathname } = useLocation();
+  console.log("🚀 ~ MainLayout ~ pathname:", pathname.slice(0, 6));
+
   return (
     <>
-      <Header />
-      {children}
-      {pathname !== Routing.AttendTraining ? <Footer /> : null}
+      {pathname.slice(0, 6) === "/admin" ? (
+        <Adminlayout>{children}</Adminlayout>
+      ) : (
+        <>
+          <Header />
+          {children}
+          {pathname !== Routing.AttendTraining ? <Footer /> : null}
+        </>
+      )}
     </>
   );
 };

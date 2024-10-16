@@ -51,7 +51,7 @@ const StudentProfile = ({children}) => {
           </div>
         </div>
       </div>
-      <div className="grid md:grid-cols-4 gap-11 ">
+      <div className="grid md:grid-cols-4 gap-11">
         <div className="w-full pl-10 pt-10">
           <img
             src="https://s3-alpha-sig.figma.com/img/c9d6/ec66/592fab583ee733ef0ca4062635a2de72?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Taj7qBpE1SBEUd8MsMfOFxTmmH9neTGLC-1TKL~RyZS2rQs0dKWcO3Ol4XzG3zhkvbtfLAdy0qPCNd8OSrEe71y4NHmngqkdsxSBoUycRnJ3B4Jik8aX-QG8GQuwajaE6ycMN2P-MsfMXYYSYCCQPety70ubet6cvbjqQSqoohNZeM-RyRyzeAdEPo7P~HusKWJsdKwyiKkSUf90kqMApuDgWaw4IZOPDjp6EM5~XZBFuegp9OdrLzENibOO2BIL0hu3XVCj~D9XQVc6s5G-XRNXardHsBzMbRZcHeezLJnJpPq7LOtDXniuYJOXHsbILtMJfq6VSb80UNUuQa1Ung__"

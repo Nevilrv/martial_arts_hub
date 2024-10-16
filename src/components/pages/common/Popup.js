@@ -16,7 +16,7 @@ const Popup = ({
 }) => {
   return (
     <>
-      <Dialog className="relative z-10" open={isOpen} onClose={SetisOpen}>
+      <Dialog className="relative z-[9999]" open={isOpen} onClose={SetisOpen}>
         <DialogBackdrop
           transition
           className="fixed inset-0 bg-black/60 backdrop-blur-md transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"

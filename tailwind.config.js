@@ -42,6 +42,9 @@ module.exports = {
       padding: {
         space: "124px",
       },
+      boxShadow: {
+        'BoxShadow': '0 4 30.4 -22 #00000040',
+      },
     },
   },
   plugins: [],

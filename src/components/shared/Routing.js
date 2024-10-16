@@ -42,4 +42,7 @@ export const Routing = {
 
 
   // Admin
+
+  AdminLogin: "/admin/login",
+  AdminDashboard: "/admin/dashboard",
 };
