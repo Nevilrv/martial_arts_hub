@@ -8,14 +8,13 @@ import Tabs from "../index";
 const Index = () => {
   
   const [calssType, setcalssType] = useState("Active Booking Requests");
-
   return (
     <>
     <Tabs>
       <div className="mt-11 px-3 lg:px-8">
         <div className="flex items-center justify-between">
           <h1 className="text-black text-3xl font-semibold">
-            Message Requests
+          Booking Overview
           </h1>
         </div>
         <div className="md:flex grid sm:grid-cols-2 grid-cols-1 items-center mt-6 gap-2">

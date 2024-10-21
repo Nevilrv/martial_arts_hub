@@ -1,4 +1,4 @@
-import React, { Children } from "react";
+import React, { Children, useEffect } from "react";
 import { useState } from "react";
 import {
   Dialog,
@@ -13,21 +13,130 @@ import {
 import { FaBars, FaMagnifyingGlass, FaXmark } from "react-icons/fa6";
 import { BsBell } from "react-icons/bs";
 import { BiChevronDown, BiSolidDashboard } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Routing } from "../shared/Routing";
+import {
+  DashboardDiscipline,
+  DashboardDispute,
+  DashboardFinanceManagement,
+  DashboardReporting,
+  DashboardUser,
+  DashboardUserIcon,
+} from "../../assets/icon";
 
-const navigation = [
+const SidbarNavigation = [
   {
-    name: "Dashboard",
-    icons: <BiSolidDashboard className="text-xl" />,
-    href: Routing.AdminDashboard,
-    current: true,
+    Navigate: "Dashboard",
+    icon: <BiChevronDown />,
+    Starticon: <BiSolidDashboard />,
+    Path: Routing.AdminDashboard,
   },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-  { name: "Documents", href: "#", current: false },
-  { name: "Reports", href: "#", current: false },
+  {
+    Navigate: "Instructor Management",
+    icon: <BiChevronDown />,
+    Starticon: <DashboardUserIcon />,
+    sub: [
+      {
+        Navigate: "New Requests",
+        icon: <BiChevronDown />,
+        Path: Routing.Admin_Instructor_Managementnew_Requests,
+      },
+      {
+        Navigate: "Profile Verification",
+        icon: <BiChevronDown />,
+        Path: "/admin/employees/all",
+      },
+      {
+        Navigate: "View Instructors",
+        icon: <BiChevronDown />,
+        Path: Routing.Admin_View_Instructors,
+      },
+      {
+        Navigate: "Blocked Instructors",
+        icon: <BiChevronDown />,
+        Path: Routing.Admin_Blocked_Instructors,
+      },
+    ],
+  },
+  {
+    Navigate: "Student Management",
+    icon: <BiChevronDown />,
+    Starticon: <DashboardUser />,
+    sub: [
+      {
+        Navigate: "View Students",
+        icon: <BiChevronDown />,
+        Path: Routing.Admin_View_Students,
+      },
+      {
+        Navigate: "Blocked Students",
+        icon: <BiChevronDown />,
+        Path: Routing.Admin_Blocked_Students,
+      },
+    ],
+  },
+  {
+    Navigate: "Finance Management",
+    icon: <BiChevronDown />,
+    Starticon: <DashboardFinanceManagement />,
+    sub: [
+      {
+        Navigate: "Finance Dashboard",
+        icon: <BiChevronDown />,
+        Path: Routing,
+      },
+      {
+        Navigate: "Monitor Payments",
+        icon: <BiChevronDown />,
+        // Path: "/admin/employees/add",
+      },
+      {
+        Navigate: "Release Funds",
+        icon: <BiChevronDown />,
+        // Path: "/admin/employees/all",
+      },
+      {
+        Navigate: "Handle Refunds",
+        icon: <BiChevronDown />,
+        // Path: "/admin/employees/all",
+      },
+    ],
+  },
+  {
+    Navigate: "Dispute Center",
+    icon: <BiChevronDown />,
+    Starticon: <DashboardDispute />,
+    sub: [
+      {
+        Navigate: "Dispute Requests",
+        icon: <BiChevronDown />,
+        // Path: "/admin/employees/add",
+      },
+    ],
+  },
+  {
+    Navigate: "Reporting & Feedback",
+    icon: <BiChevronDown />,
+    Starticon: <DashboardReporting />,
+    sub: [
+      {
+        Navigate: "Generate Reports",
+        icon: <BiChevronDown />,
+        // Path: "/admin/employees/add",
+      },
+      {
+        Navigate: "Provide Feedback",
+        icon: <BiChevronDown />,
+        // Path: "/admin/employees/add",
+      },
+    ],
+  },
+  {
+    Navigate: "Discipline Centre",
+    icon: <BiChevronDown />,
+    Starticon: <DashboardDiscipline />,
+    path: "/",
+  },
 ];
 
 const userNavigation = [
@@ -35,11 +144,34 @@ const userNavigation = [
   { name: "Sign out", href: "#" },
 ];
 
-const Adminlayout = ({children}) => {
+const Adminlayout = ({ children }) => {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [expandedItem, setExpandedItem] = useState(null);
+  const navigate = useNavigate();
+
+  const { pathname } = useLocation();
+  useEffect(() => {
+    setExpandedItem(JSON.parse(localStorage.getItem("expandedItem")));
+  }, []);
+
+  const handleItemClick = (index, Path) => {
+    if (SidbarNavigation[index]?.sub) {
+      setExpandedItem((prevExpanded) => {
+        if (prevExpanded === index) {
+          localStorage.setItem("expandedItem", index);
+          return null;
+        } else {
+          localStorage.setItem("expandedItem", index);
+          return index;
+        }
+      });
+    } else if (Path) {
+      navigate(Path);
+    }
+  };
 
   return (
     <>
@@ -87,7 +219,7 @@ const Adminlayout = ({children}) => {
                   <ul role="list" className="flex flex-1 flex-col gap-y-7">
                     <li>
                       <ul role="list" className="-mx-2 space-y-1">
-                        {navigation.map((item) => (
+                        {SidbarNavigation.map((item) => (
                           <li key={item.name}>
                             <a
                               href={item.href}
@@ -120,7 +252,7 @@ const Adminlayout = ({children}) => {
         </Dialog>
 
         {/* Static sidebar for desktop */}
-        <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-[280px] lg:flex-col">
+        <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-[300px] lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col overflow-y-auto overflow-x-hidden px-0 pb-0">
             <div className="flex shrink-0 items-center bg-primary px-2 h-[90px] justify-center">
@@ -132,38 +264,73 @@ const Adminlayout = ({children}) => {
               <ul role="list" className="flex flex-1 flex-col mt-3">
                 <li>
                   <ul role="list" className="">
-                    {navigation.map((item) => (
-                      <li key={item.name}>
+                    {SidbarNavigation.map((item, index) => (
+                      <li
+                        key={item.name}
+                        onClick={() => handleItemClick(index, item.Path)}
+                      >
                         <Link
-                          to={item.href}
+                          to={item.Path}
                           className={classNames(
-                            item.current
+                            item.Path === pathname || expandedItem === index
                               ? "bg-gay-300 text-white"
-                              : "text-indigo-200 hover:bg-indigo-700 hover:text-white",
-                            "group flex gap-x-3 p-2 text-lg font-semibold leading-6 h-[70px] items-center pl-6"
+                              : "text-indigo-200 hover:bg-indigo-700 hover:text-white hover:bg-gay-300",
+                            "group flex gap-x-3 p-2 text-lg font-semibold leading-6 h-[70px] items-center pl-6 justify-between"
                           )}
                         >
-                          {item.icons}
-                          {item.name}
+                          <span className="flex items-center gap-3">
+                            <span
+                              className={`text-gay-300 group-hover:text-white ${
+                                item.Path === pathname
+                                  ? "text-white"
+                                  : expandedItem === index
+                                  ? "text-white"
+                                  : null
+                              }`}
+                            >
+                              {item.Starticon}
+                            </span>
+                            <span
+                              className={`text-[15px] ${
+                                item.Path === pathname ? "text-white" : null
+                              }`}
+                            >
+                              {item.Navigate}
+                            </span>
+                          </span>
+                          {item?.sub?.length > 0 && item.icon}
                         </Link>
+
+                        {/* Submenu */}
+                        {item?.sub?.length > 0 && expandedItem === index && (
+                          <ul>
+                            {item.sub.map((submenu, subIndex) => (
+                              <li key={subIndex}>
+                                <Link
+                                  to={submenu.Path}
+                                  className={classNames(
+                                    "group flex gap-x-3 p-2 text-base leading-6 h-[50px] items-center pl-10 justify-between",
+                                    submenu.Path === pathname
+                                      ? "text-black font-bold underline"
+                                      : "text-gay-400 font-normal"
+                                  )}
+                                >
+                                  {submenu.Navigate}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </li>
                     ))}
                   </ul>
-                </li>
-                <li className="mt-auto">
-                  <a
-                    href="#"
-                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
-                  >
-                    Settings
-                  </a>
                 </li>
               </ul>
             </nav>
           </div>
         </div>
 
-        <div className="lg:pl-72 bg-gay-600">
+        <div className="lg:pl-[310px] bg-gay-600">
           <div className="sticky h-[90px] top-0 z-40 flex shrink-0 items-center gap-x-4 bg-primary px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
             <button
               type="button"
@@ -180,7 +347,7 @@ const Adminlayout = ({children}) => {
             />
 
             <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-center items-center">
-              <div className="relative flex flex-1 w-[573px]">
+              <div className="relative flex flex-1 lg:w-[483px]">
                 <FaMagnifyingGlass
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-y-0 left-4 h-full w-4 text-gray-400"
@@ -201,8 +368,6 @@ const Adminlayout = ({children}) => {
                   <span className="sr-only">View notifications</span>
                   <BsBell aria-hidden="true" className="h-6 w-6" />
                 </button>
-
-                {/* Separator */}
                 <div
                   aria-hidden="true"
                   className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
@@ -249,13 +414,9 @@ const Adminlayout = ({children}) => {
               </div>
             </div>
           </div>
-
-          <main>
-            <div className="px-4 sm:px-6 lg:px-8 h-screen bg-gay-600">
-              {/* Your content */}
-              {children}
-            </div>
-          </main>
+          <div className="px-4 sm:px-6 lg:px-8 bg-gay-600 min-h-screen pt-[34px]">
+            {children}
+          </div>
         </div>
       </div>
     </>

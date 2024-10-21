@@ -38,7 +38,7 @@ const Popup = ({
                 <div className="flex sm:flex-row flex-col items-center gap-3 mt-14 justify-center">
                   <OutlineBtn
                     text={BtnText}
-                    className={`border-black/30 w-[260px] font-medium text-xl ${Btnclass}`}
+                    className={`border-black/30 w-[260px] font-medium text-xl ${Btnclass} `}
                     onClick={onClick}
                   />
                   {BtnText2 && (

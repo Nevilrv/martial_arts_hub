@@ -10,10 +10,10 @@ import {
 import { TfiAngleDown } from "react-icons/tfi";
 import NormalBtn from "../../common/NormalBtn";
 import { useNavigate } from "react-router-dom";
-import Select from "react-select";
 import { Routing } from "../../../shared/Routing";
 import { toast } from "react-toastify";
 import { Instructor_Create_Slot } from "../../../services/Instructor/createClass/Index";
+import Select from "react-select/base";
 
 const CreateSlot = () => {
   // slot time
@@ -81,6 +81,8 @@ const CreateSlot = () => {
       toast.error(result?.message);
     }
   };
+
+
 
   return (
     <>

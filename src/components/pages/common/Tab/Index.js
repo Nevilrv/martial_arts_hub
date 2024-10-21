@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link, useLocation } from 'react-router-dom';
 
 const Index = ({tabs,children}) => {
       const { pathname } = useLocation();
-      const [selectedTimeSlot, setselectedTimeSlot] = useState("");
+      // const [selectedTimeSlot, setselectedTimeSlot] = useState("");
 
   return (
     <>

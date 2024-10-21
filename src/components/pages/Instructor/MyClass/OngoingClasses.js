@@ -5,17 +5,22 @@ import { RiEditBoxFill } from "react-icons/ri";
 import OutlineBtn from "../../common/OutlineBtn";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Instructor_End_Class, Instructor_get_Upcoming_Classes } from "../../../services/Instructor/createClass/Index";
+import {
+  Instructor_End_Class,
+  Instructor_get_Upcoming_Classes,
+} from "../../../services/Instructor/createClass/Index";
 
 const OngoingClasses = (props) => {
   const navigate = useNavigate();
   // eslint-disable-next-line
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line;
   const [upcomingClass, setUpcomingClass] = useState([]);
+  console.log("🚀 ~ OngoingClasses ~ upcomingClass:", upcomingClass);
   const id = JSON.parse(localStorage.getItem("_id"));
 
   const Get_Upcoming_Classes = async () => {
+    setLoading(true);
     const result = await Instructor_get_Upcoming_Classes(id);
     if (result?.success === true) {
       setLoading(false);
@@ -35,7 +40,7 @@ const OngoingClasses = (props) => {
     const result = await Instructor_End_Class(id);
     if (result?.success === true) {
       setLoading(false);
-      Get_Upcoming_Classes()
+      Get_Upcoming_Classes();
       toast.success(result?.message);
     } else {
       setLoading(false);
@@ -67,29 +72,20 @@ const OngoingClasses = (props) => {
                 <div className="ml-5">
                   <div
                     className="flex items-center cursor-pointer"
-                    onClick={() =>
-                      navigate(
-                        `/instructor/edit_class/${upcoming_class.classId}`
-                      )
-                    }
                   >
                     <h3 className="text-xl font-medium">
                       {upcoming_class?.className}
                     </h3>
-                    <RiEditBoxFill className="text-lg mt-0.5 text-red-200 ml-2" />
-                    <p className="text-red-200 text-sm font-medium ml-1">
-                      Edit Class
-                    </p>
                   </div>
                   <div className="flex items-center">
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
                       <span className="font-medium">Class Date:</span>{" "}
-                      {upcoming_class?.date}
+                      {upcoming_class?.classdate}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
                       <span className="font-medium"> Created on:</span>
-                      {upcoming_class?.date}
+                      {upcoming_class?.createdOn}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
@@ -100,14 +96,12 @@ const OngoingClasses = (props) => {
                   <div className="flex items-center">
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
                       <span className="font-medium">Class Time:</span>
-                      {upcoming_class?.localTimeSlot}
+                      {upcoming_class?.classTime}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
                       <span className="font-medium">Class Duration:</span>
-                      {Math.round(
-                        parseInt(upcoming_class?.duration) / 60
-                      ).toFixed(1)}
+                      {upcoming_class?.classduration}
                       hr
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
@@ -115,7 +109,7 @@ const OngoingClasses = (props) => {
                       <span className="font-medium text-black/70 ">
                         Class Rate:
                       </span>
-                      ${parseInt(upcoming_class?.rate).toFixed(2)}
+                      ${parseInt(upcoming_class?.classRate).toFixed(2)}
                     </p>
                   </div>
                 </div>

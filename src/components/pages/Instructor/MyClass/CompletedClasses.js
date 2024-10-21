@@ -56,12 +56,12 @@ const CompletedClasses = () => {
                   <div className="flex items-center">
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
                       <span className="font-medium">Class Date:</span>{" "}
-                      {upcoming_class?.date}
+                      {upcoming_class?.classdate}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
                       <span className="font-medium"> Created on:</span>
-                      {upcoming_class?.date}
+                      {upcoming_class?.createdOn}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
@@ -72,14 +72,12 @@ const CompletedClasses = () => {
                   <div className="flex items-center">
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
                       <span className="font-medium">Class Time:</span>
-                      {upcoming_class?.localTimeSlot}
+                      {upcoming_class?.classTime}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
                       <span className="font-medium">Class Duration:</span>
-                      {Math.round(
-                        parseInt(upcoming_class?.duration) / 60
-                      ).toFixed(1)}
+                      {upcoming_class?.classduration}
                       hr
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
@@ -87,7 +85,7 @@ const CompletedClasses = () => {
                       <span className="font-medium text-black/70 ">
                         Class Rate:
                       </span>
-                      ${parseInt(upcoming_class?.rate).toFixed(2)}
+                      ${parseInt(upcoming_class?.classRate).toFixed(2)}
                     </p>
                   </div>
                 </div>

@@ -32,8 +32,6 @@ export const Instructor_Create_Slot = async (body) => {
     return error?.response?.data;
   }
 };
-
-
 export const Instructor_End_Class = async (id) => {
   try {
     let response = await axios({
@@ -48,12 +46,11 @@ export const Instructor_End_Class = async (id) => {
     return error?.response?.data;
   }
 };
-
-export const Instructor_get_Upcoming_Classes = async (id) => {
+export const Instructor_get_Upcoming_Classes = async (instructorId) => {
   try {
     let response = await axios({
       method: "GET",
-      url: `${baseURL}/instructor/createClass/classdetail/${id}`,
+      url: `${baseURL}/instructor/class/myclass/${instructorId}`,
       headers: {
         Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
       },

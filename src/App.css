@@ -315,22 +315,20 @@ input[type="number"] {
   padding-left: 24px !important;
 }
 .dispute_shape {
-  clip-path: polygon(95% 0%, 100% 56%, 95% 100%, 0% 100%, 5% 50%, 0% 0%)
+  clip-path: polygon(95% 0%, 100% 56%, 95% 100%, 0% 100%, 5% 50%, 0% 0%);
 }
-.Toastify{
+.Toastify {
   z-index: 999999 !important;
   position: relative;
 }
 
-
 /* spnner css start */
-.spnner
-{
+.spnner {
   height: 100vh;
   overflow: hidden;
   width: 100%;
   background-color: #0000009f;
-  backdrop-filter:blur(4px);
+  backdrop-filter: blur(4px);
   z-index: 99999999;
   position: fixed;
   top: 0;
@@ -381,15 +379,39 @@ input[type="number"] {
 }
 /* spnner css end */
 
+.customradius {
+  border-radius: 15px !important;
+}
+.customradiusBlack{
+  color: #000 !important;
+}
+.react-calendar {
+  width: 100% !important;
+}
+.dot {
+  height: 10px;
+  width: 10px;
+  background-color: #25c277;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto;
+  margin-top: 4px;
+}
+.DonutChart .apexcharts-canvas
+{
+  direction: rtl !important;
+  margin-top: 30px !important;
+}
+
 @media (max-width: 879px) {
   .dotes-border::after {
     display: none;
   }
 }
 @media (max-width: 768px) {
-.slick-dots{
-  bottom: -20px !important;
-}
+  .slick-dots {
+    bottom: -20px !important;
+  }
 }
 @media (max-width: 568px) {
   .Titile {

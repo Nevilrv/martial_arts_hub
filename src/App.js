@@ -107,6 +107,11 @@ const InstructorCreateSlot = lazy(() =>
 // admin
 const AdminLogin = lazy(() => import("./components/pages/admin/Login/Login"));
 const Dashboard = lazy(() => import("./components/pages/admin/Dashboard/Dashboard"));
+const Instructor_Managementnew_Requests = lazy(() => import("./components/pages/admin/InstructorManagement/NewRequests.js"));
+const Admin_View_Instructors = lazy(() => import("./components/pages/admin/InstructorManagement/ViewInstructors.js"));
+const Admin_Blocked_Instructors = lazy(() => import("./components/pages/admin/InstructorManagement/BlockedInstructors.js"));
+const Admin_View_Students = lazy(() => import("./components/pages/admin/StudentManagement/ViewStudents.js"));
+const Admin_Blocked_Students = lazy(() => import("./components/pages/admin/StudentManagement/BlockedStudents.js"));
 
 function App() {
   const routes = [
@@ -277,6 +282,31 @@ function App() {
     {
       path: Routing.AdminDashboard,
       component: Dashboard,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.Admin_Instructor_Managementnew_Requests,
+      component: Instructor_Managementnew_Requests,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.Admin_View_Instructors,
+      component: Admin_View_Instructors,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.Admin_Blocked_Instructors,
+      component: Admin_Blocked_Instructors,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.Admin_View_Students,
+      component: Admin_View_Students,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.Admin_Blocked_Students,
+      component: Admin_Blocked_Students,
       isPrivateRoute: false,
     },
 

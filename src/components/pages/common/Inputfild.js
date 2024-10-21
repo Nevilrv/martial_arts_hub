@@ -10,16 +10,18 @@ const Inputfild = ({
   name,
   onChange,
   Labelclass,
-  value
+  value,
+  maxLength
 }) => {
   const [show, setshow] = useState(false);
 
   return (
     <>
       <div>
-        <label className={`text-sm text-black/50 block ${Labelclass} `}>{Label}</label>
+        <label className={`text-sm text-black/50 block ${Labelclass}`}>{Label}</label>
         <div className="relative">
           <input
+          maxLength={maxLength}
             onChange={onChange}
             type={show === true ? "text" : type}
             name={name}

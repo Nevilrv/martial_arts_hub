@@ -52,10 +52,10 @@ const MyClass = () => {
         <div className="flex items-center justify-between">
           <h1 className="text-black text-3xl font-semibold">My Classes</h1>
           <OutlineBtn
-            text={"Create New"}
+            text={"Create Slot"}
             icon={<FaPlus className="mr-1" />}
             className={"bg-black text-white"}
-            onClick={() => navigate(Routing.InstructorCreateClass)}
+            onClick={() => navigate(Routing.InstructorCreateSlot)}
           />
         </div>
         <div className="md:flex grid sm:grid-cols-2 grid-cols-1 items-center mt-6 gap-2">

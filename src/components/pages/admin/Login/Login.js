@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import { Routing } from "../../../shared/Routing";
 import Login_image from "../../../../assets/images/LoginImage.png";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BiSolidQuoteLeft } from "react-icons/bi";
-import { FaArrowLeft, FaGoogle } from "react-icons/fa6";
 import Inputfild from "../../common/Inputfild";
 import BigButton from "../../common/BigButton";
 import { toast } from "react-toastify";
-import { InstructorLogin } from "../../../services/Instructor/instructor_auth/auth";
 import { AdminLogin } from "../../../services/Admin/auth";
 import Popup from "../../common/Popup";
 import { Confirm_Popup_Icon } from "../../../../assets/icon";

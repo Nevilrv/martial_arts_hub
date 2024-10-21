@@ -5,7 +5,7 @@ import { BsPatchCheckFill, BsQuote } from "react-icons/bs";
 import { IoIosArrowRoundForward, IoMdShare } from "react-icons/io";
 import Instructors from "../../common/Instructors";
 import Slider from "react-slick";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import user from "../../../../assets/images/user.png";
 import GetInTouch from "../../common/Get_In_Touch";
 import Instructor4 from "../../../../assets/images/Instructor-4.png";
@@ -13,15 +13,20 @@ import { BiHeart } from "react-icons/bi";
 import {
   GetInstructorDetails,
   GetLikesChek,
+  GetReviews,
   InstructorLike,
 } from "../../../services/student/Homepage/Homepage";
 import Spinner from "../../../layouts/Spinner";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { FaHeart } from "react-icons/fa6";
+import { FaArrowLeft, FaHeart } from "react-icons/fa6";
 import { AiOutlineMessage } from "react-icons/ai";
 import { ShareIcon } from "../../../../assets/icon";
 import { Routing } from "../../../shared/Routing";
+import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
+import User from "../../../../assets/images/userImage.png";
+import Inputfild from "../../common/Inputfild";
+import { Send_inqury_message } from "../../../services/student/class";
 
 const InstructorProfile = () => {
   var settings = {
@@ -63,10 +68,49 @@ const InstructorProfile = () => {
   };
 
   const [Instructor, setInstructor] = useState({});
+  const [Reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [MessageSend, setMessageSend] = useState(false);
   const [Like, setLike] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [inqurymessage, setInqurymessage] = useState({
+    title: "",
+    body: "",
+  });
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const heandalChange = (e) => {
+    setInqurymessage({
+      ...inqurymessage,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const Send_Inqury_Message = async () => {
+    setLoading(true);
+    const body = {
+      instructorId: id,
+      title: inqurymessage.title,
+      body: inqurymessage.body,
+    };
+    const result = await Send_inqury_message(body);
+    if (result?.success === true) {
+      setLoading(false);
+      setMessageSend(false)
+      toast.success(result.message);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        localStorage.clear();
+        navigate(Routing.Initial);
+      }
+      toast.error(result.message);
+      setMessageSend(false)
+      setLoading(false);
+    }
+  };
 
   const getInstructor = async () => {
     setLoading(true);
@@ -74,9 +118,41 @@ const InstructorProfile = () => {
     if (result?.success === true) {
       setLoading(false);
       setInstructor(result.data);
+      setRating(result.data.reviews);
     } else {
       setLoading(false);
     }
+  };
+
+  const getInstructorReviews = async () => {
+    setLoading(true);
+    const result = await GetReviews(id);
+    if (result?.success === true) {
+      setLoading(false);
+      setReviews(result?.data?.studentFeedBack);
+    } else {
+      setLoading(false);
+    }
+  };
+
+  const getStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+    return (
+      <div className="flex items-center gap-0.5">
+        {[...Array(fullStars)].map((_, i) => (
+          <FaStar key={`full-${i}`} className="text-yellow-100 text-lg" />
+        ))}
+        {hasHalfStar && (
+          <FaStarHalfAlt className="text-yellow-100 text-lg" key="half" />
+        )}
+        {[...Array(emptyStars)].map((_, i) => (
+          <FaStar key={`empty-${i}`} className="text-gay-500 text-lg" />
+        ))}
+      </div>
+    );
   };
 
   const HeandleLike = async () => {
@@ -89,7 +165,9 @@ const InstructorProfile = () => {
       setLoading(false);
       setLike(!Like);
     } else {
-      if (result?.message === "Invalid token, Please Log-Out and Log-In again") {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
         toast.error("Please Login");
       }
       setLoading(false);
@@ -108,6 +186,12 @@ const InstructorProfile = () => {
         }
       });
     } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        localStorage.clear();
+        navigate(Routing.Initial);
+      }
       setLoading(false);
     }
   };
@@ -115,7 +199,16 @@ const InstructorProfile = () => {
   useEffect(() => {
     getInstructor();
     CheckLikes();
+    getInstructorReviews();
   }, [id]);
+
+  const HeandleBooking = () => {
+    if (JSON.parse(localStorage.getItem("is_login"))) {
+      navigate(`/student/bookclass/${id}`);
+    } else {
+      navigate(Routing.StudentLogin);
+    }
+  };
 
   return (
     <>
@@ -320,18 +413,17 @@ const InstructorProfile = () => {
                 <div className="instructor_profile_shape"></div>
               </div>
               <h2 className="text-[26px] font-bold text-black mt-6">
-                Kiya Jhon
+                {Instructor.name}
               </h2>
               <div className="mt-3 flex items-center gap-x-1">
                 <div className="flex items-center gap-0.5">
-                  <FaStar className="text-yellow-100 text-lg" />
-                  <FaStar className="text-yellow-100 text-lg" />
-                  <FaStar className="text-yellow-100 text-lg" />
-                  <FaStar className="text-yellow-100 text-lg" />
-                  <FaStar className="text-gay-500 text-lg" />
+                  {getStars(rating)}
                 </div>
                 <p className="text-black/50 text-sm">
-                  4.3 <span className="underline">(25 Reviews)</span>
+                  {rating}{" "}
+                  <span className="underline">
+                    ({Instructor.totalReviews} Reviews)
+                  </span>
                 </p>
               </div>
               <div className="grid grid-cols-2 mt-10 gap-4">
@@ -357,7 +449,7 @@ const InstructorProfile = () => {
 
               <div className="mt-10 flex flex-col justify-center items-center gap-4">
                 <OutlineBtn
-                  onClick={() => navigate(Routing.StudentBookClass)}
+                  onClick={HeandleBooking}
                   text={"Book Now"}
                   className={
                     "sm:w-[375px] w-full h-[60px] bg-black text-white font-medium border-none"
@@ -365,6 +457,7 @@ const InstructorProfile = () => {
                 />
                 <OutlineBtn
                   text={"Send a message"}
+                  onClick={() => setMessageSend(true)}
                   icon={
                     <AiOutlineMessage className="text-black text-2xl mr-3" />
                   }
@@ -409,125 +502,150 @@ const InstructorProfile = () => {
             <h2 className="font-medium text-[32px] flex items-center">
               Reviews{" "}
               <span className="text-base flex items-center gap-1">
-                <FaStar className="text-yellow-100" /> 4.3 (25 Reviews)
+                <FaStar className="text-yellow-100" /> {rating} (
+                {Instructor.totalReviews} Reviews)
               </span>
             </h2>
-            <Slider {...settings} className="mt-5 slider-2 relative">
-              <div className="px-2">
-                <div className="p-7 border border-[#848484]/30 rounded-3xl">
-                  <BsQuote className="text-7xl text-gay-400/25" />
-                  <p className="text-black/70 text-justify">
-                    Training here has been a transformative experience. I've
-                    gained confidence, discipline, and strength, thanks to the
-                    supportive and skilled instructors.
-                  </p>
-                  <div className="flex items-start mt-3 gap-3">
-                    <img src={user} alt="" />
-                    <div>
-                      <h3 className="text-black text-lg font-semibold">
-                        Sarah Kim
-                      </h3>
-                      <div className="flex items-center gap-1">
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-gay-500" />
-                        <p className="text-black/50 text-[11px]">4.3</p>
+            {Reviews.length > 3 ? (
+              <Slider {...settings} className="mt-5 slider-2 relative">
+                {Reviews.map((Review) => (
+                  <div className="px-2" key={Review.id}>
+                    <div className="p-7 border border-[#848484]/30 rounded-3xl">
+                      <BsQuote className="text-7xl text-gray-400/25" />
+                      <p className="text-black/70 text-justify">
+                        {Review.feedback}
+                      </p>
+                      <div className="flex items-start mt-3 gap-3">
+                        <img
+                          src={Review.studentProfile}
+                          alt=""
+                          className="w-[46px] h-[46px] rounded-full object-cover"
+                        />
+                        <div>
+                          <h3 className="text-black text-lg font-semibold">
+                            {Review.studentName}
+                          </h3>
+                          <div className="flex items-center gap-1">
+                            {/* Replace hardcoded stars with dynamic stars */}
+                            {getStars(Review.rating)}
+                            <p className="text-black/50 text-[11px]">
+                              {Review.rating}
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="px-2">
-                <div className="p-7 border border-[#848484]/30 rounded-3xl">
-                  <BsQuote className="text-7xl text-gay-400/25" />
-                  <p className="text-black/70 text-justify">
-                    The instructors are amazing and supportive. I've learned so
-                    much and made great friends. The positive atmosphere and
-                    challenging classes have made a huge difference in my
-                    fitness and focus.
-                  </p>
-                  <div className="flex items-start mt-3 gap-3">
-                    <img src={user} alt="" />
-                    <div>
-                      <h3 className="text-black text-lg font-semibold">
-                        Sarah Kim
-                      </h3>
-                      <div className="flex items-center gap-1">
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-gay-500" />
-                        <p className="text-black/50 text-[11px]">4.3</p>
+                ))}
+              </Slider>
+            ) : (
+              <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 mt-5">
+                {Reviews.map((Review) => (
+                  <div className="px-2" key={Review.id}>
+                    <div className="p-7 border border-[#848484]/30 rounded-3xl">
+                      <BsQuote className="text-7xl text-gray-400/25" />
+                      <p className="text-black/70 text-justify">
+                        {Review.feedback}
+                      </p>
+                      <div className="flex items-start mt-3 gap-3">
+                        <img
+                          src={Review.studentProfile}
+                          alt=""
+                          className="w-[46px] h-[46px] rounded-full object-cover"
+                        />
+                        <div>
+                          <h3 className="text-black text-lg font-semibold">
+                            {Review.studentName}
+                          </h3>
+                          <div className="flex items-center gap-1">
+                            {/* Replace hardcoded stars with dynamic stars */}
+                            {getStars(Review.rating)}
+                            <p className="text-black/50 text-[11px]">
+                              {Review.rating}
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
-              <div className="px-2">
-                <div className="p-7 border border-[#848484]/30 rounded-3xl">
-                  <BsQuote className="text-7xl text-gay-400/25" />
-                  <p className="text-black/70 text-justify">
-                    Training here has been a transformative experience. I've
-                    gained confidence, discipline, and strength, thanks to the
-                    supportive and skilled instructors.
-                  </p>
-                  <div className="flex items-start mt-3 gap-3">
-                    <img src={user} alt="" />
-                    <div>
-                      <h3 className="text-black text-lg font-semibold">
-                        Sarah Kim
-                      </h3>
-                      <div className="flex items-center gap-1">
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-gay-500" />
-                        <p className="text-black/50 text-[11px]">4.3</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="px-2">
-                <div className="p-7 border border-[#848484]/30 rounded-3xl">
-                  <BsQuote className="text-7xl text-gay-400/25" />
-                  <p className="text-black/70 text-justify">
-                    Training here has been a transformative experience. I've
-                    gained confidence, discipline, and strength, thanks to the
-                    supportive and skilled instructors.
-                  </p>
-                  <div className="flex items-start mt-3 gap-3">
-                    <img src={user} alt="" />
-                    <div>
-                      <h3 className="text-black text-lg font-semibold">
-                        Sarah Kim
-                      </h3>
-                      <div className="flex items-center gap-1">
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-yellow-100" />
-                        <FaStar className="text-gay-500" />
-                        <p className="text-black/50 text-[11px]">4.3</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Slider>
+            )}
           </div>
         </section>
-        <section className="px-3 lg:px-8 mt-20">
+        <section className="px-3 lg:px-8 mt-5">
           <div className="md:px-8">
             <Instructors />
           </div>
         </section>
         <GetInTouch />
       </div>
+
+      <Dialog
+        open={MessageSend}
+        onClose={setMessageSend}
+        className="relative z-10"
+      >
+        <DialogBackdrop
+          transition
+          className="fixed inset-0 bg-black/60 backdrop-blur-[16.4px] transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
+        />
+
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <DialogPanel
+              transition
+              className="relative transform overflow-hidden rounded-lg bg-primary md:px-11 px-3 py-12 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:w-[95%] md:max-w-5xl data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95 overflow-x-auto"
+            >
+              <div className="flex items-center">
+                <FaArrowLeft
+                  className="text-2xl text-black cursor-pointer"
+                  onClick={() => setMessageSend(false)}
+                />
+                <div>
+                  <h2 className="font-semibold text-lg ml-4 ">
+                    Send a Message
+                  </h2>
+                  <p className="text-black/50 ml-4">
+                    Please write your message here. Your message will be sent as
+                    a request to the instructor. Once they accept your request,
+                    you can chat with them. Write your query below:
+                  </p>
+                </div>
+              </div>
+              <div className="mt-10">
+                <div className="mt-6 py-6 md:px-5 ">
+                  <Inputfild
+                    Label={"Title"}
+                    name={"title"}
+                    Labelclass={"customradiusBlack text-[22px]"}
+                    className={"customradius md:w-full"}
+                    placeholder={"Boxing"}
+                    onChange={(e) => heandalChange(e)}
+                  />
+                </div>
+                <div className="mt-6 py-6 md:px-5">
+                  <textarea
+                    name="body"
+                    onChange={(e) => heandalChange(e)}
+                    className="p-7 h-[221px] bg-[#DAD8D0] w-full focus:outline-none rounded-xl"
+                    placeholder="Write Your message here*"
+                  />
+                </div>
+                <div className="flex items-center justify-end">
+                  <OutlineBtn
+                    text={"Send request"}
+                    className={
+                      "bg-black border-none text-white font-medium w-[175px] h-[55px]"
+                    }
+                    onClick={() => Send_Inqury_Message()}
+                  />
+                </div>
+              </div>
+            </DialogPanel>
+          </div>
+        </div>
+      </Dialog>
     </>
   );
 };

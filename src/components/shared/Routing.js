@@ -18,7 +18,7 @@ export const Routing = {
   Student_Booking_History:"/student/booking_history",
   StudentDispute:"/student/dispute",
   StudentNewDispute:"/student/new_dispute",
-  StudentBookClass:"/student/bookclass",
+  StudentBookClass:"/student/bookclass/:instructorId",
 
 
 
@@ -45,4 +45,11 @@ export const Routing = {
 
   AdminLogin: "/admin/login",
   AdminDashboard: "/admin/dashboard",
+  Admin_Instructor_Managementnew_Requests: "/admin/instructormanagement/newrequests",
+  Admin_View_Instructors: "/admin/viewinstructors",
+  Admin_Blocked_Instructors: "/admin/blockedinstructors",
+  Admin_View_Students: "/admin/studentmanagement/viewstudents",
+  Admin_Blocked_Students: "/admin/blockedstudents",
+  Admin_Finance_Dashboard: "/admin/Finance/dashboard",
+
 };

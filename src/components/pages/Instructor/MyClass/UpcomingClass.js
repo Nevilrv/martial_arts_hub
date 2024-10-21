@@ -6,6 +6,7 @@ import OutlineBtn from "../../common/OutlineBtn";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Instructor_get_Upcoming_Classes } from "../../../services/Instructor/createClass/Index";
+import Spinner from "../../../layouts/Spinner";
 
 const UpcomingClass = (props) => {
   const navigate = useNavigate();
@@ -16,11 +17,12 @@ const UpcomingClass = (props) => {
   const id = JSON.parse(localStorage.getItem("_id"));
 
   const Get_Upcoming_Classes = async () => {
+    setLoading(true);
     const result = await Instructor_get_Upcoming_Classes(id);
     if (result?.success === true) {
-      setLoading(false);
       setUpcomingClass(result.data.upcoming);
       toast.success(result?.message);
+      setLoading(false);
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -33,6 +35,7 @@ const UpcomingClass = (props) => {
 
   return (
     <>
+    {loading&&<Spinner/>}
       {upcomingClass?.length <= 0 ? (
         <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
           <WorkOut height={"110"} width={"110"} />
@@ -53,24 +56,20 @@ const UpcomingClass = (props) => {
                   <img src={Wrestling} alt="Wrestling" />
                 </div>
                 <div className="ml-5">
-                  <div className="flex items-center cursor-pointer" onClick={()=>navigate(`/instructor/edit_class/${upcoming_class.classId}`)}>
+                  <div className="flex items-center cursor-pointer">
                     <h3 className="text-xl font-medium">
                       {upcoming_class?.className}
                     </h3>
-                    <RiEditBoxFill className="text-lg mt-0.5 text-red-200 ml-2" />
-                    <p className="text-red-200 text-sm font-medium ml-1">
-                      Edit Class
-                    </p>
                   </div>
                   <div className="flex items-center">
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
                       <span className="font-medium">Class Date:</span>{" "}
-                      {upcoming_class?.date}
+                      {upcoming_class?.classdate}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
                       <span className="font-medium"> Created on:</span>
-                      {upcoming_class?.date}
+                      {upcoming_class?.createdOn}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
@@ -81,19 +80,19 @@ const UpcomingClass = (props) => {
                   <div className="flex items-center">
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
                       <span className="font-medium">Class Time:</span>
-                      {upcoming_class?.localTimeSlot}
+                      {upcoming_class?.classTime}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
                       <span className="font-medium">Class Duration:</span>
-                      {Math.round((parseInt(upcoming_class?.duration) / 60)).toFixed(1)}hr
+                      {upcoming_class?.classduration}hr
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] mt-0.5 text-red-200 font-medium">
                       <span className="font-medium text-black/70 ">
                         Class Rate:
                       </span>
-                      ${parseInt(upcoming_class?.rate).toFixed(2)}
+                      ${parseInt(upcoming_class?.classRate).toFixed(2)}
                     </p>
                   </div>
                 </div>

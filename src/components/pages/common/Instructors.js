@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import InstructorsCard from "./Instructors_Card";
 import Slider from "react-slick";
-import Instructor1 from "../../../assets/images/Instructor-1.png";
-import Instructor2 from "../../../assets/images/Instructor-2.png";
-import Instructor3 from "../../../assets/images/Instructor-3.png";
-import Instructor4 from "../../../assets/images/Instructor-4.png";
 import { GetInstructors } from "../../services/student/Homepage/Homepage";
 import Spinner from "../../layouts/Spinner";
 
@@ -46,58 +42,6 @@ const Instructors = () => {
       },
     ],
   };
-
-  const Instructorsdata = [
-    {
-      image: Instructor1,
-      rating: "4.3 (1200 Ratings)",
-      name: "Keyn Mojho",
-      experience: 8,
-    },
-    {
-      image: Instructor2,
-      rating: "4.3 (1200 Ratings)",
-      name: "Marry Jhon",
-      experience: 2,
-    },
-    {
-      image: Instructor3,
-      rating: "4.3 (1200 Ratings)",
-      name: "Jhon Martin",
-      experience: 5,
-    },
-    {
-      image: Instructor4,
-      rating: "4.3 (1200 Ratings)",
-      name: "Kiya Jhon",
-      experience: 5,
-    },
-    {
-      image: Instructor1,
-      rating: "4.3 (1200 Ratings)",
-      name: "Keyn Mojho",
-      experience: 8,
-    },
-    {
-      image: Instructor2,
-      rating: "4.3 (1200 Ratings)",
-      name: "Marry Jhon",
-      experience: 2,
-    },
-    {
-      image: Instructor3,
-      rating: "4.3 (1200 Ratings)",
-      name: "Jhon Martin",
-      experience: 5,
-    },
-    {
-      image: Instructor4,
-      rating: "4.3 (1200 Ratings)",
-      name: "Kiya Jhon",
-      experience: 5,
-    },
-  ];
-
   const getInstructors = async () => {
     setLoading(true);
     const result = await GetInstructors();

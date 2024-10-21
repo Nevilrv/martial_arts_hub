@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaPaperPlane } from "react-icons/fa6";
 import User from "../../../../assets/images/userImage.png";
 import OutlineBtn from "../../common/OutlineBtn";
+import Spinner from "../../../layouts/Spinner";
+import { Instructor_Booking_Requests } from "../../../services/Instructor/Booking/Booking";
 
 const ActiveBookingRequests = () => {
+  const [loading, setLoading] = useState(false);
+
+  const instructorId = JSON.parse(localStorage.getItem("_id"));
+
+  const getBookingRequests = async () => {
+    setLoading(true);
+    const result = await Instructor_Booking_Requests(instructorId);
+    if (result?.success === true) {
+      setLoading(false);
+      console.log(result.data, "==========>getBookingRequests");
+    } else {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getBookingRequests();
+  }, []);
+
   return (
     <>
+      {loading && <Spinner />}
       {/* <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
           <FaPaperPlane className='text-[80px] text-[#BDBBB5]' />
           <h2 className="text-[26px] font-medium text-center mt-7">
@@ -30,13 +52,11 @@ const ActiveBookingRequests = () => {
               Emily Roberts
             </h2>
             <div className="flex items-center">
-            <p className="text-[13px] text-black/70 font-light mt-0.5">
-                <span className="font-medium">Class Name:</span>{" "}
-                Boxing
+              <p className="text-[13px] text-black/70 font-light mt-0.5">
+                <span className="font-medium">Class Name:</span> Boxing
               </p>
               <p className="text-[13px] text-black/70 font-light mt-0.5">
-                <span className="font-medium">Class Date:</span>{" "}
-                26 Aug, 2024
+                <span className="font-medium">Class Date:</span> 26 Aug, 2024
               </p>
               <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
               <p className="text-[13px] text-black/70 font-light mt-0.5">

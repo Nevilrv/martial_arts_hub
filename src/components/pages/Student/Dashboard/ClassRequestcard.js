@@ -37,23 +37,22 @@ const ClassRequestcard = ({ cardDetails, data }) => {
           <>
             <div className="flex items-start mt-6 gap-3">
               <img
-                src={ClassRequests?.Instructor?.profile_picture}
+                src={ClassRequests?.instructor_profile}
                 className="min-w-[62px] h-[62px] object-cover object-left-top rounded-full grayscale"
                 alt=""
               />
               <div className="w-full">
                 <div className="flex items-center justify-between w-full">
                   <h2 className="text-black text-xl font-semibold">
-                    {ClassRequests?.Instructor?.name}
+                    {ClassRequests?.instructorName}
                   </h2>
                   <p className="text-black/50 truncate max-w-[300px]">
-                    • {ClassRequests?.title}
+                    • {ClassRequests?.message_title}
                   </p>
                   <OutlineBtn text={"View"} className={"h-[40px]"} />
                 </div>
                 <p className="text-black/70 max-w-[375px]">
-                  Your Inquiry message request is reached to the Instructor.
-                  Please wait for the confirmation.
+                  {ClassRequests?.message_body}
                 </p>
               </div>
             </div>

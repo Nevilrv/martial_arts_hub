@@ -1,11 +1,14 @@
-import React from "react";
-import { Routing } from "../../../../shared/Routing";
+import React, { useEffect, useState } from "react";
 import { FaPaperPlane } from "react-icons/fa6";
 import { Thunderstorm, WorkOut } from "../../../../../assets/icon";
-import Tab from "../../../common/Tab/Index";
 import ProfileCard from "../../../common/Dashboard/ProfileCard";
 import DashboardCard from "../../../common/Dashboard/DashboardCard";
 import Tabs from "../..";
+import { toast } from "react-toastify";
+import { DashboardData } from "../../../../services/Instructor/Dashboard/DashboardApi";
+import ClassRequestcard from "./ClassRequestcard";
+import OutlineBtn from "../../../common/OutlineBtn";
+import Spinner from "../../../../layouts/Spinner";
 
 const Index = () => {
   const ProfileDetals = [
@@ -42,26 +45,112 @@ const Index = () => {
       "No students have joined your class yet! Once someone joins, your earnings will be shown here.",
     Plus: false,
   };
-  const MessagesCard = {
-    CardTitle: "Messages Requests",
-    CardIcon: <FaPaperPlane className="text-[#BDBBB5] text-4xl" />,
-    CardHeadding: "Your Requests list is empty!",
-    CardDetails:
-      "You haven't received any requests yet! When student send inquiry message It’s details will be shown here.",
-    CardDetailsclassName: "max-w-full",
-    Plus: false,
+
+  const [loading, setLoading] = useState(false);
+  const [Profile, SetProfile] = useState({});
+  const [Class, setClass] = useState([]);
+  const [MessagesRequest, setMessagesRequest] = useState([]);
+
+  const getdata = async () => {
+    setLoading(true); 
+    const result = await DashboardData();
+    if (result?.success === true) {
+      SetProfile(result.data.profile);
+      setClass(result.data.myClasses);
+      setMessagesRequest(result.data.messageRequest);
+      toast.success(result?.message);
+      setLoading(false);
+    } else {
+      toast.error(result?.message);
+      setLoading(false);
+    }
   };
+  useEffect(() => {
+    getdata();
+  }, []);
 
   return (
     <>
+      {loading && <Spinner />}
       <Tabs>
         <div className="mt-10 px-3 lg:px-8 grid lg:grid-cols-3 gap-5">
-          <ProfileCard ProfileDetals={ProfileDetals} />
+          <ProfileCard ProfileDetals={Profile || ProfileDetals} />
           <div className="lg:col-span-2 grid lg:grid-cols-2 gap-5">
-            <DashboardCard cardDetails={ClassCard} />
+            <ClassRequestcard cardDetails={ClassCard} data={Class} />
             <DashboardCard cardDetails={EarningsCard} />
             <div className="lg:col-span-2 bg-gay-600 rounded-3xl">
-              <DashboardCard cardDetails={MessagesCard} />
+              <div className=" bg-gay-600 rounded-3xl px-8 py-7">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-gay-300 text-lg font-medium">
+                    Messages Requests
+                  </h3>
+                </div>
+                {MessagesRequest.length <= 0 ? (
+                  <div className="flex items-center justify-center flex-col mt-24">
+                    <FaPaperPlane className="text-[#BDBBB5] text-4xl" />
+                    <h3 className="text-black font-semibold text-lg">
+                      Your Requests list is empty!
+                    </h3>
+                    <p
+                      className={`text-gay-300 text-[13px] text-center mx-auto`}
+                    >
+                      You haven't received any requests yet! When student send
+                      inquiry message It’s details will be shown here.
+                    </p>
+                  </div>
+                ) : (
+                  MessagesRequest.map((Request) => (
+                    <div className=" h-[115px] flex items-center justify-between border-b border-gay-400">
+                      <div className="flex items-center">
+                        <div className="w-[82px] h-[82px] overflow-hidden rounded-full">
+                          <img
+                            src={Request.profile_picture}
+                            alt="Wrestling"
+                            className="w-full h-full object-cover object-top grayscale"
+                          />
+                        </div>
+                        <div className="ml-5">
+                          <h2 className="text-black texrt-[20px] font-medium">
+                            {Request.name}
+                          </h2>
+                          <div className="flex items-center">
+                            <p className="text-[13px] text-black/70  mt-0.5">
+                              <span className="font-medium">
+                                Request received on:
+                              </span>{" "}
+                              {Request.recived}
+                            </p>
+                            <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
+                            <p className="text-[13px] text-black/70  mt-0.5">
+                              <span className="font-medium">
+                                Inquiry class:
+                              </span>
+                              {Request.title}
+                            </p>
+                          </div>
+                          <p className="text-black/70 text-base max-w-2xl">
+                            {Request.body}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <OutlineBtn
+                          text={"See Profile"}
+                          className={
+                            "bg-transparent border-black text-black text-sm"
+                          }
+                        />
+                        <OutlineBtn
+                          text={"View Request"}
+                          className={
+                            "bg-green border-none text-white font-medium"
+                          }
+                        />
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           </div>
         </div>

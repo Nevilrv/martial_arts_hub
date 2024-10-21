@@ -7,7 +7,6 @@ import Adminlayout from "./Adminlayout";
 
 const MainLayout = ({ children }) => {
   const { pathname } = useLocation();
-  console.log("🚀 ~ MainLayout ~ pathname:", pathname.slice(0, 6));
 
   return (
     <>
