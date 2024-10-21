@@ -112,6 +112,7 @@ const Admin_View_Instructors = lazy(() => import("./components/pages/admin/Instr
 const Admin_Blocked_Instructors = lazy(() => import("./components/pages/admin/InstructorManagement/BlockedInstructors.js"));
 const Admin_View_Students = lazy(() => import("./components/pages/admin/StudentManagement/ViewStudents.js"));
 const Admin_Blocked_Students = lazy(() => import("./components/pages/admin/StudentManagement/BlockedStudents.js"));
+const Admin_Finance_Dashboard = lazy(() => import("./components/pages/admin/FinanceManagement/FinanceDashboard.js"));
 
 function App() {
   const routes = [
@@ -307,6 +308,11 @@ function App() {
     {
       path: Routing.Admin_Blocked_Students,
       component: Admin_Blocked_Students,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.Admin_Finance_Dashboard,
+      component: Admin_Finance_Dashboard,
       isPrivateRoute: false,
     },
 

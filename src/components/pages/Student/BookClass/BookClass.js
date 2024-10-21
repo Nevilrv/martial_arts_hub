@@ -20,6 +20,7 @@ import {
   Student_get_Slot,
 } from "../../../services/student/class";
 import Spinner from "../../../layouts/Spinner";
+import { toast } from "react-toastify";
 
 const BookClass = () => {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ const BookClass = () => {
 
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [selectedMailingLists, setSelectedMailingLists] = useState();
+  console.log("🚀 ~ BookClass ~ selectedMailingLists:", selectedMailingLists);
   const [ShowCalendar, setShowCalendar] = useState(false);
   const [loading, setLoading] = useState(false);
   // Calendar
@@ -50,6 +52,7 @@ const BookClass = () => {
   console.log("🚀 ~ BookClass ~ heandalChangeData:", heandalChangeData);
 
   const [TimeSlot, setTimeSlot] = useState([]);
+  console.log("🚀 ~ BookClass ~ TimeSlot:", TimeSlot);
   const [instructorData, setinstructorData] = useState({});
   const [rating, setRating] = useState(0);
 
@@ -91,7 +94,12 @@ const BookClass = () => {
     const result = await Get_time_slot(body);
     if (result?.success === true) {
       setLoading(false);
-      setTimeSlot(result?.data[0]?.timeSlote);
+      const formattedTimeSlots = result?.data[0]?.timeSlote?.map((slot) => ({
+        label: slot,
+        value: slot,
+      }));
+
+      setTimeSlot(formattedTimeSlots);
       setheandalChangeData((prevState) => ({
         ...prevState,
         classRate: result?.data[0]?.classRate,
@@ -147,6 +155,15 @@ const BookClass = () => {
       instructorId: instructorId,
     };
     console.log(body);
+  };
+
+  const henadleCalender = () => {
+    if (selectedMailingLists === undefined) {
+      toast.error("select your class Type first");
+      setShowCalendar(false)
+    } else {
+      setShowCalendar(!ShowCalendar);
+    }
   };
 
   return (
@@ -273,7 +290,7 @@ const BookClass = () => {
               </label>
               <div className="relative">
                 <div
-                  onClick={() => setShowCalendar(!ShowCalendar)}
+                  onClick={() => henadleCalender()}
                   className="h-[80px] w-full bg-[#DAD8D0] rounded-2xl flex items-center justify-between p-7 cursor-pointer"
                 >
                   <p className="text-lg text-black font-semibold">
@@ -284,7 +301,11 @@ const BookClass = () => {
                 {ShowCalendar && (
                   <div className="absolute top-full left-0 z-20 w-full">
                     <Calendar
-                      onChange={setSelectedDate}
+                    minDate={new Date()}
+                      onChange={(date) => {
+                        setSelectedDate(date);
+                        setShowCalendar(false); // Close calendar after selecting a date
+                      }}
                       value={selectedDate}
                       tileContent={tileContent}
                     />

@@ -83,7 +83,7 @@ const SidbarNavigation = [
       {
         Navigate: "Finance Dashboard",
         icon: <BiChevronDown />,
-        Path: Routing,
+        Path: Routing.Admin_Finance_Dashboard,
       },
       {
         Navigate: "Monitor Payments",
