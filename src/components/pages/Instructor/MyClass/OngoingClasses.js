@@ -16,7 +16,7 @@ const OngoingClasses = (props) => {
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line;
   const [upcomingClass, setUpcomingClass] = useState([]);
-  console.log("🚀 ~ OngoingClasses ~ upcomingClass:", upcomingClass);
+  console.log("🚀 ~ OngoingClasses ~ ongoing:", upcomingClass);
   const id = JSON.parse(localStorage.getItem("_id"));
 
   const Get_Upcoming_Classes = async () => {
@@ -124,7 +124,7 @@ const OngoingClasses = (props) => {
                 />
                 <OutlineBtn
                   text={"End Class"}
-                  onClick={() => heandleEndclass(upcoming_class?.classId)}
+                  onClick={() => heandleEndclass(upcoming_class?.meetingId)}
                   className={
                     "bg-red-100 border-red-200 text-red-200 font-semibold"
                   }

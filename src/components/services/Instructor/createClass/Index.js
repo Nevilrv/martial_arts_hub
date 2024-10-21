@@ -35,8 +35,8 @@ export const Instructor_Create_Slot = async (body) => {
 export const Instructor_End_Class = async (id) => {
   try {
     let response = await axios({
-      method: "DELETE",
-      url: `${baseURL}/instructor/class/delete/${id}`,
+      method: "PUT",
+      url: `${baseURL}/instructor/meeting/end/${id}`,
       headers: {
         Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
       },

@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
 import { toast } from "react-toastify";
 import { Instructor_Create_Slot } from "../../../services/Instructor/createClass/Index";
-import Select from "react-select/base";
+import Select from "react-select";
 
 const CreateSlot = () => {
   // slot time
@@ -57,11 +57,12 @@ const CreateSlot = () => {
   });
 
   const handleSubmit = async () => {
-    // setLoading(true);
     let TimeSlot = [];
+    console.log("🚀", TimeSlot);
     for (let i = 0; i < selectedTimeSlot.length; i++) {
       TimeSlot.push(selectedTimeSlot[i].value);
     }
+    // setLoading(true);
     const body = {
       classdate: FormData.classdate,
       timeSlot: TimeSlot,
@@ -81,8 +82,6 @@ const CreateSlot = () => {
       toast.error(result?.message);
     }
   };
-
-
 
   return (
     <>
@@ -114,10 +113,11 @@ const CreateSlot = () => {
                 </label>
                 <div className="TimeSlot">
                   <Select
-                    defaultValue={selectedTimeSlot}
-                    onChange={setselectedTimeSlot}
-                    options={TimeSlot}
-                    isMulti
+                   defaultValue={selectedTimeSlot}
+                   onChange={setselectedTimeSlot}
+                   options={TimeSlot}
+                   isMulti
+                   onMenuOpen={() => {}}
                   />
                 </div>
               </div>
