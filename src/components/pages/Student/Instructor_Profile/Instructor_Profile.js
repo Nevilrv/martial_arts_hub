@@ -97,7 +97,7 @@ const InstructorProfile = () => {
     const result = await Send_inqury_message(body);
     if (result?.success === true) {
       setLoading(false);
-      setMessageSend(false)
+      setMessageSend(false);
       toast.success(result.message);
     } else {
       if (
@@ -107,7 +107,7 @@ const InstructorProfile = () => {
         navigate(Routing.Initial);
       }
       toast.error(result.message);
-      setMessageSend(false)
+      setMessageSend(false);
       setLoading(false);
     }
   };
@@ -191,6 +191,7 @@ const InstructorProfile = () => {
       ) {
         localStorage.clear();
         navigate(Routing.Initial);
+        toast.error("Please Login")
       }
       setLoading(false);
     }

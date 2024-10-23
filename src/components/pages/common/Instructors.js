@@ -3,6 +3,7 @@ import InstructorsCard from "./Instructors_Card";
 import Slider from "react-slick";
 import { GetInstructors } from "../../services/student/Homepage/Homepage";
 import Spinner from "../../layouts/Spinner";
+import { toast } from "react-toastify";
 
 const Instructors = () => {
   const [Instructors, setInstructors] = useState([]);
@@ -50,6 +51,7 @@ const Instructors = () => {
       console.log(result.data, "========>Instructors data");
       setInstructors(result.data);
     } else {
+      toast.error("message")
       setLoading(false);
     }
   };

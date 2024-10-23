@@ -88,17 +88,17 @@ const SidbarNavigation = [
       {
         Navigate: "Monitor Payments",
         icon: <BiChevronDown />,
-        // Path: "/admin/employees/add",
+        Path: Routing.Admin_Monitor_Payments,
       },
       {
         Navigate: "Release Funds",
         icon: <BiChevronDown />,
-        // Path: "/admin/employees/all",
+        Path: Routing.Admin_Release_Funds,
       },
       {
         Navigate: "Handle Refunds",
         icon: <BiChevronDown />,
-        // Path: "/admin/employees/all",
+        Path: Routing.Admin_Refunds,
       },
     ],
   },
@@ -110,7 +110,7 @@ const SidbarNavigation = [
       {
         Navigate: "Dispute Requests",
         icon: <BiChevronDown />,
-        // Path: "/admin/employees/add",
+        Path: Routing.Admin_Dispute_Requests,
       },
     ],
   },
@@ -122,7 +122,7 @@ const SidbarNavigation = [
       {
         Navigate: "Generate Reports",
         icon: <BiChevronDown />,
-        // Path: "/admin/employees/add",
+        Path: Routing.Admin_Generate_Reports,
       },
       {
         Navigate: "Provide Feedback",

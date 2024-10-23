@@ -113,6 +113,11 @@ const Admin_Blocked_Instructors = lazy(() => import("./components/pages/admin/In
 const Admin_View_Students = lazy(() => import("./components/pages/admin/StudentManagement/ViewStudents.js"));
 const Admin_Blocked_Students = lazy(() => import("./components/pages/admin/StudentManagement/BlockedStudents.js"));
 const Admin_Finance_Dashboard = lazy(() => import("./components/pages/admin/FinanceManagement/FinanceDashboard.js"));
+const Admin_Monitor_Payments = lazy(() => import("./components/pages/admin/FinanceManagement/MonitorPayments.js"));
+const Admin_Release_Funds = lazy(() => import("./components/pages/admin/FinanceManagement/ReleaseFunds.js"));
+const Admin_Refunds = lazy(() => import("./components/pages/admin/FinanceManagement/HandleRefunds.js"));
+const Admin_Dispute_Requests = lazy(() => import("./components/pages/admin/DisputeCenter/DisputeRequests.js"));
+const Admin_Generate_Reports = lazy(() => import("./components/pages/admin/Reporting_&_Feedback/GenerateReports.js"));
 
 function App() {
   const routes = [
@@ -313,6 +318,31 @@ function App() {
     {
       path: Routing.Admin_Finance_Dashboard,
       component: Admin_Finance_Dashboard,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.Admin_Monitor_Payments,
+      component: Admin_Monitor_Payments,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.Admin_Release_Funds,
+      component: Admin_Release_Funds,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.Admin_Refunds,
+      component: Admin_Refunds,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.Admin_Dispute_Requests,
+      component: Admin_Dispute_Requests,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.Admin_Generate_Reports,
+      component: Admin_Generate_Reports,
       isPrivateRoute: false,
     },
 

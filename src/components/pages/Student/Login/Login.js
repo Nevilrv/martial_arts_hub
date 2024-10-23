@@ -15,7 +15,6 @@ const Login = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [userdata, setUserdata] = useState({
-    name: "",
     email: "",
     password: "",
   });
@@ -36,7 +35,6 @@ const Login = () => {
   const handleLogin = async () => {
     setLoading(true);
     const data = {
-      name: userdata.name,
       email: userdata.email,
       password: userdata.password,
     };
@@ -111,13 +109,6 @@ const Login = () => {
                       account!
                     </p>
                     <div className="mt-[31px] flex flex-col gap-y-6">
-                      <Inputfild
-                        onChange={handleChange}
-                        type={"text"}
-                        name={"name"}
-                        placeholder={"Name here"}
-                        Label={"Name"}
-                      />
                       <Inputfild
                         type={"email"}
                         name={"email"}

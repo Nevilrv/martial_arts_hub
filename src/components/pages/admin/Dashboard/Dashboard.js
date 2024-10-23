@@ -68,7 +68,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="pt-9">
-        <div className="sm:grid xl:grid-cols-4 md:grid-cols-2 flex flex-col gap-4">
+        <div className="sm:grid 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 flex flex-col gap-4">
           {data.map((items) => (
             <>
               <div className="w-full bg-primary rounded-xl p-6 shadow-BoxShadow">

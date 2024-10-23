@@ -35,7 +35,7 @@ const BookClass = () => {
     },
   ];
 
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState([]);
   const [selectedMailingLists, setSelectedMailingLists] = useState();
   console.log("🚀 ~ BookClass ~ selectedMailingLists:", selectedMailingLists);
   const [ShowCalendar, setShowCalendar] = useState(false);

@@ -382,7 +382,7 @@ input[type="number"] {
 .customradius {
   border-radius: 15px !important;
 }
-.customradiusBlack{
+.customradiusBlack {
   color: #000 !important;
 }
 .react-calendar {
@@ -397,10 +397,15 @@ input[type="number"] {
   margin: 0 auto;
   margin-top: 4px;
 }
-.DonutChart .apexcharts-canvas
-{
+.DonutChart .apexcharts-canvas {
   direction: rtl !important;
   margin-top: 30px !important;
+}
+.FinanceDashboardChart .apexcharts-legend {
+  flex-direction: row-reverse;
+}
+.FinanceDashboardChart foreignObject,.FinanceDashboardChart svg {
+  height: 430px !important;
 }
 
 @media (max-width: 879px) {

@@ -51,5 +51,9 @@ export const Routing = {
   Admin_View_Students: "/admin/studentmanagement/viewstudents",
   Admin_Blocked_Students: "/admin/blockedstudents",
   Admin_Finance_Dashboard: "/admin/Finance/dashboard",
-
+  Admin_Monitor_Payments: "/admin/Finance/monitorpayment",
+  Admin_Release_Funds: "/admin/Finance/releasefunds",
+  Admin_Refunds: "/admin/Finance/refunds",
+  Admin_Dispute_Requests: "/admin/Finance/dispute_requests",
+  Admin_Generate_Reports: "/admin/Finance/generatereports",
 };

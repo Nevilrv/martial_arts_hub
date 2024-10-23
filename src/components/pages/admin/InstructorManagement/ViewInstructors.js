@@ -4,6 +4,8 @@ import Instructor_1 from "../../../../assets/images/Instructor-1.png";
 import OutlineBtn from "../../common/OutlineBtn";
 import Popup from "../../common/Popup";
 import { Allert_Popup_Icon } from "../../../../assets/icon";
+import Instructor1 from "../../../../assets/images/Instructor-4.png";
+
 
 const ViewInstructors = () => {
   const [InstructorsList, setInstructorsList] = useState([
@@ -13,6 +15,7 @@ const ViewInstructors = () => {
       id: "#23352",
       ClassName: "Brazilian Jiu Jitsu",
       JoinedDate: "12/07/2024",
+      
     },
   ]);
   const [isOpen, SetisOpen] = useState(false);
