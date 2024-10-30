@@ -55,5 +55,6 @@ export const Routing = {
   Admin_Release_Funds: "/admin/Finance/releasefunds",
   Admin_Refunds: "/admin/Finance/refunds",
   Admin_Dispute_Requests: "/admin/Finance/dispute_requests",
+  Admin_Dispute_Details: "/admin/Finance/disputedetails",
   Admin_Generate_Reports: "/admin/Finance/generatereports",
 };

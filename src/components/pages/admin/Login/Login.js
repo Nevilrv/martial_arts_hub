@@ -36,13 +36,12 @@ const Index = () => {
     const result = await AdminLogin(data);
     if (result?.success === true) {
       setLoading(false);
-      localStorage.setItem("Role", JSON.stringify(result?.data?.role));
-      localStorage.setItem("email", JSON.stringify(result?.data?.email));
-      localStorage.setItem("_id", JSON.stringify(result?.data?.instructorId));
-      localStorage.setItem("token", JSON.stringify(result?.Token));
       localStorage.setItem("is_login", true);
+      localStorage.setItem("token", result.Token);
+      localStorage.setItem("email", userdata.email);
       SetisOpen(true);
       toast.success(result?.message);
+      navigate(Routing.AdminDashboard);
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -51,7 +50,7 @@ const Index = () => {
 
   return (
     <>
-      <div className="bg-primary p-5">
+      <div className="bg-primary p-5 flex items-center justify-center h-screen overflow-hidden">
         {/* <div className="flex items-start gap-9 lg:flex-nowrap flex-wrap lg:justify-start justify-center"> */}
         <div className="lg:grid grid-cols-2 flex max-w-7xl mx-auto items-start gap-[173px] lg:flex-nowrap flex-wrap lg:justify-start justify-center">
           <div className="pt-5 h-full">
@@ -126,7 +125,10 @@ const Index = () => {
         }
         BtnText={"Okay!"}
         Btnclass={"bg-black text-white"}
-        onClick={() => {SetisOpen(false);navigate(Routing.AdminDashboard)}}
+        onClick={() => {
+          SetisOpen(false);
+          navigate(Routing.AdminDashboard);
+        }}
       />
     </>
   );

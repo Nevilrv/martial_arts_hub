@@ -378,7 +378,6 @@ input[type="number"] {
   }
 }
 /* spnner css end */
-
 .customradius {
   border-radius: 15px !important;
 }
@@ -404,8 +403,12 @@ input[type="number"] {
 .FinanceDashboardChart .apexcharts-legend {
   flex-direction: row-reverse;
 }
-.FinanceDashboardChart foreignObject,.FinanceDashboardChart svg {
+.FinanceDashboardChart foreignObject,
+.FinanceDashboardChart svg {
   height: 430px !important;
+}
+.eye_bg {
+  backdrop-filter: blur(6.400000095367432px);
 }
 
 @media (max-width: 879px) {
@@ -424,3 +427,33 @@ input[type="number"] {
     line-height: 55px;
   }
 }
+*::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 4px;
+  background-color: #AEAEAE;
+}
+
+*::-webkit-scrollbar-track:hover {
+  background-color: #FFFFFF;
+}
+
+*::-webkit-scrollbar-track:active {
+  background-color: #FEFEFF;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #6E6E6E;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #6E6E6E;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: #6E6E6E;
+}
+

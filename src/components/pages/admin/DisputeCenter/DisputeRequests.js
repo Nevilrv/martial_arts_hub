@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import AdminHeadding from "../../common/AdminHeadding";
-import OutlineBtn from "../../common/OutlineBtn";
+import { Routing } from "../../../shared/Routing";
+import { useNavigate } from "react-router-dom";
 
 const DisputeRequests = () => {
+  // eslint-disable-next-line
   const [InstructorsList, setInstructorsList] = useState([
     {
       DisputeID: "#2221",
@@ -13,15 +15,15 @@ const DisputeRequests = () => {
       Status: "Active",
     },
     {
-        DisputeID: "#2221",
-        Raised_By: "Emily Roberts",
-        Against: "Keyn Mojho",
-        Amount: "$4.99",
-        RaisedDate: "05/07/2024",
-        Status: "Closed",
-      },
+      DisputeID: "#2221",
+      Raised_By: "Emily Roberts",
+      Against: "Keyn Mojho",
+      Amount: "$4.99",
+      RaisedDate: "05/07/2024",
+      Status: "Closed",
+    },
   ]);
-  const [isOpen, SetisOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -135,7 +137,10 @@ const DisputeRequests = () => {
                       {person.Status}
                     </div>
                   </td>
-                  <td className="whitespace-nowrap px-3 pr-6 py-4 text-red-200 underline font-medium w-[200px]">
+                  <td
+                    className="whitespace-nowrap px-3 pr-6 py-4 text-red-200 underline font-medium w-[200px] cursor-pointer"
+                    onClick={() => navigate(Routing.Admin_Dispute_Details)}
+                  >
                     View Details
                   </td>
                 </tr>

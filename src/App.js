@@ -106,18 +106,45 @@ const InstructorCreateSlot = lazy(() =>
 
 // admin
 const AdminLogin = lazy(() => import("./components/pages/admin/Login/Login"));
-const Dashboard = lazy(() => import("./components/pages/admin/Dashboard/Dashboard"));
-const Instructor_Managementnew_Requests = lazy(() => import("./components/pages/admin/InstructorManagement/NewRequests.js"));
-const Admin_View_Instructors = lazy(() => import("./components/pages/admin/InstructorManagement/ViewInstructors.js"));
-const Admin_Blocked_Instructors = lazy(() => import("./components/pages/admin/InstructorManagement/BlockedInstructors.js"));
-const Admin_View_Students = lazy(() => import("./components/pages/admin/StudentManagement/ViewStudents.js"));
-const Admin_Blocked_Students = lazy(() => import("./components/pages/admin/StudentManagement/BlockedStudents.js"));
-const Admin_Finance_Dashboard = lazy(() => import("./components/pages/admin/FinanceManagement/FinanceDashboard.js"));
-const Admin_Monitor_Payments = lazy(() => import("./components/pages/admin/FinanceManagement/MonitorPayments.js"));
-const Admin_Release_Funds = lazy(() => import("./components/pages/admin/FinanceManagement/ReleaseFunds.js"));
-const Admin_Refunds = lazy(() => import("./components/pages/admin/FinanceManagement/HandleRefunds.js"));
-const Admin_Dispute_Requests = lazy(() => import("./components/pages/admin/DisputeCenter/DisputeRequests.js"));
-const Admin_Generate_Reports = lazy(() => import("./components/pages/admin/Reporting_&_Feedback/GenerateReports.js"));
+const Dashboard = lazy(() =>
+  import("./components/pages/admin/Dashboard/Dashboard")
+);
+const Instructor_Managementnew_Requests = lazy(() =>
+  import("./components/pages/admin/InstructorManagement/NewRequests.js")
+);
+const Admin_View_Instructors = lazy(() =>
+  import("./components/pages/admin/InstructorManagement/ViewInstructors.js")
+);
+const Admin_Blocked_Instructors = lazy(() =>
+  import("./components/pages/admin/InstructorManagement/BlockedInstructors.js")
+);
+const Admin_View_Students = lazy(() =>
+  import("./components/pages/admin/StudentManagement/ViewStudents.js")
+);
+const Admin_Blocked_Students = lazy(() =>
+  import("./components/pages/admin/StudentManagement/BlockedStudents.js")
+);
+const Admin_Finance_Dashboard = lazy(() =>
+  import("./components/pages/admin/FinanceManagement/FinanceDashboard.js")
+);
+const Admin_Monitor_Payments = lazy(() =>
+  import("./components/pages/admin/FinanceManagement/MonitorPayments.js")
+);
+const Admin_Release_Funds = lazy(() =>
+  import("./components/pages/admin/FinanceManagement/ReleaseFunds.js")
+);
+const Admin_Refunds = lazy(() =>
+  import("./components/pages/admin/FinanceManagement/HandleRefunds.js")
+);
+const Admin_Dispute_Requests = lazy(() =>
+  import("./components/pages/admin/DisputeCenter/DisputeRequests.js")
+);
+const Admin_Dispute_Details = lazy(() =>
+  import("./components/pages/admin/DisputeCenter/DisputeDetails.js")
+);
+const Admin_Generate_Reports = lazy(() =>
+  import("./components/pages/admin/Reporting_&_Feedback/GenerateReports.js")
+);
 
 function App() {
   const routes = [
@@ -288,62 +315,67 @@ function App() {
     {
       path: Routing.AdminDashboard,
       component: Dashboard,
-      isPrivateRoute: false,
+      isPrivateRoute: true,
     },
     {
       path: Routing.Admin_Instructor_Managementnew_Requests,
       component: Instructor_Managementnew_Requests,
-      isPrivateRoute: false,
+      isPrivateRoute: true,
     },
     {
       path: Routing.Admin_View_Instructors,
       component: Admin_View_Instructors,
-      isPrivateRoute: false,
+      isPrivateRoute: true,
     },
     {
       path: Routing.Admin_Blocked_Instructors,
       component: Admin_Blocked_Instructors,
-      isPrivateRoute: false,
+      isPrivateRoute: true,
     },
     {
       path: Routing.Admin_View_Students,
       component: Admin_View_Students,
-      isPrivateRoute: false,
+      isPrivateRoute: true,
     },
     {
       path: Routing.Admin_Blocked_Students,
       component: Admin_Blocked_Students,
-      isPrivateRoute: false,
+      isPrivateRoute: true,
     },
     {
       path: Routing.Admin_Finance_Dashboard,
       component: Admin_Finance_Dashboard,
-      isPrivateRoute: false,
+      isPrivateRoute: true,
     },
     {
       path: Routing.Admin_Monitor_Payments,
       component: Admin_Monitor_Payments,
-      isPrivateRoute: false,
+      isPrivateRoute: true,
     },
     {
       path: Routing.Admin_Release_Funds,
       component: Admin_Release_Funds,
-      isPrivateRoute: false,
+      isPrivateRoute: true,
     },
     {
       path: Routing.Admin_Refunds,
       component: Admin_Refunds,
-      isPrivateRoute: false,
+      isPrivateRoute: true,
     },
     {
       path: Routing.Admin_Dispute_Requests,
       component: Admin_Dispute_Requests,
-      isPrivateRoute: false,
+      isPrivateRoute: true,
     },
     {
       path: Routing.Admin_Generate_Reports,
       component: Admin_Generate_Reports,
-      isPrivateRoute: false,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.Admin_Dispute_Details,
+      component: Admin_Dispute_Details,
+      isPrivateRoute: true,
     },
 
     // Add other routes as needed

@@ -52,10 +52,14 @@ const Index = () => {
   const [MessagesRequest, setMessagesRequest] = useState([]);
 
   const getdata = async () => {
-    setLoading(true); 
+    setLoading(true);
     const result = await DashboardData();
     if (result?.success === true) {
       SetProfile(result.data.profile);
+      localStorage.setItem(
+        "profile_picture",
+        result.data.profile.profile_picture
+      );
       setClass(result.data.myClasses);
       setMessagesRequest(result.data.messageRequest);
       toast.success(result?.message);
@@ -76,7 +80,7 @@ const Index = () => {
         <div className="mt-10 px-3 lg:px-8 grid lg:grid-cols-3 gap-5">
           <ProfileCard ProfileDetals={Profile || ProfileDetals} />
           <div className="lg:col-span-2 grid lg:grid-cols-2 gap-5">
-            <ClassRequestcard cardDetails={ClassCard} data={Class} />
+              <ClassRequestcard cardDetails={ClassCard} data={Class} />
             <DashboardCard cardDetails={EarningsCard} />
             <div className="lg:col-span-2 bg-gay-600 rounded-3xl">
               <div className=" bg-gay-600 rounded-3xl px-8 py-7">

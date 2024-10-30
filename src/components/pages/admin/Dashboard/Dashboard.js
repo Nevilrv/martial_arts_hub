@@ -1,72 +1,117 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Instructor4 from "../../../../assets/images/Instructor-4.png";
 import PieChart from "./PieChart";
 import OutlineBtn from "../../common/OutlineBtn";
 import { MdCalendarToday } from "react-icons/md";
 import BarChart from "./BarChart";
-import StudentsPieChart from "./StudentsPieChart";
+// import StudentsPieChart from "./StudentsPieChart";
+import { toast } from "react-toastify";
+import Spinner from "../../../layouts/Spinner";
+import {
+  Admin_Dashboard_data,
+  Admin_Progress,
+} from "../../../services/Admin/DashboardAPI";
+import dayjs from "dayjs";
 
 const Dashboard = () => {
+  const [DashboardCard, setDashboardCard] = useState({});
+  const [Admin_Progress_data, setAdmin_Progress_data] = useState([]);
+  const [Loading, setLoading] = useState(false);
+
   const data = [
     {
       Titile: "Total Classes",
-      number: 125,
+      number: DashboardCard.total_classes,
       color: "text-black",
     },
     {
       Titile: "Active Classes",
-      number: 80,
+      number: DashboardCard.active_classes,
       color: "text-green",
     },
     {
       Titile: "Total Instructors",
-      number: 20,
+      number: DashboardCard.total_instructor,
       color: "text-black",
     },
     {
       Titile: "Total Students",
-      number: 450,
+      number: DashboardCard.total_student,
       color: "text-black",
     },
     {
       Titile: "Blocked Students",
-      number: 28,
+      number: DashboardCard.block_student,
       color: "text-red-200",
     },
     {
       Titile: "Total Instructor Requests",
-      number: 55,
+      number: DashboardCard.total_instructor_request,
       color: "text-black",
     },
     {
       Titile: "Accepted Inst. Requests",
-      number: 35,
+      number: DashboardCard.accept_instructor_request,
       color: "text-green",
     },
     {
       Titile: "Rejected Inst. Requests",
-      number: 20,
+      number: DashboardCard.reject_instructor_request,
       color: "text-red-200",
     },
     {
       Titile: "Total Earning",
-      number: "$589.99",
+      number: DashboardCard.total_earning,
       color: "text-black",
     },
     {
       Titile: "Total Refunds",
-      number: "$150.0",
+      number: DashboardCard.total_refunds,
       color: "text-black",
     },
     {
       Titile: "Total Released Funds",
-      number: "$450.99",
+      number: DashboardCard.total_released_funds,
       color: "text-black",
     },
   ];
+  // Dashboard card API
+  const Get_Admin_Dashboard = async () => {
+    setLoading(true);
+    const result = await Admin_Dashboard_data();
+    if (result?.success === true) {
+      setDashboardCard(result.data);
+      toast.success(result?.message);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+
+  // pie chart data
+  const Get_Progress = async () => {
+    setLoading(true);
+    const result = await Admin_Progress(10);
+    if (result?.success === true) {
+      setAdmin_Progress_data(result.data);
+      // setDashboardCard(result.data);
+      // toast.success(result?.message);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+
+  useEffect(() => {
+    Get_Admin_Dashboard();
+    Get_Progress();
+  }, []);
 
   return (
     <>
+      {Loading && <Spinner />}
       <div className="pt-9">
         <div className="sm:grid 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 flex flex-col gap-4">
           {data.map((items) => (
@@ -114,7 +159,7 @@ const Dashboard = () => {
                 </select>
               </div>
               <div className="flex items-center justify-center">
-                <PieChart />
+                <PieChart data={Admin_Progress_data} />
               </div>
             </div>
             <div className="xl:col-span-3 col-span-2 bg-primary rounded-xl p-6 shadow-BoxShadow">

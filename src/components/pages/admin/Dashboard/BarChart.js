@@ -6,27 +6,27 @@ const BarChart = () => {
     {
       name: "Q1 Budget",
       group: "budget",
-      data: [44, 55, 41, 67, 22, 43,44, 55, 41, 67, 22, 43,],
+      data: [44, 55, 41, 67, 22, 43, 44, 55, 41, 67, 22, 43],
     },
     {
       name: "Q2 Budget",
       group: "budget",
-      data: [44, 55, 41, 67, 22, 43,44, 55, 41, 67, 22, 43,],
+      data: [44, 55, 41, 67, 22, 43, 44, 55, 41, 67, 22, 43],
     },
     {
       name: "Q3 Budget",
       group: "budget",
-      data: [35, 45, 11, 77, 34, 70,35, 45, 11, 77, 34, 70,],
+      data: [35, 45, 11, 77, 34, 70, 35, 45, 11, 77, 34, 70],
     },
     {
       name: "Q4 Budget",
       group: "budget",
-      data: [35, 45, 11, 77, 25, 50,35, 45, 11, 77, 25, 50,],
+      data: [35, 45, 11, 77, 25, 50, 35, 45, 11, 77, 25, 50],
     },
     {
       name: "Q5 Budget",
       group: "budget",
-      data: [35, 45, 11, 77, 20, 40,35, 45, 11, 77, 20, 40,],
+      data: [35, 45, 11, 77, 20, 40, 35, 45, 11, 77, 20, 40],
     },
   ]);
 
@@ -35,6 +35,9 @@ const BarChart = () => {
       type: "bar",
       height: 350,
       stacked: true,
+      toolbar: {
+        show: false,
+      },
     },
     stroke: {
       width: 0,
@@ -66,20 +69,21 @@ const BarChart = () => {
     fill: {
       opacity: 1,
     },
-    colors: ["#6B6B6B", "#9C9C9C", "#C0C0C0", "#9C9C9C","#B8B7B4"],
+    colors: ["#6B6B6B", "#9C9C9C", "#C0C0C0", "#9C9C9C", "#B8B7B4"],
     yaxis: {
       labels: {
         formatter: (val) => {
           return val;
         },
+        offsetX: -15,
       },
     },
     axisTicks: {
       show: true,
       width: 1,
       offsetX: 50,
-      offsetY: 50
-  },
+      offsetY: 50,
+    },
     legend: {
       show: false,
       position: "top",
@@ -89,12 +93,7 @@ const BarChart = () => {
   return (
     <>
       <div className="DonutChart">
-        <Chart
-          options={options}
-          series={series}
-          type="bar"
-          height={350}
-        />
+        <Chart options={options} series={series} type="bar" height={350} />
       </div>
     </>
   );

@@ -7,7 +7,7 @@ export const StudentDashboard = async () => {
       method: "GET",
       url: `${baseURL}/student/dashboard/${JSON.parse(localStorage.getItem("_id"))}`,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;

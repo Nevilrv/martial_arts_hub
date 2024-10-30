@@ -40,11 +40,13 @@ const Login = () => {
     };
     const result = await StudentLogin(data);
     if (result?.success === true) {
+      console.log("🚀 ~ handleLogin ~ result:", result)
       setLoading(false);
       localStorage.setItem("_id", JSON.stringify(result?.data?.studentId));
       localStorage.setItem("Role", JSON.stringify(result?.data?.role));
       localStorage.setItem("email", JSON.stringify(result?.data?.email));
-      localStorage.setItem("token", JSON.stringify(result?.Token));
+      localStorage.setItem("profile_picture", JSON.stringify(result?.data?.profile_picture));
+      localStorage.setItem("token", result?.Token);
       localStorage.setItem("is_login", true);
       navigate(Routing.StudentDashboard);
       toast.success(result?.message);

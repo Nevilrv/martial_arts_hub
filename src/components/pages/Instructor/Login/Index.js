@@ -46,7 +46,7 @@ const Index = () => {
         "_id",
         JSON.stringify(result?.data?.instructorId)
       );
-      localStorage.setItem("token", JSON.stringify(result?.Token));
+      localStorage.setItem("token", result?.Token);
       localStorage.setItem("is_login", true);
       navigate(Routing.InstructorDashboard);
       toast.success(result?.message);

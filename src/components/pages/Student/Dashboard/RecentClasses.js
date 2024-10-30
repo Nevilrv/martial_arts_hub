@@ -1,6 +1,7 @@
 import React from "react";
 import { FiPlus } from "react-icons/fi";
 import OutlineBtn from "../../common/OutlineBtn";
+import Wrestling from "../../../../assets/images/Wrestling.png"
 
 const RecentClasses = ({ cardDetails }) => {
   return (
@@ -32,7 +33,7 @@ const RecentClasses = ({ cardDetails }) => {
         <div className="flex items-center justify-between mt-7">
           <div className="flex items-start gap-5">
             <img
-              src="https://s3-alpha-sig.figma.com/img/85f5/93ed/252f0ac099af762c888b4cfe201bab14?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=fpO6IgOXypGI56Ylb8HmPqCQydDFvgTrFtbSxWMP6an3Yzm78Uynx1vAVH5fs05VBZeZKrYzTuB2gvpxq5nABWj22AVQsdncGW2yGrXExDwDaDM02Pmywzmc~dpBOpulLOsuGTAezuL-X4jcMrDQb5KcjEELWzoVDzMtgWLVF1KLR6eSARbH4Z~7jnzllhz9np8jgusyledGRST-scBj2~Wt1Z48ofSphEBCSmAzF9GWIfPIIyNLVAv1cq~L7XQ8vSZe3LGeVlv~xl5I9mWKrH5gqMQToIysQ54lBjcgEt8wcDYht5aq3fVAilV~-fkxQN~a0VjLKmytIVzsOchYMQ__"
+              src={Wrestling}
               alt=""
               className="grayscale hover:grayscale-0 w-[125px] h-[85px] rounded-lg"
             />

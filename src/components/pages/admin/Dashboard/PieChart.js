@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Chart from "react-apexcharts";
 
-const PieChart = () => {
+const PieChart = ({data}) => {
   const [chartOptions] = useState({
     labels: [
       "Total Sessions",
@@ -86,13 +86,13 @@ const PieChart = () => {
     ],
   });
 
-  const [chartSeries] = useState([44, 55, 13, 43]);
+  // const [chartSeries] = useState([44, 55, 13, 43]);
 
   return (
     <div className="DonutChart">
       <Chart
         options={chartOptions}
-        series={chartSeries}
+        series={data}
         type="donut"
         width="380"
       />

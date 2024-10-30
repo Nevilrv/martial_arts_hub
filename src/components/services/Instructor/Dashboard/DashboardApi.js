@@ -9,7 +9,7 @@ export const DashboardData = async () => {
         localStorage.getItem("_id")
       )}`,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;

@@ -6,8 +6,17 @@ const PrivateRoute = ({ children }) => {
   const loggedIn = localStorage.getItem("token");
   const location = useLocation();
   if (!loggedIn) {
-    return <Navigate to={Routing.Initial} state={location.pathname} replace />;
+    if (location.pathname === "/admin/dashboard") {
+      return (
+        <Navigate to={Routing.AdminLogin} state={location.pathname} replace />
+      );
+    } else {
+      return (
+        <Navigate to={Routing.Initial} state={location.pathname} replace />
+      );
+    }
   }
+
   return children;
 };
 
