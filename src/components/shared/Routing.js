@@ -18,6 +18,8 @@ export const Routing = {
   Student_Booking_History:"/student/booking_history",
   StudentDispute:"/student/dispute",
   StudentNewDispute:"/student/new_dispute",
+  StudentNegotiation:"/student/negotiation/:disputeId",
+  StudentArbitration:"/student/arbitration/:disputeId",
   StudentBookClass:"/student/bookclass/:instructorId",
 
 

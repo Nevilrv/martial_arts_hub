@@ -33,7 +33,9 @@ const NewDispute = () => {
     disputeType: "",
     description: "",
     evidenceScreenShort: [],
-    rate: "",
+    totalAmount: "",
+    classId:"",
+    bookingId:"",
   });
   const [selectClass, setSelectClass] = useState();
   const studentId = JSON.parse(localStorage.getItem("_id"));
@@ -96,27 +98,28 @@ const NewDispute = () => {
     formData.append("className", selectClass);
     formData.append("description", Dispute.description);
     formData.append("instructorId", instructorid);
-    formData.append("adminId", "cd7e3eab-a950-4b57-8702-cdb4abf505c6");
-    formData.append("rate", Dispute.rate);
+    formData.append("totalAmount", Dispute.totalAmount);
+    formData.append("classId", Dispute.classId);
+    formData.append("bookingId", Dispute.bookingId);
     if (
       Dispute.evidenceScreenShort &&
       Array.isArray(Dispute.evidenceScreenShort)
     ) {
       Dispute.evidenceScreenShort.forEach((file, index) => {
-        formData.append(`evidenceScreenShort`, file); // You can append files with unique keys
+        formData.append(`evidenceScreenShort`, file);
       });
     }
-
     const result = await CreateDispute(formData, studentId);
     if (result?.success === true) {
       setLoading(false);
       toast.success(result?.message);
+      SetisOpen(true);
       // navigate(Routing.InstructorDashboard)
     } else {
       setLoading(false);
       toast.error(result?.message);
     }
-    SetisOpen(true);
+   
   };
 
   return (
@@ -285,7 +288,9 @@ const NewDispute = () => {
                         onClick={() =>
                           setDispute((prevDispute) => ({
                             ...prevDispute,
-                            rate: getclass.rate,
+                            totalAmount: getclass.totalAmount,
+                            classId: getclass.classId,
+                            bookingId: getclass.bookingId,
                           }))
                         }
                       >

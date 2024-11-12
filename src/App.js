@@ -41,6 +41,12 @@ const StudentDispute = lazy(() =>
 const StudentNewDispute = lazy(() =>
   import("./components/pages/Student/Dispute/NewDispute")
 );
+const StudentNegotiation = lazy(() =>
+  import("./components/pages/Student/Dispute/Negotiation.js")
+);
+const StudentArbitration = lazy(() =>
+  import("./components/pages/Student/Dispute/Arbitration.js")
+);
 const BookClass = lazy(() =>
   import("./components/pages/Student/BookClass/BookClass")
 );
@@ -202,6 +208,16 @@ function App() {
     {
       path: Routing.StudentNewDispute,
       component: StudentNewDispute,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.StudentNegotiation,
+      component: StudentNegotiation,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.StudentArbitration,
+      component: StudentArbitration,
       isPrivateRoute: true,
     },
     {

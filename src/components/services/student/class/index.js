@@ -7,7 +7,7 @@ export const Student_get_Upcoming_Classes = async () => {
       method: "GET",
       url: `${baseURL}/student/class/myclass/${JSON.parse(localStorage.getItem("_id"))}`,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;

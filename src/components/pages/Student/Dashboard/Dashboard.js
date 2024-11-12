@@ -56,7 +56,6 @@ const Dashboard = () => {
     const result = await StudentDashboard();
     if (result?.success === true) {
       setLoading(false);
-      console.log(result.data, "========>Instructors data");
       setStudentData(result.data);
     } else {  
       if (result?.message === "Invalid token, Please Log-Out and Log-In again") {
@@ -83,7 +82,7 @@ const Dashboard = () => {
             />
             <DashboardCard cardDetails={PaymentsCard} />
             <div className="lg:col-span-2 bg-gay-600 rounded-3xl">
-              <RecentClasses cardDetails={RecentClasseCard} />
+              <RecentClasses cardDetails={RecentClasseCard} data={studentData.recentClass} />
             </div>
           </div>
         </div>

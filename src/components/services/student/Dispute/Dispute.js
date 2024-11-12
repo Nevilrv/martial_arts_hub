@@ -32,6 +32,7 @@ export const GetInstructorClassForDispute = async (instructorId, studentId) => {
 };
 
 export const CreateDispute = async (formData,studentId) => {
+  console.log("🚀 ~ CreateDispute ~ formData:", formData)
   try {
     let response = await axios({
       method: "POST",
@@ -55,6 +56,53 @@ export const GetDispute = async (studentId) => {
       url: `${baseURL}/student/dispute/${studentId}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
+export const GetDisputeDetails = async (disputeId) => {
+  try {
+    let response = await axios({
+      method: "GET",
+      url: `${baseURL}/student/dispute/detail/${disputeId}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
+
+// chat apis 
+
+export const GetDisputeChat = async (disputeId) => {
+  try {
+    let response = await axios({
+      method: "GET",
+      url: `${baseURL}/student/admin/dispute/chat/${disputeId}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
+
+export const Send_Dispute_message = async (body) => {
+  try {
+    let response = await axios({
+      method: "POST",
+      url: `${baseURL}/student/chat/admin/send-msg`,
+      data:body,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;

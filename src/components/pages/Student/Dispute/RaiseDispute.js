@@ -1,14 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tabs from "../Tabs";
-import ActiveDisput from "./ActiveDisput"
+import ActiveDisput from "./ActiveDisput";
 import OutlineBtn from "../../common/OutlineBtn";
 import ClosedDisput from "./ClosedDisput";
+import Spinner from "../../../layouts/Spinner";
+import { GetDispute } from "../../../services/student/Dispute/Dispute";
+import { toast } from "react-toastify";
 
 const RaiseDispute = () => {
   const [calssType, setcalssType] = useState("Active Disputes");
 
+  const [loading, setLoading] = useState(false);
+  const [ActiveDisputdata, setActiveDisputdata] = useState([]);
+  const [ClosedDisputdata, setClosedDisputdata] = useState([]);
+  const studentId = JSON.parse(localStorage.getItem("_id"));
+
+  const Getdata = async () => {
+    setLoading(true);
+    const result = await GetDispute(studentId);
+    if (result?.success === true) {
+      setLoading(false);
+      setActiveDisputdata(result?.data?.Active);
+      setClosedDisputdata(result?.data?.Close);
+    } else {
+      toast.error(result.mess);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    Getdata();
+  }, [calssType]);
+
   return (
     <>
+      {loading && <Spinner />}
       <Tabs>
         <div className="mt-11 px-3 lg:px-8">
           <div className="flex items-center justify-between">
@@ -36,9 +61,9 @@ const RaiseDispute = () => {
           </div>
           <div className="mt-6">
             {calssType === "Active Disputes" ? (
-              <ActiveDisput />
+              <ActiveDisput data={ActiveDisputdata} />
             ) : calssType === "Closed Disputes" ? (
-              <ClosedDisput />
+              <ClosedDisput data={ClosedDisputdata} />
             ) : null}
           </div>
         </div>

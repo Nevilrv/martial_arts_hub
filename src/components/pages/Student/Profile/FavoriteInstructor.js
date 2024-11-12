@@ -17,7 +17,7 @@ const FavoriteInstructor = () => {
 
   const Getdata = async () => {
     setLoading(true);
-    const result = await GetLikesChek(JSON.parse(localStorage.getItem("_id")));
+    const result = await GetLikesChek(localStorage.getItem("_id"));
     if (result?.success === true) {
       setLoading(false);
       console.log(result.data, "=======>favorite_instructors");
