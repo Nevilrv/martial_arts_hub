@@ -58,10 +58,6 @@ const Dashboard = () => {
       setLoading(false);
       setStudentData(result.data);
     } else {  
-      if (result?.message === "Invalid token, Please Log-Out and Log-In again") {
-        localStorage.clear();
-        navigate(Routing.StudentLogin);
-      }
       setLoading(false);
     }
   };
@@ -80,7 +76,7 @@ const Dashboard = () => {
               cardDetails={ClassCard}
               data={studentData.ClassRequests}
             />
-            <DashboardCard cardDetails={PaymentsCard} />
+            <DashboardCard cardDetails={PaymentsCard} data={studentData.payments} />
             <div className="lg:col-span-2 bg-gay-600 rounded-3xl">
               <RecentClasses cardDetails={RecentClasseCard} data={studentData.recentClass} />
             </div>

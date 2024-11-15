@@ -1,66 +1,106 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaPaperPlane } from "react-icons/fa6";
 import User from "../../../../assets/images/userImage.png";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import OutlineBtn from "../../common/OutlineBtn";
+import {
+  Get_Requests_Pending,
+  SeeStudentProfile,
+} from "../../../services/Instructor/MessageRequests/MessageRequests";
+import Spinner from "../../../layouts/Spinner";
+import dayjs from "dayjs";
 
 const MessageRequestAccept = () => {
   const [StudentProfile, setStudentProfile] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [MessageRequestdata, setMessageRequestdata] = useState([]);
+  const [StudentData, setStudentData] = useState({});
+
+  const Get_requests_pending = async () => {
+    const result = await Get_Requests_Pending();
+    if (result?.success === true) {
+      setLoading(false);
+      setMessageRequestdata(result.data.accepted);
+    } else {
+      setLoading(false);
+    }
+  };
+
+  const heandleSeeProfile = async (messageReques) => {
+    const studentId = messageReques.Student.studentId;
+    setStudentProfile(true);
+    setLoading(true);
+    const result = await SeeStudentProfile(studentId);
+    if (result?.success === true) {
+      setStudentData(result.data);
+      setLoading(false);
+    } else {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    Get_requests_pending();
+  }, []);
+
   return (
     <>
-       {/* <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
-          <FaPaperPlane className='text-[80px] text-[#BDBBB5]' />
+      {loading && <Spinner />}
+      {MessageRequestdata.length <= 0 && (
+        <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
+          <FaPaperPlane className="text-[80px] text-[#BDBBB5]" />
           <h2 className="text-[26px] font-medium text-center mt-7">
-          Requests list is empty!
+            Requests list is empty!
           </h2>
           <p className="text-lg text-gay-300 max-w-[490px] mx-auto text-center">
-          You haven't received any requests yet! When student send inquiry message It’s details will be shown here.
+            You haven't received any requests yet! When student send inquiry
+            message It’s details will be shown here.
           </p>
-        </div>  */}
-
-      <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400">
-        <div className="flex items-center">
-          <div className="w-[82px] h-[82px] overflow-hidden rounded-full">
-            <img
-              src={User}
-              alt="Wrestling"
-              className="w-full h-full object-cover object-top grayscale"
+        </div>
+      )}
+      {MessageRequestdata?.map((item) => (
+        <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400">
+          <div className="flex items-center">
+            <div className="w-[82px] h-[82px] overflow-hidden rounded-full">
+              <img
+                src={item.Student.profile_picture}
+                alt="Wrestling"
+                className="w-full h-full object-cover object-top grayscale"
+              />
+            </div>
+            <div className="ml-5">
+              <h2 className="text-black texrt-[20px] font-medium">
+                {item.Student.name}
+              </h2>
+              <div className="flex items-center">
+                <p className="text-[13px] text-black/70  mt-0.5">
+                  <span className="font-medium">Request received on:</span>{" "}
+                  {dayjs(item.createdAt).format("DD MMM, YYYY")}
+                </p>
+                <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
+                <p className="text-[13px] text-black/70  mt-0.5">
+                  <span className="font-medium">Inquiry class:</span>
+                  {item?.title}
+                </p>
+              </div>
+              <p className="text-black/70 text-base max-w-5xl">{item?.body}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <OutlineBtn
+              text={"See Profile"}
+              onClick={() => heandleSeeProfile(item)}
+              className={"bg-transparent border-black text-black"}
+            />
+            <OutlineBtn
+              text={`Accepted on ${dayjs(item.updatedAt).format(
+                "DD MMM, YYYY"
+              )}`}
+              className={"bg-green border-none text-white font-medium"}
             />
           </div>
-          <div className="ml-5">
-            <h2 className="text-black texrt-[20px] font-medium">
-              Emily Roberts
-            </h2>
-            <div className="flex items-center">
-              <p className="text-[13px] text-black/70  mt-0.5">
-                <span className="font-medium">Request received on:</span> 15
-                July, 2024
-              </p>
-              <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
-              <p className="text-[13px] text-black/70  mt-0.5">
-                <span className="font-medium">Inquiry class:</span>
-                Boxing
-              </p>
-            </div>
-            <p className="text-black/70 text-base max-w-5xl">
-              Hello Instructor, My name is Emily Roberts, and I am interested in
-              joining your online martial arts course. Could you please provide
-              me with some more details
-            </p>
-          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <OutlineBtn
-            text={"See Profile"}
-            onClick={() => setStudentProfile(true)}
-            className={"bg-transparent border-black text-black"}
-          />
-          <OutlineBtn
-            text={"Accepted on 15 July"}
-            className={"bg-green border-none text-white font-medium"}
-          />
-        </div>
-      </div>
+      ))}
 
       <Dialog
         open={StudentProfile}
@@ -88,12 +128,17 @@ const MessageRequestAccept = () => {
               <div>
                 <div className="xl:py-20 py-10 bg-black px-14 relative flex items-center md:justify-between justify-center flex-wrap">
                   <div>
-                    <h2 className="text-white text-[30px]">Emily Roberts</h2>
-                    <h2 className="text-white/50 text-[15px] md:text-left text-center md:mb-0 mb-5">(Student)</h2>
+                    <h2 className="text-white text-[30px] capitalize">
+                      {StudentData.name}
+                    </h2>
+                    <h2 className="text-white/50 text-[15px] md:text-left text-center md:mb-0 mb-5">
+                      (Student)
+                    </h2>
                   </div>
                   <div className="w-[329px] h-[329px] rounded-full object-cover object-top grayscale scale-x-[-1] border-[5px] border-primary xl:absolute top-7 right-14 overflow-hidden">
                     <img
-                      src={User}
+                      src={StudentData.profile}
+                      className="h-full w-full object-cover"
                     />
                   </div>
                 </div>
@@ -104,31 +149,15 @@ const MessageRequestAccept = () => {
                         About Student
                       </h3>
                       <p className="text-black/70 text-lg 2xl:max-w-[871px] xl:max-w-[700px] w-full">
-                        Hi, I'm Emily Roberts! I started my martial arts journey
-                        5 years ago and have been dedicated to improving my
-                        skills ever since. Training in Karate, Taekwondo,
-                        Brazilian Jiu-Jitsu has boosted my confidence,
-                        discipline, and physical fitness. I enjoy the challenges
-                        and continuous learning that come with martial arts.
-                        Outside of training, I love [hobbies/interests], which
-                        help keep me balanced and active. I'm grateful to be
-                        part of such a supportive martial arts community!
+                        {StudentData.aboutMe || "aboutMe is not found"}
                       </p>
                       <div className="mt-[73px]">
                         <h3 className="text-black text-lg font-medium">
                           Additional Details
                         </h3>
                         <p className="text-black/70 text-lg 2xl:max-w-[871px] xl:max-w-[700px] w-full">
-                          Hi, I'm Emily Roberts! I started my martial arts
-                          journey 5 years ago and have been dedicated to
-                          improving my skills ever since. Training in Karate,
-                          Taekwondo, Brazilian Jiu-Jitsu has boosted my
-                          confidence, discipline, and physical fitness. I enjoy
-                          the challenges and continuous learning that come with
-                          martial arts. Outside of training, I love
-                          [hobbies/interests], which help keep me balanced and
-                          active. I'm grateful to be part of such a supportive
-                          martial arts community!
+                          {StudentData.additionalDetail ||
+                            "additionalDetail is not found"}
                         </p>
                       </div>
                     </div>
@@ -140,7 +169,7 @@ const MessageRequestAccept = () => {
         </div>
       </Dialog>
     </>
-  )
-}
+  );
+};
 
-export default MessageRequestAccept
+export default MessageRequestAccept;

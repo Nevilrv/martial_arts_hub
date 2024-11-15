@@ -10,13 +10,18 @@ import Spinner from "../../../layouts/Spinner";
 import {
   Admin_Dashboard_data,
   Admin_Progress,
+  Instructor_Request,
 } from "../../../services/Admin/DashboardAPI";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
+import { Routing } from "../../../shared/Routing";
 
 const Dashboard = () => {
   const [DashboardCard, setDashboardCard] = useState({});
   const [Admin_Progress_data, setAdmin_Progress_data] = useState([]);
+  const [Instructor_Request_List, setInstructor_Request_List] = useState([]);
   const [Loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   const data = [
     {
@@ -94,9 +99,23 @@ const Dashboard = () => {
     setLoading(true);
     const result = await Admin_Progress(10);
     if (result?.success === true) {
-      setAdmin_Progress_data(result.data);
+      const processedData = result.data.map((item) =>
+        item === null ? 0 : item
+      );
+      setAdmin_Progress_data(processedData);
       // setDashboardCard(result.data);
       // toast.success(result?.message);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+  const Get_Instructor_Requests = async () => {
+    setLoading(true);
+    const result = await Instructor_Request();
+    if (result?.success === true) {
+      setInstructor_Request_List(result.data);
       setLoading(false);
     } else {
       setLoading(false);
@@ -106,6 +125,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     Get_Admin_Dashboard();
+    Get_Instructor_Requests();
     Get_Progress();
   }, []);
 
@@ -159,7 +179,9 @@ const Dashboard = () => {
                 </select>
               </div>
               <div className="flex items-center justify-center">
-                <PieChart data={Admin_Progress_data} />
+                {Admin_Progress_data.length >= 0 && (
+                  <PieChart data={Admin_Progress_data} />
+                )}
               </div>
             </div>
             <div className="xl:col-span-3 col-span-2 bg-primary rounded-xl p-6 shadow-BoxShadow">
@@ -169,32 +191,32 @@ const Dashboard = () => {
                 </p>
                 <p className="text-red-200 underline font-medium">View All</p>
               </div>
-              <div className="flex flex-col gap-4 mt-5">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-start gap-3">
-                    <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
-                      <img src={Instructor4} alt="" />
-                    </div>
-                    <div>
-                      <h2 className="text-sm text-black font-semibold">
-                        Kiya John
-                      </h2>
-                      <div className="flex items-center mt-1">
-                        <p className="text-xs text-black/70">
-                          <span className="font-semibold">Date:</span>29 July
-                          2024
-                        </p>
-                        <span className="h-1 w-1 bg-black/70 rounded-full mx-0.5"></span>
-                        <p className="text-xs text-black/70">
-                          <span className="font-semibold">Class Name:</span>
-                          Brazilian Jiu Jitsu
-                        </p>
+              {Instructor_Request_List.map((Request_List) => (
+                <div className="flex flex-col gap-4 mt-5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-start gap-3">
+                      <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
+                        <img src={Request_List.profile_picture} alt="" className="w-full h-full object-cover object-center" />
+                      </div>
+                      <div>
+                        <h2 className="text-sm text-black font-semibold">
+                        {Request_List.name}
+                        </h2>
+                        <div className="flex items-center mt-1">
+                          <p className="text-xs text-black/70">
+                            <span className="font-semibold">Date:</span> {Request_List.joinDate}
+                          </p>
+                        </div>
                       </div>
                     </div>
+                    <OutlineBtn
+                      text={"View Profile"}
+                      className={"h-[40px] bo"}
+                      onClick={()=>navigate(Routing.Admin_Instructor_Managementnew_Requests)}
+                    />
                   </div>
-                  <OutlineBtn text={"View Profile"} className={"h-[40px] bo"} />
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

@@ -50,6 +50,7 @@ const Index = () => {
   const [Profile, SetProfile] = useState({});
   const [Class, setClass] = useState([]);
   const [MessagesRequest, setMessagesRequest] = useState([]);
+  const [earning, setearning] = useState({});
 
   const getdata = async () => {
     setLoading(true);
@@ -62,6 +63,7 @@ const Index = () => {
       );
       setClass(result.data.myClasses);
       setMessagesRequest(result.data.messageRequest);
+      setearning(result.data.earnings)
       toast.success(result?.message);
       setLoading(false);
     } else {
@@ -81,7 +83,7 @@ const Index = () => {
           <ProfileCard ProfileDetals={Profile || ProfileDetals} />
           <div className="lg:col-span-2 grid lg:grid-cols-2 gap-5">
               <ClassRequestcard cardDetails={ClassCard} data={Class} />
-            <DashboardCard cardDetails={EarningsCard} />
+            <DashboardCard cardDetails={EarningsCard} earnings={earning} />
             <div className="lg:col-span-2 bg-gay-600 rounded-3xl">
               <div className=" bg-gay-600 rounded-3xl px-8 py-7">
                 <div className="flex items-center justify-between">

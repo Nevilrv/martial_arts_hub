@@ -37,8 +37,8 @@ const All_Message = () => {
     setLoading(true);
     const result = await SeeStudentProfile(studentId);
     if (result?.success === true) {
-      setLoading(false);
       setStudentData(result.data);
+      setLoading(false);
     } else {
       setLoading(false);
     }
@@ -166,7 +166,7 @@ const All_Message = () => {
                   <div className="flex items-center flex-wrap">
                     <div className="w-[70px] h-[70px] rounded-full overflow-hidden">
                       <img
-                        src={StudentMessageRequest?.Student?.profile_picture}
+                        src={StudentMessageRequest?.profile}
                         alt="User"
                         className="grayscale h-full w-full object-cover"
                       />
@@ -255,7 +255,7 @@ const All_Message = () => {
                   </div>
                   <div className="w-[329px] h-[329px] rounded-full object-cover object-top grayscale scale-x-[-1] border-[5px] border-primary xl:absolute top-7 right-14 overflow-hidden">
                     <img
-                      src={StudentData.profile_picture}
+                      src={StudentData.profile}
                       className="h-full w-full object-cover"
                     />
                   </div>

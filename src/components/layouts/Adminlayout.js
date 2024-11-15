@@ -41,11 +41,6 @@ const SidbarNavigation = [
         Path: Routing.Admin_Instructor_Managementnew_Requests,
       },
       {
-        Navigate: "Profile Verification",
-        icon: <BiChevronDown />,
-        Path: "/admin/employees/all",
-      },
-      {
         Navigate: "View Instructors",
         icon: <BiChevronDown />,
         Path: Routing.Admin_View_Instructors,
@@ -156,7 +151,7 @@ const Adminlayout = ({ children }) => {
       setExpandedItem((prevExpanded) => {
         if (prevExpanded === index) {
           localStorage.setItem("expandedItem", index);
-          return null;
+          return index;
         } else {
           localStorage.setItem("expandedItem", index);
           return index;

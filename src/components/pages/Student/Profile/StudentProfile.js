@@ -36,6 +36,8 @@ const StudentProfile = ({children}) => {
   ];
   const { pathname } = useLocation();
 
+  
+
   return (
     <>
       <div className="bg-black px-[52px] pb-[47px] ">
@@ -54,7 +56,7 @@ const StudentProfile = ({children}) => {
       <div className="grid md:grid-cols-4 gap-11">
         <div className="w-full pl-10 pt-10">
           <img
-            src="https://s3-alpha-sig.figma.com/img/c9d6/ec66/592fab583ee733ef0ca4062635a2de72?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Taj7qBpE1SBEUd8MsMfOFxTmmH9neTGLC-1TKL~RyZS2rQs0dKWcO3Ol4XzG3zhkvbtfLAdy0qPCNd8OSrEe71y4NHmngqkdsxSBoUycRnJ3B4Jik8aX-QG8GQuwajaE6ycMN2P-MsfMXYYSYCCQPety70ubet6cvbjqQSqoohNZeM-RyRyzeAdEPo7P~HusKWJsdKwyiKkSUf90kqMApuDgWaw4IZOPDjp6EM5~XZBFuegp9OdrLzENibOO2BIL0hu3XVCj~D9XQVc6s5G-XRNXardHsBzMbRZcHeezLJnJpPq7LOtDXniuYJOXHsbILtMJfq6VSb80UNUuQa1Ung__"
+            src="https://s3-alpha-sig.figma.com/img/c9d6/ec66/592fab583ee733ef0ca4062635a2de72?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=qYaw9pE9k-4BVd0TwMqP6cOE0XxBw3CfwlUiPg~ij6oPfV02fnA6DGMIowASMHqxNP5apYfUNR7CsLK9ZVMuI95SU6ShDEkS09BL6WJHaQBrjdaDcy5I7htyoLIJ3Rs-mfSvDyCTAlh4UbK-KAP8Id58EAlEDgYKEer46TwUwOM7yJQAqaPB9boc4TOR9pR0l7XHHPKkDrUqKMEypJKGrQsll7Nos3LI97MVDuhn3sqxUmSJEhNsuNpJiG9Oty7TK~UyUfP5qLIGnbLYRIjEYgxR6A-cHBKSfYx66htLYA6ZHcsun3WgF6oMqP-LfFh768JsWOeEgUOq8WhO-mDb4A__"
             alt=""
             className="min-w-[274px] h-[274px] rounded-full object-cover grayscale object-top scale-x-[-1]"
           />

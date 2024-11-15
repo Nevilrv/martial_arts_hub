@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminHeadding from "../../common/AdminHeadding";
 import Instructor_1 from "../../../../assets/images/Instructor-1.png";
 import OutlineBtn from "../../common/OutlineBtn";
 import Popup from "../../common/Popup";
 import { Allert_Popup_Icon } from "../../../../assets/icon";
+import { toast } from "react-toastify";
+import { Students_Block, Students_List } from "../../../services/Admin/StudentManagement/StudentManagement";
+import Spinner from "../../../layouts/Spinner";
 
 const ViewStudents = () => {
   const [InstructorsList, setInstructorsList] = useState([
@@ -13,12 +16,54 @@ const ViewStudents = () => {
       id: "#23352",
       ClassName: "Brazilian Jiu Jitsu",
       JoinedDate: "12/07/2024",
-      PaidAmount:"$4.99"
+      PaidAmount: "$4.99",
     },
   ]);
   const [isOpen, SetisOpen] = useState(false);
+  const [Loading, setLoading] = useState(false);
+  const [Student_List, setStudent_List] = useState([]);
+  const [studentid, setstudentid] = useState();
+
+  const Get_Student_list = async () => {
+    setLoading(true);
+    const result = await Students_List();
+    if (result?.success === true) {
+      setStudent_List(result.data);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+  useEffect(() => {
+    Get_Student_list();
+  }, []);
+
+
+
+  const heandleBlock = async () => {
+    setLoading(true);
+    const result = await Students_Block(studentid, "block");
+    if (result?.success === true) {
+      SetisOpen(false);
+      setLoading(false);
+      setStudent_List([]);
+      Get_Student_list();
+    } else {
+      setLoading(false);
+      result?.message === "Student data not found" &&
+      Get_Student_list([]);
+      toast.error(
+        result?.message === "Student data not found"
+          ? "There are no any studentid."
+          : result?.message
+      );
+    }
+  };
+
   return (
     <>
+      {Loading && <Spinner />}
       <div className="flex items-center justify-between flex-wrap">
         <AdminHeadding Headding={"View Students"} />
         <div className="flex items-center gap-2 flex-wrap">
@@ -97,11 +142,11 @@ const ViewStudents = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-primary">
-                  {InstructorsList.map((person) => (
-                    <tr key={person.id}>
+                  {Student_List.map((person) => (
+                    <tr key={person.studentId}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                         <img
-                          src={person.image}
+                          src={person.profile}
                           alt=""
                           className="w-[45px] h-[45px] rounded-full"
                           srcset=""
@@ -111,16 +156,16 @@ const ViewStudents = () => {
                         {person.name}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                        {person.id}
+                        {person.studentId}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                        {person.ClassName}
+                        {person.className.slice(0,20)}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                        {person.JoinedDate}
+                        {person.joindate}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                        {person.PaidAmount}
+                        {person.paidAmount}
                       </td>
                       <td className="whitespace-nowrap px-3 pr-6 py-4 text-Dark_black font-medium w-[200px]">
                         <div className="flex items-center gap-2 justify-end">
@@ -133,7 +178,7 @@ const ViewStudents = () => {
                             className={
                               "text-red-200 bg-red-100 border-red-200 h-[45px]"
                             }
-                            onClick={()=>SetisOpen(true)}
+                            onClick={() => {SetisOpen(true);setstudentid(person.studentId)}}
                           />
                         </div>
                       </td>
@@ -145,7 +190,20 @@ const ViewStudents = () => {
           </div>
         </div>
       </div>
-      <Popup isOpen={isOpen} SetisOpen={SetisOpen} Icons={<Allert_Popup_Icon />} Headding={"Are You Sure To Block"} BodyText={"Are you sure you want to block this Instructor? Once blocked, they will be unable to join your platform. You can unblock them later in the Blocked Instructor section."} BtnText={"Yes, Block"} Btnclass={"text-red-200 border-red-200"} BtnText2={"No, Go Back"} BtnText2Click={()=>SetisOpen(false)} onClick={()=>SetisOpen(false)} />
+      <Popup
+        isOpen={isOpen}
+        SetisOpen={SetisOpen}
+        Icons={<Allert_Popup_Icon />}
+        Headding={"Are You Sure To Block"}
+        BodyText={
+          "Are you sure you want to block this Instructor? Once blocked, they will be unable to join your platform. You can unblock them later in the Blocked Instructor section."
+        }
+        BtnText={"Yes, Block"}
+        Btnclass={"text-red-200 border-red-200"}
+        BtnText2={"No, Go Back"}
+        BtnText2Click={() => SetisOpen(false)}
+        onClick={() => heandleBlock()}
+      />
     </>
   );
 };

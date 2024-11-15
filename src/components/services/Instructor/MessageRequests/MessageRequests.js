@@ -7,7 +7,7 @@ export const Get_Requests_Pending = async () => {
       method: "GET",
       url: `${baseURL}/instructor/student/inqurymessage`,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;
@@ -22,7 +22,7 @@ export const SeeStudentProfile = async (id) => {
       method: "GET",
       url: `${baseURL}/instructor/student/view/profile/${id}`,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;
@@ -52,7 +52,7 @@ export const Student_Message_status = async (notificationId,body) => {
       url: `${baseURL}/instructor/student/inqurymessage/status/${notificationId}`,
       data:body,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;

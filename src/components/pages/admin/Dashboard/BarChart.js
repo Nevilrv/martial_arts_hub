@@ -6,7 +6,7 @@ const BarChart = () => {
     {
       name: "Q1 Budget",
       group: "budget",
-      data: [44, 55, 41, 67, 22, 43, 44, 55, 41, 67, 22, 43],
+      data: [44, 55, 41, 67, 22, 43, 44, 55, 41, 67, 22, 43  ],
     },
     {
       name: "Q2 Budget",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminHeadding from "../../common/AdminHeadding";
 import { Link } from "react-router-dom";
 import Instructors1 from "../../../../assets/images/Instructor-4.png";
@@ -10,77 +10,125 @@ import { Confirm_Popup_Icon, Fullscreen } from "../../../../assets/icon";
 import { MdOutlineTranslate } from "react-icons/md";
 import { PiSealCheckFill } from "react-icons/pi";
 import Popup from "../../common/Popup";
+import {
+  Instructor_Request,
+  Instructor_Request_Details,
+  Requests_Accept,
+} from "../../../services/Admin/DashboardAPI";
+import { toast } from "react-toastify";
+import Spinner from "../../../layouts/Spinner";
 
 const NewRequests = () => {
   const [isOpen, SetisOpen] = useState(false);
   const [conformation, Setconformation] = useState(false);
+  const [Loading, setLoading] = useState(false);
+  const [Instructor_Request_List, setInstructor_Request_List] = useState([]);
+  const [Instructor_Request_detail, setInstructor_Request_detail] = useState({});
+  let getinstructorId = "";
+
+  const Get_Instructor_Requests = async () => {
+    setLoading(true);
+    const result = await Instructor_Request();
+    if (result?.success === true) {
+      setInstructor_Request_List(result.data);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      result?.message === "Instructor data not found" &&
+        setInstructor_Request_List([]);
+      toast.error(
+        result?.message === "Instructor data not found"
+          ? "There are no any new requests."
+          : result?.message
+      );
+    }
+  };
+
+  const Get_Instructor_Requests_Deatls = async (getinstructorId) => {
+    setLoading(true);
+    const result = await Instructor_Request_Details(getinstructorId);
+    if (result?.success === true) {
+      setInstructor_Request_detail(result.data);
+      SetisOpen(true);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+
+  const Instructor_Requests_Accept = async (getinstructorId, status) => {
+    setLoading(true);
+    const result = await Requests_Accept(getinstructorId, status);
+    if (result?.success === true) {
+      toast.success(result.message);
+      Get_Instructor_Requests();
+      setLoading(false);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+
+  const heandle_See_Profile = (instructorId) => {
+    getinstructorId = instructorId;
+    Get_Instructor_Requests_Deatls(getinstructorId);
+  };
+
+  const heandle_Accept_Profile = (instructorId) => {
+    getinstructorId = instructorId;
+    Instructor_Requests_Accept(getinstructorId, "accept");
+  };
+
+  useEffect(() => {
+    Get_Instructor_Requests();
+  }, []);
+
   return (
     <>
+      {Loading && <Spinner />}
       <div className="flex items-center justify-between">
         <AdminHeadding Headding={"New Instructor Requests"} />
         <Link className="text-red-200 underline font-semibold">Accept all</Link>
       </div>
       <div className="mt-5">
-        <div className="w-full overflow-x-auto">
-          <div className="flex items-center justify-between border-b border-gay-400/25 pb-5 h-[100px] min-w-[639px]">
-            <div className="flex items-center gap-4">
-              <img
-                src={Instructors1}
-                alt=""
-                className="w-[62px] h-[62px] object-cover rounded-full"
-              />
-              <div>
-                <h2 className="text-black text-base font-semibold">
-                  Kiya John
-                </h2>
-                <p className="text-black/70 text-[11px]">
-                  <span className="font-semibold">Date:</span> 29 July 2024 •{" "}
-                  <span className="font-semibold">Class Name:</span> Brazilian
-                  Jiu Jitsu
-                </p>
+        {Instructor_Request_List.length <= 0 && (
+          <h2 className="text-4xl font-semibold text-center">
+            No Requests founde
+          </h2>
+        )}
+        {Instructor_Request_List.map((List) => (
+          <div className="w-full overflow-x-auto">
+            <div className="flex items-center justify-between border-b border-gay-400/25 pb-5 h-[100px] min-w-[639px]">
+              <div className="flex items-center gap-4">
+                <img
+                  src={List.profile_picture}
+                  alt=""
+                  className="w-[62px] h-[62px] object-cover rounded-full"
+                />
+                <div>
+                  <h2 className="text-black text-base font-semibold">
+                    {List.name}
+                  </h2>
+                  <p className="text-black/70 text-[11px]">
+                    <span className="font-semibold">Date:</span> {List.joinDate}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <OutlineBtn
+                  text={"View Profile"}
+                  onClick={() => heandle_See_Profile(List.instructorId)}
+                />
+                <OutlineBtn
+                  className={"bg-green text-white border-none"}
+                  text={"Accept"}
+                  onClick={() => heandle_Accept_Profile(List.instructorId)}
+                />
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <OutlineBtn
-                text={"View Profile"}
-                onClick={() => SetisOpen(true)}
-              />
-              <OutlineBtn
-                className={"bg-green text-white border-none"}
-                text={"Accept"}
-              />
-            </div>
           </div>
-          <div className="flex items-center justify-between border-b border-gay-400/25 pb-5 h-[100px] min-w-[639px]">
-            <div className="flex items-center gap-4">
-              <img
-                src={Instructors1}
-                alt=""
-                className="w-[62px] h-[62px] object-cover rounded-full"
-              />
-              <div>
-                <h2 className="text-black text-base font-semibold">
-                  Kiya John
-                </h2>
-                <p className="text-black/70 text-[11px]">
-                  <span className="font-semibold">Date:</span> 29 July 2024 •{" "}
-                  <span className="font-semibold">Class Name:</span> Brazilian
-                  Jiu Jitsu
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <OutlineBtn
-                text={"View Profile"}
-                onClick={() => SetisOpen(true)}
-              />
-              <OutlineBtn
-                className={"bg-green text-white border-none"}
-                text={"Accept"}
-              />
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
 
       <Dialog className="relative z-[9999]" open={isOpen} onClose={SetisOpen}>
@@ -120,31 +168,35 @@ const NewRequests = () => {
                 <div className="grid lg:grid-cols-3 grid-cols-1 gap-[79px]">
                   <div className="flex flex-col gap-4 lg:justify-start justify-center lg:items-start items-center">
                     <div className="w-[247px] h-[247px] rounded-full overflow-hidden">
-                      <img src={Instructors1} alt="" />
+                      <img
+                        src={Instructor_Request_detail.profile_picture}
+                        alt=""
+                        className="w-full h-full object-cover object-center"
+                      />
                     </div>
                     <h2 className="text-black font-bold text-3xl">
-                      Kiya Jhon{" "}
+                      {Instructor_Request_detail.name}
                       <span className="text-black/50 text-sm">
                         (Instructor)
                       </span>
                     </h2>
                     <div className="flex items-baseline gap-0.5">
-                      <FaStar className="text-yellow-100" />
-                      <FaStar className="text-yellow-100" />
-                      <FaStar className="text-yellow-100" />
-                      <FaStar className="text-yellow-100" />
+                      <FaStar className="text-gay-500" />
+                      <FaStar className="text-gay-500" />
+                      <FaStar className="text-gay-500" />
+                      <FaStar className="text-gay-500" />
                       <FaStar className="text-gay-500" />
                       <p className="text-black/50 text-xs ml-1">
-                        4.3 (25 Reviews)
+                        0.0 (0 Reviews)
                       </p>
                     </div>
                   </div>
                   <div className="md:col-span-2">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <OutlineBtn text={"Martial Arts"} />
-                      <OutlineBtn text={"Karate"} />
-                      <OutlineBtn text={"Taekwondo"} />
-                      <OutlineBtn text={"Jiu-Jitsu"} />
+                      {/* {Instructor_Request_detail?.category?.map((category)=>(
+                      <OutlineBtn text={category} />
+                    ))} */}
+                      <OutlineBtn text={Instructor_Request_detail?.category} />
                     </div>
                     <h2 className="text-2xl text-Dark_black font-semibold mt-3 max-w-[690px]">
                       I’m here to support your fitness ambitions, cut fat, and
@@ -155,18 +207,7 @@ const NewRequests = () => {
                         About Instructor
                       </h2>
                       <p className="text-black/70 text-[15px] mt-3">
-                        Hi, I'm Kia John! I started my martial arts journey 5
-                        years ago and have been dedicated to improving my skills
-                        ever since.{" "}
-                      </p>
-                      <p className="text-black/70 text-[15px] mt-3">
-                        Training in Karate, Taekwondo, Brazilian Jiu-Jitsu has
-                        boosted my confidence, discipline, and physical fitness.
-                        I enjoy the challenges and continuous learning that come
-                        with martial arts. Outside of training, I love
-                        [hobbies/interests], which help keep me balanced and
-                        active. I'm grateful to be part of such a supportive
-                        martial arts community!
+                        {Instructor_Request_detail?.bio}
                       </p>
                     </div>
                   </div>

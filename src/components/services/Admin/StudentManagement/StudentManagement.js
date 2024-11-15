@@ -1,11 +1,12 @@
 import axios from "axios";
 import { baseURL } from "../../URL";
 
-export const Instructor_Booking_Requests = async (id) => {
+
+export const Students_List = async () => {
     try {
       let response = await axios({
         method: "GET",
-        url: `${baseURL}/instructor/students/booking/${id}`,
+        url: `${baseURL}/admin/student/viewstudent`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -16,11 +17,12 @@ export const Instructor_Booking_Requests = async (id) => {
     }
   };
 
-  export const Confirm_Booking_status = async (bookingId) => {
+  
+export const Students_Block = async (studentId,status) => {
     try {
       let response = await axios({
         method: "POST",
-        url: `${baseURL}/instructor/confrim/booking/${bookingId}`,
+        url: `${baseURL}/admin/block/unblock/student?studentId=${studentId}&status=${status}`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

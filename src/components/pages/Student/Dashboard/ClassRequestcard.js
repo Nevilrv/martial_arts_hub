@@ -38,7 +38,7 @@ const ClassRequestcard = ({ cardDetails, data }) => {
             <div className="flex items-start mt-6 gap-3">
               <img
                 src={ClassRequests?.instructor_profile}
-                className="min-w-[62px] h-[62px] object-cover object-left-top rounded-full grayscale"
+                className="w-[62px] h-[62px] object-cover object-center rounded-full grayscale"
                 alt=""
               />
               <div className="w-full">

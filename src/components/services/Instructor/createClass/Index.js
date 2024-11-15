@@ -52,7 +52,7 @@ export const Instructor_get_Upcoming_Classes = async (instructorId) => {
       method: "GET",
       url: `${baseURL}/instructor/class/myclass/${instructorId}`,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;

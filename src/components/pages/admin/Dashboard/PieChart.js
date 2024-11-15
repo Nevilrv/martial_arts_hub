@@ -86,7 +86,7 @@ const PieChart = ({data}) => {
     ],
   });
 
-  // const [chartSeries] = useState([44, 55, 13, 43]);
+  const [chartSeries] = useState([44, 55, 13, 43]);
 
   return (
     <div className="DonutChart">

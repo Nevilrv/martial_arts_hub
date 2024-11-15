@@ -88,8 +88,8 @@ const Arbitration = () => {
               </h2>
             </div>
           </div>
-          <FaArrowAltCircleRight className="text-[34px] text-green md:block hidden" />
-          <div className="md:w-[30%] h-[110px] dispute_shape bg-green flex items-center justify-center">
+          <FaArrowAltCircleRight className="text-[34px] text-black md:block hidden" />
+          <div className="md:w-[30%] h-[110px] dispute_shape bg-black flex items-center justify-center">
             <div>
               <p className="text-xl text-white/50 text-center">-: StAGE 2 :-</p>
               <h2 className="text-[20px] text-white font-bold text-center">
@@ -97,8 +97,8 @@ const Arbitration = () => {
               </h2>
             </div>
           </div>
-          <FaArrowAltCircleRight className="text-[34px] text-[#B5B1B1] md:block hidden" />
-          <div className="md:w-[30%] h-[110px] dispute_shape bg-gay-50 flex items-center justify-center">
+          <FaArrowAltCircleRight className="text-[34px] text-green md:block hidden" />
+          <div className="md:w-[30%] h-[110px] dispute_shape bg-green flex items-center justify-center">
             <div>
               <p className="text-xl text-white/50 text-center">-: StAGE 3 :-</p>
               <h2 className="text-[20px] text-white font-bold text-center">
@@ -109,11 +109,10 @@ const Arbitration = () => {
         </div>
         <div className="mt-10 border border-black/10 rounded-xl p-5">
           <h2 className="text-black font-semibold text-[17px]">
-            Stage 2 - Negotiation
+          Stage 3 - Arbitration
           </h2>
           <p className="text-base text-gay-400 font-light mt0.5">
-            At this stage, students and instructors can discuss about the
-            dispute, and the Admin can monitor and provide input.
+          At this stage, students and instructors can discuss about the dispute, admin will give the final solution.
           </p>
         </div>
         <div className="mt-5 bg-[#D2CFC9] rounded-xl p-5">
@@ -179,7 +178,8 @@ const Arbitration = () => {
                 </div>
               ))}
             </div>
-            <div className="mt-11">
+            <div className="mt-11 w-full bg-red-200 pl-5 py-4 rounded-md">
+              <p className="text-white font-semibold">Dispute Closed by admin on {dayjs(DisputeDetails.closeDate).format("DD MMM YYYY")}. Solution given by admin will be shown here.</p>
             </div>
           </div>
           <div className="mt-11 border border-black/10 rounded-xl p-5 max-h-fit">
@@ -216,9 +216,9 @@ const Arbitration = () => {
               </div>
             </div>
             <h2 className="text-gay-300 font-semibold mt-6">Result:</h2>
-            <div className="mt-2.5 p-5 bg-Green-100 rounded-xl">
-              <h2 className="text-green font-semibold">
-                {DisputeDetails.status === "active" ? "Ongoing" : "Closed"}
+            <div className="mt-2.5 p-5 bg-red-100 rounded-xl">
+              <h2 className="text-red-200 font-semibold">
+                {`Closed on ${dayjs(DisputeDetails.closeDate).format("DD MMM YYYY")}`}
               </h2>
             </div>
           </div>
