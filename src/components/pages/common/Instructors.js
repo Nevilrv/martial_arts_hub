@@ -49,7 +49,6 @@ const Instructors = () => {
     const result = await GetInstructors();
     if (result?.success === true) {
       setLoading(false);
-      console.log(result.data, "========>Instructors data");
       setInstructors(result.data);
     } else {
       toast.error("message")

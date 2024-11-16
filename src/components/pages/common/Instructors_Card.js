@@ -5,7 +5,7 @@ import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
 const InstructorsCard = ({ data,HeandleLike }) => {
-  const [liked, setLiked] = useState(data.Likes.includes(JSON.parse(localStorage.getItem("_id"))));
+  const [liked, setLiked] = useState(data?.Likes?.includes(JSON.parse(localStorage.getItem("_id"))));
   
   const getStars = (rating) => {
     const fullStars = Math.floor(rating);
