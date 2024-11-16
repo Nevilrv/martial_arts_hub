@@ -129,8 +129,8 @@ const NewDispute = () => {
         <div className="flex items-center justify-between">
           <h1 className="text-black text-3xl font-semibold">New Dispute</h1>
         </div>
-        <div className="flex items-center justify-between mt-4">
-          <div className="w-[30%] h-[110px] dispute_shape flex items-center justify-center bg-green">
+        <div className="md:flex items-center justify-between mt-4 gap-y-9 grid grid-cols-1">
+          <div className="md:w-[30%] h-[110px] dispute_shape flex items-center justify-center bg-green">
             <div>
               <p className="text-xl text-white/50 text-center">-: StAGE 1 :-</p>
               <h2 className="text-[20px] text-white font-bold text-center">
@@ -138,8 +138,8 @@ const NewDispute = () => {
               </h2>
             </div>
           </div>
-          <FaArrowAltCircleRight className="text-[34px] text-[#B5B1B1]" />
-          <div className="w-[30%] h-[110px] dispute_shape bg-gay-300 flex items-center justify-center">
+          <FaArrowAltCircleRight className="text-[34px] text-[#B5B1B1] md:block hidden" />
+          <div className="md:w-[30%] h-[110px] dispute_shape bg-gay-300 flex items-center justify-center">
             <div>
               <p className="text-xl text-white/50 text-center">-: StAGE 2 :-</p>
               <h2 className="text-[20px] text-white font-bold text-center">
@@ -147,8 +147,8 @@ const NewDispute = () => {
               </h2>
             </div>
           </div>
-          <FaArrowAltCircleRight className="text-[34px] text-[#B5B1B1]" />
-          <div className="w-[30%] h-[110px] dispute_shape bg-gay-50 flex items-center justify-center">
+          <FaArrowAltCircleRight className="text-[34px] text-[#B5B1B1] md:block hidden" />
+          <div className="md:w-[30%] h-[110px] dispute_shape bg-gay-50 flex items-center justify-center">
             <div>
               <p className="text-xl text-white/50 text-center">-: StAGE 3 :-</p>
               <h2 className="text-[20px] text-white font-bold text-center">

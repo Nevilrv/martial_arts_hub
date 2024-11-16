@@ -16,6 +16,38 @@ export const Student_get_Upcoming_Classes = async () => {
   }
 };
 
+export const Student_Payment = async (studentId,classId,bookingId,instructorId) => {
+  try {
+    let response = await axios({
+      method: "POST",
+      url: `${baseURL}/student/myclass/buyclass/${studentId}/${classId}/${bookingId}/${instructorId}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
+
+
+export const Payment_Successful_Data = async (studentId,classId,bookingId,instructorId,body) => {
+  try {
+    let response = await axios({
+      method: "POST",
+      url: `${baseURL}/student/buyclass/infostore/${studentId}/${classId}/${bookingId}/${instructorId}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      data: body,
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
+
 export const Student_get_Slot = async (instructorId,classType) => {
   try {
     let response = await axios({

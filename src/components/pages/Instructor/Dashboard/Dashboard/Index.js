@@ -63,7 +63,7 @@ const Index = () => {
       );
       setClass(result.data.myClasses);
       setMessagesRequest(result.data.messageRequest);
-      setearning(result.data.earnings)
+      setearning(result.data.earnings);
       toast.success(result?.message);
       setLoading(false);
     } else {
@@ -82,10 +82,10 @@ const Index = () => {
         <div className="mt-10 px-3 lg:px-8 grid lg:grid-cols-3 gap-5">
           <ProfileCard ProfileDetals={Profile || ProfileDetals} />
           <div className="lg:col-span-2 grid lg:grid-cols-2 gap-5">
-              <ClassRequestcard cardDetails={ClassCard} data={Class} />
+            <ClassRequestcard cardDetails={ClassCard} data={Class} />
             <DashboardCard cardDetails={EarningsCard} earnings={earning} />
             <div className="lg:col-span-2 bg-gay-600 rounded-3xl">
-              <div className=" bg-gay-600 rounded-3xl px-8 py-7">
+              <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[375px] overflow-y-auto">
                 <div className="flex items-center justify-between">
                   <h3 className="text-gay-300 text-lg font-medium">
                     Messages Requests
@@ -105,56 +105,58 @@ const Index = () => {
                     </p>
                   </div>
                 ) : (
-                  MessagesRequest.map((Request) => (
-                    <div className=" h-[115px] flex items-center justify-between border-b border-gay-400">
-                      <div className="flex items-center">
-                        <div className="w-[82px] h-[82px] overflow-hidden rounded-full">
-                          <img
-                            src={Request.profile_picture}
-                            alt="Wrestling"
-                            className="w-full h-full object-cover object-top grayscale"
-                          />
-                        </div>
-                        <div className="ml-5">
-                          <h2 className="text-black texrt-[20px] font-medium">
-                            {Request.name}
-                          </h2>
-                          <div className="flex items-center">
-                            <p className="text-[13px] text-black/70  mt-0.5">
-                              <span className="font-medium">
-                                Request received on:
-                              </span>{" "}
-                              {Request.recived}
-                            </p>
-                            <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
-                            <p className="text-[13px] text-black/70  mt-0.5">
-                              <span className="font-medium">
-                                Inquiry class:
-                              </span>
-                              {Request.title}
+                  <div className="w-full overflow-x-auto">
+                    {MessagesRequest.map((Request) => (
+                      <div className=" h-[115px] flex items-center justify-between border-b border-gay-400 min-w-[843px]">
+                        <div className="flex items-center">
+                          <div className="w-[82px] h-[82px] overflow-hidden rounded-full">
+                            <img
+                              src={Request.profile_picture}
+                              alt="Wrestling"
+                              className="w-full h-full object-cover object-top grayscale"
+                            />
+                          </div>
+                          <div className="ml-5">
+                            <h2 className="text-black texrt-[20px] font-medium">
+                              {Request.name}
+                            </h2>
+                            <div className="flex items-center">
+                              <p className="text-[13px] text-black/70  mt-0.5">
+                                <span className="font-medium">
+                                  Request received on:
+                                </span>{" "}
+                                {Request.recived}
+                              </p>
+                              <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
+                              <p className="text-[13px] text-black/70  mt-0.5">
+                                <span className="font-medium">
+                                  Inquiry class:
+                                </span>
+                                {Request.title}
+                              </p>
+                            </div>
+                            <p className="text-black/70 text-base max-w-2xl">
+                              {Request.body}
                             </p>
                           </div>
-                          <p className="text-black/70 text-base max-w-2xl">
-                            {Request.body}
-                          </p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <OutlineBtn
+                            text={"See Profile"}
+                            className={
+                              "bg-transparent border-black text-black text-sm"
+                            }
+                          />
+                          <OutlineBtn
+                            text={"View Request"}
+                            className={
+                              "bg-green border-none text-white font-medium"
+                            }
+                          />
                         </div>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <OutlineBtn
-                          text={"See Profile"}
-                          className={
-                            "bg-transparent border-black text-black text-sm"
-                          }
-                        />
-                        <OutlineBtn
-                          text={"View Request"}
-                          className={
-                            "bg-green border-none text-white font-medium"
-                          }
-                        />
-                      </div>
-                    </div>
-                  ))
+                    ))}
+                  </div>
                 )}
               </div>
             </div>

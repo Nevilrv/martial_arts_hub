@@ -43,7 +43,7 @@ const ProfileCard = ({ ProfileDetals }) => {
               </h4>
             </div>
             <>
-            <div className="flex items-center">
+            <div className="flex items-center flex-wrap">
             <p className="text-base">Profile Completion:</p>
               <span className="text-Green-200 ml-1">{ProfileDetals?.profile_completion}%</span>
               <span className="text-red-200">(Complete Now)</span>

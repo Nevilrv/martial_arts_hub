@@ -11,7 +11,7 @@ import Spinner from "../../../layouts/Spinner";
 const UpcomingClass = (props) => {
   const navigate = useNavigate();
   // eslint-disable-next-line
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line;
   const [upcomingClass, setUpcomingClass] = useState([]);
   const id = JSON.parse(localStorage.getItem("_id"));
@@ -35,7 +35,7 @@ const UpcomingClass = (props) => {
 
   return (
     <>
-    {loading&&<Spinner/>}
+      {loading && <Spinner />}
       {upcomingClass?.length <= 0 ? (
         <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
           <WorkOut height={"110"} width={"110"} />
@@ -97,10 +97,18 @@ const UpcomingClass = (props) => {
                   </div>
                 </div>
               </div>
-              <OutlineBtn
-                text={"Starts on 29 July at 12:30 PM"}
-                className={"bg-gay-300/50 border-none text-white"}
-              />
+
+              {upcoming_class.payment !== "success" ? (
+                <OutlineBtn
+                  text={`payment is Pending`}
+                  className={"bg-black border-none text-white"}
+                />
+              ) : (
+                <OutlineBtn
+                  text={"Starts on 29 July at 12:30 PM"}
+                  className={"bg-gay-300/50 border-none text-white"}
+                />
+              )}
             </div>
           );
         })

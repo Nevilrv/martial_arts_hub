@@ -6,7 +6,7 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 const DashboardCard = ({ cardDetails, data, earnings }) => {
   return (
     <>
-      <div className=" bg-gay-600 rounded-3xl px-8 py-7">
+      <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[375px] overflow-y-auto">
         <div className="flex items-center justify-between">
           <h3 className="text-gay-300 text-lg font-medium">
             {cardDetails.CardTitle}
@@ -21,7 +21,7 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
         </div>
         {data?.length <= 0 ||
           (earnings?.length <= 0 && (
-            <div className="flex items-center justify-center flex-col mt-24">
+            <div className="flex items-center justify-center flex-col mt-24 min-w-[448px]">
               {cardDetails.CardIcon}
               <h3 className="text-black font-semibold text-lg">
                 {cardDetails.CardHeadding}
@@ -76,7 +76,7 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
           </div>
         ))}
         {earnings?.formatedData?.map((earning) => (
-          <div className="flex items-center justify-between mt-7 gap-4">
+          <div className="flex items-center justify-between mt-7 gap-4 min-w-[448px]">
             <img
               src={earning.profile}
               alt="userimage"

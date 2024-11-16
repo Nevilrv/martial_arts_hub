@@ -7,7 +7,7 @@ import Boxing from "../../../../../assets/images/Boxing.png"
 const ClassRequestcard = ({ cardDetails, data }) => {
   return (
     <>
-      <div className=" bg-gay-600 rounded-3xl px-8 py-7 h-[512px] overflow-y-auto">
+      <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[375px] overflow-y-auto">
         <div className="flex items-center justify-between">
           <h3 className="text-gay-300 text-lg font-medium">
             {cardDetails.CardTitle}

@@ -394,7 +394,7 @@ const Chat = () => {
                   messages before joining your class.
                 </p>
               </div>
-              <div className="flex flex-col justify-end lg:py-0 py-5 px-5 mt-auto lg:h-[68%] overflow-y-auto pb-10">
+              <div className="flex flex-col justify-end lg:py-0 py-5 px-5 mt-auto h-[68%] overflow-y-auto pb-10">
                 <div className="flex justify-between flex-col overflow-y-auto">
                   {chatMessages?.map((chat) => (
                     <>

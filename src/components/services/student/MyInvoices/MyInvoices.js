@@ -5,7 +5,7 @@ export const GetInvoiceList = async (studentId) => {
   try {
     let response = await axios({
       method: "GET",
-      url: `${baseURL}/student/booking/history/${studentId}`,
+      url: `${baseURL}/student/invoice/list/${studentId}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

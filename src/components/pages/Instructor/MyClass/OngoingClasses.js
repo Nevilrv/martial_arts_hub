@@ -70,9 +70,7 @@ const OngoingClasses = (props) => {
                   <img src={Wrestling} alt="Wrestling" />
                 </div>
                 <div className="ml-5">
-                  <div
-                    className="flex items-center cursor-pointer"
-                  >
+                  <div className="flex items-center cursor-pointer">
                     <h3 className="text-xl font-medium">
                       {upcoming_class?.className}
                     </h3>
@@ -115,20 +113,31 @@ const OngoingClasses = (props) => {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <OutlineBtn
-                  text={"Join Class"}
-                  onClick={() => window.open(upcoming_class?.instructor_url)}
-                  className={
-                    "bg-[#CFDED7] border-green text-green font-semibold"
-                  }
-                />
-                <OutlineBtn
-                  text={"End Class"}
-                  onClick={() => heandleEndclass(upcoming_class?.meetingId)}
-                  className={
-                    "bg-red-100 border-red-200 text-red-200 font-semibold"
-                  }
-                />
+                {upcoming_class.payment !== "success" ? (
+                  <OutlineBtn
+                    text={`payment is Pending`}
+                    className={"bg-black border-none text-white"}
+                  />
+                ) : (
+                  <>
+                    <OutlineBtn
+                      text={"Join Class"}
+                      onClick={() =>
+                        window.open(upcoming_class?.instructor_url)
+                      }
+                      className={
+                        "bg-[#CFDED7] border-green text-green font-semibold"
+                      }
+                    />
+                    <OutlineBtn
+                      text={"End Class"}
+                      onClick={() => heandleEndclass(upcoming_class?.meetingId)}
+                      className={
+                        "bg-red-100 border-red-200 text-red-200 font-semibold"
+                      }
+                    />
+                  </>
+                )}
               </div>
             </div>
           );

@@ -45,43 +45,45 @@ const CompletedClasses = () => {
           </p>
         </div>
       ) : (
-        upcomingClass?.map((upcoming_class) => (
-          <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400">
-            <div className="flex items-center">
-              <div className="w-[125px] h-[85px] overflow-hidden rounded-lg">
-                <img src={Wrestling} alt="Wrestling" />
+        <div className="w-full overflow-x-auto">
+          {upcomingClass?.map((upcoming_class) => (
+            <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400 min-w-[730px]">
+              <div className="flex items-center">
+                <div className="w-[125px] h-[85px] overflow-hidden rounded-lg">
+                  <img src={Wrestling} alt="Wrestling" />
+                </div>
+                <div className="ml-5">
+                  <div className="flex items-center">
+                    <h3 className="text-xl font-medium">
+                      {upcoming_class?.className}
+                    </h3>
+                  </div>
+                  <div className="flex items-center">
+                    <p className="text-[13px] text-black/70  mt-0.5">
+                      <span className="font-medium">Class Date:</span>{" "}
+                      {upcoming_class?.classdate}
+                    </p>
+                    <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
+                    <p className="text-[13px] text-black/70  mt-0.5">
+                      <span className="font-medium">Class type: </span>
+                      {upcoming_class?.classType}
+                    </p>
+                  </div>
+                  <div className="flex items-center">
+                    <p className="text-[13px] text-black/70 mt-0.5">
+                      <span className="font-medium">Instructor Name:</span>
+                      {upcoming_class?.instructorName}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className="ml-5">
-                <div className="flex items-center">
-                  <h3 className="text-xl font-medium">
-                    {upcoming_class?.className}
-                  </h3>
-                </div>
-                <div className="flex items-center">
-                  <p className="text-[13px] text-black/70  mt-0.5">
-                    <span className="font-medium">Class Date:</span>{" "}
-                    {upcoming_class?.classdate}
-                  </p>
-                  <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
-                  <p className="text-[13px] text-black/70  mt-0.5">
-                    <span className="font-medium">Class type: </span>
-                    {upcoming_class?.classType}
-                  </p>
-                </div>
-                <div className="flex items-center">
-                  <p className="text-[13px] text-black/70 mt-0.5">
-                    <span className="font-medium">Instructor Name:</span>
-                    {upcoming_class?.instructorName}
-                  </p>
-                </div>
-              </div>
+              <OutlineBtn
+                text={"Completed"}
+                className={"bg-black border-none text-white"}
+              />
             </div>
-            <OutlineBtn
-              text={"Completed"}
-              className={"bg-black border-none text-white"}
-            />
-          </div>
-        ))
+          ))}
+        </div>
       )}
     </>
   );

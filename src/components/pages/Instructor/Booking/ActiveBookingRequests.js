@@ -66,7 +66,7 @@ const ActiveBookingRequests = ({ data,getBookingRequests }) => {
           <div className="flex items-center">
             <div className="w-[82px] h-[82px] overflow-hidden rounded-full">
               <img
-                src={User}
+                src={booking?.studentProfile||User}
                 alt="Wrestling"
                 className="w-full h-full object-cover object-top grayscale"
               />

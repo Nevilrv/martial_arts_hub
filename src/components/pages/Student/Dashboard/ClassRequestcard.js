@@ -3,7 +3,6 @@ import { FiPlus } from "react-icons/fi";
 import OutlineBtn from "../../common/OutlineBtn";
 
 const ClassRequestcard = ({ cardDetails, data }) => {
-  console.log("🚀 ~ ClassRequestcard ~ data:", data);
   return (
     <>
       <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[375px] overflow-y-auto">
@@ -17,8 +16,9 @@ const ClassRequestcard = ({ cardDetails, data }) => {
             </div>
           ) : null}
         </div>
+        <div className="w-full overflow-x-auto">
         {data?.length === 0 && (
-          <div className="flex items-center justify-center flex-col mt-24">
+          <div className="flex items-center justify-center flex-col mt-24 min-w-[448px]">
             {cardDetails.CardIcon}
             <h3 className="text-black font-semibold text-lg">
               {cardDetails.CardHeadding}
@@ -32,10 +32,9 @@ const ClassRequestcard = ({ cardDetails, data }) => {
             </p>
           </div>
         )}
-
         {data?.map((ClassRequests) => (
           <>
-            <div className="flex items-start mt-6 gap-3">
+            <div className="flex items-start mt-6 gap-3 min-w-[448px]">
               <img
                 src={ClassRequests?.instructor_profile}
                 className="w-[62px] h-[62px] object-cover object-center rounded-full grayscale"
@@ -58,6 +57,8 @@ const ClassRequestcard = ({ cardDetails, data }) => {
             </div>
           </>
         ))}
+        </div>
+
       </div>
     </>
   );
