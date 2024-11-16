@@ -17,10 +17,9 @@ const FavoriteInstructor = () => {
 
   const Getdata = async () => {
     setLoading(true);
-    const result = await GetLikesChek(localStorage.getItem("_id"));
+    const result = await GetLikesChek(JSON.parse(localStorage.getItem("_id")));
     if (result?.success === true) {
       setLoading(false);
-      console.log(result.data, "=======>favorite_instructors");
       setData(result.data);
     } else {
       setLoading(false);
@@ -34,24 +33,26 @@ const FavoriteInstructor = () => {
   return (
     <>
       <StudentProfile>
-        {/* <div className="border border-[#71717194] py-space px-6 rounded-lg min-h-[212px] mt-14">
-          <div className="flex flex-col items-center justify-center">
-            <MultiHeartIcon />
-            <h2 className="text-Dark_black text-2xl font-semibold">
-              You don’t have any favorites yet!
-            </h2>
-            <p className="text-gay-300 max-w-[530px] mx-auto text-center">
-              Your favorites list is currently empty. Discover and add your
-              favorite items here to quickly access them anytime.
-            </p>
-            <div className="mt-12">
-              <OutlineBtn
-                text={"Search Instructor"}
-                className={"bg-black text-white mt-12 md:w-[250px] h-[60px]"}
-              />
+        {data.length <= 0 && (
+          <div className="border border-[#71717194] py-space px-6 rounded-lg min-h-[212px] mt-14">
+            <div className="flex flex-col items-center justify-center">
+              <MultiHeartIcon />
+              <h2 className="text-Dark_black text-2xl font-semibold">
+                You don’t have any favorites yet!
+              </h2>
+              <p className="text-gay-300 max-w-[530px] mx-auto text-center">
+                Your favorites list is currently empty. Discover and add your
+                favorite items here to quickly access them anytime.
+              </p>
+              <div className="mt-12">
+                <OutlineBtn
+                  text={"Search Instructor"}
+                  className={"bg-black text-white mt-12 md:w-[250px] h-[60px]"}
+                />
+              </div>
             </div>
           </div>
-        </div> */}
+        )}
 
         <div className="border border-[#71717194] py-7 px-6 rounded-lg mt-14">
           <div className="flex items-center justify-between">
@@ -70,7 +71,7 @@ const FavoriteInstructor = () => {
               className={"bg-black text-white h-[60px]"}
             />
           </div>
-          <div className="mt-7 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1">
+          <div className="mt-7 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-y-7">
             {data.map((data) => (
               <InstructorsCard data={data} />
             ))}

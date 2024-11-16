@@ -16,13 +16,13 @@ export const Student_get_Upcoming_Classes = async () => {
   }
 };
 
-export const Student_get_Slot = async (instructorId) => {
+export const Student_get_Slot = async (instructorId,classType) => {
   try {
     let response = await axios({
       method: "GET",
-      url: `${baseURL}/student/instructor/classdate/${instructorId}`,
+      url: `${baseURL}/student/instructor/classdate?instructorId=${instructorId}&classType=${classType}`,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;
@@ -37,7 +37,7 @@ export const Get_time_slot = async (body) => {
       method: "GET",
       url: `${baseURL}/student/instructor/timeslote?instructorId=${body.instructorId}&classType=${body.classType}&date=${body.date}`,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;

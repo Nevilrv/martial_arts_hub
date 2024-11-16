@@ -218,9 +218,9 @@ const InstructorProfile = () => {
         <div className="px-3 lg:px-8">
           <div className="grid md:grid-cols-3 grid-cols-1 md:px-8 gap-[71px]">
             <div className="md:col-span-2">
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <OutlineBtn text={Instructor.category} />
-              </div>
+              </div> */}
               <div className="mt-8">
                 <h2 className="text-[40px] font-semibold md:w-[80%]">
                   {Instructor.tagline}

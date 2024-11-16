@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaQuoteRight } from "react-icons/fa6";
 import GetInTouch from "../../common/Get_In_Touch";
 import { Link, useLocation } from "react-router-dom";
@@ -6,6 +6,8 @@ import { BiPencil } from "react-icons/bi";
 import { ShareIcon } from "../../../../assets/icon";
 import OutlineBtn from "../../common/OutlineBtn";
 import { Routing } from "../../../shared/Routing";
+import { Student_Profile_Details } from "../../../services/student/Profile/Profile";
+import { toast } from "react-toastify";
 
 const StudentProfile = ({children}) => {
   const ProfileTeab = [
@@ -34,6 +36,26 @@ const StudentProfile = ({children}) => {
       pathname: Routing.Student_Booking_History,
     },
   ];
+
+  const [loading, setLoading] = useState(false);
+  const [Profiledetails, setProfiledetails] = useState({});
+  const studentId = JSON.parse(localStorage.getItem("_id"));
+
+  const GetProfiledetails = async () => {
+    setLoading(true);
+    const result = await Student_Profile_Details(studentId);
+    if (result?.success === true) {
+      setLoading(false);
+      setProfiledetails(result?.data);
+      toast.success(result?.message);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+  useEffect(() => {
+    GetProfiledetails()
+  }, [])
   const { pathname } = useLocation();
 
   
@@ -56,7 +78,7 @@ const StudentProfile = ({children}) => {
       <div className="grid md:grid-cols-4 gap-11">
         <div className="w-full pl-10 pt-10">
           <img
-            src="https://s3-alpha-sig.figma.com/img/c9d6/ec66/592fab583ee733ef0ca4062635a2de72?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=qYaw9pE9k-4BVd0TwMqP6cOE0XxBw3CfwlUiPg~ij6oPfV02fnA6DGMIowASMHqxNP5apYfUNR7CsLK9ZVMuI95SU6ShDEkS09BL6WJHaQBrjdaDcy5I7htyoLIJ3Rs-mfSvDyCTAlh4UbK-KAP8Id58EAlEDgYKEer46TwUwOM7yJQAqaPB9boc4TOR9pR0l7XHHPKkDrUqKMEypJKGrQsll7Nos3LI97MVDuhn3sqxUmSJEhNsuNpJiG9Oty7TK~UyUfP5qLIGnbLYRIjEYgxR6A-cHBKSfYx66htLYA6ZHcsun3WgF6oMqP-LfFh768JsWOeEgUOq8WhO-mDb4A__"
+            src={Profiledetails?.profile?.profile_picture}
             alt=""
             className="min-w-[274px] h-[274px] rounded-full object-cover grayscale object-top scale-x-[-1]"
           />
@@ -81,7 +103,7 @@ const StudentProfile = ({children}) => {
         <div className="w-full md:col-span-3 pt-10 pr-12 pb-12">
           <div className="flex items-center justify-between">
             <h2 className="text-Dark_black text-[40px] font-bold">
-              Emily Roberts{" "}
+           {Profiledetails?.profile?.studentName}
               <span className="text-Dark_black/50 text-2xl font-normal">
                 (Student)
               </span>
@@ -100,8 +122,8 @@ const StudentProfile = ({children}) => {
             </div>
           </div>
           <div className="w-[120px] h-[27px] bg-gay-250 rounded-full mt-2 overflow-hidden">
-            <div className="w-[75%] h-full bg-green rounded-full flex items-center justify-center text-white">
-              75%
+            <div className={`w-[${Profiledetails?.profile?.profile_completion}%] h-full bg-green rounded-full flex items-center justify-center text-white`}>
+            {Profiledetails?.profile?.profile_completion}%
             </div>
           </div>
           <p className="text-black/50 mt-1">

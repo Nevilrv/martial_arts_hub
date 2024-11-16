@@ -2,6 +2,8 @@ export const Routing = {
   // Student
   InstructorDetails: "/student/instructor_profile/:id",
   AttendTraining:"/student/training",
+  PaymentSuccessful:"/paymentsuccessful",
+  PaymentFailed:"/paymentfailed",
   // student dashboard tab
   Initial: "/",
   StudentLogin: "/student/login",
@@ -57,6 +59,6 @@ export const Routing = {
   Admin_Release_Funds: "/admin/Finance/releasefunds",
   Admin_Refunds: "/admin/Finance/refunds",
   Admin_Dispute_Requests: "/admin/Finance/dispute_requests",
-  Admin_Dispute_Details: "/admin/Finance/disputedetails",
+  Admin_Dispute_Details: "/admin/Finance/disputedetails/:disputeId",
   Admin_Generate_Reports: "/admin/Finance/generatereports",
 };

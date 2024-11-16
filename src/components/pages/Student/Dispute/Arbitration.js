@@ -70,7 +70,6 @@ const Arbitration = () => {
         chatContainerRef.current.scrollHeight;
     }
   }, [DisputeChats]);
-
   return (
     <>
     {loading&&<Spinner/>}

@@ -1,32 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminHeadding from "../../common/AdminHeadding";
 import { Routing } from "../../../shared/Routing";
 import { useNavigate } from "react-router-dom";
+import { Dispute_List } from "../../../services/Admin/Dispute/Dispute";
+import { toast } from "react-toastify";
+import Spinner from "../../../layouts/Spinner";
 
 const DisputeRequests = () => {
-  // eslint-disable-next-line
-  const [InstructorsList, setInstructorsList] = useState([
-    {
-      DisputeID: "#2221",
-      Raised_By: "Emily Roberts",
-      Against: "Keyn Mojho",
-      Amount: "$4.99",
-      RaisedDate: "05/07/2024",
-      Status: "Active",
-    },
-    {
-      DisputeID: "#2221",
-      Raised_By: "Emily Roberts",
-      Against: "Keyn Mojho",
-      Amount: "$4.99",
-      RaisedDate: "05/07/2024",
-      Status: "Closed",
-    },
-  ]);
+  const [Disputes_List, setDisputes_List] = useState([]);
+  const [Loading, setLoading] = useState(false);
+  const Get_Dispute_list = async () => {
+    setLoading(true);
+    const result = await Dispute_List();
+    if (result?.success === true) {
+      setDisputes_List(result.data);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      // if (result?.message === "Blocked students not found") {
+      //   toast.warning("There are no any stiudent Blocked")
+      // }
+      // else{
+        toast.error(result?.message);
+      // }
+    }
+  };
+  useEffect(() => {
+    Get_Dispute_list();
+  }, []);
+
+
+
+
   const navigate = useNavigate();
 
   return (
     <>
+    {Loading&&<Spinner/>}
       <div className="flex items-center justify-between">
         <AdminHeadding Headding={"All Dispute Requests"} />
         <div className="flex items-center gap-2 flex-wrap">
@@ -110,36 +120,36 @@ const DisputeRequests = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#C6C6C6] bg-primary">
-              {InstructorsList.map((person) => (
+              {Disputes_List.map((person) => (
                 <tr key={person.id}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-lg text-Dark_black font-medium sm:pl-6">
-                    {person.DisputeID}
+                    {person.disputeId}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.Raised_By}
+                    {person.raisedBy}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.Against}
+                    {person.against}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.Amount}
+                    {person.amount}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.RaisedDate}
+                    {person.raisedDate}
                   </td>
                   <td className={`whitespace-nowrap px-3 py-4 font-semibold`}>
                     <div className="flex items-center gap-2">
                       <div
                         className={`h-3 w-3 rounded-full ${
-                          person.Status === "Active" ? "bg-green" : "bg-red-200"
+                          person.status === "active" ? "bg-green" : "bg-red-200"
                         }`}
                       ></div>
-                      {person.Status}
+                      {person.status.toUpperCase()}
                     </div>
                   </td>
                   <td
                     className="whitespace-nowrap px-3 pr-6 py-4 text-red-200 underline font-medium w-[200px] cursor-pointer"
-                    onClick={() => navigate(Routing.Admin_Dispute_Details)}
+                    onClick={() => navigate(`/admin/Finance/disputedetails/${person.disputeId}`)}
                   >
                     View Details
                   </td>

@@ -34,10 +34,8 @@ const BookClass = () => {
       title: "Online",
     },
   ];
-
   const [selectedTimeSlot, setSelectedTimeSlot] = useState([]);
   const [selectedMailingLists, setSelectedMailingLists] = useState();
-  console.log("🚀 ~ BookClass ~ selectedMailingLists:", selectedMailingLists);
   const [ShowCalendar, setShowCalendar] = useState(false);
   const [loading, setLoading] = useState(false);
   // Calendar
@@ -49,10 +47,8 @@ const BookClass = () => {
     mobileNumber: "",
     classRate: "",
   });
-  console.log("🚀 ~ BookClass ~ heandalChangeData:", heandalChangeData);
 
   const [TimeSlot, setTimeSlot] = useState([]);
-  console.log("🚀 ~ BookClass ~ TimeSlot:", TimeSlot);
   const [instructorData, setinstructorData] = useState({});
   const [rating, setRating] = useState(0);
 
@@ -73,7 +69,7 @@ const BookClass = () => {
 
   const GetSlot = async () => {
     setLoading(true);
-    const result = await Student_get_Slot(instructorId);
+    const result = await Student_get_Slot(instructorId, selectedMailingLists);
     if (result?.success === true) {
       setLoading(false);
       setHighlightedDates(result.data.classdates.map((date) => new Date(date)));
@@ -84,12 +80,12 @@ const BookClass = () => {
     }
   };
 
-  const Get_Time_Slot = async () => {
+  const Get_Time_Slot = async (date) => {
     setLoading(true);
     const body = {
       instructorId: instructorId,
       classType: selectedMailingLists,
-      date: dayjs(selectedDate).format("YYYY-MM-DD"),
+      date: dayjs(date).format("YYYY-MM-DD"),
     };
     const result = await Get_time_slot(body);
     if (result?.success === true) {
@@ -98,6 +94,8 @@ const BookClass = () => {
         label: slot,
         value: slot,
       }));
+      console.log(result?.data[0]?.classRate,"========>rate");
+      
 
       setTimeSlot(formattedTimeSlots);
       setheandalChangeData((prevState) => ({
@@ -131,10 +129,7 @@ const BookClass = () => {
 
   useEffect(() => {
     GetSlot();
-  }, []);
-  useEffect(() => {
-    Get_Time_Slot();
-  }, [selectedMailingLists, selectedDate]);
+  }, [selectedMailingLists]);
 
   const handleChange = (e) => {
     setheandalChangeData({
@@ -160,7 +155,7 @@ const BookClass = () => {
   const henadleCalender = () => {
     if (selectedMailingLists === undefined) {
       toast.error("select your class Type first");
-      setShowCalendar(false)
+      setShowCalendar(false);
     } else {
       setShowCalendar(!ShowCalendar);
     }
@@ -193,9 +188,9 @@ const BookClass = () => {
             <div className="absolute bottom-[-7%] -right-[7%]">
               <div className="relative">
                 <Star7 />
-                <div className="flex items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <h2 className="text-white text-3xl font-bold">$5</h2>
-                  <p className="text-white text-sm font-medium">/hr</p>
+                <div className=" items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <h2 className="text-white text-xl font-bold">${heandalChangeData.classRate||0}</h2>
+                  <p className="text-white text-xl text-center font-medium">hr</p>
                 </div>
               </div>
             </div>
@@ -210,7 +205,7 @@ const BookClass = () => {
           <div className="mt-3 flex items-center gap-x-1">
             <div className="flex items-center gap-0.5">{getStars(rating)}</div>
             <p className="text-black/50 text-sm">
-              {rating}{" "}
+              {rating}
               <span className="underline">
                 ({instructorData.totalReviews} Reviews)
               </span>
@@ -301,10 +296,12 @@ const BookClass = () => {
                 {ShowCalendar && (
                   <div className="absolute top-full left-0 z-20 w-full">
                     <Calendar
-                    minDate={new Date()}
+                      minDate={new Date()}
                       onChange={(date) => {
                         setSelectedDate(date);
-                        setShowCalendar(false); // Close calendar after selecting a date
+                        setShowCalendar(false);
+                        Get_Time_Slot(date);
+                        // Close calendar after selecting a date
                       }}
                       value={selectedDate}
                       tileContent={tileContent}

@@ -1,45 +1,116 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminHeadding from "../../common/AdminHeadding";
+import { Reports } from "../../../services/Admin/Reporting_&_Feedback/Reporting_&_Feedback";
+import { toast } from "react-toastify";
+import Spinner from "../../../layouts/Spinner";
 
 const GenerateReports = () => {
-  const [InstructorsList, setInstructorsList] = useState([
-    {
-      No: "1",
-      InstructorName: "Emily Roberts",
-      ClassName: "Brazilian Jiu Jitsu",
-      ClassDate: "05/07/2024",
-      StudentName: "Keyn Mojho",
-      Amount: "$4.99",
-      Status: "Active",
-    },
-    {
-      No: "2",
-      InstructorName: "Emily Roberts",
-      ClassName: "Brazilian Jiu Jitsu",
-      ClassDate: "05/07/2024",
-      StudentName: "Keyn Mojho",
-      Amount: "$4.99",
-      Status: "Session Ended",
-    },
-  ]);
+  const [Repot, setRepot] = useState({});
+  const [Loading, setLoading] = useState(false);
+  const currentMonthIndex = new Date().getMonth();
+  const [selectedMonth, setSelectedMonth] = useState(currentMonthIndex + 1);
+  const [amountFilter, setAmountFilter] = useState("high to Lower");
+  const [selectedStatus, setSelectedStatus] = useState("All");
+
+  const Get_Report = async () => {
+    setLoading(true);
+    const result = await Reports();
+    if (result?.success === true) {
+      setRepot(result.data);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+  useEffect(() => {
+    Get_Report();
+  }, [selectedMonth]);
+  // amount
+  useEffect(() => {
+    if (Repot?.formatedReport) {
+      const sortedData = [...Repot.formatedReport].sort((a, b) => {
+        if (amountFilter === "Lower to high") {
+          return a.Amount - b.Amount;
+        } else if (amountFilter === "high to Lower") {
+          return b.Amount - a.Amount;
+        }
+        return 0;
+      });
+      setRepot({ ...Repot, formatedReport: sortedData });
+    }
+  }, [amountFilter]);
+
+  const handleAmountChange = (event) => {
+    setAmountFilter(event.target.value);
+  };
+
+  // months
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const handleChange = (event) => {
+    setSelectedMonth(event.target.value);
+  };
+
+  // status
+  const handleChangeStatus = (event) => {
+    setSelectedStatus(event.target.value);
+  };
+  const filteredReport = Repot?.formatedReport?.filter((report) => {
+    if (selectedStatus === "All") {
+      return report.status;
+    }
+    if (selectedStatus === "Active") {
+      return report.status === "Active";
+    }
+    if (selectedStatus === "Session Ended") {
+      return report.status === "Session Ended";
+    }
+  });
+
   return (
     <>
+      {Loading && <Spinner />}
       <div className="grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 mb-10 gap-3">
         <div className="w-full bg-primary p-7 rounded-xl">
-            <p className="text-gay-300 text-base font-medium">Total Sessions</p>
-            <h2 className="text-Dark_black font-semibold text-[32px]">125</h2>
+          <p className="text-gay-300 text-base font-medium">Total Sessions</p>
+          <h2 className="text-Dark_black font-semibold text-[32px]">
+            {Repot?.total_sessions}
+          </h2>
         </div>
         <div className="w-full bg-primary p-7 rounded-xl">
-            <p className="text-gay-300 text-base font-medium">Total Instructors</p>
-            <h2 className="text-Dark_black font-semibold text-[32px]">25</h2>
+          <p className="text-gay-300 text-base font-medium">
+            Total Instructors
+          </p>
+          <h2 className="text-Dark_black font-semibold text-[32px]">
+            {Repot?.total_instructor}
+          </h2>
         </div>
         <div className="w-full bg-primary p-7 rounded-xl">
-            <p className="text-gay-300 text-base font-medium">Total Students</p>
-            <h2 className="text-Dark_black font-semibold text-[32px]">450</h2>
+          <p className="text-gay-300 text-base font-medium">Total Students</p>
+          <h2 className="text-Dark_black font-semibold text-[32px]">
+            {Repot?.total_student}
+          </h2>
         </div>
         <div className="w-full bg-primary p-7 rounded-xl">
-            <p className="text-gay-300 text-base font-medium">Total Transaction Amount</p>
-            <h2 className="text-Dark_black font-semibold text-[32px]">$589.99</h2>
+          <p className="text-gay-300 text-base font-medium">
+            Total Transaction Amount
+          </p>
+          <h2 className="text-Dark_black font-semibold text-[32px]">
+            ${Repot?.total_transaction}
+          </h2>
         </div>
       </div>
       <div className="flex items-center justify-between flex-wrap">
@@ -48,33 +119,37 @@ const GenerateReports = () => {
           <select
             id="Monthly"
             name="Monthly"
-            defaultValue="Monthly"
+            value={selectedMonth}
+            onChange={handleChange}
             className="bg-transparent focus:outline-none px-3 border border-black/25 h-[35px] rounded-full"
           >
-            <option>Monthly</option>
-            <option>Jan</option>
-            <option>feb</option>
+            {months.map((monthList, index) => (
+              <option key={index} value={index + 1}>
+                {monthList}
+              </option>
+            ))}
           </select>
           <select
             id="Amount"
             name="Amount"
             defaultValue="Amount"
+            value={amountFilter}
+            onChange={handleAmountChange}
             className="bg-transparent focus:outline-none px-3 border border-black/25 h-[35px] rounded-full"
           >
-            <option>Amount</option>
-            <option>$4.99</option>
-            <option>$5.99</option>
-            <option>$7.99</option>
+            <option>Lower to high</option>
+            <option>high to Lower</option>
           </select>
           <select
             id="Active Sessions"
             name="Active Sessions"
             defaultValue="Active Sessions"
+            onChange={handleChangeStatus}
             className="bg-transparent focus:outline-none px-3 border border-black/25 h-[35px] rounded-full"
           >
-            <option>Active Sessions</option>
-            <option>Session Ended</option>
-            <option>Closed</option>
+            <option value={"All"}>All</option>
+            <option value={"Active"}>Active</option>
+            <option value={"Session Ended"}>Session Ended</option>
           </select>
         </div>
       </div>
@@ -128,42 +203,42 @@ const GenerateReports = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#C6C6C6] bg-primary">
-              {InstructorsList.map((person) => (
-                <tr key={person.id}>
+              {filteredReport?.map((repot, i) => (
+                <tr key={i}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-lg text-Dark_black font-medium sm:pl-6">
-                    #{person.No}
+                    #{i + 1}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.InstructorName}
+                    {repot.instructorName}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.ClassName}
+                    {repot.className}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.ClassDate}
+                    {repot.classDate}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.StudentName}
+                    {repot.studentName}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.Amount}
+                    {repot.Amount}
                   </td>
                   <td className={`whitespace-nowrap px-3 py-4 font-semibold`}>
                     <div
                       className={`flex items-center gap-2 ${
-                        person.Status === "Active"
+                        repot.status === "Active"
                           ? "text-green"
                           : "text-red-200"
                       }`}
                     >
                       <div
                         className={`h-3 w-3 rounded-full ${
-                          person.Status === "Active"
+                          repot.status === "Active"
                             ? "bg-green"
                             : "bg-red-200 text-red-200"
                         }`}
                       ></div>
-                      {person.Status}
+                      {repot.status}
                     </div>
                   </td>
                 </tr>

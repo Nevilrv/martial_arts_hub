@@ -38,7 +38,7 @@ const Index = () => {
       setLoading(false);
       localStorage.setItem("is_login", true);
       localStorage.setItem("token", result.Token);
-      localStorage.setItem("email", userdata.email);
+      localStorage.setItem("email", JSON.stringify(userdata.email));
       SetisOpen(true);
       toast.success(result?.message);
       navigate(Routing.AdminDashboard);
@@ -106,7 +106,7 @@ const Index = () => {
               </p>
               <div className="text-white mt-8">
                 <h2 className="text-xl font-medium">John Doe</h2>
-                <p className="text-white/50 text-base">Student</p>
+                <p className="text-white/50 text-base">Admin</p>
               </div>
             </div>
             <div className="login-shape">

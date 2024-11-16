@@ -74,7 +74,7 @@ const Negotiation = () => {
       message: message,
       sender: JSON.parse(localStorage.getItem("Role")).toLocaleLowerCase(),
     };
-    if (body.message === "") {
+    if (body.message.trim() === "") {
       toast.error("empty message not send");
     } else {
       const result = await Send_Dispute_message(body);

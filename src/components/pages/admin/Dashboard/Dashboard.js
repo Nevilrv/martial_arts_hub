@@ -97,7 +97,7 @@ const Dashboard = () => {
   // pie chart data
   const Get_Progress = async () => {
     setLoading(true);
-    const result = await Admin_Progress(10);
+    const result = await Admin_Progress(11);
     if (result?.success === true) {
       const processedData = result.data.map((item) =>
         item === null ? 0 : item

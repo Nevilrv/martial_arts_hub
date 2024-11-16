@@ -1,12 +1,108 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import OutlineBtn from "../../common/OutlineBtn";
 import Instructor1 from "../../../../assets/images/Instructor-4.png";
 // import { LuEye } from "react-icons/lu";
 import "react-medium-image-zoom/dist/styles.css";
 import Zoom from "react-medium-image-zoom";
+import { useParams } from "react-router-dom";
+import { Dispute_Details, GetDisputeChat, Send_Dispute_message } from "../../../services/Admin/Dispute/Dispute";
+import { toast } from "react-toastify";
+import dayjs from "dayjs";
+import { baseURL } from "../../../services/URL";
+import { io } from "socket.io-client";
 
 const DisputeDetails = () => {
+  const { disputeId } = useParams();
+  const [Disputes, setDisputes] = useState();
+  const [Loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [DisputeChats, setDisputeChats] = useState([]);
+  const Socket = io(`${baseURL}`);
+  let chatId;
+  const chatContainerRef = useRef(null);
+
+  const Get_Dispute_Deatls = async () => {
+    setLoading(true);
+    const result = await Dispute_Details(disputeId);
+    if (result?.success === true) {
+      setDisputes(result.data);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+  useEffect(() => {
+    Get_Dispute_Deatls();
+  }, []);
+
+
+
+
+  // chate
+
+
+  const GetDisputeChats = async () => {
+    setLoading(true);
+    const result = await GetDisputeChat(disputeId);
+    if (result?.success === true) {
+      setLoading(false);
+      setDisputeChats(result.data);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+
+  useEffect(() => {
+    GetDisputeChats();
+    Socket.on("chatMessagesLoaded", (newChat) => {
+      setDisputeChats(newChat.messages);
+    });
+
+    Socket.on("socketError", (err) => {
+      console.error(err.message);
+    });
+
+    return () => {
+      Socket.off("chatMessagesLoaded");
+      Socket.off("socketError");
+    };
+  }, [chatId]);
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [DisputeChats]);
+
+// send chat
+const heandleChat = async () => {
+  const body = {
+    disputeId: disputeId,
+    studentId: Disputes.studentId,
+    adminId: "cd7e3eab-a950-4b57-8702-cdb4abf505c6",
+    message: message,
+    sender: "admin",
+  };
+  if (body.message.trim() === "") {
+    toast.error("empty message not send");
+  } else {
+    const result = await Send_Dispute_message(body);
+    if (result?.success === true) {
+      setLoading(false);
+      chatId = result.data.chatId;
+      Socket.emit("loadChatMessages", { chatId: chatId });
+      setMessage("");
+    } else {
+      setLoading(false);
+    }
+  }
+};
+
+
+
   return (
     <>
       <div className="flex items-center justify-between flex-wrap">
@@ -28,36 +124,42 @@ const DisputeDetails = () => {
         <div className="grid md:grid-cols-2 gap-y-3">
           <div className="flex items-center gap-1 flex-wrap">
             <h3 className="text-gay-300 font-medium">Dispute ID:</h3>
-            <p className="text-Dark_black font-[450]">#2221</p>
+            <p className="text-Dark_black font-[450]">{Disputes?.disputeId}</p>
           </div>
           <div className="flex items-center gap-1 flex-wrap">
             <h3 className="text-gay-300 font-medium">Dispute Raised Date:</h3>
-            <p className="text-Dark_black font-[450]">05/07/2024</p>
+            <p className="text-Dark_black font-[450]">
+              {dayjs(Disputes?.createdAt).format("DD/MM/YYYY")}
+            </p>
           </div>
           <div className="flex items-center gap-1 flex-wrap">
             <h3 className="text-gay-300 font-medium">Dispute Raised by:</h3>
-            <p className="text-Dark_black font-[450]">Emily Roberts</p>
+            <p className="text-Dark_black font-[450]">
+              {Disputes?.studentName}
+            </p>
           </div>
           <div className="flex items-center gap-1 flex-wrap">
             <h3 className="text-gay-300 font-medium">Amount:</h3>
-            <p className="text-Dark_black font-[450]">$4.00</p>
+            <p className="text-Dark_black font-[450]">${Disputes?.rate}</p>
           </div>
           <div className="flex items-center gap-1 flex-wrap">
             <h3 className="text-gay-300 font-medium">Dispute Against:</h3>
-            <p className="text-Dark_black font-[450]">Keyn Mojho</p>
+            <p className="text-Dark_black font-[450]">
+              {Disputes?.instructorName}
+            </p>
           </div>
           <div className="flex items-center gap-1 flex-wrap">
             <h3 className="text-gay-300 font-medium">Dispute Status:</h3>
-            <p className="text-green font-[450]">
+            <p className={`${Disputes?.status==="active"?"text-green":"text-red-200"} font-[450]`}>
               {" "}
-              <span className="h-2 w-2 rounded-full bg-green inline-block mr-0.5"></span>{" "}
-              Active
+              <span className={`h-2 w-2 rounded-full ${Disputes?.status==="active"?"bg-green":"bg-red-200"} inline-block mr-0.5`}></span>{" "}
+              {Disputes?.status}
             </p>
           </div>
           <div className="flex items-center gap-1 flex-wrap">
             <h3 className="text-gay-300 font-medium">Dispute Type/Reason:</h3>
             <p className="text-Dark_black font-[450]">
-              Miscommunication Regarding Class
+              {Disputes?.disputeType}
             </p>
           </div>
         </div>
@@ -67,55 +169,24 @@ const DisputeDetails = () => {
           <p className="text-gay-300 text-base">
             Detailed description of dispute given by Student
           </p>
-          <p className="text-black text-lg mt-3">
-            The class content delivered by the instructor significantly deviated
-            from what was initially promised. The syllabus outlined during the
-            course introduction did not align with the actual lessons. Important
-            topics were either briefly mentioned or entirely skipped, leaving
-            gaps in the promised learning outcomes.
-          </p>
+          <p className="text-black text-lg mt-3">{Disputes?.description}</p>
         </div>
         <div className="bg-primary p-7 rounded-xl">
           <p className="text-gay-300 text-base">
             Evidence(screenshots, documents, receipts)
           </p>
           <div className="flex items-center gap-3 mt-5 flex-wrap sm:justify-start justify-center">
-            <Zoom className="sm:w-auto w-full">
-              <div className="sm:mx-0 mx-auto w-[125px] h-[100px] rounded-md overflow-hidden group relative cursor-pointer">
-                <img
-                  src={Instructor1}
-                  alt=""
-                  className="h-full w-full object-cover object-top"
-                />
-                {/* <div className="h-7 w-7 rounded-full bg-[#0F0F0F5E] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 eye_bg items-center justify-center flex opacity-0 group-hover:opacity-100 duration-[0.5s]">
-                  <LuEye className="text-white text-sm" />
-                </div> */}
-              </div>
-            </Zoom>
-            <Zoom className="sm:w-auto w-full">
-              <div className="sm:mx-0 mx-auto w-[125px] h-[100px] rounded-md overflow-hidden group relative cursor-pointer">
-                <img
-                  src={Instructor1}
-                  alt=""
-                  className="h-full w-full object-cover object-top"
-                />
-                {/* <div className="h-7 w-7 rounded-full bg-[#0F0F0F5E] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 eye_bg items-center justify-center flex opacity-0 group-hover:opacity-100 duration-[0.5s]">
-                  <LuEye className="text-white text-sm" />
-                </div> */}
-              </div>
-            </Zoom>
-            <Zoom className="sm:w-auto w-full">
-              <div className="sm:mx-0 mx-auto w-[125px] h-[100px] rounded-md overflow-hidden group relative cursor-pointer">
-                <img
-                  src={Instructor1}
-                  alt=""
-                  className="h-full w-full object-cover object-top"
-                />
-                {/* <div className="h-7 w-7 rounded-full bg-[#0F0F0F5E] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 eye_bg items-center justify-center flex opacity-0 group-hover:opacity-100 duration-[0.5s]">
-                  <LuEye className="text-white text-sm" />
-                </div> */}
-              </div>
-            </Zoom>
+            {Disputes?.evidenceScreenShort.map((ScreenShort) => (
+              <Zoom className="sm:w-auto w-full">
+                <div className="sm:mx-0 mx-auto w-[125px] h-[100px] rounded-md overflow-hidden group relative cursor-pointer">
+                  <img
+                    src={ScreenShort}
+                    alt=""
+                    className="h-full w-full object-cover object-top"
+                  />
+                </div>
+              </Zoom>
+            ))}
           </div>
         </div>
       </div>
@@ -129,87 +200,52 @@ const DisputeDetails = () => {
           issue. As Admin, you can monitor all messages and step in with replies
           when necessary.
         </p>
-        <div className="mt-6 bg-primary rounded-xl pt-10 lg:px-6 px-3 pb-7">
-          <div className="flex flex-col gap-8 max-h-">
-            {/* student chat */}
-            <div className="flex items-start gap-4">
-              <div className="h-14 w-14 rounded-full overflow-hidden">
+        <div className="mt-6 bg-primary rounded-xl pt-10  pb-7">
+          <div className="flex flex-col gap-8 max-h-[530px] overflow-y-auto lg:px-6 px-3" ref={chatContainerRef}>
+            {/*chats*/}
+            {
+              DisputeChats?.map((chat)=>(
+            <div className={`${chat?.sender_type!=="student"?"justify-end":null} flex items-start gap-4`}>
+              <div className={`h-14 w-14 rounded-full overflow-hidden ${chat?.sender_type!=="student"?"order-2":null}`}>
                 <img src={Instructor1} alt="" className="w-full h-full" />
               </div>
               <div className="max-w-[75%]">
-                <div className="w-full p-4 bg-red-100 rounded-xl text-gay-400 text-sm rounded-tl-none border border-red-200/15">
-                  At this stage, students and instructors can discuss about the
-                  dispute, and the Admin can monitor and provide input.
+                <div className={`w-full p-4 ${chat?.sender_type==="student"?"bg-red-100 text-gay-400 rounded-tl-none":"bg-black text-white rounded-tr-none"} rounded-xl  text-sm  border border-red-200/15`}>
+                {chat?.message}
                 </div>
-                <p className="text-red-200 text-xs mt-2">
-                  Student | July 23, 2024 at 05:43 IST
+                <p className={`${chat?.sender_type==="student"?"text-red-200":"text-black"}  text-xs mt-2`}>
+                {chat?.updated_at}
                 </p>
               </div>
             </div>
-            {/* admin chat */}
-            <div className="flex items-start gap-4 justify-end">
-              <div className="max-w-[75%]">
-                <div className="p-4 bg-black rounded-xl text-white text-sm rounded-tr-none border border-red-200/15">
-                  At this stage, students and instructors can discuss about the
-                  dispute, and the Admin can monitor and provide input.
-                </div>
-                <p className="text-black text-xs mt-2 text-right">
-                  Student | July 23, 2024 at 05:43 IST
-                </p>
-              </div>
-              <div className="h-14 w-14 rounded-full overflow-hidden">
-                <img src={Instructor1} alt="" className="w-full h-full" />
-              </div>
-            </div>
-            {/* student chat */}
-            <div className="flex items-start gap-4">
-              <div className="h-14 w-14 rounded-full overflow-hidden">
-                <img src={Instructor1} alt="" className="w-full h-full" />
-              </div>
-              <div className="max-w-[75%]">
-                <div className="w-full p-4 bg-red-100 rounded-xl text-gay-400 text-sm rounded-tl-none border border-red-200/15">
-                  At this stage, students and instructors can discuss about the
-                  dispute, and the Admin can monitor and provide input. At this
-                  stage, students and instructors can discuss about the dispute,
-                  and the Admin can monitor and provide input.
-                </div>
-                <p className="text-red-200 text-xs mt-2">
-                  Student | July 23, 2024 at 05:43 IST
-                </p>
-              </div>
-            </div>
-            {/* admin chat */}
-            <div className="flex items-start gap-4 justify-end">
-              <div className="max-w-[75%]">
-                <div className="p-4 bg-black rounded-xl text-white text-sm rounded-tr-none border border-red-200/15">
-                  At this stage, students and instructors can discuss about the
-                  dispute, and the Admin can monitor and provide input. At this
-                  stage, students and instructors can discuss about the dispute,
-                  and the Admin can monitor and provide input.
-                </div>
-                <p className="text-black text-xs mt-2 text-right">
-                  Student | July 23, 2024 at 05:43 IST
-                </p>
-              </div>
-              <div className="h-14 w-14 rounded-full overflow-hidden">
-                <img src={Instructor1} alt="" className="w-full h-full" />
-              </div>
-            </div>
+              ))
+            }
           </div>
-          <div className="mt-7 flex items-center gap-2 justify-between">
+          <div className="mt-7 flex items-center gap-2 justify-between lg:px-6 px-3">
             <div className="relative 2xl:w-[70%] xl:w-[50%] w-[80%]">
               <input
                 type="text"
                 className="w-full py-6 bg-[#DAD8D0] block h-[75px] text-lg px-7 pr-[84px] rounded-full focus:outline-none placeholder:text-black/40"
                 placeholder="Write your message here"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyPress={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault();
+                    heandleChat();
+                  }
+                }}
               />
-              <button className="bg-transparent text-red-200 border-none text-lg font-medium absolute top-1/2 -translate-y-1/2 right-6">
+              <button className="bg-transparent text-red-200 border-none text-lg font-medium absolute top-1/2 -translate-y-1/2 right-6" onClick={heandleChat}>
                 Send
               </button>
             </div>
             <div className="items-center justify-between gap-2 xl:flex hidden">
               <OutlineBtn text="Move to Arbitration Stage" />
-              <OutlineBtn className="bg-red-200 text-white border-none" text="Close Dispute" />
+              <OutlineBtn
+                className="bg-red-200 text-white border-none"
+                text="Close Dispute"
+              />
             </div>
           </div>
         </div>

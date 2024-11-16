@@ -101,7 +101,6 @@ const Profile = () => {
     const result = await Get_Instructor_Details();
     if (result?.success === true) {
       setLoading(false);
-      console.log(result.data, "======>getinstructorDetails");
       setInstructorDetails({
         email: result.data.email,
         name: result.data.name,

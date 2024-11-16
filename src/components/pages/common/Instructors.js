@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import InstructorsCard from "./Instructors_Card";
 import Slider from "react-slick";
-import { GetInstructors } from "../../services/student/Homepage/Homepage";
+import { GetInstructors, InstructorLike } from "../../services/student/Homepage/Homepage";
 import Spinner from "../../layouts/Spinner";
 import { toast } from "react-toastify";
 
 const Instructors = () => {
   const [Instructors, setInstructors] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [Like, setLike] = useState(false);
 
   var settings = {
     dots: true,
@@ -60,6 +61,26 @@ const Instructors = () => {
     getInstructors();
   }, []);
 
+
+  const HeandleLike = async (id) => {
+    setLoading(true);
+    const result = await InstructorLike(
+      id,
+      JSON.parse(localStorage.getItem("_id"))
+    );
+    if (result?.success === true) {
+      setLoading(false);
+      setLike(!Like);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        toast.error("Please Login");
+      }
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       {loading && <Spinner />}
@@ -67,7 +88,7 @@ const Instructors = () => {
         <h2 className="font-medium text-[32px]">Our Instructors</h2>
         <Slider {...settings} className="mt-5 slider-2 relative">
           {Instructors.map((items, i) => (
-            <InstructorsCard data={items} />
+            <InstructorsCard data={items} HeandleLike={HeandleLike} />
           ))}
         </Slider>
       </section>

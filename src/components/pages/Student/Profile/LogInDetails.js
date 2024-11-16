@@ -21,12 +21,12 @@ const LogInDetails = () => {
             />
             <Inputfild className={"md:w-full"} Label={"Name"} value={"jay"} />
           </div>
-          <div className="flex justify-end">
+          {/* <div className="flex justify-end">
             <OutlineBtn
               text={"Save Changes"}
               className={"bg-black text-white mt-12"}
             />
-          </div>
+          </div> */}
         </div>
       </StudentProfile>
     </>

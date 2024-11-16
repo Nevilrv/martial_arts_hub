@@ -11,9 +11,17 @@ import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./utils/PrivateRoute";
 
 // components
+const PaymentSuccessful = lazy(() =>
+  import("./components/pages/common/PaymentSuccessful.js")
+);
+const PaymentFailed = lazy(() =>
+  import("./components/pages/common/Paymentfailed.js")
+);
+
 const StudentHome = lazy(() =>
   import("./components/pages/Student/homepage/Index")
 );
+
 const StudentLogin = lazy(() =>
   import("./components/pages/Student/Login/Login")
 );
@@ -154,6 +162,17 @@ const Admin_Generate_Reports = lazy(() =>
 
 function App() {
   const routes = [
+    {
+      path: Routing.PaymentSuccessful,
+      component: PaymentSuccessful,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.PaymentFailed,
+      component: PaymentFailed,
+      isPrivateRoute: false,
+    },
+
     {
       path: Routing.Initial,
       component: StudentHome,

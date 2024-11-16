@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import AdminHeadding from "../../common/AdminHeadding";
-import Instructor_1 from "../../../../assets/images/Instructor-1.png";
 import OutlineBtn from "../../common/OutlineBtn";
 import Popup from "../../common/Popup";
 import { Allert_Popup_Icon } from "../../../../assets/icon";
@@ -9,16 +8,6 @@ import { Students_Block, Students_List } from "../../../services/Admin/StudentMa
 import Spinner from "../../../layouts/Spinner";
 
 const ViewStudents = () => {
-  const [InstructorsList, setInstructorsList] = useState([
-    {
-      image: Instructor_1,
-      name: "Keyn Mojho",
-      id: "#23352",
-      ClassName: "Brazilian Jiu Jitsu",
-      JoinedDate: "12/07/2024",
-      PaidAmount: "$4.99",
-    },
-  ]);
   const [isOpen, SetisOpen] = useState(false);
   const [Loading, setLoading] = useState(false);
   const [Student_List, setStudent_List] = useState([]);

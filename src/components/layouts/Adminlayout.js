@@ -117,12 +117,7 @@ const SidbarNavigation = [
         Navigate: "Generate Reports",
         icon: <BiChevronDown />,
         Path: Routing.Admin_Generate_Reports,
-      },
-      {
-        Navigate: "Provide Feedback",
-        icon: <BiChevronDown />,
-        // Path: "/admin/employees/add",
-      },
+      }
     ],
   },
   {

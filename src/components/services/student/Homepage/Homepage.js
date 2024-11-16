@@ -29,7 +29,7 @@ export const InstructorLike = async (instructorId, studentId) => {
       method: "POST",
       url: `${baseURL}/student/add/favorite/instructor/${instructorId}/${studentId}`,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;
@@ -43,7 +43,7 @@ export const GetLikesChek = async (studentId) => {
       method: "GET",
       url: `${baseURL}/student/favorite/instructor/${studentId}`,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;

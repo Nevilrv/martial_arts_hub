@@ -1,13 +1,31 @@
-import React from "react";
-import { BiHeart, BiSolidStar } from "react-icons/bi";
+import React, { useState } from "react";
+import { BiHeart } from "react-icons/bi";
+import { FaStarHalfAlt } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
-const InstructorsCard = ({ data }) => {
-  const roundedRating = Math.round(data.rating);
-  // Round to nearest half-star
-  const filledStars = Math.floor(roundedRating);
-  const halfStar = roundedRating - filledStars > 0;
+const InstructorsCard = ({ data,HeandleLike }) => {
+  const [liked, setLiked] = useState(data.Likes.includes(JSON.parse(localStorage.getItem("_id"))));
+  
+  const getStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 
+    return (
+      <div className="flex items-center gap-0.5">
+        {[...Array(fullStars)].map((_, i) => (
+          <FaStar key={`full-${i}`} className="text-yellow-100 text-lg" />
+        ))}
+        {hasHalfStar && (
+          <FaStarHalfAlt className="text-yellow-100 text-lg" key="half" />
+        )}
+        {[...Array(emptyStars)].map((_, i) => (
+          <FaStar key={`empty-${i}`} className="text-gay-500 text-lg" />
+        ))}
+      </div>
+    );
+  };
   const navigate = useNavigate();
 
   return (
@@ -19,39 +37,38 @@ const InstructorsCard = ({ data }) => {
             alt={data.image}
             className="grayscale hover:grayscale-0 w-full object-top h-[355px] object-cover"
           />
-          <div className="h-[34px] w-[34px] bg-white rounded-full absolute top-4 right-3 flex items-center justify-center">
-            <BiHeart />
+          <div
+            className="h-[34px] w-[34px] bg-white rounded-full absolute top-4 right-3 flex items-center justify-center"
+            onClick={() => HeandleLike(data.instructorId)}
+          >
+           {liked ? (
+            <FaHeart className="text-red-200 text-xl" />
+          ) : (
+            <FaRegHeart className="text-gray-500 text-xl" />
+          )}
           </div>
         </div>
         <div>
           <div className="flex items-center mt-5 gap-1">
-            <div className="flex items-center">
-              {[...Array(5)].map((_, i) => (
-                <BiSolidStar
-                  key={i}
-                  className={
-                    i < filledStars
-                      ? "text-yellow-100"
-                      : halfStar && i === filledStars
-                      ? "text-yellow-100"
-                      : "text-gray-500"
-                  }
-                />
-              ))}
-            </div>
+            <div className="flex items-center">{getStars(data.reviews)}</div>
             <span className="text-[10px] text-black/50">
-              4.3 (1200 Ratings)
+              {data.reviews} ({data.TotalReview} TotalReview)
             </span>
           </div>
           <h2 className="text-black text-xl font-medium">{data.name}</h2>
           <p className="text-black/50 text-sm">{data.experience}</p>
           <div className="flex items-center mt-4">
-            <button className="bg-black text-white text-xs text-center py-2 px-3 rounded-full" onClick={()=>navigate(`/student/instructor_profile/${data.instructorId}`)}>
+            <button
+              className="bg-black text-white text-xs text-center py-3 px-20 rounded-full"
+              onClick={() =>
+                navigate(`/student/instructor_profile/${data.instructorId}`)
+              }
+            >
               View Profile
             </button>
-            <button className="ml-2 bg-transparent border border-black/50 text-black text-xs text-center py-2 px-3 rounded-full">
+            {/* <button className="ml-2 bg-transparent border border-black/50 text-black text-xs text-center py-2 px-3 rounded-full">
               Send a message
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
