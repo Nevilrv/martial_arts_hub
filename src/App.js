@@ -122,6 +122,16 @@ const InstructorAccountDetails = lazy(() =>
     "./components/pages/Instructor/BankAccountDetails/BankAccountDetails.js"
   )
 );
+const AccountCreateSuccessful = lazy(() =>
+  import(
+    "./components/pages/Instructor/BankAccountDetails/AccountCreateSuccessful.js"
+  )
+);
+const AccountCreateCancle = lazy(() =>
+  import(
+    "./components/pages/Instructor/BankAccountDetails/AccountCreateCancle.js"
+  )
+);
 
 // admin
 const AdminLogin = lazy(() => import("./components/pages/admin/Login/Login"));
@@ -348,6 +358,16 @@ function App() {
     {
       path: Routing.InstructorAccountDetails,
       component: InstructorAccountDetails,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.InstructorGetAccountDetailssuccess,
+      component: AccountCreateSuccessful,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.InstructorGetAccountDetailcancle,
+      component: AccountCreateCancle,
       isPrivateRoute: true,
     },
     // admin Routes

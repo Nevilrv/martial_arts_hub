@@ -47,9 +47,7 @@ export const Routing = {
   InstructorGetAccountDetailssuccess:"/instructor/bank_account_details/success/:accountId/:instructorId",
   InstructorGetAccountDetailcancle:"/instructor/bank_account_details/cancle/:accountId/:instructorId",
 
-
   // Admin
-
   AdminLogin: "/admin/login",
   AdminDashboard: "/admin/dashboard",
   Admin_Instructor_Managementnew_Requests: "/admin/instructormanagement/newrequests",

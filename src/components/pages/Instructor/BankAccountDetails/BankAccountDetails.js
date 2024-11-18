@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import Tabs from "..";
 import Select from "react-select";
+import { AccountCreate, AccountRegister } from "../../../services/Instructor/banckAccountDetails/accountdetals";
+import OutlineBtn from "../../common/OutlineBtn";
+import Spinner from "../../../layouts/Spinner";
 
 const BankAccountDetails = () => {
   const countries = [
@@ -56,31 +59,67 @@ const BankAccountDetails = () => {
     { value: "US", label: "United States", currency: "USD" },
   ];
   const [selectedTimeSlot, setselectedTimeSlot] = useState(null);
-  console.log("🚀 ~ BankAccountDetails ~ selectedTimeSlot:", selectedTimeSlot);
+  const [Loading, setLoading] = useState(false);
+  const [errormess, seterrormess] = useState("");
 
   const handlecountriesChange = (selectedOption) => {
     setselectedTimeSlot(selectedOption);
   };
 
+  const Account_Create = async (accountid) => {
+    const result = await AccountCreate(accountid, JSON.parse(localStorage.getItem("_id")));
+    if (result?.success === true) {
+        window.open(result.data.url, '_blank', 'noopener,noreferrer')
+    } else {
+      seterrormess(result.message);
+    }
+  };
 
-//   const 
+  const send_countries = async () => {
+    const body = {
+      instructorId: JSON.parse(localStorage.getItem("_id")),
+      country: selectedTimeSlot.value,
+      currency: selectedTimeSlot.currency,
+    };
+    const result = await AccountRegister(body);
+    if (result?.success === true) {
+        Account_Create(result.data.accountId)
+        setLoading(false);
+    } else {
+      seterrormess(result.message);
+      setLoading(false);
+    }
+  };
 
   return (
     <>
+        {Loading&&<Spinner/>}
       <Tabs />
       <div className="h-screen flex items-center justify-center">
-        <div className="w-1/2 mx-auto">
-          <label className="text-base font-medium text-black block">
-            select country
-          </label>
-          <div className="TimeSlot">
-            <Select
-              defaultValue={selectedTimeSlot}
-              onChange={handlecountriesChange}
-              options={countries}
-              onMenuOpen={() => {}}
-            />
+        <div className="flex w-full items-center justify-center gap-3">
+          <div className="w-1/2">
+            <p className="mb-2">
+              Note 1 : Kyc time please do not refresh page and alos click return
+              link
+            </p>
+            <p className="mb-3">
+              Note 2 : And last Review and submit page Click "Edit button" and
+              upload document if option show other wise
+            </p>
+            <label className="text-base font-medium text-black block">
+              select country
+            </label>
+            <div className="TimeSlot">
+              <Select
+                defaultValue={selectedTimeSlot}
+                onChange={handlecountriesChange}
+                options={countries}
+                onMenuOpen={() => {}}
+              />
+            </div>
+            <p className="mt-3">{errormess}</p>
           </div>
+          <OutlineBtn text={"select country"} onClick={send_countries} />
         </div>
       </div>
     </>

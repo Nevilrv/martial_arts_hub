@@ -14,6 +14,7 @@ import { Routing } from "../../../shared/Routing";
 import { toast } from "react-toastify";
 import { Instructor_Create_Slot } from "../../../services/Instructor/createClass/Index";
 import Select from "react-select";
+import Spinner from "../../../layouts/Spinner";
 
 const CreateSlot = () => {
   // slot time
@@ -85,6 +86,7 @@ const CreateSlot = () => {
 
   return (
     <>
+    {loading&&<Spinner/>}
       <Tabs>
         <div className="mt-11 px-3 lg:px-8">
           <h1 className="text-black text-3xl font-semibold">Create Slot</h1>
