@@ -23,7 +23,7 @@ export const Instructor_Create_Slot = async (body) => {
       method: "POST",
       url: `${baseURL}/instructor/create/timeslote`,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       data: body,
     });
@@ -38,7 +38,7 @@ export const Instructor_End_Class = async (id) => {
       method: "PUT",
       url: `${baseURL}/instructor/meeting/end/${id}`,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;
@@ -66,7 +66,7 @@ export const Instructor_Edit_Class = async (id) => {
       method: "GET",
       url: `${baseURL}/instructor/update/classdetail/${id}`,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;

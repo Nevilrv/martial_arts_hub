@@ -35,7 +35,7 @@ export const Get_Instructor_Details = async () => {
         localStorage.getItem("_id")
       )}`,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;
@@ -53,7 +53,7 @@ export const InstructorProfile = async (formData) => {
       )}`,
       data: formData,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "multipart/form-data",
       },
     });

@@ -10,6 +10,7 @@ import ClassRequestcard from "./ClassRequestcard";
 import RecentClasses from "./RecentClasses";
 import Spinner from "../../../layouts/Spinner";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const Dashboard = () => {
   const ProfileDetals = [
     {
@@ -57,8 +58,14 @@ const Dashboard = () => {
     if (result?.success === true) {
       setLoading(false);
       setStudentData(result.data);
-    } else {  
+      toast.success(result.message)
+    } else {
+      if (result.message === "Invalid token, Please Log-Out and Log-In again") {
+        localStorage.clear();
+        navigate(Routing.StudentLogin);
+      }
       setLoading(false);
+      toast.error(result.message)
     }
   };
   useEffect(() => {
@@ -76,9 +83,15 @@ const Dashboard = () => {
               cardDetails={ClassCard}
               data={studentData.ClassRequests}
             />
-            <DashboardCard cardDetails={PaymentsCard} data={studentData.payments} />
+            <DashboardCard
+              cardDetails={PaymentsCard}
+              data={studentData.payments}
+            />
             <div className="lg:col-span-2 bg-gay-600 rounded-3xl">
-              <RecentClasses cardDetails={RecentClasseCard} data={studentData.recentClass} />
+              <RecentClasses
+                cardDetails={RecentClasseCard}
+                data={studentData.recentClass}
+              />
             </div>
           </div>
         </div>

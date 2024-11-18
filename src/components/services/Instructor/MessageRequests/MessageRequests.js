@@ -37,7 +37,7 @@ export const Student_Message_Request = async (id) => {
       method: "GET",
       url: `${baseURL}/instructor/student/profile/${id}`,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;
