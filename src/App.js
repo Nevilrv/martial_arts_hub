@@ -117,6 +117,11 @@ const InstructorChat = lazy(() =>
 const InstructorCreateSlot = lazy(() =>
   import("./components/pages/Instructor/CreateSlot/CreateSlot")
 );
+const InstructorAccountDetails = lazy(() =>
+  import(
+    "./components/pages/Instructor/BankAccountDetails/BankAccountDetails.js"
+  )
+);
 
 // admin
 const AdminLogin = lazy(() => import("./components/pages/admin/Login/Login"));
@@ -340,7 +345,11 @@ function App() {
       component: InstructorCreateSlot,
       isPrivateRoute: true,
     },
-
+    {
+      path: Routing.InstructorAccountDetails,
+      component: InstructorAccountDetails,
+      isPrivateRoute: true,
+    },
     // admin Routes
     {
       path: Routing.AdminLogin,
