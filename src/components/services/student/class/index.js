@@ -48,6 +48,22 @@ export const Payment_Successful_Data = async (studentId,classId,bookingId,instru
   }
 };
 
+export const Payment_Book_class = async (studentId,body) => {
+  try {
+    let response = await axios({
+      method: "POST",
+      url: `${baseURL}/student/booking/instructor/${studentId}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      data: body,
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
+
 export const Student_get_Slot = async (instructorId,classType) => {
   try {
     let response = await axios({
@@ -78,14 +94,14 @@ export const Get_time_slot = async (body) => {
   }
 };
 
-export const Send_inqury_message = async (body) => {
+export const Send_inqury_messages = async (body) => {
   try {
     let response = await axios({
       method: "POST",
       url: `${baseURL}/student/instructor/inqurymessage`,
       data: body,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;

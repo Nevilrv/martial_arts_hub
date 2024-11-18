@@ -12,20 +12,6 @@ import Spinner from "../../../layouts/Spinner";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const Dashboard = () => {
-  const ProfileDetals = [
-    {
-      title: "Joined as:",
-      details: "Student",
-    },
-    {
-      title: "Joined on:",
-      details: " 28 July, 2024",
-    },
-    {
-      title: "Profile Completion:",
-      details: "5%",
-    },
-  ];
   const ClassCard = {
     CardTitle: "Class Requests",
     CardIcon: <FaPaperPlane className="text-[#BDBBB5] text-4xl" />,
@@ -70,6 +56,7 @@ const Dashboard = () => {
   };
   useEffect(() => {
     Getdata();
+    // eslint-disable-next-line
   }, []);
 
   return (

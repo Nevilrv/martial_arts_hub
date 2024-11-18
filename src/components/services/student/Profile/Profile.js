@@ -31,3 +31,18 @@ export const Student_Profile_Details = async (studentId) => {
     return error?.response?.data;
   }
 };
+
+export const Student_Booking_History = async (studentId) => {
+  try {
+    let response = await axios({
+      method: "GET",
+      url: `${baseURL}/student/booking/history/${studentId}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};

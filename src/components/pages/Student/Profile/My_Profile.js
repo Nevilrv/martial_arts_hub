@@ -3,29 +3,14 @@ import OutlineBtn from "../../common/OutlineBtn";
 import CategoriesCard from "../../common/Categories_Card";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import Wrestling from "../../../../assets/images/Wrestling.png";
-import Boxing from "../../../../assets/images/Boxing.png";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { Student_Profile_Details } from "../../../services/student/Profile/Profile";
 import StudentProfile from "./StudentProfile";
+import Spinner from "../../../layouts/Spinner";
 
 const My_Profile = () => {
-  const data = [
-    {
-      images: Wrestling,
-      headding: "Wrestling",
-      details:
-        "A grappling sport focused on takedowns, holds, and pins, enhancing strength and agility.",
-      Button: "Starts on 22 Aug",
-    },
-    {
-      images: Boxing,
-      headding: "Boxing",
-      details:
-        "A striking discipline that develops punches, footwork, and defense, improving fitness and coordination.",
-      Button: "See Details",
-    },
-  ];
+
   const [loading, setLoading] = useState(false);
   const [Profiledetails, setProfiledetails] = useState({});
   const studentId = JSON.parse(localStorage.getItem("_id"));
@@ -34,8 +19,8 @@ const My_Profile = () => {
     setLoading(true);
     const result = await Student_Profile_Details(studentId);
     if (result?.success === true) {
-      setLoading(false);
       setProfiledetails(result?.data);
+      setLoading(false);
       toast.success(result?.message);
     } else {
       setLoading(false);
@@ -44,10 +29,12 @@ const My_Profile = () => {
   };
   useEffect(() => {
     GetProfiledetails();
+    // eslint-disable-next-line
   }, []);
 
   return (
     <>
+      {loading && <Spinner />}
       <StudentProfile>
         <div className="border border-[#71717194] py-7 px-6 rounded-lg min-h-[212px] mt-14">
           <p className="font-semibold text-lg">About Me</p>

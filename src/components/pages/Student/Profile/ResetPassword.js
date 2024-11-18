@@ -61,6 +61,7 @@ const ResetPassword = () => {
                 placeholder={"Enter current Password"}
                 iconposition={"right-5"}
                 name={"currentPassword"}
+                value={Resetpassword.currentPassword}
                 onChange={(e) => handleChangepassword(e)}
               />
               <p className="text-black/50 text-right mt-1.5">
@@ -74,6 +75,7 @@ const ResetPassword = () => {
                   placeholder={"Create new Password"}
                   iconposition={"right-5"}
                   name={"newPassword"}
+                  value={Resetpassword.newPassword}
                   onChange={(e) => handleChangepassword(e)}
                 />
                 <Inputfild
@@ -82,11 +84,12 @@ const ResetPassword = () => {
                   placeholder={"Re-enter Password"}
                   iconposition={"right-5"}
                   name={"confirm_password"}
+                  value={Resetpassword.confirm_password}
                   onChange={(e) => handleChangepassword(e)}
                 />
               </div>
               <OutlineBtn
-                text={"Create"}
+                text={"Change"}
                 className={
                   "bg-black text-white md:w-[450px] font-medium text-xl"
                 }

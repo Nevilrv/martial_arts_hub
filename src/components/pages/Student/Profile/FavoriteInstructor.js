@@ -2,26 +2,45 @@ import React, { useState } from "react";
 import StudentProfile from "./StudentProfile";
 import { MultiHeartIcon } from "../../../../assets/icon";
 import OutlineBtn from "../../common/OutlineBtn";
-import { HiMagnifyingGlass } from "react-icons/hi2";
+// import { HiMagnifyingGlass } from "react-icons/hi2";
 import InstructorsCard from "../../common/Instructors_Card";
-import Instructor1 from "../../../../assets/images/Instructor-1.png";
-import Instructor2 from "../../../../assets/images/Instructor-2.png";
-import Instructor3 from "../../../../assets/images/Instructor-3.png";
-import Instructor4 from "../../../../assets/images/Instructor-4.png";
 import { useEffect } from "react";
-import { GetLikesChek } from "../../../services/student/Homepage/Homepage";
+import { GetLikesChek, InstructorLike } from "../../../services/student/Homepage/Homepage";
+import { toast } from "react-toastify";
+import Spinner from "../../../layouts/Spinner";
 
 const FavoriteInstructor = () => {
   const [loading, setLoading] = useState(false);
+  const [Like, setLike] = useState(false);
   const [data, setData] = useState([]);
 
   const Getdata = async () => {
     setLoading(true);
     const result = await GetLikesChek(JSON.parse(localStorage.getItem("_id")));
     if (result?.success === true) {
-      setLoading(false);
       setData(result.data);
+      setLoading(false);
     } else {
+      setLoading(false);
+    }
+  };
+
+  const HeandleLike = async (id) => {
+    setLoading(true);
+    const result = await InstructorLike(
+      id,
+      JSON.parse(localStorage.getItem("_id"))
+    );
+    if (result?.success === true) {
+      Getdata()
+      setLoading(false);
+      setLike(!Like);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        toast.error("Please Login");
+      }
       setLoading(false);
     }
   };
@@ -32,6 +51,7 @@ const FavoriteInstructor = () => {
 
   return (
     <>
+    {loading&&<Spinner/>}
       <StudentProfile>
         {data.length <= 0 && (
           <div className="border border-[#71717194] py-space px-6 rounded-lg min-h-[212px] mt-14">
@@ -65,15 +85,15 @@ const FavoriteInstructor = () => {
                 access them anytime.
               </p>
             </div>
-            <OutlineBtn
+            {/* <OutlineBtn
               text={"Find more"}
               icon={<HiMagnifyingGlass className="text-xl mr-2" />}
               className={"bg-black text-white h-[60px]"}
-            />
+            /> */}
           </div>
           <div className="mt-7 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-y-7">
             {data.map((data) => (
-              <InstructorsCard data={data} />
+              <InstructorsCard data={data} HeandleLike={HeandleLike} />
             ))}
           </div>
         </div>

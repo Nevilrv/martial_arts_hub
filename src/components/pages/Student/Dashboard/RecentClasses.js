@@ -10,7 +10,7 @@ const RecentClasses = ({ cardDetails, data }) => {
   return (
     <>
       <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[400px] overflow-y-auto">
-        <div className="flex items-center justify-between min-w-[493px]">
+        <div className="flex items-center justify-between">
           <h3 className="text-gay-300 text-lg font-medium">
             {cardDetails.CardTitle}
           </h3>
@@ -22,7 +22,7 @@ const RecentClasses = ({ cardDetails, data }) => {
         </div>
         <div className="w-full overflow-x-auto">
           {data?.length === 0 && (
-            <div className="flex items-center justify-center flex-col my-6 min-w-[493px]">
+            <div className="flex items-center justify-center flex-col my-6">
               {cardDetails.CardIcon}
               <h3 className="text-black font-semibold text-lg">
                 {cardDetails.CardHeadding}
@@ -37,27 +37,27 @@ const RecentClasses = ({ cardDetails, data }) => {
             </div>
           )}
           {data?.map((recentClass) => (
-            <div className="flex items-center justify-between mt-7 min-w-[493px]">
-              <div className="flex items-start gap-5">
-                <img
-                  src={Wrestling}
-                  alt=""
-                  className="grayscale hover:grayscale-0 w-[125px] h-[85px] rounded-lg"
-                />
-                <div>
-                  <h2 className="text-black text-xl font-semibold">
-                    {recentClass.className}
-                  </h2>
-                  <p className="text-black/70 max-w-[390px]">
-                    {recentClass.className}
-                  </p>
+              <div className="flex items-center justify-between mt-7 flex-wrap gap-y-3">
+                <div className="flex items-start gap-5">
+                  <img
+                    src={Wrestling}
+                    alt=""
+                    className="grayscale hover:grayscale-0 w-[125px] h-[85px] rounded-lg"
+                  />
+                  <div>
+                    <h2 className="text-black text-xl font-semibold">
+                      {recentClass.className}
+                    </h2>
+                    <p className="text-black/70 max-w-[390px]">
+                      {recentClass.className}
+                    </p>
+                  </div>
                 </div>
+                <OutlineBtn
+                  text={"See Details"}
+                  onClick={() => navigate(Routing.StudentMyClass)}
+                />
               </div>
-              <OutlineBtn
-                text={"See Details"}
-                onClick={() => navigate(Routing.StudentMyClass)}
-              />
-            </div>
           ))}
         </div>
       </div>

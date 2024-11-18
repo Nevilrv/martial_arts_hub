@@ -16,7 +16,9 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
               <FiPlus className="text-white text-xl" />
             </div>
           ) : (
-            <p className="text-red-200 font-bold text-xl">${earnings.totalEarnings}</p>
+            <p className="text-red-200 font-bold text-xl">
+              ${earnings.totalEarnings}
+            </p>
           )}
         </div>
         {data?.length <= 0 ||
@@ -35,46 +37,50 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
               </p>
             </div>
           ))}
-        {data?.map((payments) => (
-          <div className="flex items-center justify-between mt-7">
-            <img src={Wrestling} alt="" className="w-20 h-14 rounded-lg" />
-            <div>
-              <h2 className="text-Dark_black font-medium text-lg">
-                {payments?.className}
-              </h2>
-              <p className="text-sm font-light">
-                <span className="text-black/70 font-medium">
-                  Course Duration:
-                </span>
-                {payments?.classDuration} hr
-              </p>
-              <p className="text-sm font-light">
-                <span className="text-black/70 font-medium">
-                  Instructor Name:{" "}
-                </span>
-                {payments?.instructor?.name}
-              </p>
-            </div>
-            <div>
-              <h2 className="text-red-200 font-semibold text-xl text-right">
-                {payments?.paidAmount}
-              </h2>
-              <div
-                className={`p-1.5 px-3 ${
-                  payments?.paymentStatus === "success"
-                    ? "bg-green"
-                    : "bg-red-200"
-                } text-white rounded-full flex items-center text-[11px]`}
-              >
-                Payment{" "}
-                {payments?.paymentStatus !== "success"
-                  ? "Unsuccessful"
-                  : payments?.paymentStatus}
-                <IoIosArrowRoundForward className="text-xl -rotate-45" />{" "}
+        <div className="w-full overflow-x-auto">
+          {data?.map((payments) => (
+            <div className="min-w-[448px]">
+              <div className="flex items-center justify-between mt-7">
+                <img src={Wrestling} alt="" className="w-20 h-14 rounded-lg" />
+                <div>
+                  <h2 className="text-Dark_black font-medium text-lg">
+                    {payments?.className}
+                  </h2>
+                  <p className="text-sm font-light">
+                    <span className="text-black/70 font-medium">
+                      Course Duration:
+                    </span>
+                    {payments?.classDuration} hr
+                  </p>
+                  <p className="text-sm font-light">
+                    <span className="text-black/70 font-medium">
+                      Instructor Name:{" "}
+                    </span>
+                    {payments?.instructor?.name}
+                  </p>
+                </div>
+                <div>
+                  <h2 className="text-red-200 font-semibold text-xl text-right">
+                    {payments?.paidAmount}
+                  </h2>
+                  <div
+                    className={`p-1.5 px-3 ${
+                      payments?.paymentStatus === "success"
+                        ? "bg-green"
+                        : "bg-red-200"
+                    } text-white rounded-full flex items-center text-[11px]`}
+                  >
+                    Payment{" "}
+                    {payments?.paymentStatus !== "success"
+                      ? "Unsuccessful"
+                      : payments?.paymentStatus}
+                    <IoIosArrowRoundForward className="text-xl -rotate-45" />{" "}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
         {earnings?.formatedData?.map((earning) => (
           <div className="flex items-center justify-between mt-7 gap-4 min-w-[448px]">
             <img
@@ -85,8 +91,10 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
             <div>
               <h2 className="text-black font-medium">{earning.studentName}</h2>
               <p className="text-black/70 font-light">
-                <span className="font-medium">Class Name:</span> {earning.className} •{" "}
-                <span className="font-medium">Class Date:</span> {earning.classDate}
+                <span className="font-medium">Class Name:</span>{" "}
+                {earning.className} •{" "}
+                <span className="font-medium">Class Date:</span>{" "}
+                {earning.classDate}
               </p>
             </div>
             <h2 className="text-lg text-red-200 font-semibold">$5.99</h2>

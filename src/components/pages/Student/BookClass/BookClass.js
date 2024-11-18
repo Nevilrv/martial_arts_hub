@@ -4,19 +4,20 @@ import { Routing } from "../../../shared/Routing";
 import { useNavigate, useParams } from "react-router-dom";
 import Instructors4 from "../../../../assets/images/Instructor-4.png";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
-import { BiCheckCircle, BiHeart } from "react-icons/bi";
+import { BiHeart } from "react-icons/bi";
 import { Star7 } from "../../../../assets/icon";
 import Inputfild from "../../common/Inputfild";
-import Select from "react-select"; // Correct import
+import Select from "react-select";
 import { Radio, RadioGroup } from "@headlessui/react";
 import OutlineBtn from "../../common/OutlineBtn";
 import { SlCalender } from "react-icons/sl";
 import Calendar from "react-calendar";
 import "../../../../App.css";
-import "react-calendar/dist/Calendar.css"; // Default styling
+import "react-calendar/dist/Calendar.css";
 import dayjs from "dayjs";
 import {
   Get_time_slot,
+  Payment_Book_class,
   Student_get_Slot,
 } from "../../../services/student/class";
 import Spinner from "../../../layouts/Spinner";
@@ -94,8 +95,6 @@ const BookClass = () => {
         label: slot,
         value: slot,
       }));
-      console.log(result?.data[0]?.classRate,"========>rate");
-      
 
       setTimeSlot(formattedTimeSlots);
       setheandalChangeData((prevState) => ({
@@ -129,6 +128,7 @@ const BookClass = () => {
 
   useEffect(() => {
     GetSlot();
+    // eslint-disable-next-line
   }, [selectedMailingLists]);
 
   const handleChange = (e) => {
@@ -139,17 +139,34 @@ const BookClass = () => {
   };
 
   const HeandleCreateClass = async () => {
+    setLoading(true);
+    const timeSlots = selectedTimeSlot.map((slot) => slot.value);
     const body = {
       message: heandalChangeData.message,
       classdate: dayjs(selectedDate).format("YYYY-MM-DD"),
-      timeslote: TimeSlot,
+      timeslote: timeSlots,
       classRate: heandalChangeData.classRate,
       attendType: selectedMailingLists,
-      studentEmail: heandalChangeData.studentEmail,
+      studentEmail: JSON.parse(localStorage.getItem("email")),
       mobileNumber: heandalChangeData.mobileNumber,
       instructorId: instructorId,
     };
-    console.log(body);
+    const result = await Payment_Book_class(
+      JSON.parse(localStorage.getItem("_id")),
+      body
+    );
+    if (result?.success === true) {
+      setLoading(false);
+      setheandalChangeData({
+        message: "",
+        mobileNumber: "",
+        classRate: "",
+      });
+      setSelectedTimeSlot([]);
+      setSelectedMailingLists();
+    } else {
+      setLoading(false);
+    }
   };
 
   const henadleCalender = () => {
@@ -160,6 +177,8 @@ const BookClass = () => {
       setShowCalendar(!ShowCalendar);
     }
   };
+
+  
 
   return (
     <>
@@ -189,8 +208,12 @@ const BookClass = () => {
               <div className="relative">
                 <Star7 />
                 <div className=" items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <h2 className="text-white text-xl font-bold">${heandalChangeData.classRate||0}</h2>
-                  <p className="text-white text-xl text-center font-medium">hr</p>
+                  <h2 className="text-white text-xl font-bold">
+                    ${heandalChangeData.classRate || 0}
+                  </h2>
+                  <p className="text-white text-xl text-center font-medium">
+                    hr
+                  </p>
                 </div>
               </div>
             </div>
@@ -221,6 +244,7 @@ const BookClass = () => {
             className="h-[200px] rounded-[20px] mt-2 bg-[#DAD8D0] w-full focus:outline-none p-6 placeholder:text-black/50"
             placeholder="Write Your message here*"
             name="message"
+            value={heandalChangeData.message}
             onChange={(e) => handleChange(e)}
           ></textarea>
           <div className="grid md:grid-cols-2 gap-x-3 gap-y-8 grid-cols-1 mt-9">
@@ -237,7 +261,6 @@ const BookClass = () => {
                   <Radio
                     value={mailingLists[0].title}
                     aria-label={mailingLists[0].title}
-                    aria-description={`${mailingLists[0].description} to ${mailingLists[0].users}`}
                     className="group relative flex cursor-pointer rounded-2xl border-0 bg-[#DAD8D0] h-[80px] p-7 items-center"
                   >
                     <span className="flex flex-1 items-center">
@@ -301,7 +324,6 @@ const BookClass = () => {
                         setSelectedDate(date);
                         setShowCalendar(false);
                         Get_Time_Slot(date);
-                        // Close calendar after selecting a date
                       }}
                       value={selectedDate}
                       tileContent={tileContent}
@@ -343,11 +365,12 @@ const BookClass = () => {
               className={"h-[80px] md:w-full customradius mt-1"}
               Labelclass={"text-black/100 font-semibold text-xl"}
               name="studentEmail"
-              onChange={(e) => handleChange(e)}
+              value={JSON.parse(localStorage.getItem("email"))}
             />
             <Inputfild
               type={"number"}
               name="mobileNumber"
+              value={heandalChangeData.mobileNumber}
               onChange={(e) => handleChange(e)}
               placeholder={"Mobile No. here"}
               Label={"Mobile No."}

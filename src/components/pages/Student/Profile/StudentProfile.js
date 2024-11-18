@@ -8,8 +8,9 @@ import OutlineBtn from "../../common/OutlineBtn";
 import { Routing } from "../../../shared/Routing";
 import { Student_Profile_Details } from "../../../services/student/Profile/Profile";
 import { toast } from "react-toastify";
+import Spinner from "../../../layouts/Spinner";
 
-const StudentProfile = ({children}) => {
+const StudentProfile = ({ children }) => {
   const ProfileTeab = [
     {
       name: "My Profile",
@@ -45,8 +46,8 @@ const StudentProfile = ({children}) => {
     setLoading(true);
     const result = await Student_Profile_Details(studentId);
     if (result?.success === true) {
-      setLoading(false);
       setProfiledetails(result?.data);
+      setLoading(false);
       toast.success(result?.message);
     } else {
       setLoading(false);
@@ -54,14 +55,14 @@ const StudentProfile = ({children}) => {
     }
   };
   useEffect(() => {
-    GetProfiledetails()
-  }, [])
+    GetProfiledetails();
+    // eslint-disable-next-line
+  }, []);
   const { pathname } = useLocation();
-
-  
 
   return (
     <>
+      {loading && <Spinner />}
       <div className="bg-black px-[52px] pb-[47px] ">
         <div className="flex items-center justify-end">
           <div>
@@ -87,7 +88,7 @@ const StudentProfile = ({children}) => {
             {ProfileTeab.map((items) => (
               <div className="pb-6 border-b border-black/30">
                 <Link
-                to={items.pathname}
+                  to={items.pathname}
                   className={`${
                     pathname === items.pathname
                       ? "underline text-black font-bold text-xl"
@@ -103,7 +104,7 @@ const StudentProfile = ({children}) => {
         <div className="w-full md:col-span-3 pt-10 pr-12 pb-12">
           <div className="flex items-center justify-between">
             <h2 className="text-Dark_black text-[40px] font-bold">
-           {Profiledetails?.profile?.studentName}
+              {Profiledetails?.profile?.studentName}
               <span className="text-Dark_black/50 text-2xl font-normal">
                 (Student)
               </span>
@@ -122,8 +123,10 @@ const StudentProfile = ({children}) => {
             </div>
           </div>
           <div className="w-[120px] h-[27px] bg-gay-250 rounded-full mt-2 overflow-hidden">
-            <div className={`w-[${Profiledetails?.profile?.profile_completion}%] h-full bg-green rounded-full flex items-center justify-center text-white`}>
-            {Profiledetails?.profile?.profile_completion}%
+            <div
+              className={`w-[${JSON.stringify(Profiledetails?.profile?.profile_completion)}%] h-full bg-green rounded-full flex items-center justify-center text-white`}
+            >
+              {Profiledetails?.profile?.profile_completion}%
             </div>
           </div>
           <p className="text-black/50 mt-1">

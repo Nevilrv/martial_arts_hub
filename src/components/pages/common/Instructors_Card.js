@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { BiHeart } from "react-icons/bi";
 import { FaStarHalfAlt } from "react-icons/fa";
 import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
 const InstructorsCard = ({ data,HeandleLike }) => {
+  // eslint-disable-next-line
   const [liked, setLiked] = useState(data?.Likes?.includes(JSON.parse(localStorage.getItem("_id"))));
   
   const getStars = (rating) => {
@@ -35,10 +35,10 @@ const InstructorsCard = ({ data,HeandleLike }) => {
           <img
             src={data.profile_picture}
             alt={data.image}
-            className="grayscale hover:grayscale-0 w-full object-top h-[355px] object-cover"
+            className="grayscale hover:grayscale-0 w-full object-top h-[355px] object-cover rounded-lg"
           />
           <div
-            className="h-[34px] w-[34px] bg-white rounded-full absolute top-4 right-3 flex items-center justify-center"
+            className="h-[34px] w-[34px] bg-white rounded-full absolute top-4 right-3 flex items-center justify-center cursor-pointer"
             onClick={() => HeandleLike(data.instructorId)}
           >
            {liked ? (

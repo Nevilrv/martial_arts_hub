@@ -34,7 +34,7 @@ export const ForgetpasswordOtp = async (body) => {
       url: `${baseURL}/student/forgetpassword/otp`,
       data: body,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;
@@ -50,7 +50,7 @@ export const ResetPassword = async (body) => {
       url: `${baseURL}/student/forgetpassword/resetpassword`,
       data: body,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;
@@ -66,7 +66,7 @@ export const Change_Password = async (body) => {
       url: `${baseURL}/student/change/password`,
       data: body,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;
@@ -82,7 +82,7 @@ export const resetpassword = async (body) => {
       url: `${baseURL}/student/resetpassword`,
       data: body,
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     return response.data;

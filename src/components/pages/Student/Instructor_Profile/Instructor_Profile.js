@@ -6,7 +6,6 @@ import { IoIosArrowRoundForward, IoMdShare } from "react-icons/io";
 import Instructors from "../../common/Instructors";
 import Slider from "react-slick";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
-import user from "../../../../assets/images/user.png";
 import GetInTouch from "../../common/Get_In_Touch";
 import Instructor4 from "../../../../assets/images/Instructor-4.png";
 import { BiHeart } from "react-icons/bi";
@@ -21,12 +20,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaArrowLeft, FaHeart } from "react-icons/fa6";
 import { AiOutlineMessage } from "react-icons/ai";
-import { ShareIcon } from "../../../../assets/icon";
 import { Routing } from "../../../shared/Routing";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
-import User from "../../../../assets/images/userImage.png";
+// import User from "../../../../assets/images/userImage.png";
 import Inputfild from "../../common/Inputfild";
-import { Send_inqury_message } from "../../../services/student/class";
+import {Send_inqury_messages } from "../../../services/student/class";
 
 const InstructorProfile = () => {
   var settings = {
@@ -94,7 +92,8 @@ const InstructorProfile = () => {
       title: inqurymessage.title,
       body: inqurymessage.body,
     };
-    const result = await Send_inqury_message(body);
+    
+    const result = await Send_inqury_messages(body);
     if (result?.success === true) {
       setLoading(false);
       setMessageSend(false);
@@ -106,7 +105,7 @@ const InstructorProfile = () => {
         localStorage.clear();
         navigate(Routing.Initial);
       }
-      toast.error(result.message);
+      toast.error(result?.message);
       setMessageSend(false);
       setLoading(false);
     }
@@ -201,6 +200,7 @@ const InstructorProfile = () => {
     getInstructor();
     CheckLikes();
     getInstructorReviews();
+    // eslint-disable-next-line
   }, [id]);
 
   const HeandleBooking = () => {
@@ -282,18 +282,6 @@ const InstructorProfile = () => {
                     <BsPatchCheckFill className="text-gay-400" />
                     Over {Instructor.experience}
                   </p>
-                  {/* <p className="flex items-center gap-2 text-black/70 text-lg">
-                    <BsPatchCheckFill className="text-gay-400" />
-                    Specialized in Karate, Taekwondo, and Brazilian Jiu-Jitsu
-                  </p>
-                  <p className="flex items-center gap-2 text-black/70 text-lg">
-                    <BsPatchCheckFill className="text-gay-400" />
-                    Competed in national and international tournaments
-                  </p>
-                  <p className="flex items-center gap-2 text-black/70 text-lg">
-                    <BsPatchCheckFill className="text-gay-400" />
-                    Trained under renowned martial arts masters globally
-                  </p> */}
                 </div>
               </div>
               <div className="mt-14">
@@ -305,22 +293,7 @@ const InstructorProfile = () => {
                     <BsPatchCheckFill className="text-gay-400" />
                     {Instructor.certifications}
                   </p>
-                  {/* <p className="flex items-center gap-2 text-black/70 text-lg">
-                    <BsPatchCheckFill className="text-gay-400" />
-                    Certified Personal Trainer (CPT)
-                  </p>
-                  <p className="flex items-center gap-2 text-black/70 text-lg">
-                    <BsPatchCheckFill className="text-gay-400" />
-                    4th Degree Black Belt in Taekwondo
-                  </p>
-                  <p className="flex items-center gap-2 text-black/70 text-lg">
-                    <BsPatchCheckFill className="text-gay-400" />
-                    First Aid and CPR Certified
-                  </p>
-                  <p className="flex items-center gap-2 text-black/70 text-lg">
-                    <BsPatchCheckFill className="text-gay-400" />
-                    Certified Brazilian Jiu-Jitsu Instructor
-                  </p> */}
+                 
                 </div>
               </div>
               <div className="mt-14">
