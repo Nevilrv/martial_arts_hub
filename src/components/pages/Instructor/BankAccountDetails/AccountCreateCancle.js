@@ -11,7 +11,7 @@ const AccountCreateCancle = () => {
 
   const account_create = async () => {
     const result = await Account_cancle(
-      details.accountid,
+      details.accountId,
     );
     if (result?.success === true) {
       setLoading(false);
