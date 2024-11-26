@@ -6,13 +6,16 @@ import Spinner from "../../../layouts/Spinner";
 
 const AccountCreateSuccessful = () => {
   const details = useParams();
+  console.log(details.accountId, "==========>useParams");
+  
+
   const [Loading, setLoading] = useState(false);
   const navigate = useNavigate()
 
   const account_create = async () => {
     const result = await Account_create(
-      details.accountid,
-      details.instructorid
+      details.accountId,
+      details.instructorId
     );
     if (result?.success === true) {
       setLoading(false);
