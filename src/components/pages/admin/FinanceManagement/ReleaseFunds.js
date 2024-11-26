@@ -6,6 +6,7 @@ import OutlineBtn from "../../common/OutlineBtn";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { FaArrowLeft } from "react-icons/fa";
 
+
 const ReleaseFunds = () => {
   const [InstructorsList, setInstructorsList] = useState([
     {
@@ -26,7 +27,7 @@ const ReleaseFunds = () => {
     },
   ]);
   const [isOpen, SetisOpen] = useState(false);
-  const [Payments, setPayments] = useState("Student");
+ 
 
   return (
     <>
@@ -144,7 +145,7 @@ const ReleaseFunds = () => {
                       <OutlineBtn
                         text={"View Details"}
                         className={"text-black h-[45px]"}
-                        onClick={()=>SetisOpen(true)}
+                        onClick={() => SetisOpen(true)}
                       />
                       <OutlineBtn
                         text={"Release"}
@@ -176,7 +177,7 @@ const ReleaseFunds = () => {
               </div>
               <div className="mt-14">
                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 lg:w-auto w-full">
-                <div className="items-center flex-col justify-center lg:w-auto w-full row-span-2 lg:hidden flex md:col-span-2">
+                  <div className="items-center flex-col justify-center lg:w-auto w-full row-span-2 lg:hidden flex md:col-span-2">
                     <img
                       src={Instructor1}
                       className="w-[145px] h-[145px] rounded-full"
@@ -268,7 +269,10 @@ const ReleaseFunds = () => {
                   </div>
                 </div>
                 <div className="mt-11 flex justify-end">
-                  <OutlineBtn className={"text-white bg-red-200 border-none"} text={"Release Amount"} />
+                  <OutlineBtn
+                    className={"text-white bg-red-200 border-none"}
+                    text={"Release Amount"}
+                  />
                 </div>
               </div>
             </DialogPanel>

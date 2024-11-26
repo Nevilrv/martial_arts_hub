@@ -62,4 +62,5 @@ export const Routing = {
   Admin_Dispute_Requests: "/admin/Finance/dispute_requests",
   Admin_Dispute_Details: "/admin/Finance/disputedetails/:disputeId",
   Admin_Generate_Reports: "/admin/Finance/generatereports",
+  Admin_Discipline_Centre: "/admin/disciplinecentre",
 };

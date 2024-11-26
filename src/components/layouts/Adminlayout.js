@@ -124,7 +124,7 @@ const SidbarNavigation = [
     Navigate: "Discipline Centre",
     icon: <BiChevronDown />,
     Starticon: <DashboardDiscipline />,
-    path: "/",
+    path: Routing.Admin_Discipline_Centre,
   },
 ];
 
@@ -190,50 +190,101 @@ const Adminlayout = ({ children }) => {
                       <span className="sr-only">Close sidebar</span>
                       <FaXmark
                         aria-hidden="true"
-                        className="h-6 w-6 text-white"
+                        className="h-6 w-6 text-black"
                       />
                     </button>
                   </div>
                 </TransitionChild>
                 {/* Sidebar component, swap this element with another sidebar if you like */}
-                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
-                  <div className="flex h-16 shrink-0 items-center">
-                    <img
-                      alt="Your Company"
-                      src="https://tailwindui.com/plus/img/logos/mark.svg?color=white"
-                      className="h-8 w-auto"
-                    />
+                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-primary  pb-4">
+                  <div className="flex h-16 shrink-0 items-center pl-6">
+                  <h2 className="font-extrabold text-xl leading-[21.6px] tracking-[-1px]">
+                  martial arts hub.
+                </h2>
                   </div>
                   <nav className="flex flex-1 flex-col">
-                    <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                      <li>
-                        <ul role="list" className="-mx-2 space-y-1">
-                          {SidbarNavigation.map((item) => (
-                            <li key={item.name}>
-                              <a
-                                href={item.href}
-                                className={classNames(
-                                  item.current
-                                    ? "bg-indigo-700 text-white"
-                                    : "text-indigo-200 hover:bg-indigo-700 hover:text-white",
-                                  "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
-                                )}
-                              >
-                                {item.name}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
-                      <li className="mt-auto">
-                        <a
-                          href="#"
-                          className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
+                  <ul role="list" className="flex flex-1 flex-col mt-3">
+                  <li>
+                    <ul role="list" className="">
+                      {SidbarNavigation.map((item, index) => (
+                        <li
+                          key={item.name}
+                          onClick={() => handleItemClick(index, item.Path)}
                         >
-                          Settings
-                        </a>
-                      </li>
+                          <Link
+                            to={item.Path}
+                            className={classNames(
+                              item.Path === pathname || expandedItem === index
+                                ? "bg-gay-300 text-white"
+                                : "text-indigo-200 hover:bg-indigo-700 hover:text-white hover:bg-gay-300",
+                              "group flex gap-x-3 p-2 text-lg font-semibold leading-6 h-[70px] items-center pl-6 justify-between"
+                            )}
+                          >
+                            <span className="flex items-center gap-3">
+                              <span
+                                className={`text-gay-300 group-hover:text-white ${
+                                  item.Path === pathname
+                                    ? "text-white"
+                                    : expandedItem === index
+                                    ? "text-white"
+                                    : null
+                                }`}
+                              >
+                                {item.Starticon}
+                              </span>
+                              <span
+                                className={`text-[15px] ${
+                                  item.Path === pathname ? "text-white" : null
+                                }`}
+                              >
+                                {item.Navigate}
+                              </span>
+                            </span>
+                            {item?.sub?.length > 0 && item.icon}
+                          </Link>
+
+                          {/* Submenu */}
+                          {item?.sub?.length > 0 && expandedItem === index && (
+                            <ul>
+                              {item.sub.map((submenu, subIndex) => (
+                                <li key={subIndex}>
+                                  <Link
+                                    to={submenu.Path}
+                                    className={classNames(
+                                      "group flex gap-x-3 p-2 text-base leading-6 h-[50px] items-center pl-10 justify-between",
+                                      submenu.Path === pathname
+                                        ? "text-black font-bold underline"
+                                        : "text-gay-400 font-normal"
+                                    )}
+                                  >
+                                    {submenu.Navigate}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </li>
+                      ))}
                     </ul>
+                  </li>
+                  <li
+                    className="mt-auto cursor-pointer"
+                    onClick={heandleLogout}
+                  >
+                    <p
+                      className={
+                        "text-indigo-200 hover:bg-indigo-700 hover:text-white hover:bg-gay-300 group flex gap-x-3 p-2 text-lg font-semibold leading-6 h-[70px] items-center pl-6 justify-between"
+                      }
+                    >
+                      <span className="flex items-center gap-3">
+                        <span className={`text-gay-300 group-hover:text-white`}>
+                          <LuLogOut className="text-lg" />{" "}
+                        </span>
+                        <span className={`text-[15px]`}>LogOut</span>
+                      </span>
+                    </p>
+                  </li>
+                </ul>
                   </nav>
                 </div>
               </DialogPanel>

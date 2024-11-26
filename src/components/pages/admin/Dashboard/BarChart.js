@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import { Weekly_Transactions } from "../../../services/Admin/DashboardAPI";
+import { toast } from "react-toastify";
+import { Routing } from "../../../shared/Routing";
+import { useNavigate } from "react-router-dom";
+import Spinner from "../../../layouts/Spinner";
 
 const BarChart = () => {
-  const [series] = useState([
+  const navigate = useNavigate();
+  const [series, setSeries] = useState([
     {
       name: "Q1 Budget",
       group: "budget",
-      data: [44, 55, 41, 67, 22, 43, 44, 55, 41, 67, 22, 43  ],
+      data: [44, 55, 41, 67, 22, 43, 44, 55, 41, 67, 22, 43],
     },
     {
       name: "Q2 Budget",
@@ -29,6 +35,34 @@ const BarChart = () => {
       data: [35, 45, 11, 77, 20, 40, 35, 45, 11, 77, 20, 40],
     },
   ]);
+  const [Loading, setLoading] = useState(false);
+
+  const Get_Bar_chart_Data = async () => {
+    setLoading(true);
+    const result = await Weekly_Transactions();
+    if (result?.success === true) {
+      const transformedSeries = Object.keys(result.data).map((key, index) => ({
+        name: `${key} Budget`, // e.g., Q1 Budget, Q2 Budget
+        group: "budget",
+        data: result.data[key].map((value) => parseFloat(value)), // Convert strings to numbers
+      }));
+      setSeries(transformedSeries);
+      setLoading(false);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        navigate(Routing.AdminLogin);
+        setLoading(false);
+      } else {
+        toast.error(result?.message);
+        setLoading(false);
+      }
+    }
+  };
+  useEffect(() => {
+    Get_Bar_chart_Data();
+  }, []);
 
   const [options] = useState({
     chart: {
@@ -92,6 +126,7 @@ const BarChart = () => {
   });
   return (
     <>
+      {Loading && <Spinner />}
       <div className="DonutChart">
         <Chart options={options} series={series} type="bar" height={350} />
       </div>

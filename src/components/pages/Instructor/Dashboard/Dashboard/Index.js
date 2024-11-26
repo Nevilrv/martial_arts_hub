@@ -9,6 +9,8 @@ import { DashboardData } from "../../../../services/Instructor/Dashboard/Dashboa
 import ClassRequestcard from "./ClassRequestcard";
 import OutlineBtn from "../../../common/OutlineBtn";
 import Spinner from "../../../../layouts/Spinner";
+import { Routing } from "../../../../shared/Routing";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const ProfileDetals = [
@@ -51,6 +53,7 @@ const Index = () => {
   const [Class, setClass] = useState([]);
   const [MessagesRequest, setMessagesRequest] = useState([]);
   const [earning, setearning] = useState({});
+  const Navigate = useNavigate()
 
   const getdata = async () => {
     setLoading(true);
@@ -67,8 +70,15 @@ const Index = () => {
       toast.success(result?.message);
       setLoading(false);
     } else {
-      toast.error(result?.message);
-      setLoading(false);
+      if (result?.message==="Invalid token, Please Log-Out and Log-In again") {
+        toast.info("Token is Expired");
+        Navigate(Routing.InstructorLogin)
+      }
+      else
+      {
+        toast.error(result?.message);
+        setLoading(false);
+      }
     }
   };
   useEffect(() => {

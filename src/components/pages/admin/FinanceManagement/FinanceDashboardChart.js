@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import { Finance_chart } from "../../../services/Admin/FinanceSection/Finance";
+import { useNavigate } from "react-router-dom";
+import { Routing } from "../../../shared/Routing";
+import { toast } from "react-toastify";
 
 const FinanceDashboardChart = () => {
   const [chartData] = useState({
@@ -20,7 +24,7 @@ const FinanceDashboardChart = () => {
         name: "Total Funds",
         data: [28, 29, 33, 36, 32, 32, 33],
       },
-    ],
+    ], 
     options: {
       chart: {
         height: 350,
@@ -82,13 +86,58 @@ const FinanceDashboardChart = () => {
       },
     },
   });
+  const [Loading, setLoading] = useState(false);
+  const [data, setdata] = useState();
+
+  const navigate = useNavigate();
+
+  const Get_Finance_chart = async () => {
+    setLoading(true);
+    const result = await Finance_chart();
+    if (result?.success === true) {
+      const { Admin_Earnings, refund_Funds, Release_Funds, total_Funds } = result.data;
+      const chartData = [
+        {
+            name: "Admin Earnings",
+            data: Admin_Earnings.map(Number),
+        },
+        {
+            name: "Refunded Funds",
+            data: refund_Funds.map(Number),
+        },
+        {
+            name: "Released Funds",
+            data: Release_Funds.map(Number),
+        },
+        {
+            name: "Total Funds",
+            data: total_Funds.map(Number),
+        },
+    ];
+    setdata(chartData);
+      setLoading(false);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        navigate(Routing.AdminLogin);
+        setLoading(false);
+      } else {
+        toast.error(result?.message);
+        setLoading(false);
+      }
+    }
+  };
+  useEffect(() => {
+    Get_Finance_chart();
+  }, []);
 
   return (
     <>
       <div className="FinanceDashboardChart">
         <Chart
           options={chartData.options}
-          series={chartData.series}
+          series={data||chartData.series}
           type="line"
           height={350}
         />

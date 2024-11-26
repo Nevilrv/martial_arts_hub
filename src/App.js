@@ -174,6 +174,9 @@ const Admin_Dispute_Details = lazy(() =>
 const Admin_Generate_Reports = lazy(() =>
   import("./components/pages/admin/Reporting_&_Feedback/GenerateReports.js")
 );
+const Admin_Discipline_Centre = lazy(() =>
+  import("./components/pages/admin/DisciplineCentre/Discipline_Centre.js")
+);
 
 function App() {
   const routes = [
@@ -439,6 +442,11 @@ function App() {
     {
       path: Routing.Admin_Dispute_Details,
       component: Admin_Dispute_Details,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.Admin_Discipline_Centre,
+      component: Admin_Discipline_Centre,
       isPrivateRoute: true,
     },
 

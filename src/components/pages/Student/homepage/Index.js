@@ -19,6 +19,9 @@ import Login from "../Login/Login";
 import { useLocation } from "react-router-dom";
 import dayjs from "dayjs";
 import utc from "dayjs-plugin-utc";
+import { Create_discipline } from "../../../services/student/Homepage/Homepage";
+import { toast } from "react-toastify";
+import Spinner from "../../../layouts/Spinner";
 
 const AskedQuestions = [
   {
@@ -45,6 +48,29 @@ const AskedQuestions = [
 
 const Index = () => {
   const [openId, setOpenId] = useState("");
+  const [Loading, setLoading] = useState(false);
+  const [discipline, setdiscipline] = useState({
+    disciplineName: "",
+    description: "",
+    userId: JSON.parse(localStorage.getItem("_id")),
+    userType: JSON.parse(localStorage.getItem("Role")),
+  });
+  const heandleChange = (e) => {
+    const trimmedValue = e.target.value.trim();
+    setdiscipline({ ...discipline, [e.target.name]: trimmedValue });
+  };
+
+  const Creatediscipline = async () => {
+    setLoading(true);
+    const result = await Create_discipline(discipline);
+    if (result?.success === true) {
+      setLoading(false);
+      setdiscipline({ description: "", disciplineName: "" });
+    } else {
+      toast.error(result.message);
+      setLoading(false);
+    }
+  };
 
   const [openModel, setOpenModel] = useState(true);
 
@@ -55,6 +81,7 @@ const Index = () => {
 
   return (
     <>
+      {Loading && <Spinner />}
       {/* Hero section start */}
       <section className="md:py-space pb-10">
         <h1 className="sm:text-[70px] text-[47px] text-center font-extrabold">
@@ -146,15 +173,24 @@ const Index = () => {
             <div className="flex flex-col gap-3 md:w-auto w-full">
               <input
                 type="text"
-                className="border border-white/30 md:w-[485px] w-full h-[50px] rounded-full pl-8 focus:outline-none bg-gay-100/10 placeholder:text-white/50 text-white"
+                name="disciplineName"
+                value={discipline.disciplineName}
+                onChange={heandleChange}
+                className="border border-white/30 md:w-[485px] w-full h-[50px] rounded-full px-8 focus:outline-none bg-gay-100/10 placeholder:text-white/50 text-white"
                 placeholder="Enter Discipline’s name"
               />
               <textarea
-                className="border border-white/30 md:w-[485px] w-full h-[90px] rounded-2xl pl-8 focus:outline-none bg-gay-100/10 placeholder:text-white/50 text-white pt-4"
+                className="border border-white/30 md:w-[485px] w-full h-[90px] rounded-2xl px-8 focus:outline-none bg-gay-100/10 placeholder:text-white/50 text-white pt-4"
                 placeholder="Description"
+                name="description"
+                value={discipline.description}
+                onChange={heandleChange}
               ></textarea>
               <div className="flex items-center justify-end">
-                <button className="py-2 px-6 bg-black text-white rounded-full">
+                <button
+                  className="py-2 px-6 bg-black text-white rounded-full"
+                  onClick={() => Creatediscipline()}
+                >
                   Notify Us
                 </button>
               </div>

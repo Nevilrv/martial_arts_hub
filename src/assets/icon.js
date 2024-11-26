@@ -2213,8 +2213,8 @@ export const DashboardFinanceManagement = ({ color, height, width }) => {
         fill="currentColor"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M15.8667 6.80002H17V5.66669H0V6.80002H1.13333V15.8667H0V17H17V15.8667H15.8667V6.80002ZM5.66667 13.6V9.06669H6.8V13.6H5.66667ZM10.2 13.6V9.06669H11.3333V13.6H10.2Z"
         fill="currentColor"
       />

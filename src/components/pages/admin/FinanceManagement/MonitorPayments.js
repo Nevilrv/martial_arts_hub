@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminHeadding from "../../common/AdminHeadding";
 import OutlineBtn from "../../common/OutlineBtn";
 import Instructor1 from "../../../../assets/images/Instructor-4.png";
 import Instructor2 from "../../../../assets/images/Instructor-1.png";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { FaArrowLeft } from "react-icons/fa";
+import { Routing } from "../../../shared/Routing";
+import {
+  Monitor_payment,
+  Student_payment,
+} from "../../../services/Admin/FinanceSection/Finance";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import Spinner from "../../../layouts/Spinner";
 
 const MonitorPayments = () => {
   const [InstructorsList, setInstructorsList] = useState([
@@ -28,9 +36,59 @@ const MonitorPayments = () => {
     },
   ]);
   const [isOpen, SetisOpen] = useState(false);
+  const [Loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [Payments, setPayments] = useState("Student");
+  const [PaymentDetails, setPaymentDetails] = useState({});
+  const [StudentPaymentDetails, setStudentPaymentDetails] = useState({});
+
+  const Get_Monitor_payment = async () => {
+    setLoading(true);
+    const result = await Monitor_payment();
+    if (result?.success === true) {
+      setPaymentDetails(result.data);
+      setLoading(false);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        navigate(Routing.AdminLogin);
+        setLoading(false);
+      } else {
+        toast.error(result?.message);
+        setLoading(false);
+      }
+    }
+  };
+
+  const Get_Student_payment = async (studentPaymentId) => {
+    setLoading(true);
+    const result = await Student_payment(studentPaymentId);
+    if (result?.success === true) {
+      SetisOpen(true);
+      setStudentPaymentDetails(result.data)
+      console.log(result.data, "============>Get Student_payment");
+      setLoading(false);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        navigate(Routing.AdminLogin);
+        setLoading(false);
+      } else {
+        toast.error(result?.message);
+        setLoading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    Get_Monitor_payment();
+  }, []);
+
   return (
     <>
+      {Loading && <Spinner />}
       <AdminHeadding Headding={"Monitor Payments"} />
       <div className="flex items-center gap-3 mt-4 flex-wrap">
         <OutlineBtn
@@ -99,11 +157,11 @@ const MonitorPayments = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#C6C6C6] bg-primary">
-              {InstructorsList.map((person) => (
+              {PaymentDetails?.studentPayment?.map((person) => (
                 <tr key={person.id}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                     <img
-                      src={person.image}
+                      src={person.profile}
                       alt=""
                       className="w-[45px] h-[45px] rounded-full"
                       srcset=""
@@ -113,20 +171,20 @@ const MonitorPayments = () => {
                     {person.name}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.StudentID}
+                    {person.studentId}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.PaymentDate}
+                    {person.classDate}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.ClassDate}
+                    {person.paymentDate}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.PaidAmount}
+                    {person.paidAmount}
                   </td>
                   <td
                     className={`whitespace-nowrap px-3 py-4 font-semibold ${
-                      person.Released === "Pending"
+                      person.Released === "reject"
                         ? "text-red-200"
                         : "text-green"
                     }`}
@@ -138,7 +196,9 @@ const MonitorPayments = () => {
                       <OutlineBtn
                         text={"View"}
                         className={"text-black h-[45px]"}
-                        onClick={()=>SetisOpen(true)}
+                        onClick={() =>
+                          Get_Student_payment(person.studentPaymentId)
+                        }
                       />
                     </div>
                   </td>
@@ -189,17 +249,17 @@ const MonitorPayments = () => {
                 >
                   Received Date
                 </th>
-                <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                {/* <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                   <span className="sr-only">Edit</span>
-                </th>
+                </th> */}
               </tr>
             </thead>
             <tbody className="divide-y divide-[#C6C6C6] bg-primary">
-              {InstructorsList.map((person) => (
+              {PaymentDetails?.instructorPayment?.map((person) => (
                 <tr key={person.id}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                     <img
-                      src={person.image}
+                      src={person.profile}
                       alt=""
                       className="w-[45px] h-[45px] rounded-full"
                       srcset=""
@@ -209,35 +269,35 @@ const MonitorPayments = () => {
                     {person.name}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.StudentID}
+                    {person.instructorId}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.PaymentDate}
+                    {person.classDate}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.ClassDate}
+                    {person.Amount}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.PaidAmount}
+                    {person.received}
                   </td>
                   <td
                     className={`whitespace-nowrap px-3 py-4 font-semibold ${
-                      person.Released === "Pending"
+                      person.receivedDate === "Pending"
                         ? "text-red-200"
                         : "text-green"
                     }`}
                   >
-                    {person.Released}
+                    {person.receivedDate}
                   </td>
-                  <td className="whitespace-nowrap px-3 pr-6 py-4 text-Dark_black font-medium w-[200px]">
+                  {/* <td className="whitespace-nowrap px-3 pr-6 py-4 text-Dark_black font-medium w-[200px]">
                     <div className="flex items-center gap-2 justify-end">
                       <OutlineBtn
                         text={"View"}
                         className={"text-black h-[45px]"}
-                        onClick={()=>SetisOpen(true)}
+                        onClick={() => SetisOpen(true)}
                       />
                     </div>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>
@@ -267,50 +327,50 @@ const MonitorPayments = () => {
                   <div className="w-full">
                     <p className="text-gay-300">Student’s Name</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 sm:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      Marry Jhon
+                      {StudentPaymentDetails.studentName}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300">Student’s ID</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 sm:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      #23352
+                      # {StudentPaymentDetails.studentId.slice(0,19)}...
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300">Payment Date</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 sm:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      12/07/2024
+                    {StudentPaymentDetails.paymentDate}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300">Class Date</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 sm:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      25/07/2024
+                    {StudentPaymentDetails.classDate}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300">Paid Amount</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 sm:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      $4.99
+                      $ {StudentPaymentDetails.paidAmount}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300">Released?</p>
-                    <div className="bg-[#D8D6CF] px-5 py-4 w-[280px] h-[55px] mt-1 rounded-lg text-green text-lg font-medium">
-                      Yes, Released
+                    <div className={`bg-[#D8D6CF] px-5 py-4 w-[280px] h-[55px] mt-1 rounded-lg text-lg font-medium ${StudentPaymentDetails.Released==="success"?"text-green":"text-red-200"}`}>
+                    {StudentPaymentDetails.Released}
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center flex-col justify-center lg:w-auto w-full">
                   <img
-                    src={Instructor1}
+                    src={StudentPaymentDetails.profile}
                     className="w-[145px] h-[145px] rounded-full"
                     alt=""
                   />
                   <h2 className="text-xl text-center font-semibold">
-                    Marry Jhon
+                  {StudentPaymentDetails.studentName}
                   </h2>
-                  <p className="text-center text-black/50">(Student)</p>
+                  <p className="text-center text-black/50">({StudentPaymentDetails.role})</p>
                 </div>
               </div>
             </DialogPanel>

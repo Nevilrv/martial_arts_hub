@@ -144,7 +144,7 @@ const NewRequests = () => {
             >
               <div className="flex items-center sm:justify-between flex-wrap gap-4 justify-center">
                 <div className="flex items-center gap-5">
-                  <FaArrowLeft className="text-2xl" />
+                  <FaArrowLeft className="text-2xl cursor-pointer" onClick={()=>SetisOpen(false)} />
                   <h2 className="text-Dark_black font-bold text-2xl">
                     Instructor’s Profile
                   </h2>

@@ -46,6 +46,21 @@ export const Instructor_Request = async () => {
   }
 };
 
+export const Weekly_Transactions = async () => {
+  try {
+    let response = await axios({
+      method: "GET",
+      url: `${baseURL}/admin/barchart`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
+
 
 export const Instructor_Request_Details = async (instructorId) => {
   try {
@@ -77,10 +92,6 @@ export const Requests_Accept = async (instructorId,status) => {
   }
 };
 
-
-
-
-
 export const Instructor_List = async () => {
   try {
     let response = await axios({
@@ -95,8 +106,6 @@ export const Instructor_List = async () => {
     return error?.response?.data;
   }
 };
-
-
 
 export const Instructor_Block_List = async () => {
   try {

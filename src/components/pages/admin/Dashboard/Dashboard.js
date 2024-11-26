@@ -21,7 +21,7 @@ const Dashboard = () => {
   const [Admin_Progress_data, setAdmin_Progress_data] = useState([]);
   const [Instructor_Request_List, setInstructor_Request_List] = useState([]);
   const [Loading, setLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const data = [
     {
@@ -89,8 +89,15 @@ const Dashboard = () => {
       toast.success(result?.message);
       setLoading(false);
     } else {
-      setLoading(false);
-      toast.error(result?.message);
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        toast.info("Token is Expired");
+        navigate(Routing.AdminLogin);
+      } else {
+        setLoading(false);
+        toast.error(result?.message);
+      }
     }
   };
 
@@ -107,8 +114,14 @@ const Dashboard = () => {
       // toast.success(result?.message);
       setLoading(false);
     } else {
-      setLoading(false);
-      toast.error(result?.message);
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        navigate(Routing.AdminLogin);
+      } else {
+        setLoading(false);
+        toast.error(result?.message);
+      }
     }
   };
   const Get_Instructor_Requests = async () => {
@@ -118,8 +131,14 @@ const Dashboard = () => {
       setInstructor_Request_List(result.data);
       setLoading(false);
     } else {
-      setLoading(false);
-      toast.error(result?.message);
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        navigate(Routing.AdminLogin);
+      } else {
+        setLoading(false);
+        toast.error(result?.message);
+      }
     }
   };
 
@@ -196,15 +215,20 @@ const Dashboard = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-start gap-3">
                       <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
-                        <img src={Request_List.profile_picture} alt="" className="w-full h-full object-cover object-center" />
+                        <img
+                          src={Request_List.profile_picture}
+                          alt=""
+                          className="w-full h-full object-cover object-center"
+                        />
                       </div>
                       <div>
                         <h2 className="text-sm text-black font-semibold">
-                        {Request_List.name}
+                          {Request_List.name}
                         </h2>
                         <div className="flex items-center mt-1">
                           <p className="text-xs text-black/70">
-                            <span className="font-semibold">Date:</span> {Request_List.joinDate}
+                            <span className="font-semibold">Date:</span>{" "}
+                            {Request_List.joinDate}
                           </p>
                         </div>
                       </div>
@@ -212,7 +236,11 @@ const Dashboard = () => {
                     <OutlineBtn
                       text={"View Profile"}
                       className={"h-[40px] bo"}
-                      onClick={()=>navigate(Routing.Admin_Instructor_Managementnew_Requests)}
+                      onClick={() =>
+                        navigate(
+                          Routing.Admin_Instructor_Managementnew_Requests
+                        )
+                      }
                     />
                   </div>
                 </div>
@@ -221,7 +249,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="grid lg:grid-cols-5 grid-cols-1 gap-4">
-          <div className="bg-primary rounded-xl p-6 shadow-BoxShadow  mt-4 lg:col-span-3">
+          <div className="bg-primary rounded-xl p-6 shadow-BoxShadow  mt-4 lg:col-span-5">
             <div className="flex items-center justify-between">
               <p className="text-xl font-bold text-gay-300">
                 Weekly Transactions
@@ -229,7 +257,7 @@ const Dashboard = () => {
             </div>
             <BarChart />
           </div>
-          <div className="bg-primary rounded-xl p-6 shadow-BoxShadow  mt-4 lg:col-span-2">
+          {/* <div className="bg-primary rounded-xl p-6 shadow-BoxShadow  mt-4 lg:col-span-2">
             <div className="flex items-center justify-between">
               <p className="text-xl font-bold text-gay-300">
                 Students & Instructors by Country
@@ -240,17 +268,17 @@ const Dashboard = () => {
                 <h2 className="text-center text-base font-semibold text-Dark_black mt-6 mb-2">
                   No. of Students
                 </h2>
-                {/* <StudentsPieChart /> */}
+                <StudentsPieChart />
               </div>
               <div className="border border-gay-300/15 rounded-2xl">
-                {/* <BarChart /> */}
+                <BarChart />
                 <h2 className="text-center text-base font-semibold text-Dark_black mt-6 mb-2">
                   No. of Instructors
                 </h2>
-                {/* <StudentsPieChart /> */}
+                <StudentsPieChart />
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

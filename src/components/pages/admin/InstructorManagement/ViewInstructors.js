@@ -136,49 +136,53 @@ const ViewInstructors = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-primary">
-                  {Instructors_List.map((person) => (
-                    <tr key={person.instructorId} className="group">
-                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                        <img
-                          src={person.profile}
-                          alt=""
-                          className="w-[45px] h-[45px] rounded-full grayscale group-hover:grayscale-0 duration-150"
-                          srcset=""
-                        />
-                      </td>
-                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-lg text-Dark_black font-medium sm:pl-6">
-                        {person.name}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                        {person.instructorId}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                        {person.className.slice(0, 20)}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                        {person.joindate}
-                      </td>
-                      <td className="whitespace-nowrap px-3 pr-6 py-4 text-Dark_black font-medium w-[200px]">
-                        <div className="flex items-center gap-2 justify-end">
-                          <OutlineBtn
-                            text={"Remove"}
-                            className={"text-black h-[45px]"}
-                            onClick={() => heandleRemove(person.instructorId)}
+                  {Instructors_List.map((person) => {
+                    return (
+                      <tr key={person?.instructorId} className="group">
+                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                          <img
+                            src={person?.profile}
+                            alt=""
+                            className="w-[45px] h-[45px] rounded-full grayscale group-hover:grayscale-0 duration-150"
+                            srcset=""
                           />
-                          <OutlineBtn
-                            text={"Block"}
-                            className={
-                              "text-red-200 bg-red-100 border-red-200 h-[45px]"
-                            }
-                            onClick={() => {
-                              setInstructorId(person.instructorId);
-                              SetisOpen(true);
-                            }}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                        </td>
+                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-lg text-Dark_black font-medium sm:pl-6">
+                          {person?.name}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
+                          {person?.instructorId}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
+                          {person?.className.length<=0?"class is not found":person?.className[0]?.className?.slice(0, 20)}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
+                          {person?.joindate}
+                        </td>
+                        <td className="whitespace-nowrap px-3 pr-6 py-4 text-Dark_black font-medium w-[200px]">
+                          <div className="flex items-center gap-2 justify-end">
+                            <OutlineBtn
+                              text={"Remove"}
+                              className={"text-black h-[45px]"}
+                              onClick={() =>
+                                heandleRemove(person?.instructorId)
+                              }
+                            />
+                            <OutlineBtn
+                              text={"Block"}
+                              className={
+                                "text-red-200 bg-red-100 border-red-200 h-[45px]"
+                              }
+                              onClick={() => {
+                                setInstructorId(person?.instructorId);
+                                SetisOpen(true);
+                              }}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

@@ -62,3 +62,16 @@ export const GetReviews = async (instructorId) => {
     return error?.response?.data;
   }
 };
+
+export const Create_discipline = async (body) => {
+  try {
+    let response = await axios({
+      method: "POST",
+      url: `${baseURL}/home/create/discipline`,
+      data:body
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};

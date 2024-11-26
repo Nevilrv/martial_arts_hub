@@ -12,49 +12,49 @@ const CategoriesSection = () => {
   const data = [
     {
       images:Wrestling,
-      headding: "Wrestling",
+      className: "Wrestling",
       details:
         "A grappling sport focused on takedowns, holds, and pins, enhancing strength and agility.",
     },
     {
       images:BrazilianJitsu,
-      headding: "Brazilian Jiu Jitsu",
+      className: "Brazilian Jiu Jitsu",
       details:
         "A ground-based martial art emphasizing submissions and positional control using leverage and technique.",
     },
     {
       images:Judo,
-      headding: "Judo",
+      className: "Judo",
       details:
         "A Japanese martial art focused on throws, joint locks, and pins, teaching how to use an opponent's force against them.",
     },
     {
       images:Boxing,
-      headding: "Boxing",
+      className: "Boxing",
       details:
         "A striking discipline that develops punches, footwork, and defense, improving fitness and coordination.",
     },
     {
       images:Wrestling,
-      headding: "Wrestling",
+      className: "Wrestling",
       details:
         "A grappling sport focused on takedowns, holds, and pins, enhancing strength and agility.",
     },
     {
       images:BrazilianJitsu,
-      headding: "Brazilian Jiu Jitsu",
+      className: "Brazilian Jiu Jitsu",
       details:
         "A ground-based martial art emphasizing submissions and positional control using leverage and technique.",
     },
     {
       images:Judo,
-      headding: "Judo",
+      className: "Judo",
       details:
         "A Japanese martial art focused on throws, joint locks, and pins, teaching how to use an opponent's force against them.",
     },
     {
       images:Boxing,
-      headding: "Boxing",
+      className: "Boxing",
       details:
         "A striking discipline that develops punches, footwork, and defense, improving fitness and coordination.",
     },

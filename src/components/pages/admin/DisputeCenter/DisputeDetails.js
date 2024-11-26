@@ -5,12 +5,18 @@ import Instructor1 from "../../../../assets/images/Instructor-4.png";
 // import { LuEye } from "react-icons/lu";
 import "react-medium-image-zoom/dist/styles.css";
 import Zoom from "react-medium-image-zoom";
-import { useParams } from "react-router-dom";
-import { Dispute_Details, GetDisputeChat, Send_Dispute_message } from "../../../services/Admin/Dispute/Dispute";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  Close_Dispute,
+  Dispute_Details,
+  GetDisputeChat,
+  Send_Dispute_message,
+} from "../../../services/Admin/Dispute/Dispute";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import { baseURL } from "../../../services/URL";
 import { io } from "socket.io-client";
+import { Routing } from "../../../shared/Routing";
 
 const DisputeDetails = () => {
   const { disputeId } = useParams();
@@ -21,6 +27,7 @@ const DisputeDetails = () => {
   const Socket = io(`${baseURL}`);
   let chatId;
   const chatContainerRef = useRef(null);
+  const navigate = useNavigate();
 
   const Get_Dispute_Deatls = async () => {
     setLoading(true);
@@ -37,11 +44,19 @@ const DisputeDetails = () => {
     Get_Dispute_Deatls();
   }, []);
 
-
-
+  const CloseDispute = async () => {
+    setLoading(true);
+    const result = await Close_Dispute(disputeId, "close");
+    if (result?.success === true) {
+      setLoading(false);
+      navigate(Routing.Admin_Dispute_Requests);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
 
   // chate
-
 
   const GetDisputeChats = async () => {
     setLoading(true);
@@ -77,31 +92,29 @@ const DisputeDetails = () => {
     }
   }, [DisputeChats]);
 
-// send chat
-const heandleChat = async () => {
-  const body = {
-    disputeId: disputeId,
-    studentId: Disputes.studentId,
-    adminId: "cd7e3eab-a950-4b57-8702-cdb4abf505c6",
-    message: message,
-    sender: "admin",
-  };
-  if (body.message.trim() === "") {
-    toast.error("empty message not send");
-  } else {
-    const result = await Send_Dispute_message(body);
-    if (result?.success === true) {
-      setLoading(false);
-      chatId = result.data.chatId;
-      Socket.emit("loadChatMessages", { chatId: chatId });
-      setMessage("");
+  // send chat
+  const heandleChat = async () => {
+    const body = {
+      disputeId: disputeId,
+      studentId: Disputes.studentId,
+      adminId: "cd7e3eab-a950-4b57-8702-cdb4abf505c6",
+      message: message,
+      sender: "admin",
+    };
+    if (body.message.trim() === "") {
+      toast.error("empty message not send");
     } else {
-      setLoading(false);
+      const result = await Send_Dispute_message(body);
+      if (result?.success === true) {
+        setLoading(false);
+        chatId = result.data.chatId;
+        Socket.emit("loadChatMessages", { chatId: chatId });
+        setMessage("");
+      } else {
+        setLoading(false);
+      }
     }
-  }
-};
-
-
+  };
 
   return (
     <>
@@ -117,6 +130,7 @@ const heandleChat = async () => {
         </div>
         <OutlineBtn
           text="Close Dispute"
+          onClick={CloseDispute}
           className="text-white bg-red-200 border-none sm:w-auto w-full"
         />
       </div>
@@ -150,9 +164,17 @@ const heandleChat = async () => {
           </div>
           <div className="flex items-center gap-1 flex-wrap">
             <h3 className="text-gay-300 font-medium">Dispute Status:</h3>
-            <p className={`${Disputes?.status==="active"?"text-green":"text-red-200"} font-[450]`}>
+            <p
+              className={`${
+                Disputes?.status === "active" ? "text-green" : "text-red-200"
+              } font-[450]`}
+            >
               {" "}
-              <span className={`h-2 w-2 rounded-full ${Disputes?.status==="active"?"bg-green":"bg-red-200"} inline-block mr-0.5`}></span>{" "}
+              <span
+                className={`h-2 w-2 rounded-full ${
+                  Disputes?.status === "active" ? "bg-green" : "bg-red-200"
+                } inline-block mr-0.5`}
+              ></span>{" "}
               {Disputes?.status}
             </p>
           </div>
@@ -201,50 +223,79 @@ const heandleChat = async () => {
           when necessary.
         </p>
         <div className="mt-6 bg-primary rounded-xl pt-10  pb-7">
-          <div className="flex flex-col gap-8 max-h-[530px] overflow-y-auto lg:px-6 px-3" ref={chatContainerRef}>
+          <div
+            className="flex flex-col gap-8 max-h-[530px] overflow-y-auto lg:px-6 px-3"
+            ref={chatContainerRef}
+          >
             {/*chats*/}
-            {
-              DisputeChats?.map((chat)=>(
-            <div className={`${chat?.sender_type!=="student"?"justify-end":null} flex items-start gap-4`}>
-              <div className={`h-14 w-14 rounded-full overflow-hidden ${chat?.sender_type!=="student"?"order-2":null}`}>
-                <img src={Instructor1} alt="" className="w-full h-full" />
-              </div>
-              <div className="max-w-[75%]">
-                <div className={`w-full p-4 ${chat?.sender_type==="student"?"bg-red-100 text-gay-400 rounded-tl-none":"bg-black text-white rounded-tr-none"} rounded-xl  text-sm  border border-red-200/15`}>
-                {chat?.message}
+            {DisputeChats?.map((chat) => (
+              <div
+                className={`${
+                  chat?.sender_type !== "student" ? "justify-end" : null
+                } flex items-start gap-4`}
+              >
+                <div
+                  className={`h-14 w-14 rounded-full overflow-hidden ${
+                    chat?.sender_type !== "student" ? "order-2" : null
+                  }`}
+                >
+                  <img src={Instructor1} alt="" className="w-full h-full" />
                 </div>
-                <p className={`${chat?.sender_type==="student"?"text-red-200":"text-black"}  text-xs mt-2`}>
-                {chat?.updated_at}
-                </p>
+                <div className="max-w-[75%]">
+                  <div
+                    className={`w-full p-4 ${
+                      chat?.sender_type === "student"
+                        ? "bg-red-100 text-gay-400 rounded-tl-none"
+                        : "bg-black text-white rounded-tr-none"
+                    } rounded-xl  text-sm  border border-red-200/15`}
+                  >
+                    {chat?.message}
+                  </div>
+                  <p
+                    className={`${
+                      chat?.sender_type === "student"
+                        ? "text-red-200"
+                        : "text-black"
+                    }  text-xs mt-2`}
+                  >
+                    {chat?.updated_at}
+                  </p>
+                </div>
               </div>
-            </div>
-              ))
-            }
+            ))}
           </div>
           <div className="mt-7 flex items-center gap-2 justify-between lg:px-6 px-3">
-            <div className="relative 2xl:w-[70%] xl:w-[50%] w-[80%]">
+            <div className="relative 2xl:w-[87%] xl:w-[50%] w-[80%]">
               <input
                 type="text"
+                disabled={Disputes?.status === "close"}
                 className="w-full py-6 bg-[#DAD8D0] block h-[75px] text-lg px-7 pr-[84px] rounded-full focus:outline-none placeholder:text-black/40"
                 placeholder="Write your message here"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                onKeyPress={(event) => {
-                  if (event.key === "Enter") {
-                    event.preventDefault();
-                    heandleChat();
-                  }
-                }}
+                {...(Disputes?.status !== "close" && {
+                  onKeyPress: (event) => {
+                    if (event.key === "Enter") {
+                      event.preventDefault();
+                      heandleChat();
+                    }
+                  },
+                })}
               />
-              <button className="bg-transparent text-red-200 border-none text-lg font-medium absolute top-1/2 -translate-y-1/2 right-6" onClick={heandleChat}>
-                Send
-              </button>
+              {Disputes?.status !== "close" && (
+                <button
+                  className="bg-transparent text-red-200 border-none text-lg font-medium absolute top-1/2 -translate-y-1/2 right-6"
+                  onClick={heandleChat}
+                >
+                  Send
+                </button>
+              )}
             </div>
             <div className="items-center justify-between gap-2 xl:flex hidden">
-              <OutlineBtn text="Move to Arbitration Stage" />
               <OutlineBtn
                 className="bg-red-200 text-white border-none"
                 text="Close Dispute"
+                onClick={CloseDispute}
               />
             </div>
           </div>

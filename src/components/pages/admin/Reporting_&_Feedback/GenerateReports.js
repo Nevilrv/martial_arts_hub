@@ -14,7 +14,7 @@ const GenerateReports = () => {
 
   const Get_Report = async () => {
     setLoading(true);
-    const result = await Reports();
+    const result = await Reports(selectedMonth);
     if (result?.success === true) {
       setRepot(result.data);
       setLoading(false);

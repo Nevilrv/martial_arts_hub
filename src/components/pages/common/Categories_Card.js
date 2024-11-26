@@ -7,7 +7,7 @@ const CategoriesCard = ({ data }) => {
     <>
       <div className="group flex flex-col mr-6">
         <img
-          src={Wrestling}
+          src={data.images||Wrestling}
           alt="card_image"
           className="grayscale group-hover:grayscale-0"
         />

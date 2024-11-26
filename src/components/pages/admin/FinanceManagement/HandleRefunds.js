@@ -1,42 +1,133 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminHeadding from "../../common/AdminHeadding";
 import OutlineBtn from "../../common/OutlineBtn";
-import Instructor1 from "../../../../assets/images/Instructor-4.png";
-import Instructor2 from "../../../../assets/images/Instructor-1.png";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { FaArrowLeft } from "react-icons/fa";
+import Spinner from "../../../layouts/Spinner";
+import {
+  Pay_out_Confirm,
+  Pay_out_Refund,
+  Payment_Refund_details,
+  Payment_Refund_list,
+} from "../../../services/Admin/FinanceSection/Finance";
+import { useNavigate } from "react-router-dom";
+import { Routing } from "../../../shared/Routing";
+import { toast } from "react-toastify";
 
 const HandleRefunds = () => {
-  const [InstructorsList, setInstructorsList] = useState([
-    {
-      InstructorName: "Keyn Mojho",
-      InstructorID: "#23352",
-      StudentName: "Keyn Mojho",
-      StudentID: "#23358",
-      Amount: "$4.99",
-      Reason: "--",
-    },
-    {
-      InstructorName: "Keyn Mojho",
-      InstructorID: "#23352",
-      StudentName: "Keyn Mojho",
-      StudentID: "#23358",
-      Amount: "$4.99",
-      Reason: "--",
-    },
-    {
-      InstructorName: "Keyn Mojho",
-      InstructorID: "#23352",
-      StudentName: "Keyn Mojho",
-      StudentID: "#23358",
-      Amount: "$4.99",
-      Reason: "--",
-    },
-  ]);
   const [isOpen, SetisOpen] = useState(false);
   const [Refund, SetRefund] = useState(false);
+
+  const [Refund_list, SetRefund_list] = useState([]);
+  const [Refund_details, SetRefund_details] = useState({});
+  const [Refund_data, SetRefund_data] = useState({});
+  const [Loading, setLoading] = useState(false);
+  const [Refund_Reason, setRefund_Reason] = useState("");
+  const [Refund_amount, setRefund_amount] = useState("");
+  const navigate = useNavigate();
+
+  const Get_Payment_Refund_list = async () => {
+    setLoading(true);
+    const result = await Payment_Refund_list();
+    if (result?.success === true) {
+      SetRefund_list(result.data);
+      setLoading(false);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        navigate(Routing.AdminLogin);
+        setLoading(false);
+      } else {
+        toast.error(result?.message);
+        setLoading(false);
+      }
+    }
+  };
+
+  const Get_Payment_Refund_details = async (person) => {
+    setLoading(true);
+    const result = await Payment_Refund_details(
+      person.studentId,
+      person.instructorId,
+      person.bookingId,
+      person.classId
+    );
+    if (result?.success === true) {
+      SetRefund_details(result.data);
+      SetisOpen(true);
+      setLoading(false);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        navigate(Routing.AdminLogin);
+        setLoading(false);
+      } else {
+        toast.error(result?.message);
+        setLoading(false);
+      }
+    }
+  };
+
+  const Refund_Pay_out = async () => {
+    setLoading(true);
+    const body = {
+      studentPaymentId: Refund_details.studentPaymentId,
+      disputeId: Refund_details.disputeId,
+      RefundReason: Refund_Reason || Refund_details.Reason,
+    };
+    const result = await Pay_out_Refund(body);
+    if (result?.success === true) {
+      SetRefund(true);
+      SetRefund_data(result.data);
+      setLoading(false);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        navigate(Routing.AdminLogin);
+        setLoading(false);
+      } else {
+        toast.error(result?.message);
+        setLoading(false);
+      }
+    }
+  };
+
+  const Refund_Confirm = async () => {
+    setLoading(true);
+    const body = {
+      studentPaymentId: Refund_details.studentPaymentId,
+      disputeId: Refund_details.disputeId,
+      amount: Refund_amount,
+    };
+    const result = await Pay_out_Confirm(body);
+    if (result?.success === true) {
+      SetRefund(false);
+      SetisOpen(false);
+      Get_Payment_Refund_list();
+      setLoading(false);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        navigate(Routing.AdminLogin);
+        setLoading(false);
+      } else {
+        toast.error(result?.message);
+        setLoading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    Get_Payment_Refund_list();
+  }, []);
+
   return (
     <>
+      {Loading && <Spinner />}
       <AdminHeadding Headding={"Handle Refunds"} />
       <div className="mt-5">
         <div className="mt-5 w-full overflow-x-auto">
@@ -85,22 +176,22 @@ const HandleRefunds = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#C6C6C6] bg-primary">
-              {InstructorsList.map((person) => (
+              {Refund_list.map((person) => (
                 <tr key={person.id}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-lg text-Dark_black font-medium sm:pl-6">
-                    {person.InstructorName}
+                    {person.instructorName}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.InstructorID}
+                    {person.instructorId.slice(0, 15)}...
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.StudentName}
+                    {person.studentName}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.StudentID}
+                    {person.studentId.slice(0, 15)}...
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.Amount}
+                    $ {person.Amount}
                   </td>
                   <td className={`whitespace-nowrap px-3 py-4 font-semibold`}>
                     {person.Reason}
@@ -112,7 +203,7 @@ const HandleRefunds = () => {
                         className={
                           "text-black h-[35px] w-[65px] hover:bg-black hover:text-white"
                         }
-                        onClick={() => SetisOpen(true)}
+                        onClick={() => Get_Payment_Refund_details(person)}
                       />
                     </div>
                   </td>
@@ -145,100 +236,117 @@ const HandleRefunds = () => {
                       Instructor’s Name
                     </p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      Marry Jhon
+                      {Refund_details.instructorName}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Instructor ID</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      #23352
+                      # {Refund_details?.instructorId?.slice(0, 17)}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Class Name</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      Brazilian Jiu Jitsu
+                      {Refund_details.className?.slice(0, 17)}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Student Name</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      Keyn Mojho
+                      {Refund_details.studentName}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Student ID</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      #4321
+                      #{Refund_details?.studentId?.slice(0, 17)}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Class Date</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      12/07/2024
+                      {Refund_details.classDate}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Amount</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
-                      $4.99
+                      ${Refund_details.Amount}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Any Dispute?</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
-                      No
+                      {Refund_details.AnyDispute}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Dispute Reason</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
-                      --
+                      {Refund_details.Reason}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">
                       Dispute Resolved?
                     </p>
-                    <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
-                      -
+                    <div
+                      className={`bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-lg font-medium`}
+                    >
+                      {Refund_details.resolved}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">
                       Refund Completed?
                     </p>
-                    <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-red-200 text-lg font-medium">
-                      No
+                    <div
+                      className={`bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg ${
+                        Refund_details.refundComplete === "No"
+                          ? "text-red-200"
+                          : "text-green"
+                      }  text-lg font-medium`}
+                    >
+                      {Refund_details.refundComplete}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">
-                      Dispute Resolved?
+                      Refund Complete Date
                     </p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
-                      -
+                      {Refund_details.refundCompleteDate === "Invalid date"
+                        ? "-"
+                        : Refund_details.refundCompleteDate}
                     </div>
                   </div>
                   <div className="w-full lg:col-span-3 md:col-span-2">
                     <p className="text-gay-300 text-[13px]">Refund Reason</p>
-                    <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[95px] mt-1 rounded-lg text-lg font-medium">
-                      Refund reason
-                    </div>
+                    <textarea
+                      disabled={Refund_details.refundComplete !== "No"}
+                      placeholder="Refund reason"
+                      value={Refund_details.Reason}
+                      onChange={(e) => setRefund_Reason(e.target.value)}
+                      className="bg-[#D8D6CF] px-5 py-4 w-full h-[95px] mt-1 rounded-lg text-lg font-medium"
+                    ></textarea>
                   </div>
                 </div>
-                <div className="mt-11 flex justify-end">
-                  <OutlineBtn
-                    className={"text-white bg-red-200 border-none w-[140px]"}
-                    text={"Refund"}
-                    onClick={() => SetRefund(true   )}
-                  />
-                </div>
+                {Refund_details.refundComplete === "No" && (
+                  <div className="mt-11 flex justify-end">
+                    <OutlineBtn
+                      className={"text-white bg-red-200 border-none w-[140px]"}
+                      text={"Refund"}
+                      onClick={() => Refund_Pay_out()}
+                    />
+                  </div>
+                )}
               </div>
             </DialogPanel>
           </div>
         </div>
       </Dialog>
+
       <Dialog className="relative z-[9999]" open={Refund} onClose={SetRefund}>
         <DialogBackdrop
           transition
@@ -261,20 +369,29 @@ const HandleRefunds = () => {
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Refund from</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      Marry Jhon
+                      {Refund_data.RefundFrom}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Refund to</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      #23352
+                      #{Refund_data?.RefundTo?.slice(0, 17)}...
                     </div>
                   </div>
                   <div className="w-full lg:col-span-3 md:col-span-2">
                     <p className="text-gay-300 text-[13px]">Refund Reason</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[95px] mt-1 rounded-lg text-lg font-medium">
-                      Refund reason
+                      {Refund_data.RefundReason}
                     </div>
+                  </div>
+                  <div className="w-full lg:col-span-3 md:col-span-2">
+                    <p className="text-gay-300 text-[13px]">Amount to Refund</p>
+                    <input
+                      type="number"
+                      onChange={(e) => setRefund_amount(e.target.value)}
+                      className="bg-[#D8D6CF] px-5 py-4 w-full h-[95px] mt-1 rounded-lg text-lg font-medium focus:outline-none"
+                      placeholder="Enter your amount that Refund to Student"
+                    ></input>
                   </div>
                   <div className="w-full lg:col-span-3 md:col-span-2">
                     <p className="text-gay-300 text-[13px]">Refund mode</p>
@@ -287,6 +404,7 @@ const HandleRefunds = () => {
                   <OutlineBtn
                     className={"text-white bg-red-200 border-none w-[140px]"}
                     text={"Refund"}
+                    onClick={()=>Refund_Confirm()}
                   />
                 </div>
               </div>
