@@ -1,26 +1,34 @@
 import React, { useState, useEffect } from "react";
 import AgoraUIKit from "agora-react-uikit";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { baseURL } from "../../services/URL";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { Routing } from "../../shared/Routing";
 
 const Videocall = () => {
   const { channelName, role } = useParams(); // Extract channelName and role from URL
   const [rtcProps, setRtcProps] = useState(null);
-  const [videoCall, setVideoCall] = useState(false); // Initially set to false, so button shows up
+  const [videoCall, setVideoCall] = useState(true); // Initially set to false, so button shows up
+  const navigate = useNavigate()
 
   useEffect(() => {
     const initAgora = async () => {
-      if (!videoCall) return; // Don't fetch token until the user clicks "Start Call"
-
       try {
         // Fetch the token from your server
-        const response = await axios.post(`${baseURL}/meeting/genrateToken`, {
-          channelName,
-          role,
-        });
+        const response = await axios.post(
+          `${baseURL}/meeting/genrateToken`,
+          {
+            channelName,
+            role,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`, // Replace with your actual token
+            },
+          }
+        );
         const token = response.data.data;
-        console.log("=================>",token)
 
         // Set RTC properties for Agora UIKit
         setRtcProps({
@@ -29,52 +37,43 @@ const Videocall = () => {
           token,
           role,
           enableVideo: true,
-          enableAudio: true
+          enableAudio: true,
         });
+        toast.success(response.message);
       } catch (error) {
-        console.error("Failed to join room:", error);
+        if (error === "Please log in to access this resource") {
+          const userRole = JSON.parse(localStorage.getItem("Role"));
+          if (userRole === "Student") {
+            navigate(Routing.StudentLogin);
+          } else if (userRole === "Instructor") {
+            navigate(Routing.InstructorLogin);
+          } else {
+            console.error("Failed to join room:", error);
+          }
+        }
       }
     };
 
-    initAgora(); // Call initAgora only when videoCall is true
-  }, [channelName, role, videoCall]); // Added videoCall to trigger effect when it changes
-
-  // Callbacks for Agora events
+    initAgora();
+    // eslint-disable-next-line
+  }, [channelName, role, videoCall]);
   const callbacks = {
-    EndCall: () => setVideoCall(false), // Handle end call event
+    EndCall: () => setVideoCall(false), 
   };
-
-  // Style properties for customization (optional)
   const styleProps = {
-    localBtnContainer: { backgroundColor: "#007bff" }, // Custom button container styling
-    remoteBtnContainer: { backgroundColor: "#dc3545" }, // Example remote styling
-    UIKitContainer: { height: "100vh", width: "100%" }, // Fullscreen video call
+    localBtnContainer: { backgroundColor: "#007bff" }, 
+    remoteBtnContainer: { backgroundColor: "#dc3545" }, 
+    UIKitContainer: { height: "calc(100vh - 85px)", width: "100%" },
   };
 
-  return !videoCall ? (
-    // If videoCall is false, show the Start Call button
-    <div style={{ textAlign: "center", marginTop: "20px" }}>
-      <h3>Welcome to the Instructor</h3>
-      <button
-        onClick={() => setVideoCall(true)} // Set videoCall to true when button is clicked
-        style={{
-          padding: "10px 20px",
-          fontSize: "16px",
-          cursor: "pointer",
-          backgroundColor: "#007bff",
-          color: "#fff",
-          border: "none",
-          borderRadius: "5px",
-        }}
-      >
-        Start Call
-      </button>
-    </div>
-  ) : (
-    // Once videoCall is true, show the Agora video call UI
-    <div style={{ display: "flex", width: "100%", height: "100vh" }}>
+  return (
+    <div style={{ display: "flex", width: "100%", height: "calc(100vh - 85px)" }}>
       {rtcProps ? (
-        <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} styleProps={styleProps} />
+        <AgoraUIKit
+          rtcProps={rtcProps}
+          callbacks={callbacks}
+          styleProps={styleProps}
+        />
       ) : (
         <div>Loading........</div>
       )}
