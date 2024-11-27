@@ -12,7 +12,7 @@ const Videocall = () => {
   useEffect(() => {
     const initAgora = async () => {
       try {
-        const response = await axios.post(`${baseURL}/generate-token`, {
+        const response = await axios.post(`${baseURL}/meeting/genrateToken`, {
           channelName,
           role,
         });
