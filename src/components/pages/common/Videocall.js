@@ -10,7 +10,7 @@ import OutlineBtn from "./OutlineBtn";
 const Videocall = () => {
   const { channelName, role } = useParams();
   const [rtcProps, setRtcProps] = useState(null);
-  const [videoCall, setVideoCall] = useState(false);
+  const [videoCall, setVideoCall] = useState(true);
   const navigate = useNavigate();
 
   const initAgora = async () => {
