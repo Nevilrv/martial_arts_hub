@@ -17,6 +17,9 @@ const PaymentSuccessful = lazy(() =>
 const PaymentFailed = lazy(() =>
   import("./components/pages/common/Paymentfailed.js")
 );
+const Video = lazy(() =>
+  import("./components/pages/common/Videocall.js")
+);
 
 const StudentHome = lazy(() =>
   import("./components/pages/Student/homepage/Index")
@@ -183,6 +186,16 @@ function App() {
     {
       path: Routing.PaymentSuccessful,
       component: PaymentSuccessful,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.instructor_Videocall,
+      component: Video,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.student_Videocall,
+      component: Video,
       isPrivateRoute: false,
     },
     {

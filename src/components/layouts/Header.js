@@ -41,6 +41,16 @@ const Header = () => {
     { name: "Message Requests", href: Routing.InstructorMessageRequests },
   ];
 
+  const Adminnavigation = [
+    { name: "Dashboard", href: Routing.AdminDashboard },
+    { name: "Instructor Requests", href: Routing.Admin_Instructor_Managementnew_Requests },
+    { name: "View Students", href: Routing.Admin_View_Students },
+    { name: "Finance Dashboard", href: Routing.Admin_Finance_Dashboard },
+    { name: "Dispute Requests", href: Routing.Admin_Dispute_Requests },
+    { name: "Generate Reports", href: Routing.Admin_Generate_Reports },
+    { name: "Discipline Centre", href: Routing.Admin_Discipline_Centre },
+  ]
+
   const mailingLists = [
     { id: 1, title: "Login as Student" },
     { id: 2, title: "Login as Instructor" },
@@ -206,6 +216,21 @@ const Header = () => {
                       </Link>
                     </MenuItem>
                   ))}
+                {Adminnavigation?.map((item, i) => (
+                  <MenuItem>
+                    <Link
+                      key={i}
+                      to={item.href}
+                      className={`block px-4 py-2 text-lg text-black ${
+                        currentLocation === item.href
+                          ? "font-semibold underline"
+                          : ""
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  </MenuItem>
+                ))}
                 <MenuItem onClick={() => SetisOpen(true)}>
                   <p
                     className={`block px-4 py-2 text-lg text-black cursor-pointer`}

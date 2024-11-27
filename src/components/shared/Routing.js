@@ -4,6 +4,11 @@ export const Routing = {
   AttendTraining:"/student/training",
   PaymentSuccessful:"/paymentsuccessful",
   PaymentFailed:"/paymentfailed",
+  instructor_Videocall:"/instructor/room/:channelName/:role",
+  student_Videocall:"/student/room/:channelName/:role",
+
+
+
   // student dashboard tab
   Initial: "/",
   StudentLogin: "/student/login",
