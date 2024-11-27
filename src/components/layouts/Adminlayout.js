@@ -126,7 +126,13 @@ const SidbarNavigation = [
     Navigate: "Discipline Centre",
     icon: <BiChevronDown />,
     Starticon: <DashboardDiscipline />,
-    path: Routing.Admin_Discipline_Centre,
+    sub: [
+      {
+        Navigate: "Discipline Dashboard",
+        icon: <BiChevronDown />,
+        Path: Routing.Admin_Discipline_Centre,
+      },
+    ],
   },
 ];
 
@@ -139,7 +145,7 @@ const Adminlayout = ({ children }) => {
 
   const [expandedItem, setExpandedItem] = useState(null);
   const navigate = useNavigate();
-  
+
   const { pathname } = useLocation();
   const currentLocation = pathname;
   useEffect(() => {
@@ -166,19 +172,19 @@ const Adminlayout = ({ children }) => {
     navigate(Routing.Initial);
   };
 
-
-
   const Adminnavigation = [
     { name: "Dashboard", href: Routing.AdminDashboard },
-    { name: "Instructor Requests", href: Routing.Admin_Instructor_Managementnew_Requests },
+    {
+      name: "Instructor Requests",
+      href: Routing.Admin_Instructor_Managementnew_Requests,
+    },
     { name: "View Students", href: Routing.Admin_View_Students },
     { name: "Finance Dashboard", href: Routing.Admin_Finance_Dashboard },
     { name: "Dispute Requests", href: Routing.Admin_Dispute_Requests },
     { name: "Generate Reports", href: Routing.Admin_Generate_Reports },
     { name: "Discipline Centre", href: Routing.Admin_Discipline_Centre },
-  ]
+  ];
   const userName = JSON.parse(localStorage.getItem("email"))?.charAt(0);
-  
 
   return (
     <>

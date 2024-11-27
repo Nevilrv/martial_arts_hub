@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import AgoraUIKit from "agora-react-uikit";
 import { useParams } from "react-router-dom";
-import { baseURL } from "../../services/URL"
+import { baseURL } from "../../services/URL";
 import axios from "axios";
 
 const Videocall = () => {
-  const { channelName, role } = useParams(); // Extract channelName and role from URL
+  const { channelName, role } = useParams();
   const [rtcProps, setRtcProps] = useState(null);
-  const [videoCall, setVideoCall] = useState(true); // Initially set to false, so button shows up
+  const [videoCall, setVideoCall] = useState(false);
 
   useEffect(() => {
     const initAgora = async () => {
@@ -25,7 +25,7 @@ const Videocall = () => {
           token,
           role,
           enableVideo: true,
-          enableAudio: true
+          enableAudio: true,
         });
       } catch (error) {
         console.error("Failed to join room:", error);
@@ -47,34 +47,20 @@ const Videocall = () => {
     UIKitContainer: { height: "100vh", width: "100%" }, // Fullscreen video call
   };
 
-  return !videoCall ? (
-    // If videoCall is false, show the Start Call button
-    <div style={{ textAlign: "center", marginTop: "20px" }}>
-      <h3>Welcome to the Instructor</h3>
-      <button
-        // onClick={() => setVideoCall(true)} // Set videoCall to true when button is clicked
-        style={{
-          padding: "10px 20px",
-          fontSize: "16px",
-          cursor: "pointer",
-          backgroundColor: "#007bff",
-          color: "#fff",
-          border: "none",
-          borderRadius: "5px",
-        }}
-      >
-        Start Call
-      </button>
-    </div>
-  ) : (
-    // Once videoCall is true, show the Agora video call UI
-    <div style={{ display: "flex", width: "100%", height: "100vh" }}>
-      {rtcProps ? (
-        <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} styleProps={styleProps} />
-      ) : (
-        <div>Loading........</div>
-      )}
-    </div>
+  return (
+    <>
+      <div style={{ display: "flex", width: "100%", height: "100vh" }}>
+        {rtcProps ? (
+          <AgoraUIKit
+            rtcProps={rtcProps}
+            callbacks={callbacks}
+            styleProps={styleProps}
+          />
+        ) : (
+          <div>Loading........</div>
+        )}
+      </div>
+    </>
   );
 };
 

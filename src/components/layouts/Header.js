@@ -89,7 +89,6 @@ const Header = () => {
   const userName = JSON.parse(localStorage.getItem("email"))?.charAt(0);
 
   const Role = JSON.parse(localStorage.getItem("Role"));
-
   useEffect(() => {
     const handleScroll = () => {
       const position = window.scrollY;
@@ -216,7 +215,8 @@ const Header = () => {
                       </Link>
                     </MenuItem>
                   ))}
-                {Adminnavigation?.map((item, i) => (
+                {Role === ""||Role === undefined||Role === "Admin"||Role === null &&
+                 Adminnavigation?.map((item, i) => (
                   <MenuItem>
                     <Link
                       key={i}
