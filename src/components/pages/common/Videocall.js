@@ -5,12 +5,13 @@ import { baseURL } from "../../services/URL";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Routing } from "../../shared/Routing";
+import OutlineBtn from "./OutlineBtn";
 
 const Videocall = () => {
-  const { channelName, role } = useParams(); // Extract channelName and role from URL
+  const { channelName, role } = useParams();
   const [rtcProps, setRtcProps] = useState(null);
-  const [videoCall, setVideoCall] = useState(true); // Initially set to false, so button shows up
-  const navigate = useNavigate()
+  const [videoCall, setVideoCall] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const initAgora = async () => {
@@ -53,20 +54,28 @@ const Videocall = () => {
         }
       }
     };
-
     initAgora();
     // eslint-disable-next-line
   }, [channelName, role, videoCall]);
   const callbacks = {
-    EndCall: () => setVideoCall(false), 
+    EndCall: () => setVideoCall(false),
   };
   const styleProps = {
-    localBtnContainer: { backgroundColor: "#007bff" }, 
-    remoteBtnContainer: { backgroundColor: "#dc3545" }, 
+    localBtnContainer: { backgroundColor: "#007bff" },
+    remoteBtnContainer: { backgroundColor: "#dc3545" },
     UIKitContainer: { height: "calc(100vh - 85px)", width: "100%" },
   };
 
-  return (
+  return !videoCall ? (
+    <div style={{ textAlign: "center", marginTop: "20px" }}>
+      <h3>Welcome Back {JSON.parse(localStorage.getItem("Role"))}</h3>
+      <OutlineBtn
+        text={"Start Call"}
+        className={"bg-Green-100 border-green text-green"}
+        onClick={() => setVideoCall(true)}
+      />
+    </div>
+  ) : (
     <div style={{ display: "flex", width: "100%", height: "calc(100vh - 85px)" }}>
       {rtcProps ? (
         <AgoraUIKit
@@ -75,7 +84,7 @@ const Videocall = () => {
           styleProps={styleProps}
         />
       ) : (
-        <div>Loading........</div>
+        <div>Loading.......</div>
       )}
     </div>
   );
