@@ -7,7 +7,7 @@ import axios from "axios";
 const Videocall = () => {
   const { channelName, role } = useParams(); // Extract channelName and role from URL
   const [rtcProps, setRtcProps] = useState(null);
-  const [videoCall, setVideoCall] = useState(false); // Initially set to false, so button shows up
+  const [videoCall, setVideoCall] = useState(true); // Initially set to false, so button shows up
 
   useEffect(() => {
     const initAgora = async () => {
