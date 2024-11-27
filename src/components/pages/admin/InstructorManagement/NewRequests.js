@@ -92,7 +92,7 @@ const NewRequests = () => {
         <Link className="text-red-200 underline font-semibold">Accept all</Link>
       </div>
       <div className="mt-5">
-        {Instructor_Request_List.length <= 0 && (
+        {Instructor_Request_List?.length <= 0 && (
           <h2 className="text-4xl font-semibold text-center">
             No Requests founde
           </h2>

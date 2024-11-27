@@ -198,7 +198,7 @@ const Dashboard = () => {
                 </select>
               </div>
               <div className="flex items-center justify-center">
-                {Admin_Progress_data.length >= 0 && (
+                {Admin_Progress_data?.length >= 0 && (
                   <PieChart data={Admin_Progress_data} />
                 )}
               </div>

@@ -327,7 +327,7 @@ const NewDispute = () => {
               <div className="flex items-center justify-center flex-col">
                 <MdCloudUpload className="text-black/20 text-5xl" />
                 <p className="text-black/50 text-[15px] font-medium text-center">
-                  {Dispute.evidenceScreenShort.length <= 0
+                  {Dispute.evidenceScreenShort?.length <= 0
                     ? "Upload screenshots, documents, receipts"
                     : Dispute?.evidenceScreenShort?.map((filename) => (
                         <span>

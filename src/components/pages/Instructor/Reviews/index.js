@@ -34,7 +34,7 @@ const Index = () => {
               Reviews given by students for your class will be shown here
             </p>
           </div>
-          {reviewsList.length <= 0 && (
+          {reviewsList?.length <= 0 && (
             <div className="flex items-center justify-center flex-col h-[calc(100vh-300px)]">
               <StartWithSquare />
               <h2 className="text-[26px] font-medium text-center mt-7">

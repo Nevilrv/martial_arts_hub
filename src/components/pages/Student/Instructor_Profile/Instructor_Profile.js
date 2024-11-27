@@ -480,7 +480,7 @@ const InstructorProfile = () => {
                 {Instructor.totalReviews} Reviews)
               </span>
             </h2>
-            {Reviews.length > 3 ? (
+            {Reviews?.length > 3 ? (
               <Slider {...settings} className="mt-5 slider-2 relative">
                 {Reviews.map((Review) => (
                   <div className="px-2" key={Review.id}>

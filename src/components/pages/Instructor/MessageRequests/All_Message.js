@@ -78,7 +78,7 @@ const All_Message = () => {
 
   return (
     <>
-      {MessageRequestdata.length <= 0 && (
+      {MessageRequestdata?.length <= 0 && (
         <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
           <FaPaperPlane className="text-[80px] text-[#BDBBB5]" />
           <h2 className="text-[26px] font-medium text-center mt-7">
@@ -90,7 +90,7 @@ const All_Message = () => {
           </p>
         </div>
       )}
-      {MessageRequestdata.length >= 0 &&
+      {MessageRequestdata?.length >= 0 &&
         MessageRequestdata.map((messageReques) => (
           <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400 min-w-[975px]">
             <div className="flex items-center">

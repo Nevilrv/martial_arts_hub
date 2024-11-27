@@ -60,7 +60,7 @@ const CreateSlot = () => {
   const handleSubmit = async () => {
     let TimeSlot = [];
     console.log("🚀", TimeSlot);
-    for (let i = 0; i < selectedTimeSlot.length; i++) {
+    for (let i = 0; i < selectedTimeSlot?.length; i++) {
       TimeSlot.push(selectedTimeSlot[i].value);
     }
     // setLoading(true);

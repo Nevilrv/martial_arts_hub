@@ -67,7 +67,7 @@ const BlockedStudents = () => {
         <AdminHeadding Headding={"Blocked Students"} />
       </div>
       <div className="mt-5">
-        {Student_Block_List.length <= 0 && (
+        {Student_Block_List?.length <= 0 && (
           <h2 className="text-4xl font-semibold text-center">
             No Blocked Student founde
           </h2>

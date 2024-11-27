@@ -53,7 +53,7 @@ const FavoriteInstructor = () => {
     <>
     {loading&&<Spinner/>}
       <StudentProfile>
-        {data.length <= 0 && (
+        {data?.length <= 0 && (
           <div className="border border-[#71717194] py-space px-6 rounded-lg min-h-[212px] mt-14">
             <div className="flex flex-col items-center justify-center">
               <MultiHeartIcon />

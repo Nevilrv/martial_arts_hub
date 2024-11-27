@@ -46,6 +46,22 @@ export const Instructor_End_Class = async (id) => {
     return error?.response?.data;
   }
 };
+export const Instructor_change_class_status = async (classId) => {
+  try {
+    let response = await axios({
+      method: "PUT",
+      url: `${baseURL}/instructor/class/start/${classId}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
+
+
 export const Instructor_get_Upcoming_Classes = async (instructorId) => {
   try {
     let response = await axios({

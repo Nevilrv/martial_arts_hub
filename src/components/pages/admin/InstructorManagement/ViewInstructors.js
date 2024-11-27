@@ -154,7 +154,7 @@ const ViewInstructors = () => {
                           {person?.instructorId}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                          {person?.className.length<=0?"class is not found":person?.className[0]?.className?.slice(0, 20)}
+                          {person?.className?.length<=0?"class is not found":person?.className[0]?.className?.slice(0, 20)}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
                           {person?.joindate}

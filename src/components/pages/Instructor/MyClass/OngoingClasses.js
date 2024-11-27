@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { WorkOut } from "../../../../assets/icon";
 import Wrestling from "../../../../assets/images/Wrestling.png";
-import { RiEditBoxFill } from "react-icons/ri";
 import OutlineBtn from "../../common/OutlineBtn";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
+  Instructor_change_class_status,
   Instructor_End_Class,
   Instructor_get_Upcoming_Classes,
 } from "../../../services/Instructor/createClass/Index";
 
 const OngoingClasses = (props) => {
-  const navigate = useNavigate();
   // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line;
   const [upcomingClass, setUpcomingClass] = useState([]);
-  console.log("🚀 ~ OngoingClasses ~ ongoing:", upcomingClass);
   const id = JSON.parse(localStorage.getItem("_id"));
 
   const Get_Upcoming_Classes = async () => {
@@ -45,6 +42,18 @@ const OngoingClasses = (props) => {
     } else {
       setLoading(false);
       toast.error(result?.message);
+    }
+  };
+
+  const Change_Status_Classes = async (upcoming_class) => {
+    setLoading(true);
+    const result = await Instructor_change_class_status(upcoming_class);
+    if (result?.success === true) {
+      // toast.success(result?.message);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      // toast.error(result?.message);
     }
   };
 
@@ -123,7 +132,10 @@ const OngoingClasses = (props) => {
                     <OutlineBtn
                       text={"Join Class"}
                       onClick={() =>
-                        window.open(upcoming_class?.instructor_url)
+                        {
+                          window.open(upcoming_class?.instructor_url);
+                          Change_Status_Classes(upcoming_class?.classId)
+                        }
                       }
                       className={
                         "bg-[#CFDED7] border-green text-green font-semibold"

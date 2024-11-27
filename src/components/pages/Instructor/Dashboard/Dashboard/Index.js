@@ -101,7 +101,7 @@ const Index = () => {
                     Messages Requests
                   </h3>
                 </div>
-                {MessagesRequest.length <= 0 ? (
+                {MessagesRequest?.length <= 0 ? (
                   <div className="flex items-center justify-center flex-col mt-24">
                     <FaPaperPlane className="text-[#BDBBB5] text-4xl" />
                     <h3 className="text-black font-semibold text-lg">

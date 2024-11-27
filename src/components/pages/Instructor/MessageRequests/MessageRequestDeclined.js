@@ -43,7 +43,7 @@ const MessageRequestDeclined = () => {
   return (
     <>
       {loading && <Spinner />}
-      {MessageRequestdata.length <= 0 && (
+      {MessageRequestdata?.length <= 0 && (
         <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
           <FaPaperPlane className="text-[80px] text-[#BDBBB5]" />
           <h2 className="text-[26px] font-medium text-center mt-7">

@@ -16,6 +16,21 @@ export const Student_get_Upcoming_Classes = async () => {
   }
 };
 
+export const Change_class_status = async (classId) => {
+  try {
+    let response = await axios({
+      method: "PUT",
+      url: `${baseURL}/student/myclass/joinclass/${classId}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
+
 export const Student_Payment = async (studentId,classId,bookingId,instructorId) => {
   try {
     let response = await axios({

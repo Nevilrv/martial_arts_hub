@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { WorkOut } from "../../../../assets/icon";
 import Wrestling from "../../../../assets/images/Wrestling.png";
-import { RiEditBoxFill } from "react-icons/ri";
 import OutlineBtn from "../../common/OutlineBtn";
-// import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Student_get_Upcoming_Classes, Student_Payment } from "../../../services/student/class";
+import {
+  Change_class_status,
+  Student_get_Upcoming_Classes,
+  Student_Payment,
+} from "../../../services/student/class";
 import Spinner from "../../../layouts/Spinner";
 
 const OngoingClasses = () => {
@@ -19,6 +21,16 @@ const OngoingClasses = () => {
     if (result?.success === true) {
       setUpcomingClass(result.data.ongoing);
       toast.success(result?.message);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+  const Change_Status_Classes = async (classId) => {
+    setLoading(true);
+    const result = await Change_class_status(classId);
+    if (result?.success === true) {
       setLoading(false);
     } else {
       setLoading(false);
@@ -58,7 +70,7 @@ const OngoingClasses = () => {
   return (
     <>
       {loading && <Spinner />}
-      {upcomingClass.length <= 0 ? (
+      {upcomingClass?.length <= 0 ? (
         <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
           <WorkOut height={"110"} width={"110"} />
           <h2 className="text-[26px] font-medium text-center mt-7">
@@ -117,13 +129,14 @@ const OngoingClasses = () => {
                 <OutlineBtn
                   text={"Join Class"}
                   className={"bg-Green-100 border-green text-green"}
-                  onClick={() =>
+                  onClick={() => {
                     window.open(
                       upcoming_class.student_url,
                       "_blank",
                       "noopener,noreferrer"
-                    )
-                  }
+                    );
+                    Change_Status_Classes(upcoming_class?.classId)
+                  }}
                 />
               )}
             </div>

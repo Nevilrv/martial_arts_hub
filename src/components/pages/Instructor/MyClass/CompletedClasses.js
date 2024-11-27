@@ -5,11 +5,8 @@ import Wrestling from "../../../../assets/images/Wrestling.png";
 import OutlineBtn from "../../common/OutlineBtn";
 import { toast } from "react-toastify";
 import { Instructor_get_Upcoming_Classes } from "../../../services/Instructor/createClass/Index";
-import { useNavigate } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
 
 const CompletedClasses = () => {
-  const navigate = useNavigate();
   // eslint-disable-next-line
   const [loading, setLoading] = useState(false)
   // eslint-disable-next-line;
@@ -91,7 +88,7 @@ const CompletedClasses = () => {
                 </div>
               </div>
               <OutlineBtn
-                text={`Completed on ${upcoming_class?.date}`}
+                text={`Completed on ${upcoming_class?.startsOn}`}
                 className={"bg-black border-none text-white"}
               />
             </div>

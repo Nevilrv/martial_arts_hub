@@ -52,7 +52,7 @@ const ForgotPassword = () => {
   // OTP match
   const handleInputChange = (index, e) => {
     const value = e.target.value;
-    if (/^\d$/.test(value) && index < inputRefs.length - 1) {
+    if (/^\d$/.test(value) && index < inputRefs?.length - 1) {
       inputRefs[index + 1].current.focus();
     }
     const newValue =
