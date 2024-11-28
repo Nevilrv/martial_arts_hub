@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import Tabs from "..";
 import Select from "react-select";
-import { AccountCreate, AccountRegister } from "../../../services/Instructor/banckAccountDetails/accountdetals";
+import {
+  AccountCreate,
+  AccountRegister,
+} from "../../../services/Instructor/banckAccountDetails/accountdetals";
 import OutlineBtn from "../../common/OutlineBtn";
 import Spinner from "../../../layouts/Spinner";
 
@@ -67,15 +70,19 @@ const BankAccountDetails = () => {
   };
 
   const Account_Create = async (accountid) => {
-    const result = await AccountCreate(accountid, JSON.parse(localStorage.getItem("_id")));
+    const result = await AccountCreate(
+      accountid,
+      JSON.parse(localStorage.getItem("_id"))
+    );
     if (result?.success === true) {
-        window.open(result.data.url, '_blank', 'noopener,noreferrer')
+      window.open(result.data.url, "_blank", "noopener,noreferrer");
     } else {
       seterrormess(result.message);
     }
   };
 
   const send_countries = async () => {
+    setLoading(true);
     const body = {
       instructorId: JSON.parse(localStorage.getItem("_id")),
       country: selectedTimeSlot.value,
@@ -83,8 +90,8 @@ const BankAccountDetails = () => {
     };
     const result = await AccountRegister(body);
     if (result?.success === true) {
-        Account_Create(result.data.accountId)
-        setLoading(false);
+      Account_Create(result.data.accountId);
+      setLoading(false);
     } else {
       seterrormess(result.message);
       setLoading(false);
@@ -93,10 +100,10 @@ const BankAccountDetails = () => {
 
   return (
     <>
-        {Loading&&<Spinner/>}
+      {Loading && <Spinner />}
       <Tabs />
       <div className="h-screen flex items-center justify-center">
-        <div className="flex w-full items-center justify-center gap-3">
+        <div className="flex w-full items-end justify-center gap-3">
           <div className="w-1/2">
             <p className="mb-2">
               Note 1 : Kyc time please do not refresh page and alos click return
@@ -119,7 +126,11 @@ const BankAccountDetails = () => {
             </div>
             <p className="mt-3">{errormess}</p>
           </div>
-          <OutlineBtn text={"select country"} onClick={send_countries} />
+          <OutlineBtn
+            text={"select country"}
+            className={"mb-6"}
+            onClick={send_countries}
+          />
         </div>
       </div>
     </>

@@ -8,6 +8,7 @@ import {
   Instructor_End_Class,
   Instructor_get_Upcoming_Classes,
 } from "../../../services/Instructor/createClass/Index";
+import Spinner from "../../../layouts/Spinner";
 
 const OngoingClasses = (props) => {
   // eslint-disable-next-line
@@ -59,6 +60,7 @@ const OngoingClasses = (props) => {
 
   return (
     <>
+    {loading && <Spinner />}
       {upcomingClass?.length <= 0 ? (
         <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
           <WorkOut height={"110"} width={"110"} />

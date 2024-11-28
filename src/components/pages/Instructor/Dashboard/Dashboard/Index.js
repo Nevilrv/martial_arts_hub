@@ -94,8 +94,8 @@ const Index = () => {
           <div className="lg:col-span-2 grid lg:grid-cols-2 gap-5">
             <ClassRequestcard cardDetails={ClassCard} data={Class} />
             <DashboardCard cardDetails={EarningsCard} earnings={earning} />
-            <div className="lg:col-span-2 bg-gay-600 rounded-3xl">
-              <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[375px] overflow-y-auto">
+            <div className="lg:col-span-2 bg-gay-600 rounded-3xl w-full overflow-x-auto">
+              <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[375px] overflow-auto w-full">
                 <div className="flex items-center justify-between">
                   <h3 className="text-gay-300 text-lg font-medium">
                     Messages Requests
@@ -115,11 +115,10 @@ const Index = () => {
                     </p>
                   </div>
                 ) : (
-                  <div className="w-full overflow-x-auto">
-                    {MessagesRequest.map((Request) => (
-                      <div className=" h-[115px] flex items-center justify-between border-b border-gay-400 min-w-[843px]">
+                    MessagesRequest.map((Request) => (
+                      <div className="md:h-[115px] md:py-0 py-3 flex items-center justify-between border-b border-gay-400 min-w-[840px]">
                         <div className="flex items-center">
-                          <div className="w-[82px] h-[82px] overflow-hidden rounded-full">
+                          <div className="min-w-[82px] h-[82px] overflow-hidden rounded-full">
                             <img
                               src={Request.profile_picture}
                               alt="Wrestling"
@@ -165,8 +164,7 @@ const Index = () => {
                           />
                         </div>
                       </div>
-                    ))}
-                  </div>
+                    ))
                 )}
               </div>
             </div>

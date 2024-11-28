@@ -5,6 +5,7 @@ import Wrestling from "../../../../assets/images/Wrestling.png";
 import OutlineBtn from "../../common/OutlineBtn";
 import { toast } from "react-toastify";
 import { Instructor_get_Upcoming_Classes } from "../../../services/Instructor/createClass/Index";
+import Spinner from "../../../layouts/Spinner";
 
 const CompletedClasses = () => {
   // eslint-disable-next-line
@@ -14,6 +15,7 @@ const CompletedClasses = () => {
   const id = JSON.parse(localStorage.getItem("_id"));
 
   const Get_Upcoming_Classes = async () => {
+    setLoading(true);
     const result = await Instructor_get_Upcoming_Classes(id);
     if (result?.success === true) {
       setLoading(false);
@@ -30,6 +32,7 @@ const CompletedClasses = () => {
   }, []);
   return (
     <>
+    {loading && <Spinner />}
       {upcomingClass?.length <= 0 ? (
         <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
           <WorkOut height={"110"} width={"110"} />

@@ -24,8 +24,8 @@ const UpcomingClass = (props) => {
       toast.success(result?.message);
       setLoading(false);
     } else {
-      setLoading(false);
       toast.error(result?.message);
+      setLoading(false);
     }
   };
   useEffect(() => {

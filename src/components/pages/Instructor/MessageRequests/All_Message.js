@@ -11,6 +11,8 @@ import {
   Student_Message_status,
 } from "../../../services/Instructor/MessageRequests/MessageRequests";
 import dayjs from "dayjs";
+import Spinner from "../../../layouts/Spinner";
+import { toast } from "react-toastify";
 
 const All_Message = () => {
   const [MessageRequest, setMessageRequest] = useState(false);
@@ -22,6 +24,7 @@ const All_Message = () => {
   const [loading, setLoading] = useState(false);
 
   const Get_requests_pending = async () => {
+    setLoading(true);
     const result = await Get_Requests_Pending();
     if (result?.success === true) {
       setLoading(false);
@@ -45,12 +48,13 @@ const All_Message = () => {
   };
 
   const heandleViewRequest = async (messageReques) => {
+    setLoading(true);
     const studentId = messageReques.Student.studentId;
     const result = await Student_Message_Request(studentId);
     if (result?.success === true) {
-      setLoading(false);
       setStudentMessageRequest(result.data);
       setNotificationId(result.data.notificationId);
+      setLoading(false);
     } else {
       setLoading(false);
     }
@@ -58,18 +62,22 @@ const All_Message = () => {
   };
 
   const heandleRequest = async (status) => {
+    setLoading(true);
     const body = {
       status: status,
     };
     const result = await Student_Message_status(NotificationId, body);
     if (result?.success === true) {
+      toast.success(result.message)
+      setMessageRequest(false);
+      Get_requests_pending()
       setLoading(false);
-      console.log(result.data, "======>heandleRequest");
     } else {
+      toast.error(result.message)
+      setMessageRequest(false);
       setLoading(false);
     }
-
-    setMessageRequest(true);
+    
   };
 
   useEffect(() => {
@@ -78,6 +86,7 @@ const All_Message = () => {
 
   return (
     <>
+    {loading && <Spinner />}
       {MessageRequestdata?.length <= 0 && (
         <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
           <FaPaperPlane className="text-[80px] text-[#BDBBB5]" />

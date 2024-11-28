@@ -55,6 +55,8 @@ const ClassRequestcard = ({ cardDetails, data }) => {
                   onClick={()=>window.open(classdata.instructor_url, '_blank', 'noopener,noreferrer')}
                 />
               </div>
+            
+              <div className="grid md:grid-cols-2 items-center">
               <div className="mt-1">
                 <div className="flex items-center">
                   <p className="text-black/50 text-[15px] font-semibold">
@@ -65,7 +67,6 @@ const ClassRequestcard = ({ cardDetails, data }) => {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center">
                 <div className="flex items-center">
                   <p className="text-black/50 text-[15px] font-semibold">
                     Created on:{" "}

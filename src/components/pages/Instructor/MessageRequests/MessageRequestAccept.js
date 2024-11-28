@@ -17,6 +17,7 @@ const MessageRequestAccept = () => {
   const [StudentData, setStudentData] = useState({});
 
   const Get_requests_pending = async () => {
+    setLoading(true);
     const result = await Get_Requests_Pending();
     if (result?.success === true) {
       setLoading(false);

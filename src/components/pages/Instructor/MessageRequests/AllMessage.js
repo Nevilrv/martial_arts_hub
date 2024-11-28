@@ -4,6 +4,7 @@ import All_Message from "./All_Message";
 import MessageRequestAccept from "./MessageRequestAccept";
 import MessageRequestDeclined from "./MessageRequestDeclined";
 import Tabs from "../index";
+import Spinner from "../../../layouts/Spinner";
 
 const AllMessage = () => {
   const [calssType, setcalssType] = useState("Pending");

@@ -15,6 +15,7 @@ const EarningsReport = () => {
   const id = JSON.parse(localStorage.getItem("_id"));
 
   const Get_Earnings = async () => {
+    setLoading(true);
     const result = await getEarnings(id);
     if (result?.success === true) {
       setEarnings(result.data);

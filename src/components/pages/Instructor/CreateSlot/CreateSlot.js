@@ -18,32 +18,38 @@ import Spinner from "../../../layouts/Spinner";
 
 const CreateSlot = () => {
   // slot time
-
   const [selectedTimeSlot, setselectedTimeSlot] = useState([]);
   const [classType, setClassType] = useState("Online");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const TimeSlot = [];
-  TimeSlot.push({
-    value: "24:00 To 01:00",
-    label: "24:00 To 01:00",
-  });
-  for (let hour = 1; hour < 23; hour++) {
+  const currentHour = new Date().getHours();
+  if (currentHour === 0) {
+    TimeSlot.push({
+      value: "24:00 To 01:00",
+      label: "24:00 To 01:00",
+    });
+  }
+  for (let hour = 0; hour < 23; hour++) {
+    if (hour <= currentHour) continue;
+  
     let startHour = hour.toString().padStart(2, "0");
     let endHour = ((hour + 1) % 24).toString().padStart(2, "0");
-
+  
     let timeRange = `${startHour}:00 To ${endHour}:00`;
-
+  
     TimeSlot.push({
       value: timeRange,
       label: timeRange,
     });
   }
-  TimeSlot.push({
-    value: "23:00 To 24:00",
-    label: "23:00 To 24:00",
-  });
+  if (23 >= currentHour) {
+    TimeSlot.push({
+      value: "23:00 To 24:00",
+      label: "23:00 To 24:00",
+    });
+  }
 
   const handleChange = (e) => {
     setFormData({
@@ -58,8 +64,8 @@ const CreateSlot = () => {
   });
 
   const handleSubmit = async () => {
+    setLoading(true);
     let TimeSlot = [];
-    console.log("🚀", TimeSlot);
     for (let i = 0; i < selectedTimeSlot?.length; i++) {
       TimeSlot.push(selectedTimeSlot[i].value);
     }
@@ -71,7 +77,6 @@ const CreateSlot = () => {
       classType: classType,
       instructorId: JSON.parse(localStorage.getItem("_id")),
     };
-    console.log(body, "========>");
 
     const result = await Instructor_Create_Slot(body);
     if (result?.success === true) {

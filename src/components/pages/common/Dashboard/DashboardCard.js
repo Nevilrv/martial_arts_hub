@@ -6,8 +6,8 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 const DashboardCard = ({ cardDetails, data, earnings }) => {
   return (
     <>
-      <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[375px] overflow-y-auto">
-        <div className="flex items-center justify-between">
+      <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[375px] overflow-auto">
+        <div className="flex items-center justify-between min-w-[448px]">
           <h3 className="text-gay-300 text-lg font-medium">
             {cardDetails.CardTitle}
           </h3>
@@ -37,7 +37,6 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
               </p>
             </div>
           ))}
-        <div className="w-full overflow-x-auto">
           {data?.map((payments) => (
             <div className="min-w-[448px]">
               <div className="flex items-center justify-between mt-7">
@@ -80,26 +79,27 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
               </div>
             </div>
           ))}
-        </div>
-        {earnings?.formatedData?.map((earning) => (
-          <div className="flex items-center justify-between mt-7 gap-4 min-w-[448px]">
-            <img
-              src={earning.profile}
-              alt="userimage"
-              className="w-[56px] h-[56px] rounded-full object-cover object-top grayscale"
-            />
-            <div>
-              <h2 className="text-black font-medium">{earning.studentName}</h2>
-              <p className="text-black/70 font-light">
-                <span className="font-medium">Class Name:</span>{" "}
-                {earning.className} •{" "}
-                <span className="font-medium">Class Date:</span>{" "}
-                {earning.classDate}
-              </p>
-            </div>
-            <h2 className="text-lg text-red-200 font-semibold">$5.99</h2>
-          </div>
-        ))}
+          {earnings?.formatedData?.map((earning) => (
+              <div className="flex items-center justify-between mt-7 gap-4 min-w-[448px]">
+                <img
+                  src={earning.profile}
+                  alt="userimage"
+                  className="w-[56px] h-[56px] rounded-full object-cover object-top grayscale"
+                />
+                <div>
+                  <h2 className="text-black font-medium">
+                    {earning.studentName}
+                  </h2>
+                  <p className="text-black/70 font-light">
+                    <span className="font-medium">Class Name:</span>{" "}
+                    {earning.className} •{" "}
+                    <span className="font-medium">Class Date:</span>{" "}
+                    {earning.classDate}
+                  </p>
+                </div>
+                <h2 className="text-lg text-red-200 font-semibold">$5.99</h2>
+              </div>
+          ))}
       </div>
     </>
   );

@@ -74,7 +74,7 @@ const Dashboard = () => {
               cardDetails={PaymentsCard}
               data={studentData.payments}
             />
-            <div className="lg:col-span-2 bg-gay-600 rounded-3xl">
+            <div className="lg:col-span-2 bg-gay-600 rounded-3xl  overflow-auto">
               <RecentClasses
                 cardDetails={RecentClasseCard}
                 data={studentData.recentClass}

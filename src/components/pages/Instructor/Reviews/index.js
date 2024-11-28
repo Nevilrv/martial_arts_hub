@@ -6,10 +6,10 @@ import Spinner from "../../../layouts/Spinner";
 
 const Index = () => {
   const [reviewsList, setReviewsList] = useState([]);
-  console.log("🚀 ~ Index ~ reviewsList:", reviewsList);
   const [loading, setLoading] = useState(false);
-
   const Get_Reviews = async () => {
+    setLoading(true);
+
     const result = await Get_Reviews_List();
     if (result?.success === true) {
       setLoading(false);

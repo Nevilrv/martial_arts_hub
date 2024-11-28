@@ -9,7 +9,7 @@ const RecentClasses = ({ cardDetails, data }) => {
   const navigate = useNavigate();
   return (
     <>
-      <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[400px] overflow-y-auto">
+      <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[400px] min-w-[548px]">
         <div className="flex items-center justify-between">
           <h3 className="text-gay-300 text-lg font-medium">
             {cardDetails.CardTitle}
@@ -20,7 +20,6 @@ const RecentClasses = ({ cardDetails, data }) => {
             </div>
           ) : null}
         </div>
-        <div className="w-full overflow-x-auto">
           {data?.length === 0 && (
             <div className="flex items-center justify-center flex-col my-6">
               {cardDetails.CardIcon}
@@ -37,7 +36,7 @@ const RecentClasses = ({ cardDetails, data }) => {
             </div>
           )}
           {data?.map((recentClass) => (
-              <div className="flex items-center justify-between mt-7 flex-wrap gap-y-3">
+              <div className="flex items-center justify-between mt-7 gap-y-3 ">
                 <div className="flex items-start gap-5">
                   <img
                     src={Wrestling}
@@ -59,7 +58,6 @@ const RecentClasses = ({ cardDetails, data }) => {
                 />
               </div>
           ))}
-        </div>
       </div>
     </>
   );

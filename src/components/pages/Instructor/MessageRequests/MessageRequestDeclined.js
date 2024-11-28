@@ -14,10 +14,11 @@ const MessageRequestDeclined = () => {
   const [StudentData, setStudentData] = useState({});
 
   const Get_requests_pending = async () => {
+    setLoading(true);
     const result = await Get_Requests_Pending();
     if (result?.success === true) {
-      setLoading(false);
       setMessageRequestdata(result.data.declined);
+      setLoading(false);
     } else {
       setLoading(false);
     }
