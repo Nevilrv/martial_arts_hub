@@ -21,6 +21,8 @@ const Dashboard = () => {
   const [Admin_Progress_data, setAdmin_Progress_data] = useState([]);
   const [Instructor_Request_List, setInstructor_Request_List] = useState([]);
   const [Loading, setLoading] = useState(false);
+  const currentMonthIndex = new Date().getMonth();
+  const [selectedMonth, setSelectedMonth] = useState(currentMonthIndex + 1);
   const navigate = useNavigate();
 
   const data = [
@@ -80,6 +82,26 @@ const Dashboard = () => {
       color: "text-black",
     },
   ];
+  // months
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const handleChange = (event) => {
+    setSelectedMonth(event.target.value);
+  };
+  
+
   // Dashboard card API
   const Get_Admin_Dashboard = async () => {
     setLoading(true);
@@ -104,14 +126,12 @@ const Dashboard = () => {
   // pie chart data
   const Get_Progress = async () => {
     setLoading(true);
-    const result = await Admin_Progress(11);
+    const result = await Admin_Progress(selectedMonth);
     if (result?.success === true) {
       const processedData = result.data.map((item) =>
         item === null ? 0 : item
       );
       setAdmin_Progress_data(processedData);
-      // setDashboardCard(result.data);
-      // toast.success(result?.message);
       setLoading(false);
     } else {
       if (
@@ -145,8 +165,10 @@ const Dashboard = () => {
   useEffect(() => {
     Get_Admin_Dashboard();
     Get_Instructor_Requests();
-    Get_Progress();
   }, []);
+  useEffect(() => {
+    Get_Progress();
+  }, [selectedMonth]);
 
   return (
     <>
@@ -189,13 +211,18 @@ const Dashboard = () => {
               <div className="flex items-center justify-between">
                 <p className="text-lg font-bold text-gay-300">Progress</p>
                 <select
-                  name=""
-                  id=""
-                  className="bg-transparent px-2 py-2 rounded-full border border-black/30"
-                >
-                  <option value="monthly">Monthly</option>
-                  <option value="yearly">Yearly</option>
-                </select>
+            id="Monthly"
+            name="Monthly"
+            value={selectedMonth}
+            onChange={handleChange}
+            className="bg-transparent focus:outline-none px-3 border border-black/25 h-[35px] rounded-full"
+          >
+            {months.map((monthList, index) => (
+              <option key={index} value={index + 1}>
+                {monthList}
+              </option>
+            ))}
+          </select>
               </div>
               <div className="flex items-center justify-center">
                 {Admin_Progress_data?.length >= 0 && (

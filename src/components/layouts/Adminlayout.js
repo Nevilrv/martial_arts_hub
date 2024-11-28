@@ -16,6 +16,7 @@ import { BiChevronDown, BiSolidDashboard } from "react-icons/bi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Routing } from "../shared/Routing";
 import {
+  Allert_Popup_Icon,
   DashboardDiscipline,
   DashboardDispute,
   DashboardFinanceManagement,
@@ -24,6 +25,7 @@ import {
   DashboardUserIcon,
 } from "../../assets/icon";
 import { LuLogOut } from "react-icons/lu";
+import Popup from "../pages/common/Popup";
 
 const SidbarNavigation = [
   {
@@ -169,6 +171,7 @@ const Adminlayout = ({ children }) => {
   };
   const heandleLogout = () => {
     localStorage.clear();
+    SetisOpen(false);
     navigate(Routing.Initial);
   };
 
@@ -517,6 +520,20 @@ const Adminlayout = ({ children }) => {
       ) : (
         children
       )}
+
+      <Popup
+        Icons={<Allert_Popup_Icon />}
+        Headding={"Are you sure?"}
+        BodyText={
+          "Are you sure you want to log out from your martial arts hub account?"
+        }
+        isOpen={isOpen}
+        SetisOpen={SetisOpen}
+        onClick={heandleLogout}
+        BtnText={"Log Out"}
+        BtnText2={"Go Back"}
+        BtnText2Click={() => SetisOpen(false)}
+      />
     </>
   );
 };

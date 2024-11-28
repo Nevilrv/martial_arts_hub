@@ -23,7 +23,7 @@ const Videocall = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, 
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
@@ -34,6 +34,7 @@ const Videocall = () => {
         token,
         role,
         enableVideo: true,
+        enableScreensharing: true,
         enableAudio: true,
       });
       toast.success(response.message);
