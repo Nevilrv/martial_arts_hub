@@ -61,7 +61,7 @@ const Videocall = () => {
   };
   const styleProps = {
     localBtnContainer: { backgroundColor: "#007bff" },
-    remoteBtnContainer: { backgroundColor: "#dc3545" },
+    remoteBtnContainer: { backgroundColor: "#969696", width: "83.4%" },
     UIKitContainer: { height: "calc(100vh - 85px)", width: "100%" },
   };
 
