@@ -15,54 +15,71 @@ import { toast } from "react-toastify";
 import { Instructor_Create_Slot } from "../../../services/Instructor/createClass/Index";
 import Select from "react-select";
 import Spinner from "../../../layouts/Spinner";
+import dayjs from "dayjs";
 
 const CreateSlot = () => {
   // slot time
   const [selectedTimeSlot, setselectedTimeSlot] = useState([]);
   const [classType, setClassType] = useState("Online");
   const [loading, setLoading] = useState(false);
+  const [FormData, setFormData] = useState({
+    classdate: "",
+    classRate: "",
+  });
   const navigate = useNavigate();
-
   const TimeSlot = [];
-  const currentHour = new Date().getHours();
-  if (currentHour === 0) {
+  if (FormData.classdate === dayjs(new Date()).format("YYYY-MM-DD")) {
+    const currentHour = new Date().getHours();
+    if (currentHour === 0) {
+      TimeSlot.push({
+        value: "24:00 To 01:00",
+        label: "24:00 To 01:00",
+      });
+    }
+    for (let hour = 0; hour < 23; hour++) {
+      if (hour <= currentHour) continue;
+
+      let startHour = hour.toString().padStart(2, "0");
+      let endHour = ((hour + 1) % 24).toString().padStart(2, "0");
+
+      let timeRange = `${startHour}:00 To ${endHour}:00`;
+
+      TimeSlot.push({
+        value: timeRange,
+        label: timeRange,
+      });
+    }
+    if (23 >= currentHour) {
+      TimeSlot.push({
+        value: "23:00 To 24:00",
+        label: "23:00 To 24:00",
+      });
+    }
+  } else {
     TimeSlot.push({
       value: "24:00 To 01:00",
       label: "24:00 To 01:00",
     });
-  }
-  for (let hour = 0; hour < 23; hour++) {
-    if (hour <= currentHour) continue;
-  
-    let startHour = hour.toString().padStart(2, "0");
-    let endHour = ((hour + 1) % 24).toString().padStart(2, "0");
-  
-    let timeRange = `${startHour}:00 To ${endHour}:00`;
-  
-    TimeSlot.push({
-      value: timeRange,
-      label: timeRange,
-    });
-  }
-  if (23 >= currentHour) {
+    for (let hour = 1; hour < 23; hour++) {
+      let startHour = hour.toString().padStart(2, "0");
+      let endHour = ((hour + 1) % 24).toString().padStart(2, "0");
+      let timeRange = `${startHour}:00 To ${endHour}:00`;
+      TimeSlot.push({
+        value: timeRange,
+        label: timeRange,
+      });
+    }
     TimeSlot.push({
       value: "23:00 To 24:00",
       label: "23:00 To 24:00",
     });
   }
-
   const handleChange = (e) => {
     setFormData({
       ...FormData,
       [e.target.name]: e.target.value,
     });
   };
-
-  const [FormData, setFormData] = useState({
-    classdate: "",
-    classRate: "",
-  });
-
   const handleSubmit = async () => {
     setLoading(true);
     let TimeSlot = [];
@@ -91,7 +108,7 @@ const CreateSlot = () => {
 
   return (
     <>
-    {loading&&<Spinner/>}
+      {loading && <Spinner />}
       <Tabs>
         <div className="mt-11 px-3 lg:px-8">
           <h1 className="text-black text-3xl font-semibold">Create Slot</h1>
@@ -107,7 +124,6 @@ const CreateSlot = () => {
                 <input
                   type="date"
                   name="classdate"
-                  placeholder="DD/MM/YY"
                   className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[80px] rounded-2xl"
                   onChange={(e) => handleChange(e)}
                 />
@@ -120,11 +136,11 @@ const CreateSlot = () => {
                 </label>
                 <div className="TimeSlot">
                   <Select
-                   defaultValue={selectedTimeSlot}
-                   onChange={setselectedTimeSlot}
-                   options={TimeSlot}
-                   isMulti
-                   onMenuOpen={() => {}}
+                    defaultValue={selectedTimeSlot}
+                    onChange={setselectedTimeSlot}
+                    options={TimeSlot}
+                    isMulti
+                    onMenuOpen={() => {}}
                   />
                 </div>
               </div>
