@@ -67,30 +67,20 @@ const Videocall = () => {
     localBtnContainer: {
       backgroundColor: "#969696",
       width: "83.4%",
-      borderColor: "#ff0000", // Border color for button container
-      borderWidth: 2, // Border width for button container
-      borderRadius: 8, // Rounded corners for button container
     },
     remoteBtnContainer: {
       backgroundColor: "#969696",
       width: "83.4%",
-      borderColor: "#00ff00",
-      borderWidth: 2,
-      borderRadius: 8,
     },
     localBtnStyles: {
-      backgroundColor: "#0000ff", // Background color of the local buttons
-      color: "#ffffff", // Icon color for the buttons
-      borderColor: "#ff00ff", // Border color of the buttons
-      borderWidth: 1, // Border width for the buttons
-      borderRadius: 5, // Rounded corners for buttons
+      backgroundColor: "transparent", 
+      color: "#000", 
+      borderColor: "#000", 
     },
     remoteBtnStyles: {
-      backgroundColor: "#ffcc00",
+      backgroundColor: "#000",
       color: "#000000",
-      borderColor: "#ff9900",
-      borderWidth: 1,
-      borderRadius: 5,
+      borderColor: "#000",
     },
     UIKitContainer: {
       height: "calc(100vh - 85px)",
