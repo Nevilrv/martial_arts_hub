@@ -47,6 +47,7 @@ const BookClass = () => {
     studentEmail: "",
     mobileNumber: "",
     classRate: "",
+    timeslotId:""
   });
 
   const [TimeSlot, setTimeSlot] = useState([]);
@@ -95,11 +96,11 @@ const BookClass = () => {
         label: slot,
         value: slot,
       }));
-
       setTimeSlot(formattedTimeSlots);
       setheandalChangeData((prevState) => ({
         ...prevState,
         classRate: result?.data[0]?.classRate,
+        timeslotId:result?.data[0]?.timeslotId
       }));
     } else {
       setLoading(false);
@@ -150,6 +151,7 @@ const BookClass = () => {
       studentEmail: JSON.parse(localStorage.getItem("email")),
       mobileNumber: heandalChangeData.mobileNumber,
       instructorId: instructorId,
+      timeslotId:heandalChangeData.timeslotId
     };
     const result = await Payment_Book_class(
       JSON.parse(localStorage.getItem("_id")),
@@ -163,6 +165,7 @@ const BookClass = () => {
         classRate: "",
       });
       setSelectedTimeSlot([]);
+      navigate(Routing.StudentMyClass)
       setSelectedMailingLists();
     } else {
       setLoading(false);

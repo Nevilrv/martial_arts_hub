@@ -178,7 +178,6 @@ const InstructorProfile = () => {
     const result = await GetLikesChek(JSON.parse(localStorage.getItem("_id")));
     if (result?.success === true) {
       setLoading(false);
-      console.log(result.data, "=======>like api");
       result.data.forEach((data) => {
         if (data.instructorId === id) {
           setLike(true); // Set like to false if condition matches
