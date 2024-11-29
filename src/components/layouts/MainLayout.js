@@ -10,7 +10,7 @@ const MainLayout = ({ children }) => {
 
   return (
     <>
-      {pathname.slice(0, 6) === "/admin" ? (
+      {pathname?.slice(0, 6) === "/admin" ? (
         <Adminlayout>{children}</Adminlayout>
       ) : (
         <>

@@ -56,7 +56,6 @@ const Dashboard = () => {
   };
   useEffect(() => {
     Getdata();
-    // eslint-disable-next-line
   }, []);
 
   return (

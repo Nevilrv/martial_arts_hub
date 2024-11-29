@@ -144,7 +144,7 @@ const FinanceDashboard = () => {
           <div className="bg-[#E1DFD7] rounded-xl p-6">
             <p className="text-gay-300 text-base ">Total Funds</p>
             <h2 className="text-Dark_black text-[32px] font-semibold pb-3 border-b border-gay-300/25">
-              ${Earningdata?.Admin_Earnings?.Admin_Earnings}
+              ${Earningdata?.Admin_Earnings?.Admin_Earnings===null||""?0:Earningdata?.Admin_Earnings?.Admin_Earnings}
             </h2>
             <div className="flex items-center mt-4">
               {Earningdata?.Admin_Earnings?.Admin_Earnings_Growth > 0 ? (
@@ -170,7 +170,7 @@ const FinanceDashboard = () => {
           <div className="bg-[#E1DFD7] rounded-xl p-6">
             <p className="text-gay-300 text-base ">Released Funds</p>
             <h2 className="text-Dark_black text-[32px] font-semibold pb-3 border-b border-gay-300/25">
-              ${Earningdata?.Release_Funds?.Release_Funds}
+              ${Earningdata?.Release_Funds?.Release_Funds===null||""?0:Earningdata?.Release_Funds?.Release_Funds}
             </h2>
             <div className="flex items-center mt-4">
               {Earningdata?.Release_Funds?.Release_Funds_Growth > 0 ? (
@@ -195,7 +195,7 @@ const FinanceDashboard = () => {
           <div className="bg-[#E1DFD7] rounded-xl p-6">
             <p className="text-gay-300 text-base ">Refunded Funds</p>
             <h2 className="text-Dark_black text-[32px] font-semibold pb-3 border-b border-gay-300/25">
-              ${Earningdata?.refund_Funds?.refund_Funds}
+              ${Earningdata?.refund_Funds?.refund_Funds===null||""?0:Earningdata?.refund_Funds?.refund_Funds}
             </h2>
             <div className="flex items-center mt-4">
               {Earningdata?.refund_Funds?.refund_Funds_Growth > 0 ? (
@@ -220,7 +220,7 @@ const FinanceDashboard = () => {
           <div className="bg-[#E1DFD7] rounded-xl p-6">
             <p className="text-gay-300 text-base ">Admin Earnings</p>
             <h2 className="text-Dark_black text-[32px] font-semibold pb-3 border-b border-gay-300/25">
-              ${Earningdata?.total_Funds?.total_Funds}
+              ${Earningdata?.total_Funds?.total_Funds===null||""?0:Earningdata?.total_Funds?.total_Funds}
             </h2>
             <div className="flex items-center mt-4">
               {Earningdata?.total_Funds?.total_Funds_Growth > 0 ? (
@@ -384,7 +384,7 @@ const FinanceDashboard = () => {
                       <span className="font-semibold">
                         Student • Class Name:
                       </span>{" "}
-                      {transaction?.className.slice(0, 20)} •{" "}
+                      {transaction?.className?.slice(0, 20)} •{" "}
                       <span className="font-semibold">Class Date:</span>{" "}
                       {dayjs(transaction?.classdate).format("DD MMM, YYYY")}
                     </p>
@@ -491,7 +491,7 @@ const FinanceDashboard = () => {
                 Total Released Funds
               </p>
               <div className="flex items-center gap-7 mt-3">
-                <h2 className="text-black font-semibold text-[34px]">{Lastcalculated?.total_releaseFund?.realseFund}</h2>
+                <h2 className="text-black font-semibold text-[34px]">{Lastcalculated?.total_releaseFund?.realseFund===null?0:Lastcalculated?.total_releaseFund?.realseFund}</h2>
                 <div className={`${Lastcalculated?.total_releaseFund?.Release_Funds_Growth>!0?"bg-green":"bg-red-200"}  px-2 py-1 rounded-full text-white flex items-center justify-center  text-sm font-medium`}>
                   {Lastcalculated?.total_releaseFund?.Release_Funds_Growth}%
                 </div>

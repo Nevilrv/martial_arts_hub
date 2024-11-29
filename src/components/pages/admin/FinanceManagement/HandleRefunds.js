@@ -182,13 +182,13 @@ const HandleRefunds = () => {
                     {person.instructorName}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.instructorId.slice(0, 15)}...
+                    {person.instructorId?.slice(0, 15)}...
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
                     {person.studentName}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.studentId.slice(0, 15)}...
+                    {person.studentId?.slice(0, 15)}...
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
                     $ {person.Amount}

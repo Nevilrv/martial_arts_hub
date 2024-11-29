@@ -6,44 +6,32 @@ import OutlineBtn from "../../common/OutlineBtn";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { FaArrowLeft } from "react-icons/fa";
 
-
 const ReleaseFunds = () => {
   const [InstructorsList, setInstructorsList] = useState([
     {
       image: Instructor1,
       InstructorName: "Keyn Mojho",
-      InstructorID: "#23352",
-      ClassDate: "12/07/2024",
-      Amount: "$4.99",
-      Released: "No",
+      total_Funds: "$5000",
+      current_Month_Total_Funds: "$2500",
+      current_Month_ReFunds: "$0",
+      Total_Payble_Amount: "$2500",
     },
     {
       image: Instructor2,
-      InstructorName: "Kiya John",
-      InstructorID: "#23352",
-      ClassDate: "12/07/2024",
-      Amount: "$4.99",
-      Released: "Yes",
+      InstructorName: "Keyn Mojho",
+      total_Funds: "$5000",
+      current_Month_Total_Funds: "$2500",
+      current_Month_ReFunds: "$500",
+      Total_Payble_Amount: "$2000",
     },
   ]);
   const [isOpen, SetisOpen] = useState(false);
- 
 
   return (
     <>
       <div className="flex items-center justify-between">
         <AdminHeadding Headding={"Release Funds"} />
         <div className="flex items-center gap-2 flex-wrap">
-          <select
-            id="ID"
-            name="ID"
-            defaultValue="ID"
-            className="bg-transparent focus:outline-none px-3 border border-black/25 h-[35px] rounded-full"
-          >
-            <option>ID</option>
-            <option>#23352</option>
-            <option>#23352</option>
-          </select>
           <select
             id="Class Date"
             name="Class Date"
@@ -85,25 +73,25 @@ const ReleaseFunds = () => {
                   scope="col"
                   className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900"
                 >
-                  Instructor ID
+                  Total Funds
                 </th>
                 <th
                   scope="col"
                   className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900"
                 >
-                  Class Date
+                  current Month Total Funds
                 </th>
                 <th
                   scope="col"
                   className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900"
                 >
-                  Amount
+                  current Month ReFunds
                 </th>
                 <th
                   scope="col"
                   className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900"
                 >
-                  Released?
+                  Total_Payble_Amount
                 </th>
                 <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                   <span className="sr-only">Edit</span>
@@ -125,20 +113,21 @@ const ReleaseFunds = () => {
                     {person.InstructorName}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.InstructorID}
+                    {person.total_Funds}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.ClassDate}
+                    {person.current_Month_Total_Funds}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.Amount}
+                    {person.current_Month_ReFunds}
                   </td>
                   <td
-                    className={`whitespace-nowrap px-3 py-4 font-semibold ${
-                      person.Released === "No" ? "text-red-200" : "text-green"
-                    }`}
+                    //  ${
+                    //   person.Released === "No" ? "text-red-200" : "text-green"
+                    // }
+                    className={`whitespace-nowrap px-3 py-4 font-semibold`}
                   >
-                    {person.Released}
+                    {person.Total_Payble_Amount}
                   </td>
                   <td className="whitespace-nowrap px-3 pr-6 py-4 text-Dark_black font-medium w-[200px]">
                     <div className="flex items-center gap-2 justify-end">
@@ -147,10 +136,10 @@ const ReleaseFunds = () => {
                         className={"text-black h-[45px]"}
                         onClick={() => SetisOpen(true)}
                       />
-                      <OutlineBtn
+                      {/* <OutlineBtn
                         text={"Release"}
                         className={"text-white bg-red-200 border-none h-[45px]"}
-                      />
+                      /> */}
                     </div>
                   </td>
                 </tr>
@@ -214,57 +203,72 @@ const ReleaseFunds = () => {
                     <p className="text-center text-black/50">(Student)</p>
                   </div>
                   <div className="w-full">
-                    <p className="text-gay-300 text-[13px]">Class Date</p>
+                    <p className="text-gay-300 text-[13px]">Join Date</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
                       12/07/2024
                     </div>
                   </div>
                   <div className="w-full">
-                    <p className="text-gay-300 text-[13px]">Student Name</p>
+                    <p className="text-gay-300 text-[13px]">Toal Payment</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      Keyn Mojho
-                    </div>
-                  </div>
-                  <div className="w-full">
-                    <p className="text-gay-300 text-[13px]">Class Name</p>
-                    <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      Brazilian Jiu Jitsu
-                    </div>
-                  </div>
-                  <div className="w-full">
-                    <p className="text-gay-300 text-[13px]">Amount</p>
-                    <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
-                      $4.99
+                      $ 5000
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">
-                      Amount Received Date
+                      Current Month Total Funds
                     </p>
-                    <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
-                      02/07/2024
-                    </div>
-                  </div>
-                  <div className="w-full">
-                    <p className="text-gay-300 text-[13px]">
-                      Received any Dispute?
-                    </p>
-                    <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
-                      No
-                    </div>
-                  </div>
-                  <div className="w-full">
-                    <p className="text-gay-300 text-[13px]">
-                      Dispute Resolved?
-                    </p>
-                    <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
+                        $ 2500
+                      </div>{" "}
                       -
                     </div>
                   </div>
                   <div className="w-full">
-                    <p className="text-gay-300 text-[13px]">Amount Released?</p>
-                    <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-red-200 text-lg font-medium">
-                      No
+                    <p className="text-gay-300 text-[13px]">
+                      Current Month Total Re-Funds
+                    </p>
+                    <div className="flex items-center gap-3">
+                      <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
+                        $ 500
+                      </div>{" "}
+                      =
+                    </div>
+                  </div>
+                  <div className="w-full">
+                    <p className="text-gay-300 text-[13px]">Total Paid Amout</p>
+                    <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
+                      $ 2000
+                    </div>
+                  </div>
+                  <div className="w-full">
+                    <p className="text-gay-300 text-[13px]">Platform Fees</p>
+                    <div className="flex items-center gap-3">
+                      <input
+                        className="bg-[#D8D6CF] px-5 py-4 md:w-[247px] w-full h-[55px] mt-1 rounded-lg text-lg font-medium focus:outline-none placeholder:text-sm placeholder:text-Dark_black/50"
+                        placeholder="Enter your Fess percentage"
+                      />
+                      -
+                    </div>
+                  </div>
+                  <div className="w-full">
+                    <p className="text-gay-300 text-[13px]">
+                      Admin Recive Amount
+                    </p>
+                    <div className="flex items-center gap-3">
+                      <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
+                        $ 200
+                      </div>
+                      =
+                    </div>
+                  </div>
+                  <div className="w-full">
+                    <p className="text-gay-300 text-[13px]">
+                      Final Paid Amout To Instructor
+                    </p>
+                    <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
+                      $ 1800
                     </div>
                   </div>
                 </div>

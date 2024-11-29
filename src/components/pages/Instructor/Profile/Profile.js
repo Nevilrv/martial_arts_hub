@@ -54,20 +54,20 @@ const Profile = () => {
 
   const handleSaveProfile = async () => {
     const formData = new FormData();
-    formData.append("email", instructorDetails.email);
-    formData.append("name", instructorDetails.name);
-    formData.append("country_code", instructorDetails.country_code);
-    formData.append("mobileNo", instructorDetails.mobileNo);
-    formData.append("profile_picture", instructorDetails.profile_picture);
-    formData.append("category", instructorDetails.category);
-    formData.append("availability", instructorDetails.availability);
-    formData.append("bio", instructorDetails.bio);
-    formData.append("tagline", instructorDetails.tagline);
-    formData.append("experience", instructorDetails.experience);
-    formData.append("trainingHistory", instructorDetails.trainingHistory);
-    formData.append("certifications", instructorDetails.certifications);
-    formData.append("keywords", instructorDetails.keywords);
-    formData.append("idProof", instructorDetails.idProof);
+    formData.append("email", instructorDetails?.email);
+    formData.append("name", instructorDetails?.name);
+    formData.append("country_code", instructorDetails?.country_code);
+    formData.append("mobileNo", instructorDetails?.mobileNo);
+    formData.append("profile_picture", instructorDetails?.profile_picture);
+    formData.append("category", instructorDetails?.category);
+    formData.append("availability", instructorDetails?.availability);
+    formData.append("bio", instructorDetails?.bio);
+    formData.append("tagline", instructorDetails?.tagline);
+    formData.append("experience", instructorDetails?.experience);
+    formData.append("trainingHistory", instructorDetails?.trainingHistory);
+    formData.append("certifications", instructorDetails?.certifications);
+    formData.append("keywords", instructorDetails?.keywords);
+    formData.append("idProof", instructorDetails?.idProof);
     formData.append(
       "firstFreeSessionHourlyRate",
       instructorDetails.firstFreeSessionHourlyRate
@@ -102,26 +102,26 @@ const Profile = () => {
     if (result?.success === true) {
       setLoading(false);
       setInstructorDetails({
-        email: result.data.email,
-        name: result.data.name,
+        email: result.data?.email,
+        name: result.data?.name,
         country_code: "+91",
-        mobileNo: result.data.mobileNo,
-        profile_picture: result.data.profile_picture,
-        category: result.data.category,
-        availability: result.data.availability,
-        bio: result.data.bio,
-        tagline: result.data.tagline,
-        experience: result.data.experience,
-        trainingHistory: result.data.trainingHistory,
-        certifications: result.data.certifications,
-        keywords: result.data.keywords,
-        idProof: result.data.idProof,
-        firstFreeSessionHourlyRate: result.data.firstFreeSessionHourlyRate,
-        classTypeFirstFreeSession: result.data.classTypeFirstFreeSession,
+        mobileNo: result?.data?.mobileNo,
+        profile_picture: result?.data?.profile_picture,
+        category: result?.data?.category,
+        availability: result?.data?.availability,
+        bio: result?.data?.bio,
+        tagline: result?.data?.tagline,
+        experience: result?.data?.experience,
+        trainingHistory: result?.data?.trainingHistory,
+        certifications: result?.data?.certifications,
+        keywords: result?.data?.keywords,
+        idProof: result?.data?.idProof,
+        firstFreeSessionHourlyRate: result?.data?.firstFreeSessionHourlyRate,
+        classTypeFirstFreeSession: result?.data?.classTypeFirstFreeSession,
         privateSessionOnlineHourlyRate:
-          result.data.privateSessionOnlineHourlyRate,
+          result?.data?.privateSessionOnlineHourlyRate,
         privateSessionFaceToFaceHourlyRate:
-          result.data.privateSessionFaceToFaceHourlyRate,
+          result?.data?.privateSessionFaceToFaceHourlyRate,
       });
       toast.success(result?.message);
     } else {

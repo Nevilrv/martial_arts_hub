@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tabs from "../index";
 import {
   Label,
@@ -28,6 +28,7 @@ const CreateSlot = () => {
   });
   const navigate = useNavigate();
   const TimeSlot = [];
+  const [minDate, setMinDate] = useState("");
   if (FormData.classdate === dayjs(new Date()).format("YYYY-MM-DD")) {
     const currentHour = new Date().getHours();
     if (currentHour === 0) {
@@ -106,6 +107,11 @@ const CreateSlot = () => {
     }
   };
 
+  useEffect(() => {
+    const today = new Date().toISOString()?.slice(0, 10);
+    setMinDate(today);
+  }, []);
+
   return (
     <>
       {loading && <Spinner />}
@@ -124,6 +130,7 @@ const CreateSlot = () => {
                 <input
                   type="date"
                   name="classdate"
+                  min={minDate}
                   className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[80px] rounded-2xl"
                   onChange={(e) => handleChange(e)}
                 />

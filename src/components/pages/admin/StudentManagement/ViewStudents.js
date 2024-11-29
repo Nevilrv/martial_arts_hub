@@ -148,7 +148,7 @@ const ViewStudents = () => {
                         {person.studentId}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                        {person.className.slice(0,20)}
+                        {person.className?.slice(0,20)}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
                         {person.joindate}

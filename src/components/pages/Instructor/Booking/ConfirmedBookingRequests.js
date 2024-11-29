@@ -36,7 +36,7 @@ const ConfirmedBookingRequests = ({ data }) => {
               <div className="flex items-center">
                 <p className="text-[13px] text-black/70 font-light mt-0.5">
                   <span className="font-medium">Class Name:</span>
-                  {confirm?.message.slice(0, 20)}
+                  {confirm?.message?.slice(0, 20)}
                 </p>
                 <p className="text-[13px] text-black/70 font-light mt-0.5">
                   <span className="font-medium">Class Date:</span>{" "}
