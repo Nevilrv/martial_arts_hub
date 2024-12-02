@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaStarHalfAlt } from "react-icons/fa";
 import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import User from "../../../assets/images/userProfile.jpg"
 
 const InstructorsCard = ({ data,HeandleLike }) => {
   // eslint-disable-next-line
@@ -33,7 +34,7 @@ const InstructorsCard = ({ data,HeandleLike }) => {
       <div className="w-full pr-[24px]">
         <div className="relative">
           <img
-            src={data.profile_picture}
+            src={data.profile_picture||User}
             alt={data.image}
             className="grayscale hover:grayscale-0 w-full object-top h-[355px] object-cover rounded-lg"
           />

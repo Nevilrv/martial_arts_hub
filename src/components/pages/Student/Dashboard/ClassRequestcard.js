@@ -1,6 +1,7 @@
 import React from "react";
 import { FiPlus } from "react-icons/fi";
 import OutlineBtn from "../../common/OutlineBtn";
+import User from "../../../../assets/images/userProfile.jpg"
 
 const ClassRequestcard = ({ cardDetails, data }) => {
   return (
@@ -36,7 +37,7 @@ const ClassRequestcard = ({ cardDetails, data }) => {
           <>
             <div className="flex items-start mt-6 gap-3 min-w-[448px]">
               <img
-                src={ClassRequests?.instructor_profile}
+                src={ClassRequests?.instructor_profile||User}
                 className="w-[62px] h-[62px] object-cover object-center rounded-full grayscale"
                 alt=""
               />

@@ -11,6 +11,7 @@ import OutlineBtn from "../../../common/OutlineBtn";
 import Spinner from "../../../../layouts/Spinner";
 import { Routing } from "../../../../shared/Routing";
 import { useNavigate } from "react-router-dom";
+import User from "../../../../../assets/images/userProfile.jpg"
 
 const Index = () => {
   const ProfileDetals = [
@@ -120,7 +121,7 @@ const Index = () => {
                         <div className="flex items-center">
                           <div className="min-w-[82px] h-[82px] overflow-hidden rounded-full">
                             <img
-                              src={Request.profile_picture}
+                              src={Request.profile_picture||User}
                               alt="Wrestling"
                               className="w-full h-full object-cover object-top grayscale"
                             />

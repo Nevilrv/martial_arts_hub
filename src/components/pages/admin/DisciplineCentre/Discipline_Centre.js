@@ -4,6 +4,7 @@ import Spinner from "../../../layouts/Spinner";
 import { toast } from "react-toastify";
 import { Discipline_List } from "../../../services/Admin/Discipline_Centre/Discipline_Centre";
 import dayjs from "dayjs";
+import User from "../../../../assets/images/userProfile.jpg"
 
 const Discipline_Centre = () => {
   const [Loading, setLoading] = useState(false);
@@ -67,7 +68,7 @@ const Discipline_Centre = () => {
         <div className="p-5 bg-primary shadow-BoxShadow rounded-xl">
           <div className="flex items-start gap-2">
             <img
-              src={discipline.userProfile}
+              src={discipline.userProfile||User}
               className="h-[44px] w-[44px] rounded-full object-cover object-top grayscale"
               alt=""
               srcset=""

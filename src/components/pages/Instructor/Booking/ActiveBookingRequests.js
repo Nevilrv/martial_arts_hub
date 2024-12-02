@@ -10,12 +10,10 @@ import {
 } from "../../../services/Instructor/MessageRequests/MessageRequests";
 import Spinner from "../../../layouts/Spinner";
 import { Confirm_Booking_status } from "../../../services/Instructor/Booking/Booking";
-
 const ActiveBookingRequests = ({ data,getBookingRequests }) => {
   const [StudentProfile, setStudentProfile] = useState(false);
   const [loading, setLoading] = useState(false);
   const [studentDetils, setStudentDetils] = useState({});
-  console.log("🚀 ~ ActiveBookingRequests ~ studentDetils:", studentDetils);
   let studentid = null;
 
   const GetStudentDetails = async () => {
@@ -155,7 +153,7 @@ const ActiveBookingRequests = ({ data,getBookingRequests }) => {
                     </h2>
                   </div>
                   <div className="w-[329px] h-[329px] rounded-full object-cover object-top grayscale scale-x-[-1] border-[5px] border-primary xl:absolute top-7 right-14 overflow-hidden">
-                    <img src={studentDetils?.profile} />
+                    <img src={studentDetils?.profile||User} />
                   </div>
                 </div>
                 <div className="py-14 bg-primary lg:px-14 px-6">

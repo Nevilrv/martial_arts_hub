@@ -1,6 +1,7 @@
 import React from "react";
 import { CameraIcon } from "../../../../assets/icon";
 import { FaUser } from "react-icons/fa6";
+import User from "../../../../assets/images/userProfile.jpg"
 
 const ProfileCard = ({ ProfileDetals }) => {
   return (
@@ -12,7 +13,7 @@ const ProfileCard = ({ ProfileDetals }) => {
             <FaUser className="text-[60px] text-[#BDBBB5]" />
           ) : (
             <img
-              src={ProfileDetals?.profile_picture}
+              src={ProfileDetals?.profile_picture||User}
               alt=""
               className="w-[210px] h-[210px] rounded-full object-cover"
             />

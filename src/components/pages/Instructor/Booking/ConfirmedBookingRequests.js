@@ -4,6 +4,7 @@ import User from "../../../../assets/images/userImage.png";
 import OutlineBtn from "../../common/OutlineBtn";
 import { Instructor_Booking_Requests } from "../../../services/Instructor/Booking/Booking";
 
+
 const ConfirmedBookingRequests = ({ data }) => {
   return (
     <>
@@ -24,7 +25,7 @@ const ConfirmedBookingRequests = ({ data }) => {
           <div className="flex items-center">
             <div className="w-[82px] h-[82px] overflow-hidden rounded-full">
               <img
-                src={confirm?.studentProfile}
+                src={confirm?.studentProfile||User}
                 alt="Wrestling"
                 className="w-full h-full object-cover object-top grayscale"
               />

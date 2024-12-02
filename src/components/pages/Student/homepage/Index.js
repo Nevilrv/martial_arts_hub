@@ -16,12 +16,13 @@ import Instructors from "../../common/Instructors";
 import GetInTouch from "../../common/Get_In_Touch";
 import SignUp from "../Signup/SignUp";
 import Login from "../Login/Login";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import utc from "dayjs-plugin-utc";
 import { Create_discipline } from "../../../services/student/Homepage/Homepage";
 import { toast } from "react-toastify";
 import Spinner from "../../../layouts/Spinner";
+import { Routing } from "../../../shared/Routing";
 
 const AskedQuestions = [
   {
@@ -49,6 +50,7 @@ const AskedQuestions = [
 const Index = () => {
   const [openId, setOpenId] = useState("");
   const [Loading, setLoading] = useState(false);
+  const navigate = useNavigate()
   const [discipline, setdiscipline] = useState({
     disciplineName: "",
     description: "",
@@ -79,6 +81,7 @@ const Index = () => {
   };
   const { pathname } = useLocation();
 
+
   return (
     <>
       {Loading && <Spinner />}
@@ -92,10 +95,10 @@ const Index = () => {
           martial artists for martial artists.
         </p>
         <div className="flex justify-center items-center mt-9 flex-wrap gap-y-3">
-          <button className="bg-transparent h-[60px] text-white hover:text-black text-xl leading-8 px-7 py-4 rounded-full flex justify-center items-center relative after:absolute after:bg-black after:h-full after:w-full after:bottom-0 after:left-0 hover:after:h-0 after:transition-[2s] after:-z-20 overflow-hidden border border-black">
+          <button onClick={()=>navigate(Routing.StudentSignup)} className="bg-transparent h-[60px] text-white hover:text-black text-xl leading-8 px-7 py-4 rounded-full flex justify-center items-center relative after:absolute after:bg-black after:h-full after:w-full after:bottom-0 after:left-0 hover:after:h-0 after:transition-[2s] after:-z-20 overflow-hidden border border-black">
             Start Today
           </button>
-          <button className="ml-3 relative bg-transparent h-[60px] border border-black text-black text-xl leading-8 px-7 py-4 rounded-full flex justify-center items-center after:absolute after:bg-black after:h-0 after:w-full after:top-0 after:left-0 hover:after:h-full after:transition-[2s] after:-z-20 hover:text-white overflow-hidden">
+          <button onClick={()=>navigate(Routing.StudentLogin)} className="ml-3 relative bg-transparent h-[60px] border border-black text-black text-xl leading-8 px-7 py-4 rounded-full flex justify-center items-center after:absolute after:bg-black after:h-0 after:w-full after:top-0 after:left-0 hover:after:h-full after:transition-[2s] after:-z-20 hover:text-white overflow-hidden">
             Already a Member
           </button>
         </div>

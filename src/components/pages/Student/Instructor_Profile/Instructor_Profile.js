@@ -25,6 +25,7 @@ import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 // import User from "../../../../assets/images/userImage.png";
 import Inputfild from "../../common/Inputfild";
 import {Send_inqury_messages } from "../../../services/student/class";
+import User from "../../../../assets/images/userProfile.jpg"
 
 const InstructorProfile = () => {
   var settings = {
@@ -362,12 +363,10 @@ const InstructorProfile = () => {
             <div>
               <div className="rounded-[25px] overflow-hidden relative">
                 <img
-                  src={Instructor.profile_picture}
+                  src={Instructor.profile_picture||User}
                   alt={Instructor4}
                   className="w-full h-[613px] grayscale hover:grayscale-0 object-cover"
                 />
-
-                {/* <img src={Instructor4} alt={Instructor4} className="w-full" /> */}
                 {Like === false ? (
                   <div
                     className="h-[34px] w-[34px] bg-white rounded-full absolute top-4 right-3 flex items-center justify-center cursor-pointer"
@@ -490,7 +489,7 @@ const InstructorProfile = () => {
                       </p>
                       <div className="flex items-start mt-3 gap-3">
                         <img
-                          src={Review.studentProfile}
+                          src={Review.studentProfile||User}
                           alt=""
                           className="w-[46px] h-[46px] rounded-full object-cover"
                         />
@@ -522,7 +521,7 @@ const InstructorProfile = () => {
                       </p>
                       <div className="flex items-start mt-3 gap-3">
                         <img
-                          src={Review.studentProfile}
+                          src={Review.studentProfile||User}
                           alt=""
                           className="w-[46px] h-[46px] rounded-full object-cover"
                         />

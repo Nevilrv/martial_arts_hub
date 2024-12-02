@@ -27,7 +27,7 @@ export const InstructorSignUp = async (body) => {
   }
 };
 
-export const Get_Instructor_Details = async () => {
+export const Get_Instructor_Details = async (token) => {
   try {
     let response = await axios({
       method: "GET",
@@ -35,7 +35,7 @@ export const Get_Instructor_Details = async () => {
         localStorage.getItem("_id")
       )}`,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;

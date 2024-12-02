@@ -22,6 +22,7 @@ import {
 } from "../../../services/Admin/FinanceSection/Finance";
 import Spinner from "../../../layouts/Spinner";
 import dayjs from "dayjs";
+import User from "../../../../assets/images/userProfile.jpg"
 
 const FinanceDashboard = () => {
   const data = [
@@ -287,7 +288,7 @@ const FinanceDashboard = () => {
             <div className="mt-3 w-full bg-blue-50 h-[70px] rounded-lg flex items-center p-3">
               <div className="flex items-center gap-3">
                 <img
-                  src={Instructor1}
+                  src={Instructor1||User}
                   alt=""
                   className="w-[44px] h-[44px] rounded-full"
                 />
@@ -305,22 +306,22 @@ const FinanceDashboard = () => {
               </p>
               <div className="flex items-center mt-2">
                 <img
-                  src={Instructor1}
+                  src={Instructor1||User}
                   alt=""
                   className="w-[42px] h-[42px] border-2 border-primary rounded-full"
                 />
                 <img
-                  src={Instructor2}
+                  src={Instructor2||User}
                   alt=""
                   className="w-[42px] h-[42px] border-2 border-primary rounded-full -ml-2.5"
                 />
                 <img
-                  src={Instructor3}
+                  src={Instructor3||User}
                   alt=""
                   className="w-[42px] h-[42px] border-2 border-primary rounded-full -ml-2.5"
                 />
                 <img
-                  src={Instructor4}
+                  src={Instructor4||User}
                   alt=""
                   className="w-[42px] h-[42px] border-2 border-primary rounded-full -ml-2.5"
                 />

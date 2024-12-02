@@ -2,6 +2,7 @@ import React from "react";
 import { FiPlus } from "react-icons/fi";
 import Wrestling from "../../../../assets/images/Wrestling.png";
 import { IoIosArrowRoundForward } from "react-icons/io";
+import User from "../../../../assets/images/userProfile.jpg"
 
 const DashboardCard = ({ cardDetails, data, earnings }) => {
   return (
@@ -82,7 +83,7 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
           {earnings?.formatedData?.map((earning) => (
               <div className="flex items-center justify-between mt-7 gap-4 min-w-[448px]">
                 <img
-                  src={earning.profile}
+                  src={earning.profile||User}
                   alt="userimage"
                   className="w-[56px] h-[56px] rounded-full object-cover object-top grayscale"
                 />

@@ -4,6 +4,7 @@ import OutlineBtn from "../../common/OutlineBtn";
 import Instructors1 from "../../../../assets/images/Instructor-1.png";
 import Popup from "../../common/Popup";
 import { Confirm_Popup_Icon } from "../../../../assets/icon";
+import User from "../../../../assets/images/userProfile.jpg"
 import {
   Instructor_Block,
   Instructor_Block_List,
@@ -66,7 +67,7 @@ const BlockedInstructors = () => {
             <div className="flex items-center justify-between border-b border-gay-400/25 py-5 h-[100px] min-w-[639px]">
               <div className="flex items-center gap-4">
                 <img
-                  src={BlockedList.profile_picture}
+                  src={BlockedList.profile_picture||User}
                   alt=""
                   className="w-[62px] h-[62px] object-cover rounded-full"
                 />

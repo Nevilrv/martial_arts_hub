@@ -410,6 +410,22 @@ input[type="number"] {
 .eye_bg {
   backdrop-filter: blur(6.400000095367432px);
 }
+.PhoneInputInput {
+  height: 70px !important;
+  background-color: #dad8d0 !important;
+  padding: 0 24px !important;
+}
+.Profile,
+.Profile .css-b62m3t-container {
+  height: 70px !important;
+}
+.Profile .css-13cymwt-control {
+  height: 70px !important;
+  min-height: 70px !important;
+  background-color: #dad8d0 !important;
+  border: none !important;
+  border-radius: 12px !important;
+}
 
 @media (max-width: 879px) {
   .dotes-border::after {
@@ -433,27 +449,26 @@ input[type="number"] {
 }
 *::-webkit-scrollbar-track {
   border-radius: 4px;
-  background-color: #AEAEAE;
+  background-color: #aeaeae;
 }
 
 *::-webkit-scrollbar-track:hover {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 *::-webkit-scrollbar-track:active {
-  background-color: #FEFEFF;
+  background-color: #fefeff;
 }
 
 *::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background-color: #6E6E6E;
+  background-color: #6e6e6e;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background-color: #6E6E6E;
+  background-color: #6e6e6e;
 }
 
 *::-webkit-scrollbar-thumb:active {
-  background-color: #6E6E6E;
+  background-color: #6e6e6e;
 }
-

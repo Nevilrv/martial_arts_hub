@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { AdminLogin } from "../../../services/Admin/auth";
 import Popup from "../../common/Popup";
 import { Confirm_Popup_Icon } from "../../../../assets/icon";
+import User from "../../../../assets/images/userProfile.jpg"
 
 const Index = () => {
   const navigate = useNavigate();
@@ -39,6 +40,8 @@ const Index = () => {
       localStorage.setItem("is_login", true);
       localStorage.setItem("token", result.Token);
       localStorage.setItem("email", JSON.stringify(userdata.email));
+      localStorage.setItem("_id", JSON.stringify(result.data.adminId));
+      localStorage.setItem("role", JSON.stringify(result.data.role));
       SetisOpen(true);
       toast.success(result?.message);
       navigate(Routing.AdminDashboard);
@@ -94,7 +97,7 @@ const Index = () => {
           </div>
           <div className="relative after:absolute after:bg-[linear-gradient(180deg,_#09090900_0%,_#090909_100%)] after:h-1/2 after:w-full after:bottom-0 after:left-0 after:z-20 after:backdrop-blur-[1.2999999523162842px] rounded-[20px] overflow-hidden lg:block hidden">
             <img
-              src={Login_image}
+              src={Login_image||User}
               alt=""
               className="max-w-[555px] h-[795px] object-cover object-[30%] grayscale"
             />

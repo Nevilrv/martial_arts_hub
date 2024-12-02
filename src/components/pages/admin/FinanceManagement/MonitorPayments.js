@@ -13,28 +13,9 @@ import {
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../../layouts/Spinner";
+import User from "../../../../assets/images/userProfile.jpg"
 
 const MonitorPayments = () => {
-  const [InstructorsList, setInstructorsList] = useState([
-    {
-      image: Instructor1,
-      name: "Keyn Mojho",
-      StudentID: "#23352",
-      PaymentDate: "12/07/2024",
-      ClassDate: "25/07/2024",
-      PaidAmount: "$4.99",
-      Released: "Pending",
-    },
-    {
-      image: Instructor2,
-      name: "Marry Jhon",
-      StudentID: "#35243",
-      PaymentDate: "12/07/2024",
-      ClassDate: "25/07/2024",
-      PaidAmount: "$4.99",
-      Released: "Released",
-    },
-  ]);
   const [isOpen, SetisOpen] = useState(false);
   const [Loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -161,7 +142,7 @@ const MonitorPayments = () => {
                 <tr key={person.id}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                     <img
-                      src={person.profile}
+                      src={person.profile||User}
                       alt=""
                       className="w-[45px] h-[45px] rounded-full"
                       srcset=""
@@ -259,7 +240,7 @@ const MonitorPayments = () => {
                 <tr key={person.id}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                     <img
-                      src={person.profile}
+                      src={person.profile||User}
                       alt=""
                       className="w-[45px] h-[45px] rounded-full"
                       srcset=""
@@ -363,7 +344,7 @@ const MonitorPayments = () => {
                 </div>
                 <div className="flex items-center flex-col justify-center lg:w-auto w-full">
                   <img
-                    src={StudentPaymentDetails.profile}
+                    src={StudentPaymentDetails.profile||User}
                     className="w-[145px] h-[145px] rounded-full"
                     alt=""
                   />

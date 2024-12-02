@@ -12,18 +12,295 @@ import {
   InstructorProfile,
 } from "../../../services/Instructor/instructor_auth/auth";
 import Spinner from "../../../layouts/Spinner";
+import User from "../../../../assets/images/userProfile.jpg";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { parsePhoneNumber } from "react-phone-number-input";
+import Select from "react-select";
 
 const Profile = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
+  const CategoryOption = [
+    {
+      label: "Judo",
+      value: "Judo",
+    },
+    {
+      label: "Karate",
+      value: "Karate",
+    },
+    {
+      label: "Taekwondo",
+      value: "Taekwondo",
+    },
+    {
+      label: "Kung Fu",
+      value: "Kung Fu",
+    },
+    {
+      label: "Brazilian Jiu-Jitsu",
+      value: "Brazilian Jiu-Jitsu",
+    },
+    {
+      label: "Muay Thai",
+      value: "Muay Thai",
+    },
+    {
+      label: "Boxing",
+      value: "Boxing",
+    },
+    {
+      label: "Wrestling",
+      value: "Wrestling",
+    },
+    {
+      label: "Krav Maga",
+      value: "Krav Maga",
+    },
+    {
+      label: "Aikido",
+      value: "Aikido",
+    },
+    {
+      label: "Capoeira",
+      value: "Capoeira",
+    },
+    {
+      label: "Sambo",
+      value: "Sambo",
+    },
+    {
+      label: "Jeet Kune Do",
+      value: "Jeet Kune Do",
+    },
+    {
+      label: "Hapkido",
+      value: "Hapkido",
+    },
+    {
+      label: "Savate",
+      value: "Savate",
+    },
+    {
+      label: "Kickboxing",
+      value: "Kickboxing",
+    },
+    {
+      label: "Sumo",
+      value: "Sumo",
+    },
+    {
+      label: "Wing Chun",
+      value: "Wing Chun",
+    },
+    {
+      label: "Kali",
+      value: "Kali",
+    },
+    {
+      label: "Silat",
+      value: "Silat",
+    },
+    {
+      label: "Shaolin Kung Fu",
+      value: "Shaolin Kung Fu",
+    },
+    {
+      label: "Kenjutsu",
+      value: "Kenjutsu",
+    },
+    {
+      label: "Iaido",
+      value: "Iaido",
+    },
+    {
+      label: "Ninjutsu",
+      value: "Ninjutsu",
+    },
+    {
+      label: "Kyudo",
+      value: "Kyudo",
+    },
+    {
+      label: "Shorinji Kempo",
+      value: "Shorinji Kempo",
+    },
+    {
+      label: "Jujutsu",
+      value: "Jujutsu",
+    },
+    {
+      label: "Pankration",
+      value: "Pankration",
+    },
+    {
+      label: "Vale Tudo",
+      value: "Vale Tudo",
+    },
+    {
+      label: "Systema",
+      value: "Systema",
+    },
+    {
+      label: "Lethwei",
+      value: "Lethwei",
+    },
+    {
+      label: "Bokator",
+      value: "Bokator",
+    },
+    {
+      label: "Taekkyeon",
+      value: "Taekkyeon",
+    },
+    {
+      label: "Wushu",
+      value: "Wushu",
+    },
+    {
+      label: "Qwan Ki Do",
+      value: "Qwan Ki Do",
+    },
+    {
+      label: "Yaw Yan",
+      value: "Yaw Yan",
+    },
+    {
+      label: "Choi Kwang-Do",
+      value: "Choi Kwang-Do",
+    },
+    {
+      label: "Vovinam",
+      value: "Vovinam",
+    },
+    {
+      label: "Eskrima",
+      value: "Eskrima",
+    },
+    {
+      label: "Bando",
+      value: "Bando",
+    },
+    {
+      label: "Sanda",
+      value: "Sanda",
+    },
+    {
+      label: "Canne de combat",
+      value: "Canne de combat",
+    },
+    {
+      label: "Glima",
+      value: "Glima",
+    },
+    {
+      label: "Kapu Kuialua",
+      value: "Kapu Kuialua",
+    },
+    {
+      label: "Malla-yuddha",
+      value: "Malla-yuddha",
+    },
+    {
+      label: "Nguni stick fighting",
+      value: "Nguni stick fighting",
+    },
+    {
+      label: "Okichitaw",
+      value: "Okichitaw",
+    },
+    {
+      label: "Shootfighting",
+      value: "Shootfighting",
+    },
+    {
+      label: "Shoot wrestling",
+      value: "Shoot wrestling",
+    },
+    {
+      label: "San Soo",
+      value: "San Soo",
+    },
+    {
+      label: "Shuai Jiao",
+      value: "Shuai Jiao",
+    },
+    {
+      label: "Zui Quan (Drunken Fist)",
+      value: "Zui Quan (Drunken Fist)",
+    },
+    {
+      label: "Tang Soo Do",
+      value: "Tang Soo Do",
+    },
+    {
+      label: "Han Mu Do",
+      value: "Han Mu Do",
+    },
+    {
+      label: "American Kenpo",
+      value: "American Kenpo",
+    },
+    {
+      label: "Modern Arnis",
+      value: "Modern Arnis",
+    },
+    {
+      label: "Budokan",
+      value: "Budokan",
+    },
+    {
+      label: "Shinkendo",
+      value: "Shinkendo",
+    },
+    {
+      label: "Kendo",
+      value: "Kendo",
+    },
+    {
+      label: "Yawara",
+      value: "Yawara",
+    },
+    {
+      label: "Tantojutsu",
+      value: "Tantojutsu",
+    },
+    {
+      label: "Atemi",
+      value: "Atemi",
+    },
+    {
+      label: "Defendo",
+      value: "Defendo",
+    },
+    {
+      label: "Hwa Rang Do",
+      value: "Hwa Rang Do",
+    },
+  ];
+
+  const handleChangeCategory = (selectedOptions) => {
+    setInstructorDetails({
+      ...instructorDetails,
+      category:selectedOptions
+    });
+  };
+  const handleChange = (e) => {
+    setInstructorDetails({
+      ...instructorDetails,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const [instructorDetails, setInstructorDetails] = useState({
     email: JSON.parse(localStorage.getItem("email")),
     name: "",
-    country_code: "+91",
+    country_code: "",
     mobileNo: "",
     profile_picture: "",
-    category: "Boxing",
+    category: [],
     availability: "",
     bio: "",
     tagline: "",
@@ -37,13 +314,7 @@ const Profile = () => {
     privateSessionOnlineHourlyRate: "",
     privateSessionFaceToFaceHourlyRate: "",
   });
-  console.log("🚀 ~ Profile ~ instructorDetails:", instructorDetails);
-  const handleChange = (e) => {
-    setInstructorDetails({
-      ...instructorDetails,
-      [e.target.name]: e.target.value,
-    });
-  };
+  
 
   const heandleImage = (e) => {
     setInstructorDetails({
@@ -59,7 +330,7 @@ const Profile = () => {
     formData.append("country_code", instructorDetails?.country_code);
     formData.append("mobileNo", instructorDetails?.mobileNo);
     formData.append("profile_picture", instructorDetails?.profile_picture);
-    formData.append("category", instructorDetails?.category);
+    formData.append("category", JSON.stringify(instructorDetails?.category));
     formData.append("availability", instructorDetails?.availability);
     formData.append("bio", instructorDetails?.bio);
     formData.append("tagline", instructorDetails?.tagline);
@@ -70,19 +341,19 @@ const Profile = () => {
     formData.append("idProof", instructorDetails?.idProof);
     formData.append(
       "firstFreeSessionHourlyRate",
-      instructorDetails.firstFreeSessionHourlyRate
+      instructorDetails?.firstFreeSessionHourlyRate
     );
     formData.append(
       "classTypeFirstFreeSession",
-      instructorDetails.classTypeFirstFreeSession
+      instructorDetails?.classTypeFirstFreeSession
     );
     formData.append(
       "privateSessionOnlineHourlyRate",
-      instructorDetails.privateSessionOnlineHourlyRate
+      instructorDetails?.privateSessionOnlineHourlyRate
     );
     formData.append(
       "privateSessionFaceToFaceHourlyRate",
-      instructorDetails.privateSessionFaceToFaceHourlyRate
+      instructorDetails?.privateSessionFaceToFaceHourlyRate
     );
     setLoading(true);
     const result = await InstructorProfile(formData);
@@ -96,43 +367,66 @@ const Profile = () => {
     }
   };
 
+  const token = localStorage.getItem("token");
   const getinstructorDetails = async () => {
     setLoading(true);
-    const result = await Get_Instructor_Details();
-    if (result?.success === true) {
-      setLoading(false);
-      setInstructorDetails({
-        email: result.data?.email,
-        name: result.data?.name,
-        country_code: "+91",
-        mobileNo: result?.data?.mobileNo,
-        profile_picture: result?.data?.profile_picture,
-        category: result?.data?.category,
-        availability: result?.data?.availability,
-        bio: result?.data?.bio,
-        tagline: result?.data?.tagline,
-        experience: result?.data?.experience,
-        trainingHistory: result?.data?.trainingHistory,
-        certifications: result?.data?.certifications,
-        keywords: result?.data?.keywords,
-        idProof: result?.data?.idProof,
-        firstFreeSessionHourlyRate: result?.data?.firstFreeSessionHourlyRate,
-        classTypeFirstFreeSession: result?.data?.classTypeFirstFreeSession,
-        privateSessionOnlineHourlyRate:
-          result?.data?.privateSessionOnlineHourlyRate,
-        privateSessionFaceToFaceHourlyRate:
-          result?.data?.privateSessionFaceToFaceHourlyRate,
-      });
-      toast.success(result?.message);
+    if (token !== "undefined") {
+      const result = await Get_Instructor_Details(token);
+      if (result?.success === true) {
+        setLoading(false);
+        setInstructorDetails({
+          email: result.data?.email,
+          name: result.data?.name,
+          country_code: result?.data?.country_code,
+          mobileNo: result?.data?.mobileNo,
+          profile_picture: result?.data?.profile_picture,
+          category: JSON.parse(result?.data?.category),
+          availability: result?.data?.availability,
+          bio: result?.data?.bio,
+          tagline: result?.data?.tagline,
+          experience: result?.data?.experience,
+          trainingHistory: result?.data?.trainingHistory,
+          certifications: result?.data?.certifications,
+          keywords: result?.data?.keywords,
+          idProof: result?.data?.idProof,
+          firstFreeSessionHourlyRate: result?.data?.firstFreeSessionHourlyRate,
+          classTypeFirstFreeSession: result?.data?.classTypeFirstFreeSession,
+          privateSessionOnlineHourlyRate:
+            result?.data?.privateSessionOnlineHourlyRate,
+          privateSessionFaceToFaceHourlyRate:
+            result?.data?.privateSessionFaceToFaceHourlyRate,
+        });
+        
+        toast.success(result?.message);
+      } else {
+        setLoading(false);
+        toast.error(result?.message);
+      }
     } else {
       setLoading(false);
-      toast.error(result?.message);
     }
   };
 
   useEffect(() => {
     getinstructorDetails();
   }, []);
+
+  const handlePhoneNumberChange = (value) => {
+    if (value) {
+      try {
+        const phoneNumberDetails = parsePhoneNumber(value);
+        setInstructorDetails({
+          ...instructorDetails,
+          country_code: phoneNumberDetails?.countryCallingCode,
+          mobileNo: phoneNumberDetails?.nationalNumber,
+        });
+      } catch (error) {
+        setInstructorDetails(instructorDetails?.mobileNo);
+      }
+    } else {
+      setInstructorDetails(instructorDetails?.country_code);
+    }
+  };
 
   return (
     <>
@@ -157,7 +451,7 @@ const Profile = () => {
                 Label={"Name"}
                 onChange={handleChange}
                 name={"name"}
-                value={instructorDetails.name}
+                value={instructorDetails?.name}
                 Labelclass={"text-Dark_black font-medium"}
                 className={"rounded-xl md:w-full h-[70px]"}
               />
@@ -174,7 +468,7 @@ const Profile = () => {
               </div>
             ) : (
               <img
-                src={instructorDetails.profile_picture}
+                src={instructorDetails?.profile_picture || User}
                 alt=""
                 className="h-full object-cover absolute top-0 left-0"
               />
@@ -200,25 +494,23 @@ const Profile = () => {
               placeholder={"Email"}
               Label={"Email"}
               name={"email"}
-              value={instructorDetails.email}
+              value={instructorDetails?.email}
               onChange={handleChange}
               Labelclass={"text-Dark_black font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
           <div>
-            <Inputfild
-              type={"number"}
-              placeholder={"Mobile No."}
-              Label={"Mobile No."}
-              name={"mobileNo"}
-              onChange={handleChange}
-              value={instructorDetails.mobileNo}
-              Labelclass={"text-Dark_black font-medium"}
-              className={"rounded-xl md:w-full h-[70px]"}
+            <label className={`text-sm text-black/50 block`}>Mobile No.</label>
+            <PhoneInput
+              placeholder="Enter phone number"
+              value={JSON.stringify("+"+instructorDetails?.country_code+instructorDetails?.mobileNo)}
+              onChange={handlePhoneNumberChange}
+              // defaultCountry={JSON.stringify(instructorDetails?.country_code)}
+              enableSearch={true}
             />
           </div>
-          <div className="md:col-span-2 col-span-1">
+          <div className="md:col-span-1 col-span-1">
             <Inputfild
               type={"date"}
               placeholder={"Add Availability"}
@@ -230,6 +522,21 @@ const Profile = () => {
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
+          <div className="md:col-span-1 col-span-1">
+            <label className={`text-sm text-black/50 block`}>
+              Select Your Category
+            </label>
+            <div className="Profile">
+              <Select
+                onChange={handleChangeCategory}
+                options={CategoryOption}
+                value={instructorDetails?.category}
+                isMulti
+                onMenuOpen={() => {}}
+                style={{ with: "100%" }}
+              />
+            </div>
+          </div>
           <div className="md:col-span-2 col-span-1">
             <label className={`text-sm text-black block font-medium`}>
               Add Bio
@@ -237,7 +544,7 @@ const Profile = () => {
             <textarea
               onChange={handleChange}
               name={"bio"}
-              value={instructorDetails.bio}
+              value={instructorDetails?.bio}
               placeholder={"Write about you"}
               className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[150px] rounded-xl p-6`}
             />
@@ -251,7 +558,7 @@ const Profile = () => {
               onChange={handleChange}
               className={"rounded-xl md:w-full h-[70px]"}
               Labelclass={"text-Dark_black font-medium"}
-              value={instructorDetails.tagline}
+              value={instructorDetails?.tagline}
             />
           </div>
           <div className="md:col-span-2 col-span-1">
@@ -262,7 +569,7 @@ const Profile = () => {
               name={"experience"}
               onChange={handleChange}
               placeholder={"Add experience here"}
-              value={instructorDetails.experience}
+              value={instructorDetails?.experience}
               className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[150px] rounded-xl p-6`}
             />
           </div>
@@ -273,7 +580,7 @@ const Profile = () => {
             <textarea
               name={"trainingHistory"}
               onChange={handleChange}
-              value={instructorDetails.trainingHistory}
+              value={instructorDetails?.trainingHistory}
               placeholder={"Add Training History"}
               className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[150px] rounded-xl p-6`}
             />
@@ -285,7 +592,7 @@ const Profile = () => {
             <textarea
               name={"certifications"}
               onChange={handleChange}
-              value={instructorDetails.certifications}
+              value={instructorDetails?.certifications}
               placeholder={"Add your Certifications"}
               className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[150px] rounded-xl p-6`}
             />
@@ -297,7 +604,7 @@ const Profile = () => {
               Label={"Add Keywords"}
               name={"keywords"}
               onChange={handleChange}
-              value={instructorDetails.keywords}
+              value={instructorDetails?.keywords}
               Labelclass={"text-Dark_black font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
@@ -319,17 +626,17 @@ const Profile = () => {
                   </p>
                 </div>
               ) : (
-                  <img
-                    src={instructorDetails.idProof}
-                    alt=""
-                    className="h-full text-center object-cover absolute top-0 left-1/2 -translate-x-1/2"
-                  />
+                <img
+                  src={instructorDetails?.idProof || User}
+                  alt=""
+                  className="h-full text-center object-cover absolute top-0 left-1/2 -translate-x-1/2"
+                />
               )}
               {instructorDetails?.idProof.name && (
                 <div className="flex items-center justify-center flex-col">
                   <MdCloudUpload className="text-black/20 text-4xl" />
                   <p className="text-black text-[13px] font-medium text-center">
-                    {instructorDetails.idProof.name}
+                    {instructorDetails?.idProof.name}
                   </p>
                 </div>
               )}
@@ -350,11 +657,11 @@ const Profile = () => {
           <div>
             <Inputfild
               type={"text"}
-              placeholder={"Add hourly rates here"}
+              placeholder={"Yes or No"}
               Label={"Do you want to give first free session?"}
               name={"firstFreeSessionHourlyRate"}
               onChange={handleChange}
-              value={instructorDetails.firstFreeSessionHourlyRate}
+              value={instructorDetails?.firstFreeSessionHourlyRate}
               Labelclass={"text-Dark_black font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
@@ -364,11 +671,9 @@ const Profile = () => {
               type={"text"}
               onChange={handleChange}
               placeholder={"eg. Online"}
-              Label={
-                "Class Type for first free session (Online/Face-to-Face/Both)"
-              }
+              Label={"Class Type for first free session (Online/Face-to-Face)"}
               name={"classTypeFirstFreeSession"}
-              value={instructorDetails.classTypeFirstFreeSession}
+              value={instructorDetails?.classTypeFirstFreeSession}
               Labelclass={"text-Dark_black font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
@@ -376,11 +681,9 @@ const Profile = () => {
           <div>
             <Inputfild
               type={"number"}
-              placeholder={"eg. Online"}
-              value={instructorDetails.privateSessionOnlineHourlyRate}
-              Label={
-                "Class Type for Private Lesson (1-on-1) (Online/Face-to-Face/Both)"
-              }
+              placeholder={"Add hourly rates here"}
+              value={instructorDetails?.privateSessionOnlineHourlyRate}
+              Label={"Private Class Online Rate"}
               name={"privateSessionOnlineHourlyRate"}
               onChange={handleChange}
               Labelclass={"text-Dark_black font-medium"}
@@ -391,10 +694,10 @@ const Profile = () => {
             <Inputfild
               type={"number"}
               placeholder={"Add hourly rates here"}
-              Label={"Do you want to give first free session?"}
+              Label={"Private Class Face To Face Rate"}
               name={"privateSessionFaceToFaceHourlyRate"}
               onChange={handleChange}
-              value={instructorDetails.privateSessionFaceToFaceHourlyRate}
+              value={instructorDetails?.privateSessionFaceToFaceHourlyRate}
               Labelclass={"text-Dark_black font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />

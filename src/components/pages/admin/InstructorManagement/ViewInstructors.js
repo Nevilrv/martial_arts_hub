@@ -13,6 +13,7 @@ import {
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import Spinner from "../../../layouts/Spinner";
+import User from "../../../../assets/images/userProfile.jpg"
 
 const ViewInstructors = () => {
   const [isOpen, SetisOpen] = useState(false);
@@ -141,7 +142,7 @@ const ViewInstructors = () => {
                       <tr key={person?.instructorId} className="group">
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                           <img
-                            src={person?.profile}
+                            src={person?.profile||User}
                             alt=""
                             className="w-[45px] h-[45px] rounded-full grayscale group-hover:grayscale-0 duration-150"
                             srcset=""

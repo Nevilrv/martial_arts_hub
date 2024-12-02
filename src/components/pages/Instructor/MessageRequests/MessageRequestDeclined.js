@@ -61,7 +61,7 @@ const MessageRequestDeclined = () => {
           <div className="flex items-center">
             <div className="w-[82px] h-[82px] overflow-hidden rounded-full">
               <img
-                src={item.Student.profile_picture}
+                src={item.Student.profile_picture||User}
                 alt="Wrestling"
                 className="w-full h-full object-cover object-top grayscale"
               />
@@ -135,7 +135,7 @@ const MessageRequestDeclined = () => {
                   </div>
                   <div className="w-[329px] h-[329px] rounded-full object-cover object-top grayscale scale-x-[-1] border-[5px] border-primary xl:absolute top-7 right-14 overflow-hidden">
                     <img
-                      src={StudentData.profile}
+                      src={StudentData.profile||User}
                       className="h-full w-full object-cover"
                     />
                   </div>

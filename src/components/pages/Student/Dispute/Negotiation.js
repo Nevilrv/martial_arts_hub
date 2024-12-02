@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import io from "socket.io-client";
 import { baseURL } from "../../../services/URL";
+import Spinner from "../../../layouts/Spinner";
 const Socket = io(`${baseURL}`);
 const Negotiation = () => {
   const { disputeId } = useParams();
@@ -19,8 +20,14 @@ const Negotiation = () => {
   const [message, setMessage] = useState("");
   const [DisputeDetails, setDisputeDetails] = useState({});
   const [DisputeChats, setDisputeChats] = useState([]);
-  let chatId;
   const chatContainerRef = useRef(null);
+
+
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  };
 
   const GetgetInstructorClass = async () => {
     setLoading(true);
@@ -39,9 +46,8 @@ const Negotiation = () => {
     setLoading(true);
     const result = await GetDisputeChat(disputeId);
     if (result?.success === true) {
-      setLoading(false);
-      console.log(result.data, "====>log Chat");
       setDisputeChats(result.data);
+      setLoading(false);
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -51,20 +57,21 @@ const Negotiation = () => {
   useEffect(() => {
     GetDisputeChats();
     GetgetInstructorClass();
-    Socket.on("chatMessagesLoaded", (newChat) => {
-      setDisputeChats(newChat.messages);
-      setMessage("");
-    });
+  }, []);
 
-    Socket.on("socketError", (err) => {
-      console.error(err.message);
+  useEffect(() => {
+    // Join the room on mount
+    Socket.emit("joinRoom", disputeId);
+    // Listen for incoming messages
+    Socket.on("getchat", (data) => {
+      console.log("Student received chat:", data);
+      setDisputeChats((prev) => [...prev, data]);
     });
 
     return () => {
-      Socket.off("chatMessagesLoaded");
-      Socket.off("socketError");
+      Socket.off("getchat");
     };
-  }, [chatId]);
+  }, [disputeId]);
 
   const heandleChat = async () => {
     const body = {
@@ -74,19 +81,18 @@ const Negotiation = () => {
       message: message,
       sender: JSON.parse(localStorage.getItem("Role")).toLocaleLowerCase(),
     };
-    if (body.message.trim() === "") {
-      toast.error("empty message not send");
-    } else {
-      const result = await Send_Dispute_message(body);
-      if (result?.success === true) {
-        setLoading(false);
-        chatId = result.data.chatId;
-        Socket.emit("loadChatMessages", { chatId: chatId });
-        setMessage("");
-      } else {
-        setLoading(false);
-      }
+    if (message.trim()) {
+      const data = {
+        roomId:disputeId,
+        sender: "student",
+        message: message,
+        updated_at: new Date(),
+      };
+      Socket.emit("loadchat", data);
+      setMessage("");
+      scrollToBottom()
     }
+    const result = await Send_Dispute_message(body);
   };
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -97,6 +103,7 @@ const Negotiation = () => {
 
   return (
     <>
+      {loading && <Spinner />}
       <Tabs />
       <div className="mt-11 px-3 lg:px-8">
         <div className="flex items-center justify-between">

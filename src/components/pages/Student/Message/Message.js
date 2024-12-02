@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Tabs from "../Tabs";
 import { CiSearch } from "react-icons/ci";
 import User from "../../../../assets/images/userImage.png";
@@ -19,9 +19,9 @@ import {
   Student_Send_Messages,
 } from "../../../services/student/chatAPI/ChatApi";
 import Spinner from "../../../layouts/Spinner";
+import Socket from "../../common/Socket";
+import Users from "../../../../assets/images/userProfile.jpg"
 
-const socket = io(`${baseURL}`);
-console.log(socket);
 
 const Chat = () => {
   const [message, setMessage] = useState("");
@@ -33,6 +33,14 @@ const Chat = () => {
   const StudentId = JSON.parse(localStorage.getItem("_id"));
   const navigate = useNavigate();
   let chatId;
+
+  const chatContainerRef = useRef(null);
+
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  };
 
   const Instructor_List = async () => {
     setLoading(true);
@@ -64,19 +72,28 @@ const Chat = () => {
   };
 
   const sendMessage = async () => {
-    setLoading(true);
+    // setLoading(true);
     const body = {
       studentId: StudentId,
       instructorId: studentId.instructorId,
       message: message,
       sender: JSON.parse(localStorage.getItem("Role"))?.toLocaleLowerCase(),
     };
+    if (message.trim()) {
+      const data = {
+        roomId:studentId?.roomId,
+        sender: "student",
+        message: message,
+        updated_at: new Date(),
+      };
+      Socket.emit("loadchat", data);
+      setMessage("");
+      scrollToBottom()
+    }
     const result = await Student_Send_Messages(body);
     if (result?.success === true) {
       setLoading(false);
-      chatId = result.data.chatId;
-      socket.emit("loadChatMessages", { chatId: chatId });
-      setMessage("");
+      chatId = result.data.chatId; 
     } else {
       setLoading(false);
     }
@@ -85,24 +102,29 @@ const Chat = () => {
   useEffect(() => {
     Instructor_List();
   }, []);
-
   useEffect(() => {
     Student_Chat_Messages();
-    socket.on("chatMessagesLoaded", (newChat) => {
-      setChatMessages(newChat.messages);
-      setMessage("");
+}, [studentId])
+useEffect(() => {
+  scrollToBottom();
+}, [chatMessages]);
+
+  useEffect(() => {
+    // Join the room on mount
+    Socket.emit("joinRoom", studentId?.roomId);
+    // Listen for incoming messages
+    Socket.on("getchat", (data) => {
+      console.log("Student received chat:", data);
+      setChatMessages((prev) => [...prev, data]);
     });
 
-    socket.on("socketError", (err) => {
-      console.error(err.message);
-    });
     return () => {
-      socket.off("chatMessagesLoaded");
-      socket.off("socketError");
+      Socket.off("getchat");
     };
-  }, [chatId, studentId]);
+  }, [studentId?.roomId]);
 
   const heandleChat = (studentData) => {
+    setstudentId({})
     setstudentId(studentData);
     setshowChat(true);
   };
@@ -124,6 +146,7 @@ const Chat = () => {
                   <CiSearch className="absolute top-1/2 -translate-y-1/2 left-6 text-2xl" />
                 </div>
               </div>
+              <div>
               {StudentList.map((studentData) => (
                 <div
                   className="h-[95px] border-b border-[#6B6B6B4D] px-4 flex items-center cursor-pointer"
@@ -166,12 +189,13 @@ const Chat = () => {
                 </div>
               ))}
             </div>
+              </div>
             <div className="md:col-span-3 px-5 relative lg:block hidden h-[calc(100vh-180px)] overflow-hidden">
               <div className="h-[95px] bg-primary_dark px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-[62px] h-[62px] rounded-full overflow-hidden grayscale">
                     <img
-                      src={studentId.profile}
+                      src={studentId.profile||Users}
                       alt=""
                       srcset=""
                       className="scale-x-[-1] h-full w-full object-cover"
@@ -199,8 +223,8 @@ const Chat = () => {
                   messages before joining your class.
                 </p>
               </div>
-              <div className="flex flex-col justify-end px-5 mt-auto h-[68%] overflow-y-auto pb-10">
-                <div className="flex justify-between flex-col overflow-y-auto">
+              <div className="flex flex-col justify-end px-5 mt-auto h-[68%] overflow-y-auto pb-10"  >
+                <div className="flex justify-between flex-col overflow-y-auto" ref={chatContainerRef}>
                   {chatMessages?.map((chat) => (
                     <>
                       <div
@@ -366,7 +390,7 @@ const Chat = () => {
                   />
                   <div className="w-[62px] h-[62px] rounded-full overflow-hidden grayscale">
                     <img
-                      src={studentId.profile}
+                      src={studentId.profile||Users}
                       alt=""
                       srcset=""
                       className="scale-x-[-1] h-full w-full object-cover"
@@ -418,7 +442,7 @@ const Chat = () => {
                                 ? JSON.parse(
                                     localStorage.getItem("profile_picture")
                                   )
-                                : studentId.profile
+                                : studentId.profile||Users
                             }
                             alt=""
                             srcset=""

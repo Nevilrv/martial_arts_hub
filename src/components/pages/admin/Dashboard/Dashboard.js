@@ -12,7 +12,7 @@ import {
   Admin_Progress,
   Instructor_Request,
 } from "../../../services/Admin/DashboardAPI";
-import dayjs from "dayjs";
+import User  from "../../../../assets/images/userProfile.jpg"
 import { useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
 
@@ -243,7 +243,7 @@ const Dashboard = () => {
                     <div className="flex items-start gap-3">
                       <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
                         <img
-                          src={Request_List.profile_picture}
+                          src={Request_List.profile_picture||User}
                           alt=""
                           className="w-full h-full object-cover object-center"
                         />

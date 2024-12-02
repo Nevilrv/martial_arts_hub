@@ -10,6 +10,7 @@ import { Confirm_Popup_Icon, Fullscreen } from "../../../../assets/icon";
 import { MdOutlineTranslate } from "react-icons/md";
 import { PiSealCheckFill } from "react-icons/pi";
 import Popup from "../../common/Popup";
+import User from "../../../../assets/images/userProfile.jpg"
 import {
   Instructor_Request,
   Instructor_Request_Details,
@@ -102,7 +103,7 @@ const NewRequests = () => {
             <div className="flex items-center justify-between border-b border-gay-400/25 pb-5 h-[100px] min-w-[639px]">
               <div className="flex items-center gap-4">
                 <img
-                  src={List.profile_picture}
+                  src={List.profile_picture||User}
                   alt=""
                   className="w-[62px] h-[62px] object-cover rounded-full"
                 />
@@ -169,7 +170,7 @@ const NewRequests = () => {
                   <div className="flex flex-col gap-4 lg:justify-start justify-center lg:items-start items-center">
                     <div className="w-[247px] h-[247px] rounded-full overflow-hidden">
                       <img
-                        src={Instructor_Request_detail.profile_picture}
+                        src={Instructor_Request_detail.profile_picture||User}
                         alt=""
                         className="w-full h-full object-cover object-center"
                       />

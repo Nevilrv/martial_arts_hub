@@ -81,7 +81,7 @@ const EarningsReport = () => {
             <div className="flex items-center">
               <div className="w-[60px] h-[60px] overflow-hidden rounded-full">
                 <img
-                  src={Earning.profile}
+                  src={Earning.profile||User}
                   alt="Wrestling"
                   className="w-full h-full object-cover object-top grayscale scale-x-[-1]"
                 />

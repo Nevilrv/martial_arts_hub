@@ -6,6 +6,7 @@ import Instructor1 from "../../../../assets/images/Instructor-4.png";
 import "react-medium-image-zoom/dist/styles.css";
 import Zoom from "react-medium-image-zoom";
 import { useNavigate, useParams } from "react-router-dom";
+import User from "../../../../assets/images/userProfile.jpg"
 import {
   Close_Dispute,
   Dispute_Details,
@@ -25,7 +26,11 @@ const DisputeDetails = () => {
   const [message, setMessage] = useState("");
   const [DisputeChats, setDisputeChats] = useState([]);
   const Socket = io(`${baseURL}`);
-  let chatId;
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  };
   const chatContainerRef = useRef(null);
   const navigate = useNavigate();
 
@@ -72,19 +77,7 @@ const DisputeDetails = () => {
 
   useEffect(() => {
     GetDisputeChats();
-    Socket.on("chatMessagesLoaded", (newChat) => {
-      setDisputeChats(newChat.messages);
-    });
-
-    Socket.on("socketError", (err) => {
-      console.error(err.message);
-    });
-
-    return () => {
-      Socket.off("chatMessagesLoaded");
-      Socket.off("socketError");
-    };
-  }, [chatId]);
+  }, []);
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
@@ -101,21 +94,32 @@ const DisputeDetails = () => {
       message: message,
       sender: "admin",
     };
-    if (body.message.trim() === "") {
-      toast.error("empty message not send");
-    } else {
-      const result = await Send_Dispute_message(body);
-      if (result?.success === true) {
-        setLoading(false);
-        chatId = result.data.chatId;
-        Socket.emit("loadChatMessages", { chatId: chatId });
-        setMessage("");
-      } else {
-        setLoading(false);
-      }
+    if (message.trim()) {
+      const data = {
+        roomId: disputeId,
+        sender: "admin",
+        message: message,
+        updated_at: new Date(),
+      };
+      Socket.emit("loadchat", data);
+      setMessage("");
+      scrollToBottom();
     }
+    const result = await Send_Dispute_message(body);
   };
+  useEffect(() => {
+    // Join the room on mount
+    Socket.emit("joinRoom", disputeId);
+    // Listen for incoming messages
+    Socket.on("getchat", (data) => {
+      console.log("Student received chat:", data);
+      setDisputeChats((prev) => [...prev, data]);
+    });
 
+    return () => {
+      Socket.off("getchat");
+    };
+  }, [disputeId]);
   return (
     <>
       <div className="flex items-center justify-between flex-wrap">
@@ -202,7 +206,7 @@ const DisputeDetails = () => {
               <Zoom className="sm:w-auto w-full">
                 <div className="sm:mx-0 mx-auto w-[125px] h-[100px] rounded-md overflow-hidden group relative cursor-pointer">
                   <img
-                    src={ScreenShort}
+                    src={ScreenShort||User}
                     alt=""
                     className="h-full w-full object-cover object-top"
                   />
@@ -239,7 +243,7 @@ const DisputeDetails = () => {
                     chat?.sender_type !== "student" ? "order-2" : null
                   }`}
                 >
-                  <img src={Instructor1} alt="" className="w-full h-full" />
+                  <img src={Instructor1||User} alt="" className="w-full h-full" />
                 </div>
                 <div className="max-w-[75%]">
                   <div

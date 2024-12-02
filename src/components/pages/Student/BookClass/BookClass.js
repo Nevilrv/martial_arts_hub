@@ -22,6 +22,7 @@ import {
 } from "../../../services/student/class";
 import Spinner from "../../../layouts/Spinner";
 import { toast } from "react-toastify";
+import User from "../../../../assets/images/userProfile.jpg"
 
 const BookClass = () => {
   const navigate = useNavigate();
@@ -165,10 +166,12 @@ const BookClass = () => {
         classRate: "",
       });
       setSelectedTimeSlot([]);
+      toast.success(result.message)
       navigate(Routing.StudentMyClass)
       setSelectedMailingLists();
     } else {
       setLoading(false);
+      toast.error(result.message)
     }
   };
 
@@ -203,7 +206,7 @@ const BookClass = () => {
         <div className="mt-3">
           <div className="relative">
             <img
-              src={instructorData.profile_picture}
+              src={instructorData.profile_picture||User}
               alt={Instructors4}
               className="w-full h-[613px] grayscale hover:grayscale-0 object-cover rounded-[25px]"
             />

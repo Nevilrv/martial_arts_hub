@@ -5,6 +5,7 @@ import Instructor2 from "../../../../assets/images/Instructor-1.png";
 import OutlineBtn from "../../common/OutlineBtn";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { FaArrowLeft } from "react-icons/fa";
+import User from "../../../../assets/images/userProfile.jpg"
 
 const ReleaseFunds = () => {
   const [InstructorsList, setInstructorsList] = useState([
@@ -103,7 +104,7 @@ const ReleaseFunds = () => {
                 <tr key={person.id}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                     <img
-                      src={person.image}
+                      src={person.image||User}
                       alt=""
                       className="w-[45px] h-[45px] rounded-full"
                       srcset=""
@@ -168,7 +169,7 @@ const ReleaseFunds = () => {
                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 lg:w-auto w-full">
                   <div className="items-center flex-col justify-center lg:w-auto w-full row-span-2 lg:hidden flex md:col-span-2">
                     <img
-                      src={Instructor1}
+                      src={Instructor1||User}
                       className="w-[145px] h-[145px] rounded-full"
                       alt=""
                     />
@@ -193,7 +194,7 @@ const ReleaseFunds = () => {
                   </div>
                   <div className="items-center flex-col justify-center lg:w-auto w-full row-span-2 lg:flex hidden">
                     <img
-                      src={Instructor1}
+                      src={Instructor1||User}
                       className="w-[145px] h-[145px] rounded-full"
                       alt=""
                     />

@@ -6,6 +6,7 @@ import { Allert_Popup_Icon } from "../../../../assets/icon";
 import { toast } from "react-toastify";
 import { Students_Block, Students_List } from "../../../services/Admin/StudentManagement/StudentManagement";
 import Spinner from "../../../layouts/Spinner";
+import User from "../../../../assets/images/userProfile.jpg"
 
 const ViewStudents = () => {
   const [isOpen, SetisOpen] = useState(false);
@@ -135,7 +136,7 @@ const ViewStudents = () => {
                     <tr key={person.studentId}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                         <img
-                          src={person.profile}
+                          src={person.profile||User}
                           alt=""
                           className="w-[45px] h-[45px] rounded-full"
                           srcset=""

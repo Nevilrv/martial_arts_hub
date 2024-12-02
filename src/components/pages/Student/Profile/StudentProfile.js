@@ -9,6 +9,7 @@ import { Routing } from "../../../shared/Routing";
 import { Student_Profile_Details } from "../../../services/student/Profile/Profile";
 import { toast } from "react-toastify";
 import Spinner from "../../../layouts/Spinner";
+import User from "../../../../assets/images/userProfile.jpg"
 
 const StudentProfile = ({ children }) => {
   const ProfileTeab = [
@@ -79,7 +80,7 @@ const StudentProfile = ({ children }) => {
       <div className="grid md:grid-cols-4 gap-11">
         <div className="w-full pl-10 pt-10">
           <img
-            src={Profiledetails?.profile?.profile_picture}
+            src={Profiledetails?.profile?.profile_picture||User}
             alt=""
             className="min-w-[274px] h-[274px] rounded-full object-cover grayscale object-top scale-x-[-1]"
           />

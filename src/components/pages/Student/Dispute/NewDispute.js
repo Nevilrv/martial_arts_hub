@@ -83,7 +83,6 @@ const NewDispute = () => {
       }));
     }
   };
-  console.log("🚀 ~ NewDispute ~ Dispute:", Dispute);
   useEffect(() => {
     GetgetInstructorList();
   }, []);
@@ -92,6 +91,7 @@ const NewDispute = () => {
   }, [instructorid]);
 
   const HeandleCreateDispute = async () => {
+    setLoading(true);
     const formData = new FormData();
     formData.append("disputeType", Dispute.disputeType);
     formData.append("instructorName", selectInstructor);
@@ -110,6 +110,7 @@ const NewDispute = () => {
       });
     }
     const result = await CreateDispute(formData, studentId);
+   
     if (result?.success === true) {
       setLoading(false);
       toast.success(result?.message);
