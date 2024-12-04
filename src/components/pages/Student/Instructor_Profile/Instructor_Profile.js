@@ -24,8 +24,8 @@ import { Routing } from "../../../shared/Routing";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 // import User from "../../../../assets/images/userImage.png";
 import Inputfild from "../../common/Inputfild";
-import {Send_inqury_messages } from "../../../services/student/class";
-import User from "../../../../assets/images/userProfile.jpg"
+import { Send_inqury_messages } from "../../../services/student/class";
+import User from "../../../../assets/images/userProfile.jpg";
 
 const InstructorProfile = () => {
   var settings = {
@@ -93,7 +93,7 @@ const InstructorProfile = () => {
       title: inqurymessage.title,
       body: inqurymessage.body,
     };
-    
+
     const result = await Send_inqury_messages(body);
     if (result?.success === true) {
       setLoading(false);
@@ -190,7 +190,7 @@ const InstructorProfile = () => {
       ) {
         localStorage.clear();
         navigate(Routing.Initial);
-        toast.error("Please Login")
+        toast.error("Please Login");
       }
       setLoading(false);
     }
@@ -218,9 +218,13 @@ const InstructorProfile = () => {
         <div className="px-3 lg:px-8">
           <div className="grid md:grid-cols-3 grid-cols-1 md:px-8 gap-[71px]">
             <div className="md:col-span-2">
-              {/* <div className="flex items-center gap-2">
-                <OutlineBtn text={Instructor.category} />
-              </div> */}
+              <div className="flex items-center gap-2 gap-y-4 flex-wrap">
+                {Instructor?.category?.map((category) => (
+                  <>
+                <OutlineBtn text={category.value} />
+                  </>
+                ))}
+              </div>
               <div className="mt-8">
                 <h2 className="text-[40px] font-semibold md:w-[80%]">
                   {Instructor.tagline}
@@ -293,7 +297,6 @@ const InstructorProfile = () => {
                     <BsPatchCheckFill className="text-gay-400" />
                     {Instructor.certifications}
                   </p>
-                 
                 </div>
               </div>
               <div className="mt-14">
@@ -363,7 +366,7 @@ const InstructorProfile = () => {
             <div>
               <div className="rounded-[25px] overflow-hidden relative">
                 <img
-                  src={Instructor.profile_picture||User}
+                  src={Instructor.profile_picture || User}
                   alt={Instructor4}
                   className="w-full h-[613px] grayscale hover:grayscale-0 object-cover"
                 />
@@ -399,12 +402,12 @@ const InstructorProfile = () => {
                 </p>
               </div>
               <div className="grid grid-cols-2 mt-10 gap-4">
-                <h2 className="text-lg text-Dark_black font-semibold">
+                {/* <h2 className="text-lg text-Dark_black font-semibold">
                   Hourly Fee
                 </h2>
                 <h2 className="text-lg text-Dark_black font-semibold text-right">
                   $5
-                </h2>
+                </h2> */}
                 <h2 className="text-lg text-Dark_black font-semibold">
                   Response Time
                 </h2>
@@ -489,7 +492,7 @@ const InstructorProfile = () => {
                       </p>
                       <div className="flex items-start mt-3 gap-3">
                         <img
-                          src={Review.studentProfile||User}
+                          src={Review.studentProfile || User}
                           alt=""
                           className="w-[46px] h-[46px] rounded-full object-cover"
                         />
@@ -521,7 +524,7 @@ const InstructorProfile = () => {
                       </p>
                       <div className="flex items-start mt-3 gap-3">
                         <img
-                          src={Review.studentProfile||User}
+                          src={Review.studentProfile || User}
                           alt=""
                           className="w-[46px] h-[46px] rounded-full object-cover"
                         />

@@ -9,7 +9,7 @@ import Inputfild from "../../common/Inputfild";
 import BigButton from "../../common/BigButton";
 import { toast } from "react-toastify";
 import { InstructorLogin } from "../../../services/Instructor/instructor_auth/auth";
-import User from "../../../../assets/images/userProfile.jpg"
+import User from "../../../../assets/images/userProfile.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -35,18 +35,9 @@ const Index = () => {
     const result = await InstructorLogin(data);
     if (result?.success === true) {
       setLoading(false);
-      localStorage.setItem(
-        "Role",
-        JSON.stringify(result?.data?.role)
-      );
-      localStorage.setItem(
-        "email",
-        JSON.stringify(result?.data?.email)
-      );
-      localStorage.setItem(
-        "_id",
-        JSON.stringify(result?.data?.instructorId)
-      );
+      localStorage.setItem("Role", JSON.stringify(result?.data?.role));
+      localStorage.setItem("email", JSON.stringify(result?.data?.email));
+      localStorage.setItem("_id", JSON.stringify(result?.data?.instructorId));
       localStorage.setItem("token", result?.Token);
       localStorage.setItem("is_login", true);
       navigate(Routing.InstructorDashboard);
@@ -56,6 +47,12 @@ const Index = () => {
       toast.error(result?.message);
     }
   };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
+
 
   return (
     <>
@@ -82,6 +79,7 @@ const Index = () => {
                 Label={"Email"}
                 name={"email"}
                 className={"md:w-full"}
+                onKeyPress={handleKeyPress}
               />
               <Inputfild
                 onChange={handleChange}
@@ -91,6 +89,7 @@ const Index = () => {
                 iconposition="right-4"
                 name={"password"}
                 className={"md:w-full"}
+                onKeyPress={handleKeyPress}
               />
               {/* <Inputfild
                 onChange={handleChange}
@@ -106,7 +105,7 @@ const Index = () => {
               <BigButton
                 text={"Login to your account"}
                 bg_color={"black"}
-                onClick={handleLogin}
+                onClick={()=>handleLogin()}
                 loading={loading}
               />
               <BigButton
@@ -116,7 +115,7 @@ const Index = () => {
               />
             </div>
             <p className="text-sm text-black/50 text-center mt-10">
-            Don’t have an account? {" "}
+              Don’t have an account?{" "}
               <Link
                 to={Routing.InstructorSignup}
                 className="font-bold text-black"
@@ -127,7 +126,7 @@ const Index = () => {
           </div>
           <div className="relative after:absolute after:bg-[linear-gradient(180deg,_#09090900_0%,_#090909_100%)] after:h-1/2 after:w-full after:bottom-0 after:left-0 after:z-20 after:backdrop-blur-[1.2999999523162842px] rounded-[20px] overflow-hidden lg:block hidden">
             <img
-              src={Login_image||User}
+              src={Login_image || User}
               alt=""
               className="max-w-[555px] h-[795px] object-cover object-[30%] grayscale"
             />

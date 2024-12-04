@@ -6,12 +6,19 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Routing } from "../../shared/Routing";
 import OutlineBtn from "./OutlineBtn";
+import {
+  Instructor_change_class_status,
+  Instructor_End_Class,
+} from "../../services/Instructor/createClass/Index";
 
 const Videocall = () => {
   const { channelName, role } = useParams();
   const [rtcProps, setRtcProps] = useState(null);
   const [videoCall, setVideoCall] = useState(true);
+  const classid = localStorage.getItem("classId");
+  const _id = JSON.parse(localStorage.getItem("_id"));
   const navigate = useNavigate();
+  const userRole = JSON.parse(localStorage.getItem("Role"));
 
   const initAgora = async () => {
     try {
@@ -39,31 +46,48 @@ const Videocall = () => {
       });
       toast.success(response.message);
     } catch (error) {
-      if (error === "Please log in to access this resource") {
-        const userRole = JSON.parse(localStorage.getItem("Role"));
-        if (userRole === "Student") {
-          navigate(Routing.StudentLogin);
-        } else if (userRole === "Instructor") {
-          navigate(Routing.InstructorLogin);
-        } else {
-          console.error("Failed to join room:", error);
-        }
+      console.error("Failed to initialize Agora:", "error",error);
+      toast.error(error.response?.data?.message || "Failed to join the room");
+      if (
+        error.response?.data?.message ===
+        "Please log in to access this resource"
+      ) {
+        navigate(
+          userRole === "Student"
+            ? Routing.StudentLogin
+            : Routing.InstructorLogin
+        );
       }
     }
   };
-
   useEffect(() => {
     initAgora();
     // eslint-disable-next-line
   }, [channelName, role]);
+
+  const Endclass = async () => {
+    const result = await Instructor_End_Class(_id, classid);
+    if (result?.success === true) {
+      localStorage.removeItem("classId");
+      window.open(Routing.InstructorMyClass);
+    } else {
+    }
+  };
+
   const callbacks = {
-    EndCall: () => setVideoCall(false),
+    EndCall: () => {
+      if (videoCall) {
+        setVideoCall(false);
+        if (userRole === "Instructor") {
+          Endclass();
+        }
+        else{
+          window.open(Routing.StudentMyClass)
+        }
+      }
+    },
   };
   const styleProps = {
-    // localBtnContainer: { backgroundColor: "#969696", width: "83.4%" },
-    // remoteBtnContainer: { backgroundColor: "#969696", width: "83.4%" },
-    // UIKitContainer: { height: "calc(100vh - 85px)", width: "100%" },
-
     localBtnContainer: {
       backgroundColor: "#969696",
       width: "83.4%",
@@ -73,9 +97,9 @@ const Videocall = () => {
       width: "83.4%",
     },
     localBtnStyles: {
-      backgroundColor: "transparent", 
-      color: "#000", 
-      borderColor: "#000", 
+      backgroundColor: "transparent",
+      color: "#000",
+      borderColor: "#000",
     },
     remoteBtnStyles: {
       backgroundColor: "#000",

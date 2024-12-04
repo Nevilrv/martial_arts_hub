@@ -34,33 +34,23 @@ const OngoingClasses = (props) => {
     // eslint-disable-next-line
   }, []);
 
-  const heandleEndclass = async (id) => {
-    const result = await Instructor_End_Class(id);
-    if (result?.success === true) {
-      setLoading(false);
-      Get_Upcoming_Classes();
-      toast.success(result?.message);
-    } else {
-      setLoading(false);
-      toast.error(result?.message);
-    }
-  };
-
   const Change_Status_Classes = async (upcoming_class) => {
     setLoading(true);
-    const result = await Instructor_change_class_status(upcoming_class);
+    const result = await Instructor_change_class_status(
+      upcoming_class?.classId
+    );
     if (result?.success === true) {
-      // toast.success(result?.message);
+      localStorage.setItem("classId", upcoming_class?.classId);
+      window.location.replace(upcoming_class?.instructor_url);
       setLoading(false);
     } else {
       setLoading(false);
-      // toast.error(result?.message);
     }
   };
 
   return (
     <>
-    {loading && <Spinner />}
+      {loading && <Spinner />}
       {upcomingClass?.length <= 0 ? (
         <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
           <WorkOut height={"110"} width={"110"} />
@@ -133,21 +123,11 @@ const OngoingClasses = (props) => {
                   <>
                     <OutlineBtn
                       text={"Join Class"}
-                      onClick={() =>
-                        {
-                          window.open(upcoming_class?.instructor_url);
-                          Change_Status_Classes(upcoming_class?.classId)
-                        }
-                      }
+                      onClick={() => {
+                        Change_Status_Classes(upcoming_class);
+                      }}
                       className={
                         "bg-[#CFDED7] border-green text-green font-semibold"
-                      }
-                    />
-                    <OutlineBtn
-                      text={"End Class"}
-                      onClick={() => heandleEndclass(upcoming_class?.meetingId)}
-                      className={
-                        "bg-red-100 border-red-200 text-red-200 font-semibold"
                       }
                     />
                   </>

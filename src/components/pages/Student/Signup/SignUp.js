@@ -53,6 +53,12 @@ const SignUp = () => {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   useEffect(() => {
     if (open === false) {
       navigate(Routing.Initial);
@@ -119,6 +125,7 @@ const SignUp = () => {
                         placeholder={"Name here"}
                         Label={"Name"}
                         name={"name"}
+                        onKeyPress={handleKeyPress}
                       />
                       <Inputfild
                         onChange={handleChange}
@@ -126,6 +133,7 @@ const SignUp = () => {
                         placeholder={"Email"}
                         Label={"Email"}
                         name={"email"}
+                        onKeyPress={handleKeyPress}
                       />
                       <Inputfild
                         onChange={handleChange}
@@ -134,6 +142,7 @@ const SignUp = () => {
                         Label={"Create Password"}
                         iconposition="right-4"
                         name={"password"}
+                        onKeyPress={handleKeyPress}
                       />
                       <Inputfild
                         onChange={handleChange}
@@ -142,6 +151,7 @@ const SignUp = () => {
                         Label={"Re-enter Password"}
                         iconposition="right-4"
                         name={"confirm_password"}
+                        onKeyPress={handleKeyPress}
                       />
                     </div>
                     <div className="mt-11 flex flex-col gap-3">

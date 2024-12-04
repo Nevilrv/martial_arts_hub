@@ -284,7 +284,7 @@ const Profile = () => {
   const handleChangeCategory = (selectedOptions) => {
     setInstructorDetails({
       ...instructorDetails,
-      category:selectedOptions
+      category: selectedOptions,
     });
   };
   const handleChange = (e) => {
@@ -314,7 +314,6 @@ const Profile = () => {
     privateSessionOnlineHourlyRate: "",
     privateSessionFaceToFaceHourlyRate: "",
   });
-  
 
   const heandleImage = (e) => {
     setInstructorDetails({
@@ -396,7 +395,7 @@ const Profile = () => {
           privateSessionFaceToFaceHourlyRate:
             result?.data?.privateSessionFaceToFaceHourlyRate,
         });
-        
+
         toast.success(result?.message);
       } else {
         setLoading(false);
@@ -428,13 +427,22 @@ const Profile = () => {
     }
   };
 
+  const heandleback = () => {
+    const islogin = JSON.parse(localStorage.getItem("is_login"));
+    if (islogin === true) {
+      navigate(Routing.InstructorDashboard);
+    } else {
+      navigate(Routing.InstructorLogin);
+    }
+  };
+
   return (
     <>
       {loading && <Spinner />}
       <div className="mt-12 px-3 lg:px-20">
         <FaArrowLeft
           className="text-2xl cursor-pointer"
-          onClick={() => navigate(Routing.InstructorLogin)}
+          onClick={() => heandleback()}
         />
         <div className="flex items-center justify-between gap-6 md:flex-nowrap flex-wrap">
           <div className="w-full">
@@ -504,7 +512,11 @@ const Profile = () => {
             <label className={`text-sm text-black/50 block`}>Mobile No.</label>
             <PhoneInput
               placeholder="Enter phone number"
-              value={JSON.stringify("+"+instructorDetails?.country_code+instructorDetails?.mobileNo)}
+              value={JSON.stringify(
+                "+" +
+                  instructorDetails?.country_code +
+                  instructorDetails?.mobileNo
+              )}
               onChange={handlePhoneNumberChange}
               // defaultCountry={JSON.stringify(instructorDetails?.country_code)}
               enableSearch={true}

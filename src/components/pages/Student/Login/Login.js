@@ -55,6 +55,11 @@ const Login = () => {
       toast.error(result?.message);
     }
   };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
 
   return (
     <>
@@ -117,6 +122,7 @@ const Login = () => {
                         onChange={handleChange}
                         placeholder={"Email"}
                         Label={"Email"}
+                        onKeyPress={handleKeyPress}
                       />
                       <Inputfild
                         type={"password"}
@@ -125,6 +131,7 @@ const Login = () => {
                         placeholder={"Password"}
                         Label={"Password"}
                         iconposition="right-[10%]"
+                        onKeyPress={handleKeyPress}
                       />
                     </div>
                     <div className="mt-11 flex flex-col gap-3">

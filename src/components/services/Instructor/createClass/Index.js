@@ -32,11 +32,11 @@ export const Instructor_Create_Slot = async (body) => {
     return error?.response?.data;
   }
 };
-export const Instructor_End_Class = async (id) => {
+export const Instructor_End_Class = async (instructorId,classId) => {
   try {
     let response = await axios({
       method: "PUT",
-      url: `${baseURL}/instructor/meeting/end/${id}`,
+      url: `${baseURL}/instructor/class/complete/${instructorId}/${classId}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

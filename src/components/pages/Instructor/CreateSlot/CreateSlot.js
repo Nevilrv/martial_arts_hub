@@ -18,6 +18,14 @@ import Spinner from "../../../layouts/Spinner";
 import dayjs from "dayjs";
 
 const CreateSlot = () => {
+  // Helper function to format time to 12-hour
+  const formatTo12Hour = (time24) => {
+    const [hour, minute] = time24.split(":").map(Number);
+    const suffix = hour >= 12 ? "PM" : "AM";
+    const hour12 = hour % 12 || 12;
+    return `${hour12}:${minute.toString().padStart(2, "0")} ${suffix}`;
+  };
+
   // slot time
   const [selectedTimeSlot, setselectedTimeSlot] = useState([]);
   const [classType, setClassType] = useState("Online");
@@ -29,12 +37,14 @@ const CreateSlot = () => {
   const navigate = useNavigate();
   const TimeSlot = [];
   const [minDate, setMinDate] = useState("");
+
+  // Generate TimeSlots based on class date
   if (FormData.classdate === dayjs(new Date()).format("YYYY-MM-DD")) {
     const currentHour = new Date().getHours();
     if (currentHour === 0) {
       TimeSlot.push({
         value: "24:00 To 01:00",
-        label: "24:00 To 01:00",
+        label: `${formatTo12Hour("24:00")} To ${formatTo12Hour("01:00")}`,
       });
     }
     for (let hour = 0; hour < 23; hour++) {
@@ -47,19 +57,21 @@ const CreateSlot = () => {
 
       TimeSlot.push({
         value: timeRange,
-        label: timeRange,
+        label: `${formatTo12Hour(`${startHour}:00`)} To ${formatTo12Hour(
+          `${endHour}:00`
+        )}`,
       });
     }
     if (23 >= currentHour) {
       TimeSlot.push({
         value: "23:00 To 24:00",
-        label: "23:00 To 24:00",
+        label: `${formatTo12Hour("23:00")} To ${formatTo12Hour("24:00")}`,
       });
     }
   } else {
     TimeSlot.push({
       value: "24:00 To 01:00",
-      label: "24:00 To 01:00",
+      label: `${formatTo12Hour("24:00")} To ${formatTo12Hour("01:00")}`,
     });
     for (let hour = 1; hour < 23; hour++) {
       let startHour = hour.toString().padStart(2, "0");
@@ -67,35 +79,38 @@ const CreateSlot = () => {
       let timeRange = `${startHour}:00 To ${endHour}:00`;
       TimeSlot.push({
         value: timeRange,
-        label: timeRange,
+        label: `${formatTo12Hour(`${startHour}:00`)} To ${formatTo12Hour(
+          `${endHour}:00`
+        )}`,
       });
     }
     TimeSlot.push({
       value: "23:00 To 24:00",
-      label: "23:00 To 24:00",
+      label: `${formatTo12Hour("23:00")} To ${formatTo12Hour("24:00")}`,
     });
   }
+
   const handleChange = (e) => {
     setFormData({
       ...FormData,
       [e.target.name]: e.target.value,
     });
   };
+
   const handleSubmit = async () => {
     setLoading(true);
     let TimeSlot = [];
     for (let i = 0; i < selectedTimeSlot?.length; i++) {
       TimeSlot.push(selectedTimeSlot[i].value);
     }
-    // setLoading(true);
+    const rateWithpayment = parseInt(FormData.classRate)+Math.ceil(FormData.classRate*5/100)
     const body = {
       classdate: FormData.classdate,
       timeSlot: TimeSlot,
-      classRate: FormData.classRate,
+      classRate: rateWithpayment,
       classType: classType,
       instructorId: JSON.parse(localStorage.getItem("_id")),
     };
-
     const result = await Instructor_Create_Slot(body);
     if (result?.success === true) {
       setLoading(false);
@@ -203,6 +218,7 @@ const CreateSlot = () => {
                   type="number"
                   name="classRate"
                   placeholder="eg. $5, $10"
+                  value={FormData.classRate}
                   className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[80px] rounded-2xl"
                   onChange={(e) => handleChange(e)}
                 />

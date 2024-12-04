@@ -60,6 +60,12 @@ const Index = () => {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   return (
     <>
       <div className="bg-primary p-5">
@@ -84,6 +90,7 @@ const Index = () => {
                 placeholder={"Email"}
                 Label={"Email"}
                 name={"email"}
+                onKeyPress={handleKeyPress}
                 className={"md:w-full"}
               />
               <Inputfild
@@ -93,6 +100,7 @@ const Index = () => {
                 Label={"Create Password"}
                 iconposition="right-4"
                 name={"password"}
+                onKeyPress={handleKeyPress}
                 className={"md:w-full"}
               />
               <Inputfild
@@ -102,6 +110,7 @@ const Index = () => {
                 Label={"Re-enter Password"}
                 iconposition="right-4"
                 name={"confirm_password"}
+                onKeyPress={handleKeyPress}
                 className={"md:w-full"}
               />
             </div>

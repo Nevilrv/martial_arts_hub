@@ -154,6 +154,17 @@ const BookClass = () => {
       instructorId: instructorId,
       timeslotId:heandalChangeData.timeslotId
     };
+    if (heandalChangeData.message===""||null||undefined) {
+      toast.error("Please Enter your message")
+    }else if (selectedMailingLists===""||null||"undefined") {
+      toast.error("Please Select Class Type")
+    }
+    else if (timeSlots.length===0) {
+      toast.error("Please Select TimeSlots")
+    }
+    else if (heandalChangeData.mobileNumber===""||null||undefined) {
+      toast.error("Please Enter Your Number")
+    }
     const result = await Payment_Book_class(
       JSON.parse(localStorage.getItem("_id")),
       body
@@ -171,7 +182,7 @@ const BookClass = () => {
       setSelectedMailingLists();
     } else {
       setLoading(false);
-      toast.error(result.message)
+      // toast.error(result.message)
     }
   };
 

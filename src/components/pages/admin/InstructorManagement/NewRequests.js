@@ -10,7 +10,7 @@ import { Confirm_Popup_Icon, Fullscreen } from "../../../../assets/icon";
 import { MdOutlineTranslate } from "react-icons/md";
 import { PiSealCheckFill } from "react-icons/pi";
 import Popup from "../../common/Popup";
-import User from "../../../../assets/images/userProfile.jpg"
+import User from "../../../../assets/images/userProfile.jpg";
 import {
   Instructor_Request,
   Instructor_Request_Details,
@@ -24,7 +24,9 @@ const NewRequests = () => {
   const [conformation, Setconformation] = useState(false);
   const [Loading, setLoading] = useState(false);
   const [Instructor_Request_List, setInstructor_Request_List] = useState([]);
-  const [Instructor_Request_detail, setInstructor_Request_detail] = useState({});
+  const [Instructor_Request_detail, setInstructor_Request_detail] = useState(
+    {}
+  );
   let getinstructorId = "";
 
   const Get_Instructor_Requests = async () => {
@@ -103,7 +105,7 @@ const NewRequests = () => {
             <div className="flex items-center justify-between border-b border-gay-400/25 pb-5 h-[100px] min-w-[639px]">
               <div className="flex items-center gap-4">
                 <img
-                  src={List.profile_picture||User}
+                  src={List.profile_picture || User}
                   alt=""
                   className="w-[62px] h-[62px] object-cover rounded-full"
                 />
@@ -145,7 +147,10 @@ const NewRequests = () => {
             >
               <div className="flex items-center sm:justify-between flex-wrap gap-4 justify-center">
                 <div className="flex items-center gap-5">
-                  <FaArrowLeft className="text-2xl cursor-pointer" onClick={()=>SetisOpen(false)} />
+                  <FaArrowLeft
+                    className="text-2xl cursor-pointer"
+                    onClick={() => SetisOpen(false)}
+                  />
                   <h2 className="text-Dark_black font-bold text-2xl">
                     Instructor’s Profile
                   </h2>
@@ -170,7 +175,7 @@ const NewRequests = () => {
                   <div className="flex flex-col gap-4 lg:justify-start justify-center lg:items-start items-center">
                     <div className="w-[247px] h-[247px] rounded-full overflow-hidden">
                       <img
-                        src={Instructor_Request_detail.profile_picture||User}
+                        src={Instructor_Request_detail.profile_picture || User}
                         alt=""
                         className="w-full h-full object-cover object-center"
                       />
@@ -194,10 +199,9 @@ const NewRequests = () => {
                   </div>
                   <div className="md:col-span-2">
                     <div className="flex items-center gap-2 flex-wrap">
-                      {/* {Instructor_Request_detail?.category?.map((category)=>(
-                      <OutlineBtn text={category} />
-                    ))} */}
-                      <OutlineBtn text={Instructor_Request_detail?.category} />
+                      {Instructor_Request_detail?.category?.map((category) => (
+                        <OutlineBtn text={category.value} />
+                      ))}
                     </div>
                     <h2 className="text-2xl text-Dark_black font-semibold mt-3 max-w-[690px]">
                       I’m here to support your fitness ambitions, cut fat, and
@@ -254,14 +258,9 @@ const NewRequests = () => {
                       />
                     </div>
                     <p className="text-black/70 text-sm mt-4 text-justify max-w-[650px]">
-                      “This hour of martial arts training is a powerful gift to
-                      your body and mind, fostering inner strength and outer
-                      resilience. It’s not just about learning techniques; it’s
-                      about cultivating discipline, confidence, and a sense of
-                      empowerment. Beyond punches and kicks, it’s about
-                      achieving overall well-being. Martial arts improve
-                      coordination and mental clarity, bringing vitality and
-                      balance to both your body and mind.”
+                      “ Hi, I'm {Instructor_Request_detail.name}! I started my
+                      martial arts journey I have{" "}
+                      {Instructor_Request_detail.experience}.”
                     </p>
                   </div>
                   <div className="border border-gay-400/20 py-5 px-6 rounded-lg">
@@ -272,26 +271,7 @@ const NewRequests = () => {
                       <div className="flex items-center gap-2 flex-wrap">
                         <PiSealCheckFill className="text-gay-400 text-xl" />
                         <p className="text-black/70 text-[15px]">
-                          Over 20 years of martial arts experience
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <PiSealCheckFill className="text-gay-400 text-xl" />
-                        <p className="text-black/70 text-[15px]">
-                          Specialized in Karate, Taekwondo, and Brazilian
-                          Jiu-Jitsu
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <PiSealCheckFill className="text-gay-400 text-xl" />
-                        <p className="text-black/70 text-[15px]">
-                          Competed in national and international tournaments
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <PiSealCheckFill className="text-gay-400 text-xl" />
-                        <p className="text-black/70 text-[15px]">
-                          Trained under renowned martial arts masters globally
+                          {Instructor_Request_detail?.experience}
                         </p>
                       </div>
                     </div>
@@ -305,31 +285,7 @@ const NewRequests = () => {
                     <div className="flex items-center gap-2 flex-wrap">
                       <PiSealCheckFill className="text-gay-400 text-xl" />
                       <p className="text-black/70 text-[15px]">
-                        5th Degree Black Belt in Karate
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <PiSealCheckFill className="text-gay-400 text-xl" />
-                      <p className="text-black/70 text-[15px]">
-                        Certified Personal Trainer (CPT)
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <PiSealCheckFill className="text-gay-400 text-xl" />
-                      <p className="text-black/70 text-[15px]">
-                        4th Degree Black Belt in Taekwondo
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <PiSealCheckFill className="text-gay-400 text-xl" />
-                      <p className="text-black/70 text-[15px]">
-                        First Aid and CPR Certified
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <PiSealCheckFill className="text-gay-400 text-xl" />
-                      <p className="text-black/70 text-[15px]">
-                        Certified Brazilian Jiu-Jitsu Instructor
+                        {Instructor_Request_detail?.certifications}
                       </p>
                     </div>
                   </div>
@@ -346,7 +302,9 @@ const NewRequests = () => {
                           First Free Session
                         </p>
                         <p className="text-black/70 text-[15px] font-medium">
-                          Book your first introductory session for free!
+                          {
+                            Instructor_Request_detail?.firstFreeSessionHourlyRate
+                          }
                         </p>
                       </div>
                     </div>
@@ -357,21 +315,15 @@ const NewRequests = () => {
                           Private Lesson (1-on-1)
                         </p>
                         <p className="text-black/70 text-[15px] font-medium">
-                          $75 per hour
+                          ${" "}
+                          {
+                            Instructor_Request_detail?.privateSessionFaceToFaceHourlyRate
+                          }{" "}
+                          per hour
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-2 flex-wrap">
-                      <PiSealCheckFill className="text-red-200 text-xl" />
-                      <div>
-                        <p className="text-red-200 text-[13px]">
-                          Group Class (up to 10 students)
-                        </p>
-                        <p className="text-black/70 text-[15px] font-medium">
-                          $30 per hour per student
-                        </p>
-                      </div>
-                    </div>
+
                     <div className="flex items-start gap-2 flex-wrap">
                       <PiSealCheckFill className="text-red-200 text-xl" />
                       <div>
@@ -379,7 +331,11 @@ const NewRequests = () => {
                           Advanced Techniques Session
                         </p>
                         <p className="text-black/70 text-[15px] font-medium">
-                          $90 per hour
+                          ${" "}
+                          {
+                            Instructor_Request_detail?.privateSessionOnlineHourlyRate
+                          }{" "}
+                          per hour
                         </p>
                       </div>
                     </div>
@@ -393,42 +349,7 @@ const NewRequests = () => {
                     <div className="flex items-center gap-2 flex-wrap">
                       <PiSealCheckFill className="text-gay-400 text-xl" />
                       <p className="text-black/70 text-[15px]">
-                        Began martial arts training at age 7 in Karate
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <PiSealCheckFill className="text-gay-400 text-xl" />
-                      <p className="text-black/70 text-[15px]">
-                        Achieved first black belt at age 15
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <PiSealCheckFill className="text-gay-400 text-xl" />
-                      <p className="text-black/70 text-[15px]">
-                        Competed in and won multiple national tournaments in
-                        Karate and Taekwondo
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <PiSealCheckFill className="text-gay-400 text-xl" />
-                      <p className="text-black/70 text-[15px]">
-                        Trained in Brazil for advanced Brazilian Jiu-Jitsu
-                        techniques
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <PiSealCheckFill className="text-gay-400 text-xl" />
-                      <p className="text-black/70 text-[15px]">
-                        Opened own dojo in 2010, focusing on personalized and
-                        group martial arts training
-                      </p>
-                    </div>
-                    <div className="flex items-start gap-2 flex-wrap">
-                      <PiSealCheckFill className="text-gay-400 text-xl" />
-                      <p className="text-black/70 text-[15px]">
-                        Continuously attending seminars and workshops to stay
-                        updated with the latest martial arts techniques and
-                        teaching methods
+                        {Instructor_Request_detail?.trainingHistory}
                       </p>
                     </div>
                   </div>

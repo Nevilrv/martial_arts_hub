@@ -53,6 +53,11 @@ const CompletedClasses = () => {
                   <img src={Wrestling} alt="Wrestling" />
                 </div>
                 <div className="ml-5">
+                <div className="flex items-center cursor-pointer">
+                    <h3 className="text-xl font-medium">
+                      {upcoming_class?.className}
+                    </h3>
+                  </div>
                   <div className="flex items-center">
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
                       <span className="font-medium">Class Date:</span>{" "}
