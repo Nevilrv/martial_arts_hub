@@ -125,7 +125,7 @@ const StudentProfile = ({ children }) => {
           </div>
           <div className="w-[120px] h-[27px] bg-gay-250 rounded-full mt-2 overflow-hidden">
             <div
-              className={`w-[${JSON.stringify(Profiledetails?.profile?.profile_completion)}%] h-full bg-green rounded-full flex items-center justify-center text-white`}
+              className={`w-[${(Profiledetails?.profile?.profile_completion)}%] h-full bg-green rounded-full flex items-center justify-center text-white`}
             >
               {Profiledetails?.profile?.profile_completion}%
             </div>

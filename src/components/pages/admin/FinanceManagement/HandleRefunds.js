@@ -22,6 +22,7 @@ const HandleRefunds = () => {
   const [Refund_details, SetRefund_details] = useState({});
   const [Refund_data, SetRefund_data] = useState({});
   const [Loading, setLoading] = useState(false);
+  const [InstructorId,  setInstructorId,] = useState("");
   const [Refund_Reason, setRefund_Reason] = useState("");
   const [Refund_amount, setRefund_amount] = useState("");
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ const HandleRefunds = () => {
 
   const Get_Payment_Refund_details = async (person) => {
     setLoading(true);
+    setInstructorId(person.instructorId)
     const result = await Payment_Refund_details(
       person.studentId,
       person.instructorId,
@@ -101,6 +103,7 @@ const HandleRefunds = () => {
       studentPaymentId: Refund_details.studentPaymentId,
       disputeId: Refund_details.disputeId,
       amount: Refund_amount,
+      instructorId:  InstructorId,
     };
     const result = await Pay_out_Confirm(body);
     if (result?.success === true) {
@@ -284,7 +287,7 @@ const HandleRefunds = () => {
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Dispute Reason</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
-                      {Refund_details.Reason}
+                      {Refund_details?.Reason?.slice(0,20)}
                     </div>
                   </div>
                   <div className="w-full">
@@ -404,7 +407,7 @@ const HandleRefunds = () => {
                   <OutlineBtn
                     className={"text-white bg-red-200 border-none w-[140px]"}
                     text={"Refund"}
-                    onClick={()=>Refund_Confirm()}
+                    onClick={() => Refund_Confirm()}
                   />
                 </div>
               </div>

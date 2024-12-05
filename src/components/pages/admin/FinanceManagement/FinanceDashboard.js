@@ -385,9 +385,9 @@ const FinanceDashboard = () => {
                       <span className="font-semibold">
                         Student • Class Name:
                       </span>{" "}
-                      {transaction?.className?.slice(0, 20)} •{" "}
+                      {transaction?.className?.slice(0, 20)||"-"} •{" "}
                       <span className="font-semibold">Class Date:</span>{" "}
-                      {dayjs(transaction?.classdate).format("DD MMM, YYYY")}
+                      {dayjs(transaction?.classdate||"-").format("DD MMM, YYYY")}
                     </p>
                   </div>
                 </div>

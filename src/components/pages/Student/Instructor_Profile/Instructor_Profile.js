@@ -210,6 +210,9 @@ const InstructorProfile = () => {
       navigate(Routing.StudentLogin);
     }
   };
+  const category = Instructor?.category;
+  console.log("🚀 ~ InstructorProfile ~ category:", typeof(category))
+  // const categorysoy = category
 
   return (
     <>
@@ -219,11 +222,13 @@ const InstructorProfile = () => {
           <div className="grid md:grid-cols-3 grid-cols-1 md:px-8 gap-[71px]">
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 gap-y-4 flex-wrap">
-                {Instructor?.category?.map((category) => (
-                  <>
-                <OutlineBtn text={category.value} />
-                  </>
-                ))}
+                {/* {Instructor?.category === "undefined" || undefined
+                  ? null
+                  : Instructor?.category?.map((category) => (
+                      <>
+                        <OutlineBtn text={category.value} />
+                      </>
+                    ))} */}
               </div>
               <div className="mt-8">
                 <h2 className="text-[40px] font-semibold md:w-[80%]">
@@ -284,7 +289,7 @@ const InstructorProfile = () => {
                 <div className="flex gap-2 my-5 flex-col">
                   <p className="flex items-center gap-2 text-black/70 text-lg">
                     <BsPatchCheckFill className="text-gay-400" />
-                    Over {Instructor.experience}
+                    Over {Instructor?.experience}
                   </p>
                 </div>
               </div>
@@ -295,7 +300,7 @@ const InstructorProfile = () => {
                 <div className="grid grid-cols-2 gap-2 my-5 justify-between">
                   <p className="flex items-center gap-2 text-black/70 text-lg">
                     <BsPatchCheckFill className="text-gay-400" />
-                    {Instructor.certifications}
+                    {Instructor?.certifications}
                   </p>
                 </div>
               </div>
@@ -310,7 +315,7 @@ const InstructorProfile = () => {
                       Online Lesson
                     </p>
                     <p className="text-black text-lg pl-5">
-                      {Instructor.privateSessionOnlineHourlyRate}
+                      {Instructor?.privateSessionOnlineHourlyRate}
                     </p>
                   </div>
                   <div>
@@ -319,7 +324,7 @@ const InstructorProfile = () => {
                       Private Lesson (1-on-1)
                     </p>
                     <p className="text-black text-lg pl-5">
-                      ${Instructor.privateSessionFaceToFaceHourlyRate} per hour
+                      ${Instructor?.privateSessionFaceToFaceHourlyRate} per hour
                     </p>
                   </div>
                 </div>
@@ -366,7 +371,7 @@ const InstructorProfile = () => {
             <div>
               <div className="rounded-[25px] overflow-hidden relative">
                 <img
-                  src={Instructor.profile_picture || User}
+                  src={Instructor?.profile_picture || User}
                   alt={Instructor4}
                   className="w-full h-[613px] grayscale hover:grayscale-0 object-cover"
                 />
@@ -388,7 +393,7 @@ const InstructorProfile = () => {
                 <div className="instructor_profile_shape"></div>
               </div>
               <h2 className="text-[26px] font-bold text-black mt-6">
-                {Instructor.name}
+                {Instructor?.name}
               </h2>
               <div className="mt-3 flex items-center gap-x-1">
                 <div className="flex items-center gap-0.5">
@@ -397,7 +402,7 @@ const InstructorProfile = () => {
                 <p className="text-black/50 text-sm">
                   {rating}{" "}
                   <span className="underline">
-                    ({Instructor.totalReviews} Reviews)
+                    ({Instructor?.totalReviews} Reviews)
                   </span>
                 </p>
               </div>
@@ -418,7 +423,7 @@ const InstructorProfile = () => {
                   Number of Students
                 </h2>
                 <h2 className="text-lg text-Dark_black font-semibold text-right">
-                  45+
+                  {Instructor?.numberofstudent}+
                 </h2>
               </div>
 

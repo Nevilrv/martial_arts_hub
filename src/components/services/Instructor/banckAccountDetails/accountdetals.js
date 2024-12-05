@@ -17,6 +17,21 @@ export const AccountRegister = async (body) => {
   }
 };
 
+export const Get_account_ditails = async (instructorId) => {
+  try {
+    let response = await axios({
+      method: "GET",
+      url: `${baseURL}/instructor/account/details/${instructorId}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
+
 export const AccountCreate = async (accountId,instructorId) => {
     try {
       let response = await axios({

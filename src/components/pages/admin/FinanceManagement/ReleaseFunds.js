@@ -1,35 +1,94 @@
 import React, { useState } from "react";
 import AdminHeadding from "../../common/AdminHeadding";
 import Instructor1 from "../../../../assets/images/Instructor-4.png";
-import Instructor2 from "../../../../assets/images/Instructor-1.png";
 import OutlineBtn from "../../common/OutlineBtn";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { FaArrowLeft } from "react-icons/fa";
-import User from "../../../../assets/images/userProfile.jpg"
+import User from "../../../../assets/images/userProfile.jpg";
+import {
+  funds,
+  fundsDetails,
+} from "../../../services/Admin/HandleRefunds/HandleRefunds";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { Routing } from "../../../shared/Routing";
+import { useEffect } from "react";
+import Spinner from "../../../layouts/Spinner";
+import dayjs from "dayjs";
 
 const ReleaseFunds = () => {
-  const [InstructorsList, setInstructorsList] = useState([
-    {
-      image: Instructor1,
-      InstructorName: "Keyn Mojho",
-      total_Funds: "$5000",
-      current_Month_Total_Funds: "$2500",
-      current_Month_ReFunds: "$0",
-      Total_Payble_Amount: "$2500",
-    },
-    {
-      image: Instructor2,
-      InstructorName: "Keyn Mojho",
-      total_Funds: "$5000",
-      current_Month_Total_Funds: "$2500",
-      current_Month_ReFunds: "$500",
-      Total_Payble_Amount: "$2000",
-    },
-  ]);
+  const navigate = useNavigate();
+  const [RefundList, setRefundList] = useState([]);
+  const [RefundDetails, setRefundDetails] = useState({});
   const [isOpen, SetisOpen] = useState(false);
+  const [Loading, setLoading] = useState(false);
+  //
+  const [TotalPaid, SetTotalPaid] = useState({
+    Instructor_TotalPaid: "",
+    Admin_Recive_Amount: "",
+    Final_Amout: "",
+  });
+  const Platform_Fees = 5;
+  const GetPrivesMonth = dayjs(new Date()).format("MM");
+
+  const Get_Refund_List = async () => {
+    setLoading(true);
+    const result = await funds(GetPrivesMonth - 1);
+    if (result?.success === true) {
+      setRefundList(result.data);
+      setLoading(false);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        navigate(Routing.AdminLogin);
+        setLoading(false);
+      } else {
+        toast.error(result?.message);
+        setLoading(false);
+      }
+    }
+  };
+
+  const HeandleView = async (data) => {
+    setLoading(true);
+    const result = await fundsDetails(data.instructorId, GetPrivesMonth - 1);
+    if (result?.success === true) {
+      setRefundDetails(result.data);
+      const data = result.data
+      let amount = (
+        data.prvMonthAmount - data.prvMonthReAmount
+      ).toFixed(2);
+      let Admin_Recive_Amount = ((amount * Platform_Fees) / 100).toFixed(2);
+      let Final_Amout_paid = (amount - Admin_Recive_Amount).toFixed(2);
+      SetTotalPaid({
+        Instructor_TotalPaid: amount,
+        Admin_Recive_Amount: Admin_Recive_Amount,
+        Final_Amout: Final_Amout_paid,
+      });
+      SetisOpen(true);
+      setLoading(false);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        SetisOpen(false);
+        navigate(Routing.AdminLogin);
+        setLoading(false);
+      } else {
+        toast.error(result?.message);
+        setLoading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    Get_Refund_List();
+  }, []);
 
   return (
     <>
+      {Loading && <Spinner />}
       <div className="flex items-center justify-between">
         <AdminHeadding Headding={"Release Funds"} />
         <div className="flex items-center gap-2 flex-wrap">
@@ -100,27 +159,27 @@ const ReleaseFunds = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#C6C6C6] bg-primary">
-              {InstructorsList.map((person) => (
-                <tr key={person.id}>
+              {RefundList.map((person) => (
+                <tr key={person.instructorId}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                     <img
-                      src={person.image||User}
+                      src={person.profile_picture || User}
                       alt=""
-                      className="w-[45px] h-[45px] rounded-full"
+                      className="min-w-[45px] max-w-[45px]  min-h-[45px] rounded-full object-cover"
                       srcset=""
                     />
                   </td>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-lg text-Dark_black font-medium sm:pl-6">
-                    {person.InstructorName}
+                    {person.name}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.total_Funds}
+                    {person.total_funds}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.current_Month_Total_Funds}
+                    {person.totalEarnings}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.current_Month_ReFunds}
+                    {person.totalRefunds}
                   </td>
                   <td
                     //  ${
@@ -128,14 +187,14 @@ const ReleaseFunds = () => {
                     // }
                     className={`whitespace-nowrap px-3 py-4 font-semibold`}
                   >
-                    {person.Total_Payble_Amount}
+                    {(person.totalEarnings - person.totalRefunds).toFixed(2)}
                   </td>
                   <td className="whitespace-nowrap px-3 pr-6 py-4 text-Dark_black font-medium w-[200px]">
                     <div className="flex items-center gap-2 justify-end">
                       <OutlineBtn
                         text={"View Details"}
                         className={"text-black h-[45px]"}
-                        onClick={() => SetisOpen(true)}
+                        onClick={() => HeandleView(person)}
                       />
                       {/* <OutlineBtn
                         text={"Release"}
@@ -169,50 +228,54 @@ const ReleaseFunds = () => {
                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 lg:w-auto w-full">
                   <div className="items-center flex-col justify-center lg:w-auto w-full row-span-2 lg:hidden flex md:col-span-2">
                     <img
-                      src={Instructor1||User}
+                      src={RefundDetails.profile || User}
                       className="w-[145px] h-[145px] rounded-full"
                       alt=""
                     />
                     <h2 className="text-xl text-center font-semibold">
-                      Marry Jhon
+                      {RefundDetails.name}
                     </h2>
-                    <p className="text-center text-black/50">(Student)</p>
+                    <p className="text-center text-black/50">
+                      ({RefundDetails.role})
+                    </p>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">
                       Instructor’s Name
                     </p>
                     <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      Marry Jhon
+                      {RefundDetails.name}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Instructor ID</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      #23352
+                      #{RefundDetails?.instructorId?.slice(0, 16)}...
                     </div>
                   </div>
                   <div className="items-center flex-col justify-center lg:w-auto w-full row-span-2 lg:flex hidden">
                     <img
-                      src={Instructor1||User}
-                      className="w-[145px] h-[145px] rounded-full"
+                      src={RefundDetails.profile || User}
+                      className="w-[145px] h-[145px] rounded-full object-cover"
                       alt=""
                     />
                     <h2 className="text-xl text-center font-semibold">
-                      Marry Jhon
+                      {RefundDetails.name}
                     </h2>
-                    <p className="text-center text-black/50">(Student)</p>
+                    <p className="text-center text-black/50">
+                      ({RefundDetails.role})
+                    </p>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Join Date</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      12/07/2024
+                      {RefundDetails.joinDate}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Toal Payment</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      $ 5000
+                      $ {RefundDetails.balance}
                     </div>
                   </div>
                   <div className="w-full">
@@ -221,9 +284,9 @@ const ReleaseFunds = () => {
                     </p>
                     <div className="flex items-center gap-3">
                       <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
-                        $ 2500
+                        $ {RefundDetails.prvMonthAmount}
                       </div>{" "}
-                      -
+                      <span className="lg:block hidden">-</span>
                     </div>
                   </div>
                   <div className="w-full">
@@ -232,25 +295,27 @@ const ReleaseFunds = () => {
                     </p>
                     <div className="flex items-center gap-3">
                       <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
-                        $ 500
+                        $ {RefundDetails.prvMonthReAmount}
                       </div>{" "}
-                      =
+                      <span className="lg:block hidden">=</span>
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Total Paid Amout</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
-                      $ 2000
+                      $ {TotalPaid.Instructor_TotalPaid}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Platform Fees</p>
                     <div className="flex items-center gap-3">
                       <input
+                        readOnly
+                        value={`${Platform_Fees}%`}
                         className="bg-[#D8D6CF] px-5 py-4 md:w-[247px] w-full h-[55px] mt-1 rounded-lg text-lg font-medium focus:outline-none placeholder:text-sm placeholder:text-Dark_black/50"
                         placeholder="Enter your Fess percentage"
                       />
-                      -
+                      <span className="lg:block hidden">-</span>
                     </div>
                   </div>
                   <div className="w-full">
@@ -259,9 +324,9 @@ const ReleaseFunds = () => {
                     </p>
                     <div className="flex items-center gap-3">
                       <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
-                        $ 200
+                        $ {TotalPaid.Admin_Recive_Amount}
                       </div>
-                      =
+                      <span className="lg:block hidden">=</span>
                     </div>
                   </div>
                   <div className="w-full">
@@ -269,7 +334,8 @@ const ReleaseFunds = () => {
                       Final Paid Amout To Instructor
                     </p>
                     <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
-                      $ 1800
+                      ${" "}
+                      {TotalPaid.Final_Amout}
                     </div>
                   </div>
                 </div>

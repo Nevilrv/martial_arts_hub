@@ -21,6 +21,7 @@ import {
 import Spinner from "../../../layouts/Spinner";
 import Socket from "../../common/Socket";
 import Users from "../../../../assets/images/userProfile.jpg"
+import { toast } from "react-toastify";
 
 
 const Chat = () => {
@@ -29,6 +30,7 @@ const Chat = () => {
   const [Loading, setLoading] = useState(false);
   const [showChat, setshowChat] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
+  console.log("🚀 ~ Chat ~ chatMessages:", chatMessages)
   const [StudentList, setStudentList] = useState([]);
   const StudentId = JSON.parse(localStorage.getItem("_id"));
   const navigate = useNavigate();
@@ -95,6 +97,9 @@ const Chat = () => {
       setLoading(false);
       chatId = result.data.chatId; 
     } else {
+      if (result.message==="You have reached the maximum limit of 10 messages. Pay for extra chat.") {
+        toast.error("Send only 10 messages Before buy any class")
+      }
       setLoading(false);
     }
   };

@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tabs from "..";
 import Select from "react-select";
 import {
   AccountCreate,
   AccountRegister,
+  Get_account_ditails,
 } from "../../../services/Instructor/banckAccountDetails/accountdetals";
 import OutlineBtn from "../../common/OutlineBtn";
 import Spinner from "../../../layouts/Spinner";
+import Inputfild from "../../common/Inputfild";
+import { toast } from "react-toastify";
 
 const BankAccountDetails = () => {
   const countries = [
@@ -61,9 +64,11 @@ const BankAccountDetails = () => {
     { value: "GB", label: "United Kingdom", currency: "GBP" },
     { value: "US", label: "United States", currency: "USD" },
   ];
-  const [selectedTimeSlot, setselectedTimeSlot] = useState(null);
+  const [selectedTimeSlot, setselectedTimeSlot] = useState(countries[0]);
   const [Loading, setLoading] = useState(false);
   const [errormess, seterrormess] = useState("");
+  const [accountDetails, setDccountDetails] = useState({});
+  console.log("🚀 ~ BankAccountDetails ~ accountDetails:", accountDetails);
 
   const handlecountriesChange = (selectedOption) => {
     setselectedTimeSlot(selectedOption);
@@ -98,11 +103,35 @@ const BankAccountDetails = () => {
     }
   };
 
+  const GetAccount = async () => {
+    setLoading(true);
+    const result = await Get_account_ditails(
+      JSON.parse(localStorage.getItem("_id"))
+    );
+    if (result?.success === true) {
+      setDccountDetails(result.data);
+      setLoading(false);
+    } else {
+      setLoading(false);
+      if (result.message === "Account not found") {
+        toast.error(
+          "Details of the instructor's bank account are not provided."
+        );
+      } else {
+        toast.error(result.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    GetAccount();
+  }, []);
+
   return (
     <>
       {Loading && <Spinner />}
       <Tabs />
-      <div className="h-screen flex items-center justify-center">
+      <div className="h-screen mt-8">
         <div className="flex w-full items-end justify-center gap-3">
           <div className="w-1/2">
             <p className="mb-2">
@@ -113,7 +142,7 @@ const BankAccountDetails = () => {
               Note 2 : And last Review and submit page Click "Edit button" and
               upload document if option show other wise
             </p>
-            <label className="text-base font-medium text-black block">
+            <label className="text-base font-medium text-black block mt-7">
               select country
             </label>
             <div className="TimeSlot">
@@ -130,6 +159,76 @@ const BankAccountDetails = () => {
             text={"select country"}
             className={"mb-6"}
             onClick={send_countries}
+          />
+        </div>
+
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 gap-y-9 mt-16 max-w-6xl mx-auto">
+          <Inputfild
+            type={"text"}
+            Label={"Stripe Account Id"}
+            value={accountDetails.id}
+            Labelclass={"customradiusBlack mb-1.5 font-medium"}
+            readOnly={true}
+            className={"rounded-xl md:w-full h-[70px]"}
+          />
+          <Inputfild
+            type={"text"}
+            Label={"Country Name"}
+            Labelclass={"customradiusBlack mb-1.5 font-medium"}
+            readOnly={true}
+            value={accountDetails.country}
+            className={"rounded-xl md:w-full h-[70px]"}
+          />
+          <Inputfild
+            type={"text"}
+            Label={"Currency"}
+            Labelclass={"customradiusBlack mb-1.5 font-medium"}
+            readOnly={true}
+            value={accountDetails.default_currency}
+            className={"rounded-xl md:w-full h-[70px]"}
+          />
+          <Inputfild
+            type={"text"}
+            Label={"Your Email Id"}
+            value={accountDetails.email}
+            Labelclass={"customradiusBlack mb-1.5 font-medium"}
+            readOnly={true}
+            className={"rounded-xl md:w-full h-[70px]"}
+          />
+          <div className="md:col-span-2 mt-10">
+            <h2 className="font-semibold text-3xl">Banck Accout Details</h2>
+          </div>
+          <Inputfild
+            type={"text"}
+            Label={"Bank Account Holder Name"}
+            value={accountDetails?.external_accounts?.data[0]?.account_holder_name===null?"Name is not Given":accountDetails?.external_accounts?.data[0]?.account_holder_name}
+            Labelclass={"customradiusBlack mb-1.5 font-medium"}
+            readOnly={true}
+            className={"rounded-xl md:w-full h-[70px]"}
+          />
+          <Inputfild
+            type={"text"}
+            Label={"Bank Name"}
+            Labelclass={"customradiusBlack mb-1.5 font-medium"}
+            readOnly={true}
+            value={accountDetails?.external_accounts?.data[0]?.bank_name}
+            className={"rounded-xl md:w-full h-[70px]"}
+          />
+          <Inputfild
+            type={"text"}
+            Label={"Bank Account Last 4 Digits"}
+            value={".... "+accountDetails?.external_accounts?.data[0]?.last4}
+            Labelclass={"customradiusBlack mb-1.5 font-medium"}
+            readOnly={true}
+            className={"rounded-xl md:w-full h-[70px]"}
+          />
+          <Inputfild
+            type={"text"}
+            Label={"Stripe Account Type"}
+            value={accountDetails?.type}
+            Labelclass={"customradiusBlack mb-1.5 font-medium"}
+            readOnly={true}
+            className={"rounded-xl md:w-full h-[70px]"}
           />
         </div>
       </div>

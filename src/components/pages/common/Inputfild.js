@@ -12,7 +12,8 @@ const Inputfild = ({
   Labelclass,
   value,
   maxLength,
-  onKeyPress
+  onKeyPress,
+  readOnly
 }) => {
   const [show, setshow] = useState(false);
 
@@ -27,6 +28,7 @@ const Inputfild = ({
             type={show === true ? "text" : type}
             name={name}
             value={value}
+            readOnly={readOnly}
             onKeyPress={onKeyPress}
             autoComplete="given-name"
             placeholder={placeholder}
