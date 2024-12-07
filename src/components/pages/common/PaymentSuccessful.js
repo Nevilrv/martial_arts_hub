@@ -13,8 +13,8 @@ const PaymentSuccessful = () => {
   const Storedata = async () => {
     setLoading(true);
     let body = {
-      paymentId: data.paymentId,
-      customerId: data.customerId,
+      paymentId: data?.paymentId,
+      customerId: data?.customerId,
     };
     const result = await Payment_Successful_Data(
       data.studentId,

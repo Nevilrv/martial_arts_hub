@@ -59,6 +59,7 @@ const OngoingClasses = () => {
     if (result?.success === true) {
       localStorage.setItem("paymentDetails", JSON.stringify(result.data));
       toast.success(result?.message);
+      localStorage.setItem("InstructorId", upcoming_class?.InstructorId);
       window.open(result.data.PaymentUrl, "_blank", "noopener,noreferrer");
       setLoading(false);
     } else {

@@ -10,15 +10,26 @@ import {
   Instructor_change_class_status,
   Instructor_End_Class,
 } from "../../services/Instructor/createClass/Index";
+import Spinner from "../../layouts/Spinner";
+import Popup from "./Popup";
+import { Reviewsvg } from "../../../assets/icon";
+import { FaStar } from "react-icons/fa";
+import RataingPopup from "./RataingPopup";
 
 const Videocall = () => {
   const { channelName, role } = useParams();
   const [rtcProps, setRtcProps] = useState(null);
   const [videoCall, setVideoCall] = useState(true);
+  const [isOpen, SetisOpen] = useState(false);
   const classid = localStorage.getItem("classId");
   const _id = JSON.parse(localStorage.getItem("_id"));
   const navigate = useNavigate();
   const userRole = JSON.parse(localStorage.getItem("Role"));
+  const [rating, setRating] = useState(0);
+  const [ReviewMessage, setReviewMessage] = useState("");
+  const handleStarClick = (star) => {
+    setRating(star);
+  };
 
   const initAgora = async () => {
     try {
@@ -46,7 +57,7 @@ const Videocall = () => {
       });
       toast.success(response.message);
     } catch (error) {
-      console.error("Failed to initialize Agora:", "error",error);
+      console.error("Failed to initialize Agora:", "error", error);
       toast.error(error.response?.data?.message || "Failed to join the room");
       if (
         error.response?.data?.message ===
@@ -62,7 +73,6 @@ const Videocall = () => {
   };
   useEffect(() => {
     initAgora();
-    // eslint-disable-next-line
   }, [channelName, role]);
 
   const Endclass = async () => {
@@ -78,11 +88,11 @@ const Videocall = () => {
     EndCall: () => {
       if (videoCall) {
         setVideoCall(false);
+        SetisOpen(true);
         if (userRole === "Instructor") {
           Endclass();
-        }
-        else{
-          window.open(Routing.StudentMyClass)
+        } else {
+          // navigate(Routing.StudentMyClass)
         }
       }
     },
@@ -129,13 +139,30 @@ const Videocall = () => {
       style={{ display: "flex", width: "100%", height: "calc(100vh - 85px)" }}
     >
       {rtcProps ? (
-        <AgoraUIKit
-          rtcProps={rtcProps}
-          callbacks={callbacks}
-          styleProps={styleProps}
-        />
+        <>
+          <AgoraUIKit
+            rtcProps={rtcProps}
+            callbacks={callbacks}
+            styleProps={styleProps}
+          />
+          <RataingPopup
+            isOpen={isOpen}
+            SetisOpen={SetisOpen}
+            Icons={<Reviewsvg />}
+            Headding={"Rate Instructor!"}
+            rating={rating}
+            setRating={setRating}
+            setReviewMessage={setReviewMessage}
+            ReviewMessage={ReviewMessage}
+            handleStarClick={handleStarClick}
+            BodyText={
+              "Thank you for joining the session! Your feedback helps us improve! Rate your experience about our instructor to let us know what they’re doing right and where they can grow."
+            }
+            BtnText={"Submit"}
+          />
+        </>
       ) : (
-        <div>Loading.......</div>
+        <Spinner />
       )}
     </div>
   );

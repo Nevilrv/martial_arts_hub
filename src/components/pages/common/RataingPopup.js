@@ -1,20 +1,22 @@
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
-import React from "react";
+import React, { useState } from "react";
 import OutlineBtn from "./OutlineBtn";
+import { FaStar } from "react-icons/fa";
 
-const Popup = ({
+const RataingPopup = ({
   isOpen,
   SetisOpen,
   Icons,
   onClick,
-  BtnText2Click,
   BtnText,
-  BtnText2,
   Headding,
   BodyText,
-  Btnclass,
-  Star
+  setRating,
+  rating,
+  setReviewMessage,
+  ReviewMessage,
 }) => {
+
   return (
     <>
       <Dialog className="relative z-[9999]" open={isOpen} onClose={SetisOpen}>
@@ -26,7 +28,7 @@ const Popup = ({
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <DialogPanel
               transition
-              className="relative transform overflow-hidden rounded-lg bg-primary px-6 pb-6 pt-[80px] text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full md:max-w-[575px]  data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
+              className="relative transform overflow-hidden rounded-lg bg-primary px-6 pb-6 pt-[80px] text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full md:max-w-[775px]  data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
             >
               <div>
                 <div className="flex items-center justify-center">{Icons}</div>
@@ -37,23 +39,30 @@ const Popup = ({
                   {BodyText}
                 </p>
                 <div className="flex items-center gap-1 justify-center mt-10">
-                  {Star}
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <FaStar
+                      key={star}
+                      onClick={() => setRating(star)}
+                      className={`cursor-pointer text-[40px] ${
+                        rating >= star ? "text-yellow-100" : "text-gray-300"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <div className="mt-8">
+                  <textarea
+                    onChange={(e) => setReviewMessage(e.target.value)}
+                    value={ReviewMessage}
+                    className="h-[135px] px-6 py-5 w-full rounded-xl bg-[#DAD8D0] text-black/50 placeholder:text-black/50 focus:outline-none text-lg placeholder:text-lg"
+                    placeholder="Write Your message here*"
+                  />
                 </div>
                 <div className="flex sm:flex-row flex-col items-center gap-3 mt-14 justify-center">
                   <OutlineBtn
                     text={BtnText}
-                    className={`border-black/30 w-[260px] font-medium text-xl ${Btnclass} `}
+                    className={`bg-black outline-none text-white w-full py-3 text-lg font-medium`}
                     onClick={onClick}
                   />
-                  {BtnText2 && (
-                    <OutlineBtn
-                      text={BtnText2}
-                      className={
-                        "bg-black text-white w-[260px] font-medium text-xl"
-                      }
-                      onClick={BtnText2Click}
-                    />
-                  )}
                 </div>
               </div>
             </DialogPanel>
@@ -64,4 +73,4 @@ const Popup = ({
   );
 };
 
-export default Popup;
+export default RataingPopup;

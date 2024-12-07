@@ -30,3 +30,19 @@ export const fundsDetails = async (instructorId,month) => {
     return error?.response?.data;
   }
 };
+
+export const fundsRelease = async (body) => {
+  try {
+    let response = await axios({
+      method: "POST",
+      url: `${baseURL}/admin/release/instructor/payments`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      data:body
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};

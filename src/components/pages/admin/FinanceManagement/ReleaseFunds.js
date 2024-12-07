@@ -8,6 +8,7 @@ import User from "../../../../assets/images/userProfile.jpg";
 import {
   funds,
   fundsDetails,
+  fundsRelease,
 } from "../../../services/Admin/HandleRefunds/HandleRefunds";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -55,10 +56,8 @@ const ReleaseFunds = () => {
     const result = await fundsDetails(data.instructorId, GetPrivesMonth - 1);
     if (result?.success === true) {
       setRefundDetails(result.data);
-      const data = result.data
-      let amount = (
-        data.prvMonthAmount - data.prvMonthReAmount
-      ).toFixed(2);
+      const data = result.data;
+      let amount = (data.prvMonthAmount - data.prvMonthReAmount).toFixed(2);
       let Admin_Recive_Amount = ((amount * Platform_Fees) / 100).toFixed(2);
       let Final_Amout_paid = (amount - Admin_Recive_Amount).toFixed(2);
       SetTotalPaid({
@@ -67,6 +66,37 @@ const ReleaseFunds = () => {
         Final_Amout: Final_Amout_paid,
       });
       SetisOpen(true);
+      setLoading(false);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        SetisOpen(false);
+        navigate(Routing.AdminLogin);
+        setLoading(false);
+      } else {
+        toast.error(result?.message);
+        setLoading(false);
+      }
+    }
+  };
+
+  const HeandleRelease = async (data) => {
+    setLoading(true);
+    const body = {
+      instructorId: data?.instructorId,
+      accountId: data?.accountId?.AccountId,
+      balance: data.balance,
+      prvMonth: GetPrivesMonth,
+      prvMonthAmount: data.prvMonthAmount,
+      prvMonthReAmount: data.prvMonthReAmount,
+      prvTotalpaid: TotalPaid.Instructor_TotalPaid,
+      AdminEarning: TotalPaid.Admin_Recive_Amount,
+      finalAmount: TotalPaid.Final_Amout,
+    };
+    const result = await fundsRelease(body);
+    if (result?.success === true) {
+      SetisOpen(false);
       setLoading(false);
     } else {
       if (
@@ -334,8 +364,7 @@ const ReleaseFunds = () => {
                       Final Paid Amout To Instructor
                     </p>
                     <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
-                      ${" "}
-                      {TotalPaid.Final_Amout}
+                      $ {TotalPaid.Final_Amout}
                     </div>
                   </div>
                 </div>
@@ -343,6 +372,7 @@ const ReleaseFunds = () => {
                   <OutlineBtn
                     className={"text-white bg-red-200 border-none"}
                     text={"Release Amount"}
+                    onClick={()=>HeandleRelease(RefundDetails)}
                   />
                 </div>
               </div>
