@@ -6,21 +6,18 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Routing } from "../../shared/Routing";
 import OutlineBtn from "./OutlineBtn";
-import {
-  Instructor_change_class_status,
-  Instructor_End_Class,
-} from "../../services/Instructor/createClass/Index";
+import { Instructor_End_Class } from "../../services/Instructor/createClass/Index";
 import Spinner from "../../layouts/Spinner";
-import Popup from "./Popup";
 import { Reviewsvg } from "../../../assets/icon";
-import { FaStar } from "react-icons/fa";
 import RataingPopup from "./RataingPopup";
+import { Student_Review } from "../../services/student/Review/Review";
 
 const Videocall = () => {
   const { channelName, role } = useParams();
   const [rtcProps, setRtcProps] = useState(null);
   const [videoCall, setVideoCall] = useState(true);
   const [isOpen, SetisOpen] = useState(false);
+  const [Loading, setLoading] = useState(false);
   const classid = localStorage.getItem("classId");
   const _id = JSON.parse(localStorage.getItem("_id"));
   const navigate = useNavigate();
@@ -55,7 +52,6 @@ const Videocall = () => {
         enableScreensharing: true,
         enableAudio: true,
       });
-      toast.success(response.message);
     } catch (error) {
       console.error("Failed to initialize Agora:", "error", error);
       toast.error(error.response?.data?.message || "Failed to join the room");
@@ -81,6 +77,7 @@ const Videocall = () => {
       localStorage.removeItem("classId");
       window.open(Routing.InstructorMyClass);
     } else {
+
     }
   };
 
@@ -122,6 +119,25 @@ const Videocall = () => {
     },
   };
 
+  const handle_Student_Review = async () => {
+    const Body = {
+      rating: rating,
+      feedback: ReviewMessage,
+      userType: localStorage.getItem("Role").toLocaleLowerCase(),
+    };
+    const studentId = localStorage.getItem("_id");
+    const instructorId = localStorage.getItem("InstructorId");
+    const result = await Student_Review(Body, studentId, instructorId);
+    if (result?.success === true) {
+      setLoading(false);
+      SetisOpen(false);
+    } else {
+      setLoading(false);
+      SetisOpen(false);
+      toast.error(result?.message);
+    }
+  };
+
   return !videoCall ? (
     <div style={{ textAlign: "center", marginTop: "20px" }}>
       <h3>Welcome Back {JSON.parse(localStorage.getItem("Role"))}</h3>
@@ -140,6 +156,7 @@ const Videocall = () => {
     >
       {rtcProps ? (
         <>
+          {Loading && <Spinner />}
           <AgoraUIKit
             rtcProps={rtcProps}
             callbacks={callbacks}
@@ -155,6 +172,7 @@ const Videocall = () => {
             setReviewMessage={setReviewMessage}
             ReviewMessage={ReviewMessage}
             handleStarClick={handleStarClick}
+            onClick={handle_Student_Review}
             BodyText={
               "Thank you for joining the session! Your feedback helps us improve! Rate your experience about our instructor to let us know what they’re doing right and where they can grow."
             }

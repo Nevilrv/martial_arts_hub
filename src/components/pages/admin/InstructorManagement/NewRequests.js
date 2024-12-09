@@ -64,7 +64,6 @@ const NewRequests = () => {
     setLoading(true);
     const result = await Requests_Accept(getinstructorId, status);
     if (result?.success === true) {
-      toast.success(result.message);
       Get_Instructor_Requests();
       setLoading(false);
     } else {

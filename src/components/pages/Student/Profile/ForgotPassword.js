@@ -42,7 +42,7 @@ const ForgotPassword = () => {
     if (result?.success === true) {
       setIsOpen(true);
       setLoading(false);
-      toast.success(result?.message);
+       
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -71,7 +71,7 @@ const ForgotPassword = () => {
       setLoading(false);
       setNewpasswordModel(true);
       setOtpModel(false);
-      toast.success(result?.message);
+       
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -97,7 +97,7 @@ const ForgotPassword = () => {
     if (result?.success === true) {
       setLoading(false);
       setNewpasswordModel(false);
-      toast.success(result?.message);
+       
     } else {
       setLoading(false);
       toast.error(result?.message);

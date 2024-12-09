@@ -48,7 +48,7 @@ const NewDispute = () => {
     if (result?.success === true) {
       setLoading(false);
       setGetInstructors(result.data);
-      toast.success(result?.message);
+       
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -60,7 +60,7 @@ const NewDispute = () => {
     if (result?.success === true) {
       setLoading(false);
       setgetClass(result.data);
-      toast.success(result?.message);
+       
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -113,7 +113,7 @@ const NewDispute = () => {
    
     if (result?.success === true) {
       setLoading(false);
-      toast.success(result?.message);
+       
       SetisOpen(true);
       // navigate(Routing.InstructorDashboard)
     } else {

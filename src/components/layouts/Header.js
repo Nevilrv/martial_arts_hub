@@ -10,7 +10,7 @@ import {
   Radio,
   RadioGroup,
 } from "@headlessui/react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Routing } from "../shared/Routing";
 import { IoMdClose } from "react-icons/io";
 import { FaBars } from "react-icons/fa6";
@@ -18,14 +18,22 @@ import { BiCheckCircle } from "react-icons/bi";
 import { Allert_Popup_Icon } from "../../assets/icon";
 import OutlineBtn from "../pages/common/OutlineBtn";
 import Popup from "../pages/common/Popup";
+import {
+  Link,
+  Button,
+  Element,
+  Events,
+  animateScroll as scroll,
+  scrollSpy,
+} from "react-scroll";
 
 const Header = () => {
   const navigate = useNavigate();
   const navigation = [
-    { name: "Home", href: "/" },
-    { name: "About Us", href: "/about" },
-    { name: "Contact Us", href: "/contact" },
-    { name: "Categories", href: "/categories" },
+    { name: "Home", href: "home" },
+    { name: "About Us", href: "about" },
+    { name: "Contact Us", href: "Contact_Us" },
+    { name: "Categories", href: "" },
   ];
   const Studentnavigation = [
     { name: "Dashboard", href: Routing.StudentDashboard },
@@ -43,13 +51,16 @@ const Header = () => {
 
   const Adminnavigation = [
     { name: "Dashboard", href: Routing.AdminDashboard },
-    { name: "Instructor Requests", href: Routing.Admin_Instructor_Managementnew_Requests },
+    {
+      name: "Instructor Requests",
+      href: Routing.Admin_Instructor_Managementnew_Requests,
+    },
     { name: "View Students", href: Routing.Admin_View_Students },
     { name: "Finance Dashboard", href: Routing.Admin_Finance_Dashboard },
     { name: "Dispute Requests", href: Routing.Admin_Dispute_Requests },
     { name: "Generate Reports", href: Routing.Admin_Generate_Reports },
     { name: "Discipline Centre", href: Routing.Admin_Discipline_Centre },
-  ]
+  ];
 
   const mailingLists = [
     { id: 1, title: "Login as Student" },
@@ -108,6 +119,27 @@ const Header = () => {
       : "bg-transparent"
   }`;
 
+  useEffect(() => {
+    // Registering the 'begin' event and logging it to the console when triggered.
+    Events.scrollEvent.register("begin", (to, element) => {
+      console.log("begin", to, element);
+    });
+
+    // Registering the 'end' event and logging it to the console when triggered.
+    Events.scrollEvent.register("end", (to, element) => {
+      console.log("end", to, element);
+    });
+
+    // Updating scrollSpy when the component mounts.
+    scrollSpy.update();
+
+    // Returning a cleanup function to remove the registered events when the component unmounts.
+    return () => {
+      Events.scrollEvent.remove("begin");
+      Events.scrollEvent.remove("end");
+    };
+  }, []);
+
   return (
     <>
       <header className={headerClasses}>
@@ -116,9 +148,12 @@ const Header = () => {
           className="mx-auto flex items-center justify-between p-6 lg:px-8"
         >
           <div className="flex flex-1">
-            <h2 className="font-extrabold text-lg leading-[21.6px] tracking-[-1px]">
+            <div
+              onClick={() => navigate(Routing.Initial)}
+              className="font-extrabold text-lg leading-[21.6px] tracking-[-1px] cursor-pointer"
+            >
               martial arts hub.
-            </h2>
+            </div>
           </div>
           <div className="flex lg:hidden">
             <button
@@ -135,8 +170,13 @@ const Header = () => {
             {navigation.map((item, i) => (
               <Link
                 key={i}
+                activeClass="active"
                 to={item.href}
-                className={`text-sm leading-6 hover:text-black ${
+                spy={true}
+                smooth={true}
+                offset={50}
+                duration={500}
+                className={`text-sm leading-6 hover:text-black cursor-pointer ${
                   currentLocation === item.href
                     ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
                     : "text-black/70 font-normal"
@@ -186,51 +226,54 @@ const Header = () => {
                 {Role === "Student" &&
                   Studentnavigation?.map((item, i) => (
                     <MenuItem>
-                      <Link
+                      <div
                         key={i}
-                        to={item.href}
-                        className={`block px-4 py-2 text-lg text-black ${
+                        onClick={() => navigate(item.href)}
+                        className={`block px-4 py-2 text-lg text-black cursor-pointer ${
                           currentLocation === item.href
                             ? "font-semibold underline"
                             : ""
                         }`}
                       >
                         {item.name}
-                      </Link>
+                      </div>
                     </MenuItem>
                   ))}
                 {Role === "Instructor" &&
                   Instructornavigation?.map((item, i) => (
                     <MenuItem>
-                      <Link
+                      <div
                         key={i}
-                        to={item.href}
-                        className={`block px-4 py-2 text-lg text-black ${
+                        onClick={() => navigate(item.href)}
+                        className={`block px-4 py-2 text-lg text-black cursor-pointer ${
                           currentLocation === item.href
                             ? "font-semibold underline"
                             : ""
                         }`}
                       >
                         {item.name}
-                      </Link>
+                      </div>
                     </MenuItem>
                   ))}
-                {Role === ""||Role === undefined||Role === "Admin"||Role === null &&
-                 Adminnavigation?.map((item, i) => (
-                  <MenuItem>
-                    <Link
-                      key={i}
-                      to={item.href}
-                      className={`block px-4 py-2 text-lg text-black ${
-                        currentLocation === item.href
-                          ? "font-semibold underline"
-                          : ""
-                      }`}
-                    >
-                      {item.name}
-                    </Link>
-                  </MenuItem>
-                ))}
+                {Role === "" ||
+                  Role === undefined ||
+                  Role === "Admin" ||
+                  (Role === null &&
+                    Adminnavigation?.map((item, i) => (
+                      <MenuItem>
+                        <div
+                          key={i}
+                          onClick={() => navigate(item.href)}
+                          className={`block px-4 py-2 text-lg text-black cursor-pointer ${
+                            currentLocation === item.href
+                              ? "font-semibold underline"
+                              : ""
+                          }`}
+                        >
+                          {item.name}
+                        </div>
+                      </MenuItem>
+                    )))}
                 <MenuItem onClick={() => SetisOpen(true)}>
                   <p
                     className={`block px-4 py-2 text-lg text-black cursor-pointer`}
@@ -271,7 +314,12 @@ const Header = () => {
                   {navigation.map((item, i) => (
                     <Link
                       key={i}
+                      activeClass="active"
                       to={item.href}
+                      spy={true}
+                      smooth={true}
+                      offset={50}
+                      duration={500}
                       className={`-mx-3 block rounded-lg px-3 py-2 text-sm leading-6 hover:text-black ${
                         currentLocation === item.href
                           ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-2 after:left-[13px]"

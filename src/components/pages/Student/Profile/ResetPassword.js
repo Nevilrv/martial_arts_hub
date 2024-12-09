@@ -27,7 +27,7 @@ const ResetPassword = () => {
     const result = await resetpassword(Resetpassword);
     if (result?.success === true) {
       setLoading(false);
-      toast.success(result?.message);
+       
       setResetpassword({
         currentPassword: "",
         newPassword: "",

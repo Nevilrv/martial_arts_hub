@@ -20,7 +20,7 @@ const CompletedClasses = () => {
     if (result?.success === true) {
       setLoading(false);
       setUpcomingClass(result.data.complete);
-      toast.success(result?.message);
+       
     } else {
       setLoading(false);
       toast.error(result?.message);

@@ -131,9 +131,9 @@ const BankAccountDetails = () => {
     <>
       {Loading && <Spinner />}
       <Tabs />
-      <div className="h-screen mt-8">
-        <div className="flex w-full items-end justify-center gap-3">
-          <div className="w-1/2">
+      <div className="md:h-screen mt-8 px-3">
+        <div className="flex flex-wrap w-full items-end justify-center gap-3">
+          <div className="md:w-1/2 w-full">
             <p className="mb-2">
               Note 1 : Kyc time please do not refresh page and alos click return
               link
@@ -217,7 +217,7 @@ const BankAccountDetails = () => {
           <Inputfild
             type={"text"}
             Label={"Bank Account Last 4 Digits"}
-            value={".... "+accountDetails?.external_accounts?.data[0]?.last4}
+            value={".... "+accountDetails?.external_accounts?.data[0]?.last4===undefined||"undefined"?"":accountDetails?.external_accounts?.data[0]?.last4}
             Labelclass={"customradiusBlack mb-1.5 font-medium"}
             readOnly={true}
             className={"rounded-xl md:w-full h-[70px]"}

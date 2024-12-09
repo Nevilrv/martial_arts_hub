@@ -34,7 +34,7 @@ const MyClass = () => {
   //     else if(calssType==="Completed Classes"){
   //       setUpcomingClass(result.data.complete);
   //     }
-  //     toast.success(result?.message);
+  //      
   //   } else {
   //     setLoading(false);
   //     toast.error(result?.message);

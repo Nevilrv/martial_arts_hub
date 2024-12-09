@@ -20,7 +20,7 @@ const OngoingClasses = () => {
     const result = await Student_get_Upcoming_Classes();
     if (result?.success === true) {
       setUpcomingClass(result.data.ongoing);
-      toast.success(result?.message);
+       
       setLoading(false);
     } else {
       setLoading(false);
@@ -58,14 +58,19 @@ const OngoingClasses = () => {
     );
     if (result?.success === true) {
       localStorage.setItem("paymentDetails", JSON.stringify(result.data));
-      toast.success(result?.message);
-      localStorage.setItem("InstructorId", upcoming_class?.InstructorId);
+       
       window.open(result.data.PaymentUrl, "_blank", "noopener,noreferrer");
       setLoading(false);
     } else {
       setLoading(false);
       toast.error(result?.message);
     }
+  };
+
+  const heandleJoin = (upcoming_class) => {
+    localStorage.setItem("InstructorId", upcoming_class?.instructorId);
+    window.open(upcoming_class.student_url, "_blank", "noopener,noreferrer");
+    Change_Status_Classes(upcoming_class?.classId);
   };
 
   return (
@@ -131,12 +136,7 @@ const OngoingClasses = () => {
                   text={"Join Class"}
                   className={"bg-Green-100 border-green text-green"}
                   onClick={() => {
-                    window.open(
-                      upcoming_class.student_url,
-                      "_blank",
-                      "noopener,noreferrer"
-                    );
-                    Change_Status_Classes(upcoming_class?.classId)
+                    heandleJoin(upcoming_class);
                   }}
                 />
               )}

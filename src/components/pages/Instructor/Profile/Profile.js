@@ -358,7 +358,7 @@ const Profile = () => {
     const result = await InstructorProfile(formData);
     if (result?.success === true) {
       setLoading(false);
-      toast.success(result?.message);
+       
       navigate(Routing.InstructorDashboard);
     } else {
       setLoading(false);
@@ -396,7 +396,7 @@ const Profile = () => {
             result?.data?.privateSessionFaceToFaceHourlyRate,
         });
 
-        toast.success(result?.message);
+         
       } else {
         setLoading(false);
         toast.error(result?.message);

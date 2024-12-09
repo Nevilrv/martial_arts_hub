@@ -18,7 +18,7 @@ const UpcomingClass = () => {
     const result = await Student_get_Upcoming_Classes();
     if (result?.success === true) {
       setUpcomingClass(result.data.upcoming);
-      toast.success(result?.message);
+       
       setLoading(false);
     } else {
       setLoading(false);
@@ -42,7 +42,7 @@ const UpcomingClass = () => {
     const result = await Student_Payment(detals.studentId,detals.classId,detals.bookingId,detals.instructorId);
     if (result?.success === true) {
       localStorage.setItem("paymentDetails",JSON.stringify(result.data));
-      toast.success(result?.message);
+       
       window.open(result.data.PaymentUrl, '_blank', 'noopener,noreferrer')
       setLoading(false);
     } else {

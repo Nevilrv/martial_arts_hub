@@ -68,7 +68,6 @@ const All_Message = () => {
     };
     const result = await Student_Message_status(NotificationId, body);
     if (result?.success === true) {
-      toast.success(result.message)
       setMessageRequest(false);
       Get_requests_pending()
       setLoading(false);

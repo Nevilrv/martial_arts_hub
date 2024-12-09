@@ -68,7 +68,6 @@ const Index = () => {
       setClass(result.data.myClasses);
       setMessagesRequest(result.data.messageRequest);
       setearning(result.data.earnings);
-      toast.success(result?.message);
       setLoading(false);
     } else {
       if (result?.message==="Invalid token, Please Log-Out and Log-In again") {

@@ -24,7 +24,6 @@ const PaymentSuccessful = () => {
       body
     );
     if (result?.success === true) {
-      toast.success(result?.message);
       setLoading(false);
     } else {
       setLoading(false);

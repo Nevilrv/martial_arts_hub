@@ -115,7 +115,6 @@ const CreateSlot = () => {
     if (result?.success === true) {
       setLoading(false);
       navigate(Routing.InstructorDashboard);
-      toast.success(result?.message);
     } else {
       setLoading(false);
       toast.error(result?.message);

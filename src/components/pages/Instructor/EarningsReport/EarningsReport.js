@@ -20,7 +20,6 @@ const EarningsReport = () => {
     if (result?.success === true) {
       setEarnings(result.data);
       setLoading(false);
-      toast.success(result?.message);
     } else {
       setLoading(false);
       toast.error(result?.message);

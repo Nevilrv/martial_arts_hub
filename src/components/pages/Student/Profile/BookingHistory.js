@@ -19,7 +19,7 @@ const BookingHistory = () => {
     if (result?.success === true) {
       setLoading(false);
       setStudent_Booking(result?.data);
-      toast.success(result?.message);
+       
     } else {
       setLoading(false);
       toast.error(result?.message);

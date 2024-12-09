@@ -85,7 +85,6 @@ const CreateClass = () => {
       setLoading(false);
       console.log(result, "=======>");
       navigate(Routing.InstructorDashboard);
-      toast.success(result?.message);
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -98,7 +97,6 @@ const CreateClass = () => {
       setLoading(false);
       console.log(result, "=======>");
       setClassdata(result.data);
-      toast.success(result?.message);
     } else {
       setLoading(false);
       toast.error(result?.message);

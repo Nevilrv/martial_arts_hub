@@ -18,7 +18,7 @@ const CompletedClasses = () => {
     const result = await Student_get_Upcoming_Classes();
     if (result?.success === true) {
       setUpcomingClass(result.data.complete);
-      toast.success(result?.message);
+       
       setLoading(false);
     } else {
       setLoading(false);

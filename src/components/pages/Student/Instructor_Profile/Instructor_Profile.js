@@ -98,7 +98,6 @@ const InstructorProfile = () => {
     if (result?.success === true) {
       setLoading(false);
       setMessageSend(false);
-      toast.success(result.message);
     } else {
       if (
         result?.message === "Invalid token, Please Log-Out and Log-In again"

@@ -177,7 +177,6 @@ const BookClass = () => {
         classRate: "",
       });
       setSelectedTimeSlot([]);
-      toast.success(result.message)
       navigate(Routing.StudentMyClass)
       setSelectedMailingLists();
     } else {

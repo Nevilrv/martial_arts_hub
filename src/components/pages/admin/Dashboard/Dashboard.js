@@ -108,7 +108,6 @@ const Dashboard = () => {
     const result = await Admin_Dashboard_data();
     if (result?.success === true) {
       setDashboardCard(result.data);
-      toast.success(result?.message);
       setLoading(false);
     } else {
       if (

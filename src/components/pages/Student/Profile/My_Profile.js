@@ -21,7 +21,7 @@ const My_Profile = () => {
     if (result?.success === true) {
       setProfiledetails(result?.data);
       setLoading(false);
-      toast.success(result?.message);
+       
     } else {
       setLoading(false);
       toast.error(result?.message);

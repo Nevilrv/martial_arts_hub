@@ -21,7 +21,7 @@ const UpcomingClass = (props) => {
     const result = await Instructor_get_Upcoming_Classes(id);
     if (result?.success === true) {
       setUpcomingClass(result.data.upcoming);
-      toast.success(result?.message);
+       
       setLoading(false);
     } else {
       toast.error(result?.message);

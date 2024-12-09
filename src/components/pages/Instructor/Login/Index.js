@@ -41,7 +41,6 @@ const Index = () => {
       localStorage.setItem("token", result?.Token);
       localStorage.setItem("is_login", true);
       navigate(Routing.InstructorDashboard);
-      toast.success(result?.message);
     } else {
       setLoading(false);
       toast.error(result?.message);

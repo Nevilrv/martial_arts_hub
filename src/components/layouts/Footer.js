@@ -5,7 +5,7 @@ import { IoLogoInstagram } from "react-icons/io";
 const Footer = () => {
   return (
     <>
-      <footer className="px-3 lg:px-8 pt-16 pb-1">
+      <footer className="px-3 lg:px-8 pt-16 pb-1" name="Contact_Us">
         <div className="flex items-start justify-between flex-wrap gap-y-10">
           <div>
             <h2 className="font-extrabold text-lg leading-[21.6px] tracking-[-1px]">

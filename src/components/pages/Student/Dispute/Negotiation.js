@@ -35,7 +35,7 @@ const Negotiation = () => {
     if (result?.success === true) {
       setLoading(false);
       setDisputeDetails(result.data);
-      toast.success(result?.message);
+       
     } else {
       setLoading(false);
       toast.error(result?.message);

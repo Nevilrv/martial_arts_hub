@@ -43,7 +43,6 @@ const Index = () => {
       localStorage.setItem("_id", JSON.stringify(result.data.adminId));
       localStorage.setItem("role", JSON.stringify(result.data.role));
       SetisOpen(true);
-      toast.success(result?.message);
       navigate(Routing.AdminDashboard);
     } else {
       setLoading(false);
