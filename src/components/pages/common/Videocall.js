@@ -85,10 +85,10 @@ const Videocall = () => {
     EndCall: () => {
       if (videoCall) {
         setVideoCall(false);
-        SetisOpen(true);
         if (userRole === "Instructor") {
           Endclass();
         } else {
+          SetisOpen(true);
           // navigate(Routing.StudentMyClass)
         }
       }
