@@ -11,19 +11,22 @@ import Spinner from "../../layouts/Spinner";
 import { Reviewsvg } from "../../../assets/icon";
 import RataingPopup from "./RataingPopup";
 import { Student_Review } from "../../services/student/Review/Review";
+import AgoraRTC from "agora-rtc-sdk-ng";
 
 const Videocall = () => {
   const { channelName, role } = useParams();
   const [rtcProps, setRtcProps] = useState(null);
   const [videoCall, setVideoCall] = useState(true);
   const [isOpen, SetisOpen] = useState(false);
-  const [Loading, setLoading] = useState(false);
-  const classid = localStorage.getItem("classId");
-  const _id = JSON.parse(localStorage.getItem("_id"));
-  const navigate = useNavigate();
-  const userRole = JSON.parse(localStorage.getItem("Role"));
+  const [loading, setLoading] = useState(false);
+  const [hasEnded, setHasEnded] = useState(false);
   const [rating, setRating] = useState(0);
-  const [ReviewMessage, setReviewMessage] = useState("");
+  const [reviewMessage, setReviewMessage] = useState("");
+  const navigate = useNavigate();
+  const classId = localStorage.getItem("classId");
+  const userId = JSON.parse(localStorage.getItem("_id"));
+  const userRole = JSON.parse(localStorage.getItem("Role"));
+
   const handleStarClick = (star) => {
     setRating(star);
   };
@@ -42,6 +45,7 @@ const Videocall = () => {
           },
         }
       );
+
       const token = response.data.data;
       setRtcProps({
         appId: "fe27d8a87b6d4614bb016f58bf0e286a",
@@ -51,9 +55,13 @@ const Videocall = () => {
         enableVideo: true,
         enableScreensharing: true,
         enableAudio: true,
+        client: new AgoraRTC.Client({
+          mode: "rtc",
+          codec: "vp8",
+        }),
       });
     } catch (error) {
-      console.error("Failed to initialize Agora:", "error", error);
+      console.error("Failed to initialize Agora:", error);
       toast.error(error.response?.data?.message || "Failed to join the room");
       if (
         error.response?.data?.message ===
@@ -67,33 +75,71 @@ const Videocall = () => {
       }
     }
   };
+
   useEffect(() => {
     initAgora();
+    return () => {
+      // Clean up Agora client on unmount
+      if (rtcProps && rtcProps.client) {
+        rtcProps.client.leave().catch((err) => {
+          console.warn("Error during cleanup leave:", err);
+        });
+      }
+    };
   }, [channelName, role]);
 
-  const Endclass = async () => {
-    const result = await Instructor_End_Class(_id, classid);
-    if (result?.success === true) {
+  const endClass = async () => {
+    const result = await Instructor_End_Class(userId, classId);
+    if (result?.success) {
       localStorage.removeItem("classId");
-      window.open(Routing.InstructorMyClass);
-    } else {
-
+      navigate(Routing.InstructorMyClass);
     }
   };
 
-  const callbacks = {
-    EndCall: () => {
-      if (videoCall) {
-        setVideoCall(false);
-        if (userRole === "Instructor") {
-          Endclass();
-        } else {
-          SetisOpen(true);
-          // navigate(Routing.StudentMyClass)
+  const handleEndCall = async () => {
+    if (hasEnded) return;
+    setHasEnded(true);
+
+    if (rtcProps && rtcProps.client) {
+      try {
+        await rtcProps.client.leave();
+        console.log("Call ended successfully.");
+      } catch (error) {
+        if (error.code !== 102) {
+          console.error("Error ending call:", error);
         }
       }
-    },
+    }
+
+    setVideoCall(false);
+    if (userRole === "Instructor") {
+      endClass();
+    } else {
+      SetisOpen(true);
+    }
   };
+
+  const handleStudentReview = async () => {
+    const body = {
+      rating,
+      feedback: reviewMessage,
+      userType: localStorage.getItem("Role").toLocaleLowerCase(),
+    };
+    const studentId = localStorage.getItem("_id");
+    const instructorId = localStorage.getItem("InstructorId");
+    setLoading(true);
+
+    const result = await Student_Review(body, studentId, instructorId);
+    setLoading(false);
+
+    if (result?.success) {
+      SetisOpen(false);
+      toast.success("Thank you for your feedback!");
+    } else {
+      toast.error(result?.message);
+    }
+  };
+
   const styleProps = {
     localBtnContainer: {
       backgroundColor: "#969696",
@@ -119,28 +165,9 @@ const Videocall = () => {
     },
   };
 
-  const handle_Student_Review = async () => {
-    const Body = {
-      rating: rating,
-      feedback: ReviewMessage,
-      userType: localStorage.getItem("Role").toLocaleLowerCase(),
-    };
-    const studentId = localStorage.getItem("_id");
-    const instructorId = localStorage.getItem("InstructorId");
-    const result = await Student_Review(Body, studentId, instructorId);
-    if (result?.success === true) {
-      setLoading(false);
-      SetisOpen(false);
-    } else {
-      setLoading(false);
-      SetisOpen(false);
-      toast.error(result?.message);
-    }
-  };
-
   return !videoCall ? (
     <div style={{ textAlign: "center", marginTop: "20px" }}>
-      <h3>Welcome Back {JSON.parse(localStorage.getItem("Role"))}</h3>
+      <h3>Welcome Back {userRole}</h3>
       <OutlineBtn
         text={"Start Call"}
         className={"bg-Green-100 border-green text-green"}
@@ -156,10 +183,10 @@ const Videocall = () => {
     >
       {rtcProps ? (
         <>
-          {Loading && <Spinner />}
+          {loading && <Spinner />}
           <AgoraUIKit
             rtcProps={rtcProps}
-            callbacks={callbacks}
+            callbacks={{ EndCall: handleEndCall }}
             styleProps={styleProps}
           />
           <RataingPopup
@@ -170,9 +197,9 @@ const Videocall = () => {
             rating={rating}
             setRating={setRating}
             setReviewMessage={setReviewMessage}
-            ReviewMessage={ReviewMessage}
+            ReviewMessage={reviewMessage}
             handleStarClick={handleStarClick}
-            onClick={handle_Student_Review}
+            onClick={handleStudentReview}
             BodyText={
               "Thank you for joining the session! Your feedback helps us improve! Rate your experience about our instructor to let us know what they’re doing right and where they can grow."
             }

@@ -9,18 +9,20 @@ import {
   Student_Payment,
 } from "../../../services/student/class";
 import Spinner from "../../../layouts/Spinner";
+import { useNavigate } from "react-router-dom";
 
 const OngoingClasses = () => {
   // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
   const [upcomingClass, setUpcomingClass] = useState([]);
+  const navigate = useNavigate();
 
   const Get_Upcoming_Classes = async () => {
     setLoading(true);
     const result = await Student_get_Upcoming_Classes();
     if (result?.success === true) {
       setUpcomingClass(result.data.ongoing);
-       
+
       setLoading(false);
     } else {
       setLoading(false);
@@ -58,7 +60,7 @@ const OngoingClasses = () => {
     );
     if (result?.success === true) {
       localStorage.setItem("paymentDetails", JSON.stringify(result.data));
-       
+
       window.open(result.data.PaymentUrl, "_blank", "noopener,noreferrer");
       setLoading(false);
     } else {
@@ -69,7 +71,7 @@ const OngoingClasses = () => {
 
   const heandleJoin = (upcoming_class) => {
     localStorage.setItem("InstructorId", upcoming_class?.instructorId);
-    window.open(upcoming_class.student_url, "_blank", "noopener,noreferrer");
+    window.location.href = upcoming_class.student_url;
     Change_Status_Classes(upcoming_class?.classId);
   };
 
