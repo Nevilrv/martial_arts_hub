@@ -9,7 +9,7 @@ import Inputfild from "../../common/Inputfild";
 import BigButton from "../../common/BigButton";
 import { toast } from "react-toastify";
 import { InstructorSignUp } from "../../../services/Instructor/instructor_auth/auth";
-import User from "../../../../assets/images/userProfile.jpg"
+import User from "../../../../assets/images/userProfile.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -38,18 +38,9 @@ const Index = () => {
     const result = await InstructorSignUp(data);
     if (result?.success === true) {
       setLoading(false);
-      localStorage.setItem(
-        "Role",
-        JSON.stringify(result?.data?.role)
-      );
-      localStorage.setItem(
-        "email",
-        JSON.stringify(result?.data?.email)
-      );
-      localStorage.setItem(
-        "_id",
-        JSON.stringify(result?.data?.instructorId)
-      );
+      localStorage.setItem("Role", JSON.stringify(result?.data?.role));
+      localStorage.setItem("email", JSON.stringify(result?.data?.email));
+      localStorage.setItem("_id", JSON.stringify(result?.data?.instructorId));
       localStorage.setItem("token", JSON.stringify(result?.Token));
       localStorage.setItem("is_login", true);
       navigate(Routing.InstructorProfile);
@@ -138,7 +129,7 @@ const Index = () => {
           </div>
           <div className="relative after:absolute after:bg-[linear-gradient(180deg,_#09090900_0%,_#090909_100%)] after:h-1/2 after:w-full after:bottom-0 after:left-0 after:z-20 after:backdrop-blur-[1.2999999523162842px] rounded-[20px] overflow-hidden lg:block hidden">
             <img
-              src={Login_image||User}
+              src={Login_image || User}
               alt=""
               className="max-w-[555px] h-[795px] object-cover object-[30%] grayscale"
             />

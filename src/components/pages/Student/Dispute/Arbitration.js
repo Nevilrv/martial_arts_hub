@@ -10,11 +10,9 @@ import {
 import UserProfile from "../../../../assets/images/userProfile.jpg";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
-import io from "socket.io-client";
-import { baseURL } from "../../../services/URL";
 import Spinner from "../../../layouts/Spinner";
+import Socket from "../../common/Socket";
 const Arbitration = () => {
-  const Socket = io(`${baseURL}`);
   const { disputeId } = useParams();
   const [loading, setLoading] = useState(false);
   const [DisputeDetails, setDisputeDetails] = useState({});

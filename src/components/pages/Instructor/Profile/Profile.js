@@ -17,6 +17,7 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { parsePhoneNumber } from "react-phone-number-input";
 import Select from "react-select";
+import Socket from "../../common/Socket";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -358,6 +359,14 @@ const Profile = () => {
     const result = await InstructorProfile(formData);
     if (result?.success === true) {
       setLoading(false);
+       console.log(result.data.status,"======>Profile");
+       if (result.data.status==="pending") {
+        Socket.emit("Notification", {
+          title: `${instructorDetails?.name} New_instructor`,
+          notificationType: "Instructor_request",
+          Time: new Date(),
+        });
+       }
        
       navigate(Routing.InstructorDashboard);
     } else {

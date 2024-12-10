@@ -99,7 +99,6 @@ const Videocall = () => {
   const handleEndCall = async () => {
     if (hasEnded) return;
     setHasEnded(true);
-
     if (rtcProps && rtcProps.client) {
       try {
         await rtcProps.client.leave();

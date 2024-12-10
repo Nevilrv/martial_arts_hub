@@ -1,14 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import Tabs from "../Tabs";
 import { CiSearch } from "react-icons/ci";
-import User from "../../../../assets/images/userImage.png";
-import master from "../../../../assets/images/Instructor-4.png";
-import { IoShareSocialOutline } from "react-icons/io5";
 import { ShareIcon } from "../../../../assets/icon";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { RiCheckDoubleFill } from "react-icons/ri";
-import { baseURL } from "../../../services/URL";
-import io from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
 import UserProfile from "../../../../assets/images/userProfile.jpg";
@@ -30,7 +25,6 @@ const Chat = () => {
   const [Loading, setLoading] = useState(false);
   const [showChat, setshowChat] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
-  console.log("🚀 ~ Chat ~ chatMessages:", chatMessages)
   const [StudentList, setStudentList] = useState([]);
   const StudentId = JSON.parse(localStorage.getItem("_id"));
   const navigate = useNavigate();

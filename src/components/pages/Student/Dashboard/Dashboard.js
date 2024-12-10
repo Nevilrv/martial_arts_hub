@@ -45,12 +45,12 @@ const Dashboard = () => {
       setLoading(false);
       setStudentData(result.data);
     } else {
-      if (result.message === "Invalid token, Please Log-Out and Log-In again") {
+      if (result?.message === "Invalid token, Please Log-Out and Log-In again") {
         localStorage.clear();
         navigate(Routing.StudentLogin);
       }
       setLoading(false);
-      toast.error(result.message)
+      toast.error(result?.message)
     }
   };
   useEffect(() => {

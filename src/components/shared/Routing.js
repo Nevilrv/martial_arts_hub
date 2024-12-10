@@ -11,6 +11,7 @@ export const Routing = {
 
   // student dashboard tab
   Initial: "/",
+  InstructorsPage: "/instructors",
   StudentLogin: "/student/login",
   StudentSignup: "/student/signup",
   StudentDashboard:"/student/dashboard",

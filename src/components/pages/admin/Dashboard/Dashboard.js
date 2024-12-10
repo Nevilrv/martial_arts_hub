@@ -9,21 +9,29 @@ import { toast } from "react-toastify";
 import Spinner from "../../../layouts/Spinner";
 import {
   Admin_Dashboard_data,
+  Admin_Notification,
   Admin_Progress,
   Instructor_Request,
 } from "../../../services/Admin/DashboardAPI";
-import User  from "../../../../assets/images/userProfile.jpg"
+import User from "../../../../assets/images/userProfile.jpg";
 import { useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
+import Socket from "../../common/Socket";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import { FaUser, FaUserTie } from "react-icons/fa6";
 
 const Dashboard = () => {
   const [DashboardCard, setDashboardCard] = useState({});
   const [Admin_Progress_data, setAdmin_Progress_data] = useState([]);
+  const [admin_Notification, setadmin_Notification] = useState([]);
   const [Instructor_Request_List, setInstructor_Request_List] = useState([]);
   const [Loading, setLoading] = useState(false);
   const currentMonthIndex = new Date().getMonth();
   const [selectedMonth, setSelectedMonth] = useState(currentMonthIndex + 1);
   const navigate = useNavigate();
+  dayjs.extend(utc);
+  const currentTime = dayjs.utc();
 
   const data = [
     {
@@ -100,7 +108,6 @@ const Dashboard = () => {
   const handleChange = (event) => {
     setSelectedMonth(event.target.value);
   };
-  
 
   // Dashboard card API
   const Get_Admin_Dashboard = async () => {
@@ -161,9 +168,36 @@ const Dashboard = () => {
     }
   };
 
+  const get_Notifications = async () => {
+    const result = await Admin_Notification();
+    if (result?.success === true) {
+      setadmin_Notification(result.data);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        navigate(Routing.AdminLogin);
+      } else {
+        setLoading(false);
+        toast.error(result?.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    Socket.on("getNotification", (data) => {
+      console.log("🚀 ~ Socket.on ~ data:", data);
+      setadmin_Notification((prev) => [...prev, data]);
+    });
+    return () => {
+      Socket.off("getNotification");
+    };
+  }, []);
+
   useEffect(() => {
     Get_Admin_Dashboard();
     Get_Instructor_Requests();
+    get_Notifications();
   }, []);
   useEffect(() => {
     Get_Progress();
@@ -189,20 +223,29 @@ const Dashboard = () => {
               <p className="text-lg font-bold text-gay-300">Notifications</p>
               <p className="text-red-200 underline font-medium">View All</p>
             </div>
-            <div className="flex flex-col gap-5">
-              <div className="flex items-center gap-2 mt-5">
-                <div className="h-[32px] w-[34px] bg-gay-300 rounded-md flex items-center justify-center">
-                  <MdCalendarToday className="text-primary text-base" />
+            <div className="flex flex-col gap-5 max-h-[380px] overflow-y-auto">
+              {admin_Notification.map((item) => (
+                <div className="flex items-center gap-2 mt-5">
+                  <div className="h-[32px] w-[34px] bg-gay-300 rounded-md flex items-center justify-center">
+                    {item.notificationType === "New_student" ? (
+                      <FaUser className="text-primary text-base" />
+                    ) : item.notificationType === "New_dispute" ? (
+                      <MdCalendarToday className="text-primary text-base" />
+                    ) : item.notificationType === "Instructor_request" ? (
+                      <FaUserTie className="text-primary text-base" />
+                    ) : null}
+                  </div>
+                  <div>
+                    <p className="text-black text-sm font-medium">
+                      {item.title}
+                    </p>
+                    <p className="text-black/70 text-sm font-medium">
+                      {currentTime.diff(dayjs.utc(item.createdAt), "minute")}{" "}
+                      Minutes ago
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-black text-sm font-medium">
-                    Kiya John have 1 Class on 24 Aug
-                  </p>
-                  <p className="text-black/70 text-sm font-medium">
-                    12 Minutes ago
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
           <div className="grid xl:grid-cols-5 grid-cols-2 xl:col-span-3 col-span-2 gap-4">
@@ -210,18 +253,18 @@ const Dashboard = () => {
               <div className="flex items-center justify-between">
                 <p className="text-lg font-bold text-gay-300">Progress</p>
                 <select
-            id="Monthly"
-            name="Monthly"
-            value={selectedMonth}
-            onChange={handleChange}
-            className="bg-transparent focus:outline-none px-3 border border-black/25 h-[35px] rounded-full"
-          >
-            {months.map((monthList, index) => (
-              <option key={index} value={index + 1}>
-                {monthList}
-              </option>
-            ))}
-          </select>
+                  id="Monthly"
+                  name="Monthly"
+                  value={selectedMonth}
+                  onChange={handleChange}
+                  className="bg-transparent focus:outline-none px-3 border border-black/25 h-[35px] rounded-full"
+                >
+                  {months.map((monthList, index) => (
+                    <option key={index} value={index + 1}>
+                      {monthList}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="flex items-center justify-center">
                 {Admin_Progress_data?.length >= 0 && (
@@ -242,7 +285,7 @@ const Dashboard = () => {
                     <div className="flex items-start gap-3">
                       <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
                         <img
-                          src={Request_List.profile_picture||User}
+                          src={Request_List.profile_picture || User}
                           alt=""
                           className="w-full h-full object-cover object-center"
                         />

@@ -66,7 +66,7 @@ const InstructorProfile = () => {
     ],
   };
 
-  const [Instructor, setInstructor] = useState({});
+  const [Instructor, setInstructor] = useState();
   const [Reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [MessageSend, setMessageSend] = useState(false);
@@ -78,6 +78,7 @@ const InstructorProfile = () => {
   });
   const { id } = useParams();
   const navigate = useNavigate();
+  let category = [];
 
   const heandalChange = (e) => {
     setInqurymessage({
@@ -163,6 +164,7 @@ const InstructorProfile = () => {
     if (result?.success === true) {
       setLoading(false);
       setLike(!Like);
+    
     } else {
       if (
         result?.message === "Invalid token, Please Log-Out and Log-In again"
@@ -180,7 +182,7 @@ const InstructorProfile = () => {
       setLoading(false);
       result.data.forEach((data) => {
         if (data.instructorId === id) {
-          setLike(true); // Set like to false if condition matches
+          setLike(true);
         }
       });
     } else {
@@ -209,9 +211,15 @@ const InstructorProfile = () => {
       navigate(Routing.StudentLogin);
     }
   };
-  const category = Instructor?.category;
-  console.log("🚀 ~ InstructorProfile ~ category:", typeof(category))
-  // const categorysoy = category
+  if (Instructor?.category === undefined) {
+    category = [];
+  } else {
+    if (typeof Instructor?.category === "object") {
+      category = Instructor?.category;
+    } else {
+      category = JSON.parse(Instructor?.category);
+    }
+  }
 
   return (
     <>
@@ -221,33 +229,31 @@ const InstructorProfile = () => {
           <div className="grid md:grid-cols-3 grid-cols-1 md:px-8 gap-[71px]">
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 gap-y-4 flex-wrap">
-                {/* {Instructor?.category === "undefined" || undefined
-                  ? null
-                  : Instructor?.category?.map((category) => (
-                      <>
-                        <OutlineBtn text={category.value} />
-                      </>
-                    ))} */}
+                {category?.map((category) => (
+                  <>
+                    <OutlineBtn text={category.value} />
+                  </>
+                ))}
               </div>
               <div className="mt-8">
                 <h2 className="text-[40px] font-semibold md:w-[80%]">
-                  {Instructor.tagline}
+                  {Instructor?.tagline}
                 </h2>
               </div>
               <div className="mt-8 bg-gay-200 rounded-[20px] px-9 py-7">
                 <h2 className="text-[26px] font-semibold">Instructor</h2>
-                <p className="text-black/70 text-lg">{Instructor.bio}</p>
+                <p className="text-black/70 text-lg">{Instructor?.bio}</p>
               </div>
               <div className="mt-20">
                 <h2 className="text-[22px] font-semibold text-black">
                   About Me
                 </h2>
                 <p className="text-black/70 text-lg text-justify my-4">
-                  Hi, I'm {Instructor.name}! I started my martial arts journey{" "}
-                  {Instructor.experience}.
+                  Hi, I'm {Instructor?.name}! I started my martial arts journey{" "}
+                  {Instructor?.experience}.
                 </p>
                 <p className="text-black/70 text-lg text-justify">
-                  {Instructor.certifications}
+                  {Instructor?.certifications}
                 </p>
               </div>
               <div className="mt-14">
@@ -482,7 +488,7 @@ const InstructorProfile = () => {
               Reviews{" "}
               <span className="text-base flex items-center gap-1">
                 <FaStar className="text-yellow-100" /> {rating} (
-                {Instructor.totalReviews} Reviews)
+                {Instructor?.totalReviews} Reviews)
               </span>
             </h2>
             {Reviews?.length > 3 ? (

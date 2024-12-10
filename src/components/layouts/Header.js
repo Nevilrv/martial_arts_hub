@@ -33,7 +33,6 @@ const Header = () => {
     { name: "Home", href: "home" },
     { name: "About Us", href: "about" },
     { name: "Contact Us", href: "Contact_Us" },
-    { name: "Categories", href: "" },
   ];
   const Studentnavigation = [
     { name: "Dashboard", href: Routing.StudentDashboard },
@@ -167,24 +166,54 @@ const Header = () => {
           </div>
 
           <div className="hidden lg:flex lg:gap-x-12">
-            {navigation.map((item, i) => (
-              <Link
-                key={i}
-                activeClass="active"
-                to={item.href}
-                spy={true}
-                smooth={true}
-                offset={50}
-                duration={500}
-                className={`text-sm leading-6 hover:text-black cursor-pointer ${
-                  currentLocation === item.href
-                    ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
-                    : "text-black/70 font-normal"
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {currentLocation === "/"
+              ? navigation.map((item, i) => (
+                  <Link
+                    key={i}
+                    activeClass="active"
+                    to={item.href}
+                    spy={true}
+                    smooth={true}
+                    offset={50}
+                    duration={500}
+                    className={`text-sm leading-6 hover:text-black cursor-pointer ${
+                      currentLocation === item.href
+                        ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
+                        : "text-black/70 font-normal"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                ))
+              : navigation.map((item, i) => (
+                  <div
+                    key={i}
+                    activeClass="active"
+                    onClick={() => navigate(Routing.Initial)}
+                    spy={true}
+                    smooth={true}
+                    offset={50}
+                    duration={500}
+                    className={`text-sm leading-6 hover:text-black cursor-pointer ${
+                      currentLocation === item.href
+                        ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
+                        : "text-black/70 font-normal"
+                    }`}
+                  >
+                    {item.name}
+                  </div>
+                ))}
+            <div
+              activeClass="active"
+              onClick={() => navigate(Routing.InstructorsPage)}
+              className={`text-sm leading-6 hover:text-black cursor-pointer ${
+                currentLocation === Routing.InstructorsPage
+                  ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
+                  : "text-black/70 font-normal"
+              }`}
+            >
+              Categories
+            </div>
           </div>
           {!loggedIn && (
             <OutlineBtn

@@ -10,6 +10,7 @@ import SignUp_image from "../../../../assets/images/SignupImage.jpeg";
 import { toast } from "react-toastify";
 import { StudentSignUp } from "../../../services/student/auth";
 import Spinner from "../../../layouts/Spinner";
+import Socket from "../../common/Socket";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -45,8 +46,12 @@ const SignUp = () => {
       localStorage.setItem("Role", JSON.stringify(result?.data?.role));
       localStorage.setItem("token", JSON.stringify(result?.Token));
       localStorage.setItem("is_login", true);
+      Socket.emit("Notification", {
+        title: `${userdata.name} New_student`,
+        notificationType: "New_student",
+        Time: new Date(),
+      });
       navigate(Routing.StudentDashboard);
-       
     } else {
       setLoading(false);
       toast.error(result?.message);

@@ -16,8 +16,8 @@ import {
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import { baseURL } from "../../../services/URL";
-import { io } from "socket.io-client";
 import { Routing } from "../../../shared/Routing";
+import Socket from "../../common/Socket";
 
 const DisputeDetails = () => {
   const { disputeId } = useParams();
@@ -25,7 +25,6 @@ const DisputeDetails = () => {
   const [Loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [DisputeChats, setDisputeChats] = useState([]);
-  const Socket = io(`${baseURL}`);
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -124,7 +123,7 @@ const DisputeDetails = () => {
     <>
       <div className="flex items-center justify-between flex-wrap">
         <div className="flex items-center gap-x-5 flex-wrap sm:justify-start justify-center">
-          <FaArrowLeft className="text-2xl" />
+          <FaArrowLeft className="text-2xl cursor-pointer" onClick={()=>navigate(Routing.Admin_Dispute_Requests)} />
           <h2 className="text-Dark_black font-bold text-2xl">
             Dispute Details
           </h2>

@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
 import InstructorsCard from "./Instructors_Card";
 import Slider from "react-slick";
-import { GetInstructors, InstructorLike } from "../../services/student/Homepage/Homepage";
+import {
+  GetInstructors,
+  InstructorLike,
+} from "../../services/student/Homepage/Homepage";
 import Spinner from "../../layouts/Spinner";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { Routing } from "../../shared/Routing";
 
 const Instructors = () => {
   const [Instructors, setInstructors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [Like, setLike] = useState(false);
+  const navigate = useNavigate();
 
   var settings = {
     dots: true,
@@ -51,7 +57,7 @@ const Instructors = () => {
       setLoading(false);
       setInstructors(result.data);
     } else {
-      toast.error("message")
+      toast.error("message");
       setLoading(false);
     }
   };
@@ -59,7 +65,6 @@ const Instructors = () => {
   useEffect(() => {
     getInstructors();
   }, []);
-
 
   const HeandleLike = async (id) => {
     setLoading(true);
@@ -90,6 +95,14 @@ const Instructors = () => {
             <InstructorsCard data={items} HeandleLike={HeandleLike} />
           ))}
         </Slider>
+        <div className="flex justify-center mt-10">
+        <button
+          onClick={() => navigate(Routing.InstructorsPage)}
+          className="bg-transparent h-[55px] text-white hover:text-black text-xl leading-8 px-7 py-4 rounded-full flex justify-center items-center relative after:absolute after:bg-black after:h-full after:w-full after:bottom-0 after:left-0 hover:after:h-0 after:transition-[2s] after:-z-20 overflow-hidden border border-black"
+        >
+          View More
+        </button>
+        </div>
       </section>
     </>
   );

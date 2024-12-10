@@ -31,6 +31,22 @@ export const Admin_Progress = async (month) => {
   }
 };
 
+export const Admin_Notification = async () => {
+  try {
+    let response = await axios({
+      method: "GET",
+      url: `${baseURL}/admin/notfications`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
+
+
 export const Instructor_Request = async () => {
   try {
     let response = await axios({

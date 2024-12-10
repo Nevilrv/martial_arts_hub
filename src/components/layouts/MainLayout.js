@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { useLocation } from "react-router-dom";
@@ -7,6 +7,16 @@ import Adminlayout from "./Adminlayout";
 
 const MainLayout = ({ children }) => {
   const { pathname } = useLocation();
+  const scrollToTop = () => {
+    window.scrollTo({
+        top: 0,
+        behavior: "auto"
+    });
+};
+useEffect(() => {
+  scrollToTop()
+}, [pathname])
+
 
   return (
     <>

@@ -17,8 +17,9 @@ const PaymentSuccessful = lazy(() =>
 const PaymentFailed = lazy(() =>
   import("./components/pages/common/Paymentfailed.js")
 );
-const Video = lazy(() =>
-  import("./components/pages/common/Videocall.js")
+const Video = lazy(() => import("./components/pages/common/Videocall.js"));
+const InstructorsPage = lazy(() =>
+  import("./components/pages/common/InstructorsPage.js")
 );
 
 const StudentHome = lazy(() =>
@@ -186,6 +187,11 @@ function App() {
     {
       path: Routing.PaymentSuccessful,
       component: PaymentSuccessful,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.InstructorsPage,
+      component: InstructorsPage,
       isPrivateRoute: false,
     },
     {
@@ -465,7 +471,6 @@ function App() {
 
     // Add other routes as needed
   ];
-
   return (
     <>
       <Suspense fallback={<Spinner />}>

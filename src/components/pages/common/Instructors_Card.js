@@ -6,8 +6,7 @@ import User from "../../../assets/images/userProfile.jpg"
 
 const InstructorsCard = ({ data,HeandleLike }) => {
   // eslint-disable-next-line
-  const [liked, setLiked] = useState(data?.Likes?.includes(JSON.parse(localStorage.getItem("_id"))));
-  
+  let  liked= data?.favorite?.includes(JSON.parse(localStorage.getItem("_id")))
   const getStars = (rating) => {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 >= 0.5;
@@ -31,16 +30,16 @@ const InstructorsCard = ({ data,HeandleLike }) => {
 
   return (
     <>
-      <div className="w-full pr-[24px]">
+      <div className="w-full">
         <div className="relative">
           <img
             src={data.profile_picture||User}
             alt={data.image}
-            className="grayscale hover:grayscale-0 w-full object-top h-[355px] object-cover rounded-lg"
+            className="grayscale hover:grayscale-0 w-full h-[355px] object-cover rounded-lg"
           />
           <div
             className="h-[34px] w-[34px] bg-white rounded-full absolute top-4 right-3 flex items-center justify-center cursor-pointer"
-            onClick={() => HeandleLike(data.instructorId)}
+            onClick={HeandleLike}
           >
            {liked ? (
             <FaHeart className="text-red-200 text-xl" />
@@ -67,9 +66,6 @@ const InstructorsCard = ({ data,HeandleLike }) => {
             >
               View Profile
             </button>
-            {/* <button className="ml-2 bg-transparent border border-black/50 text-black text-xs text-center py-2 px-3 rounded-full">
-              Send a message
-            </button> */}
           </div>
         </div>
       </div>

@@ -22,6 +22,7 @@ import { Confirm_Popup_Icon } from "../../../../assets/icon";
 import { Routing } from "../../../shared/Routing";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../../layouts/Spinner";
+import Socket from "../../common/Socket";
 
 const NewDispute = () => {
   const navigate = useNavigate();
@@ -110,10 +111,13 @@ const NewDispute = () => {
       });
     }
     const result = await CreateDispute(formData, studentId);
-   
     if (result?.success === true) {
       setLoading(false);
-       
+      Socket.emit("Notification", {
+        title: `${result.data.studentName} Create_dispute`,
+        notificationType: "New_dispute",
+        Time: new Date(),
+      });
       SetisOpen(true);
       // navigate(Routing.InstructorDashboard)
     } else {

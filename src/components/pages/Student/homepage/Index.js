@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import SportsPsychology from "../../../../assets/images/SportsPsychology.png";
 import Physio from "../../../../assets/images/Physio.png";
 import MartialArts from "../../../../assets/images/MartialArts.png";
@@ -21,6 +21,8 @@ import { Create_discipline } from "../../../services/student/Homepage/Homepage";
 import { toast } from "react-toastify";
 import Spinner from "../../../layouts/Spinner";
 import { Routing } from "../../../shared/Routing";
+import { CiSearch } from "react-icons/ci";
+import OutlineBtn from "../../common/OutlineBtn";
 
 const AskedQuestions = [
   {
@@ -80,6 +82,7 @@ const Index = () => {
   const { pathname } = useLocation();
 
   const isLogin = JSON.parse(localStorage.getItem("is_login"));
+  const Logintype = JSON.parse(localStorage.getItem("Role"));
   return (
     <>
       {Loading && <Spinner />}
@@ -105,6 +108,21 @@ const Index = () => {
               className="ml-3 relative bg-transparent h-[60px] border border-black text-black text-xl leading-8 px-7 py-4 rounded-full flex justify-center items-center after:absolute after:bg-black after:h-0 after:w-full after:top-0 after:left-0 hover:after:h-full after:transition-[2s] after:-z-20 hover:text-white overflow-hidden"
             >
               Already a Member
+            </button>
+          </div>
+        )}
+        {Logintype !== "Instructor" && isLogin && (
+          <div className="flex items-center gap-4 justify-center flex-wrap mt-9">
+            <div className="relative">
+              <input
+                type="text"
+                className="w-full h-[60px] md:w-[450px] mx-auto border border-black/30 bg-transparent rounded-full placeholder:text-black/40 pl-[55px] pr-3 focus:outline-none"
+                placeholder="Search person"
+              />
+              <CiSearch className="absolute top-1/2 -translate-y-1/2 left-6 text-2xl" />
+            </div>
+            <button className="bg-transparent h-[55px] text-white hover:text-black text-xl leading-8 px-7 py-4 rounded-full flex justify-center items-center relative after:absolute after:bg-black after:h-full after:w-full after:bottom-0 after:left-0 hover:after:h-0 after:transition-[2s] after:-z-20 overflow-hidden border border-black">
+              Find Instructor
             </button>
           </div>
         )}
