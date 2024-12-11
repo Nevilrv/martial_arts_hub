@@ -109,11 +109,8 @@ const Chat = () => {
   }, [chatMessages]);
 
   useEffect(() => {
-    // Join the room on mount
     Socket.emit("joinRoom", studentId?.roomId);
-    // Listen for incoming messages
     Socket.on("getchat", (data) => {
-      console.log("Student received chat:", data);
       setChatMessages((prev) => [...prev, data]);
     });
    

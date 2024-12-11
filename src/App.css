@@ -381,9 +381,6 @@ input[type="number"] {
 .customradius {
   border-radius: 15px !important;
 }
-.slick-slider {
-  margin:0 -15px;
-}
 .slick-slide {
   padding-right:24px;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Tabs from "../index";
 import { Routing } from "../../../shared/Routing";
 import OutlineBtn from "../../common/OutlineBtn";
@@ -8,49 +8,16 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import OngoingClasses from "./OngoingClasses";
 import CompletedClasses from "./CompletedClasses";
-import { Instructor_get_Upcoming_Classes } from "../../../services/Instructor/createClass/Index";
-import { toast } from "react-toastify";
 
 const MyClass = () => {
   const navigate = useNavigate();
-
   const [calssType, setcalssType] = useState("Upcoming Classes");
-  // const [upcomingClass, setUpcomingClass] = useState([]);
-  // // eslint-disable-next-line
-  // const [loading, setLoading] = useState(false);
-
-  // const id = JSON.parse(localStorage.getItem("_id"));
-
-  // const Get_Upcoming_Classes = async () => {
-  //   const result = await Instructor_get_Upcoming_Classes(id);
-  //   if (result?.success === true) {
-  //     setLoading(false);
-  //     if (calssType==="Upcoming Classes") {
-  //       setUpcomingClass(result.data.upcoming);
-  //     }
-  //     else if(calssType==="Ongoing Classes"){
-  //       setUpcomingClass(result.data.ongoing);
-  //     }
-  //     else if(calssType==="Completed Classes"){
-  //       setUpcomingClass(result.data.complete);
-  //     }
-  //      
-  //   } else {
-  //     setLoading(false);
-  //     toast.error(result?.message);
-  //   }
-  // };
-  // useEffect(() => {
-  //   Get_Upcoming_Classes();
-  //   // eslint-disable-next-line
-  // }, [calssType]);
-
   return (
     <>
       <Tabs>
       <div className="mt-11 px-3 lg:px-8">
-        <div className="flex items-center justify-between">
-          <h1 className="text-black text-3xl font-semibold">My Classes</h1>
+        <div className="flex items-center justify-between flex-wrap">
+          <h1 className="text-black sm:text-3xl text-2xl font-semibold">My Classes</h1>
           <OutlineBtn
             text={"Create Slot"}
             icon={<FaPlus className="mr-1" />}

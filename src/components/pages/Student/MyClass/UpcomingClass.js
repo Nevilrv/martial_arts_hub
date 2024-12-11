@@ -68,12 +68,12 @@ const UpcomingClass = () => {
       ) : (
         <div className="w-full overflow-x-auto">
           {upcomingClass?.map((upcoming_class) => (
-            <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400 min-w-[730px]">
-              <div className="flex items-center">
-                <div className="w-[125px] h-[85px] overflow-hidden rounded-lg">
-                  <img src={Wrestling} alt="Wrestling" />
+            <div className="px-3 lg:px-8 md:h-[143px] md:py-0 gap-y-5 py-3 flex flex-wrap items-center justify-between border-b border-gay-400">
+              <div className="flex items-center flex-wrap gap-y-5 sm:w-auto">
+                <div className="sm:w-[125px] w-full sm:h-[85px] overflow-hidden rounded-lg">
+                  <img src={Wrestling} alt="Wrestling" className="w-full h-full object-cover" />
                 </div>
-                <div className="ml-5">
+                <div className="sm:ml-5">
                   <div className="flex items-center">
                     <h3 className="text-xl font-medium">
                       {upcoming_class?.className}
@@ -101,18 +101,18 @@ const UpcomingClass = () => {
               {upcoming_class.payment !== "success" ? (
                 <OutlineBtn
                   text={`Pay Now`}
-                  className={"bg-black border-none text-white"}
+                  className={"bg-black border-none text-white sm:w-auto w-full"}
                   onClick={()=>heandlePay(upcoming_class)}
                 />
               ) : upcoming_class?.classType === "FaceToFace" ? (
                 <OutlineBtn
                   text={`Face to Face ${upcoming_class.startTimeLocal}`}
-                  className={"bg-gay-300/50 border-none text-white"}
+                  className={"bg-gay-300/50 border-none text-white sm:w-auto w-full"}
                 />
               ) : (
                 <OutlineBtn
                   text={`Join at ${upcoming_class.startTimeLocal}`}
-                  className={"bg-gay-300/50 border-none text-white"}
+                  className={"bg-gay-300/50 border-none text-white sm:w-auto w-full"}
                 />
               )}
             </div>

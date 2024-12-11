@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import SportsPsychology from "../../../../assets/images/SportsPsychology.png";
 import Physio from "../../../../assets/images/Physio.png";
 import MartialArts from "../../../../assets/images/MartialArts.png";
@@ -17,12 +17,16 @@ import GetInTouch from "../../common/Get_In_Touch";
 import SignUp from "../Signup/SignUp";
 import Login from "../Login/Login";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Create_discipline } from "../../../services/student/Homepage/Homepage";
+import {
+  Create_discipline,
+  GetInstructors,
+  InstructorLike,
+} from "../../../services/student/Homepage/Homepage";
 import { toast } from "react-toastify";
 import Spinner from "../../../layouts/Spinner";
 import { Routing } from "../../../shared/Routing";
 import { CiSearch } from "react-icons/ci";
-import OutlineBtn from "../../common/OutlineBtn";
+import InstructorsCard from "../../common/Instructors_Card";
 
 const AskedQuestions = [
   {
@@ -49,6 +53,8 @@ const AskedQuestions = [
 
 const Index = () => {
   const [openId, setOpenId] = useState("");
+  const [searchInstructor, setSearchInstructor] = useState("");
+  console.log("🚀 ~ Index ~ searchInstructor:", searchInstructor);
   const [Loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [discipline, setdiscipline] = useState({
@@ -57,6 +63,46 @@ const Index = () => {
     userId: JSON.parse(localStorage.getItem("_id")),
     userType: JSON.parse(localStorage.getItem("Role")),
   });
+  const [Instructorsdata, setInstructorsdata] = useState([]);
+  const [filteredInstructor, setFilteredInstructor] = useState([]);
+
+  const [Like, setLike] = useState(false);
+
+  const getInstructors = async () => {
+    setLoading(true);
+    const result = await GetInstructors();
+    if (result?.success === true) {
+      setLoading(false);
+      setInstructorsdata(result.data);
+    } else {
+      toast.error("message");
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getInstructors();
+  }, []);
+
+  const HeandleLike = async (id) => {
+    setLoading(true);
+    const result = await InstructorLike(
+      id,
+      JSON.parse(localStorage.getItem("_id"))
+    );
+    if (result?.success === true) {
+      setLoading(false);
+      setLike(!Like);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        toast.error("Please Login");
+      }
+      setLoading(false);
+    }
+  };
+
   const heandleChange = (e) => {
     const trimmedValue = e.target.value.trim();
     setdiscipline({ ...discipline, [e.target.name]: trimmedValue });
@@ -79,10 +125,20 @@ const Index = () => {
   const handleToggle = (id) => {
     setOpenId(openId === id ? null : id);
   };
+
   const { pathname } = useLocation();
 
   const isLogin = JSON.parse(localStorage.getItem("is_login"));
   const Logintype = JSON.parse(localStorage.getItem("Role"));
+
+  const HeandleSearch = () => {
+    setFilteredInstructor(
+      Instructorsdata.filter((Instructor) =>
+        Instructor.name.toLowerCase().includes(searchInstructor.toLowerCase())
+      )
+    );
+  };
+
   return (
     <>
       {Loading && <Spinner />}
@@ -118,14 +174,25 @@ const Index = () => {
                 type="text"
                 className="w-full h-[60px] md:w-[450px] mx-auto border border-black/30 bg-transparent rounded-full placeholder:text-black/40 pl-[55px] pr-3 focus:outline-none"
                 placeholder="Search person"
+                onChange={(e) => setSearchInstructor(e.target.value)}
               />
               <CiSearch className="absolute top-1/2 -translate-y-1/2 left-6 text-2xl" />
             </div>
-            <button className="bg-transparent h-[55px] text-white hover:text-black text-xl leading-8 px-7 py-4 rounded-full flex justify-center items-center relative after:absolute after:bg-black after:h-full after:w-full after:bottom-0 after:left-0 hover:after:h-0 after:transition-[2s] after:-z-20 overflow-hidden border border-black">
+            <button
+              onClick={() => HeandleSearch()}
+              className="bg-transparent h-[55px] text-white hover:text-black text-xl leading-8 px-7 py-4 rounded-full flex justify-center items-center relative after:absolute after:bg-black after:h-full after:w-full after:bottom-0 after:left-0 hover:after:h-0 after:transition-[2s] after:-z-20 overflow-hidden border border-black"
+            >
               Find Instructor
             </button>
           </div>
         )}
+        {searchInstructor !== "" ? (
+          <div className="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-x-6 grid-cols-1 mt-10 gap-y-10 lg:px-8">
+            {filteredInstructor.map((items, i) => (
+              <InstructorsCard data={items} HeandleLike={HeandleLike} key={i} />
+            ))}
+          </div>
+        ) : null}
       </section>
       {/* Hero section start */}
       {/* Services section start */}
@@ -180,10 +247,8 @@ const Index = () => {
           </p>
         </div>
       </section>
-      {/* Services section end */}
       {/* Categories section start */}
       <CategoriesSection />
-      {/* Categories section end */}
       <section className="px-3 lg:px-8">
         <div className="py-14 md:px-14 px-3 bg-gay-300 rounded-2xl">
           <div className="flex items-center justify-between flex-wrap gap-y-5">
@@ -259,8 +324,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-      {/* we are section end */}
-
       {/* Ready to Learn section start */}
       <section className="bg-black py-[107px] px-3 lg:px-8">
         <h2 className="text-[40px] text-white font-medium text-center">
@@ -286,8 +349,6 @@ const Index = () => {
           </button>
         </div>
       </section>
-      {/* Ready to Learn section end */}
-
       {/* Join Us section start */}
       <section className="md:py-space py-20 px-3 lg:px-8">
         <h2 className="text-center text-[40px] font-medium">Why Join Us</h2>
@@ -459,10 +520,8 @@ const Index = () => {
           </div>
         </div>
       </section>
-      {/* Join Us section end */}
       {/* Instructors section start */}
       <Instructors />
-      {/* Instructors section end */}
       {/* Download the App */}
 
       {/* <section className="bg-black py-[107px] px-3 lg:px-8">
@@ -482,8 +541,6 @@ const Index = () => {
           </button>
         </div>
       </section> */}
-
-      {/* Download the App */}
       {/* Work section start */}
       <section className="">
         <div className="px-3 lg:px-8 py-space">
@@ -562,7 +619,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-      {/* Work section end */}
       {/* Frequently Asked start */}
       <section className="py-space px-3 lg:px-8">
         <h2 className="text-black text-[40px] text-center">
@@ -622,7 +678,6 @@ const Index = () => {
           ))}
         </div>
       </section>
-      {/* Frequently Asked end */}
       <GetInTouch />
       {pathname === "signup" ? (
         <SignUp open={openModel} onClose={setOpenModel} />

@@ -125,12 +125,12 @@ const SidbarNavigation = [
     ],
   },
   {
-    Navigate: "Discipline Centre",
+    Navigate: "Categories Centre",
     icon: <BiChevronDown />,
     Starticon: <DashboardDiscipline />,
     sub: [
       {
-        Navigate: "Discipline Dashboard",
+        Navigate: "Categories Dashboard",
         icon: <BiChevronDown />,
         Path: Routing.Admin_Discipline_Centre,
       },
@@ -185,7 +185,7 @@ const Adminlayout = ({ children }) => {
     { name: "Finance Dashboard", href: Routing.Admin_Finance_Dashboard },
     { name: "Dispute Requests", href: Routing.Admin_Dispute_Requests },
     { name: "Generate Reports", href: Routing.Admin_Generate_Reports },
-    { name: "Discipline Centre", href: Routing.Admin_Discipline_Centre },
+    { name: "Categories Centre", href: Routing.Admin_Discipline_Centre },
   ];
   const userName = JSON.parse(localStorage.getItem("email"))?.charAt(0);
 

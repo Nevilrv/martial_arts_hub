@@ -50,6 +50,12 @@ const Index = () => {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   return (
     <>
       <div className="bg-primary p-5 flex items-center justify-center h-screen overflow-hidden">
@@ -72,6 +78,7 @@ const Index = () => {
                     Label={"Email"}
                     name={"email"}
                     className={"md:w-full"}
+                    onKeyPress={handleKeyPress}
                   />
                   <Inputfild
                     onChange={handleChange}
@@ -81,6 +88,7 @@ const Index = () => {
                     iconposition="right-4"
                     name={"password"}
                     className={"md:w-full"}
+                    onKeyPress={handleKeyPress}
                   />
                 </div>
               </div>

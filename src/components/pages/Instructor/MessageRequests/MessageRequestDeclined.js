@@ -57,20 +57,20 @@ const MessageRequestDeclined = () => {
         </div>
       )}
       {MessageRequestdata?.map((item) => (
-        <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400">
-          <div className="flex items-center">
-            <div className="w-[82px] h-[82px] overflow-hidden rounded-full">
+        <div className="px-3 lg:px-8 md:h-[143px] md:py-0 gap-y-5 py-3 flex flex-wrap items-center sm:justify-between border-b border-gay-400">
+          <div className="flex items-center flex-wrap gap-y-5 sm:w-auto w-full">
+            <div className="sm:min-w-[82px]  w-1/2 sm:mx-0 mx-auto sm:h-[82px] overflow-hidden rounded-full">
               <img
                 src={item.Student.profile_picture||User}
                 alt="Wrestling"
-                className="w-full h-full object-cover object-top grayscale"
+                className="w-full h-full object-cover grayscale"
               />
             </div>
-            <div className="ml-5">
+            <div className="sm:ml-5">
               <h2 className="text-black texrt-[20px] font-medium">
                 {item.Student.name}
               </h2>
-              <div className="flex items-center">
+              <div className="flex items-center flex-wrap">
                 <p className="text-[13px] text-black/70  mt-0.5">
                   <span className="font-medium">Request received on:</span>{" "}
                   {dayjs(item.createdAt).format("DD MMM, YYYY")}
@@ -84,17 +84,17 @@ const MessageRequestDeclined = () => {
               <p className="text-black/70 text-base max-w-5xl">{item?.body}</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap sm:w-auto w-full">
             <OutlineBtn
               text={"See Profile"}
               onClick={() => heandleSeeProfile(item)}
-              className={"bg-transparent border-black text-black"}
+              className={"bg-transparent border-black text-black sm:w-auto w-full"}
             />
             <OutlineBtn
               text={`Declined on ${dayjs(item.updatedAt).format(
                 "DD MMM, YYYY"
               )}`}
-              className={"bg-red-200 border-none text-white font-medium"}
+              className={"bg-red-200 border-none text-white font-medium sm:w-auto w-full"}
             />
           </div>
         </div>
@@ -133,7 +133,7 @@ const MessageRequestDeclined = () => {
                       (Student)
                     </h2>
                   </div>
-                  <div className="w-[329px] h-[329px] rounded-full object-cover object-top grayscale scale-x-[-1] border-[5px] border-primary xl:absolute top-7 right-14 overflow-hidden">
+                  <div className="sm:w-[329px] sm:h-[329px] rounded-full object-cover object-top grayscale scale-x-[-1] border-[5px] border-primary xl:absolute top-7 right-14 overflow-hidden">
                     <img
                       src={StudentData.profile||User}
                       className="h-full w-full object-cover"

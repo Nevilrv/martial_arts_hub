@@ -60,20 +60,20 @@ const ActiveBookingRequests = ({ data,getBookingRequests }) => {
         </div>
       )}
       {data?.map((booking) => (
-        <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400 min-w-[975px]">
-          <div className="flex items-center">
-            <div className="w-[82px] h-[82px] overflow-hidden rounded-full">
+        <div className="px-3 lg:px-8 md:h-[143px] md:py-0 gap-y-5 py-3 flex flex-wrap items-center sm:justify-between border-b border-gay-400">
+          <div className="flex flex-wrap items-center gap-y-5">
+            <div className="sm:w-[82px] sm:h-[82px] w-1/2 sm:mx-0 mx-auto overflow-hidden rounded-full">
               <img
                 src={booking?.studentProfile||User}
                 alt="Wrestling"
                 className="w-full h-full object-cover object-top grayscale"
               />
             </div>
-            <div className="ml-5">
+            <div className="sm:ml-5">
               <h2 className="text-black texrt-[20px] font-medium">
                 {booking?.studentName}
               </h2>
-              <div className="flex items-center">
+              <div className="flex items-center flex-wrap">
                 <p className="text-[13px] text-black/70 font-light mt-0.5">
                   <span className="font-medium">Class Name:</span>{" "}
                   {booking?.message?.slice(0, 20)}
@@ -89,7 +89,7 @@ const ActiveBookingRequests = ({ data,getBookingRequests }) => {
                   {booking?.joinDate}
                 </p>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center flex-wrap">
                 <p className="text-[13px] text-black/70 font-light mt-0.5">
                   <span className="font-medium">Class Time:</span>
                   {booking?.startTimeLocal}
@@ -104,15 +104,15 @@ const ActiveBookingRequests = ({ data,getBookingRequests }) => {
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap sm:w-auto w-full">
             <OutlineBtn
               text={"See Profile"}
-              className={"bg-transparent border-black text-black font-medium"}
+              className={"bg-transparent border-black text-black font-medium sm:w-auto w-full"}
               onClick={() => heandleStudentDetails(booking.studentId)}
             />
             <OutlineBtn
               text={"Confirm Booking"}
-              className={"bg-red-100 border-red-200 text-red-200 font-medium"}
+              className={"bg-red-100 border-red-200 text-red-200 font-medium sm:w-auto w-full"}
               onClick={() => heandleConform(booking.bookingId)}
             />
           </div>

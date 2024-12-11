@@ -47,18 +47,18 @@ const CompletedClasses = () => {
       ) : (
         upcomingClass?.map((upcoming_class) => {
           return (
-            <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400 min-w-[975px]">
-              <div className="flex items-center">
-                <div className="w-[125px] h-[85px] overflow-hidden rounded-lg">
-                  <img src={Wrestling} alt="Wrestling" />
+            <div className="px-3 lg:px-8 md:h-[143px] md:py-0 gap-y-5 py-3 flex flex-wrap items-center sm:justify-between border-b border-gay-400">
+              <div className="flex items-center flex-wrap gap-y-5">
+                <div className="sm:w-[125px] sm:h-[85px] w-full overflow-hidden rounded-lg">
+                  <img src={Wrestling} alt="Wrestling" className="w-full h-full object-cover object-top grayscale" />
                 </div>
-                <div className="ml-5">
+                <div className="sm:ml-5">
                 <div className="flex items-center cursor-pointer">
                     <h3 className="text-xl font-medium">
                       {upcoming_class?.className}
                     </h3>
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex flex-wrap items-center">
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
                       <span className="font-medium">Class Date:</span>{" "}
                       {upcoming_class?.classdate}
@@ -74,7 +74,7 @@ const CompletedClasses = () => {
                       {upcoming_class?.classType}
                     </p>
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex flex-wrap items-center">
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
                       <span className="font-medium">Class Time:</span>
                       {upcoming_class?.classTime}
@@ -97,7 +97,7 @@ const CompletedClasses = () => {
               </div>
               <OutlineBtn
                 text={`Completed on ${upcoming_class?.startsOn}`}
-                className={"bg-black border-none text-white"}
+                className={"bg-black border-none text-white sm:w-auto w-full"}
               />
             </div>
           );

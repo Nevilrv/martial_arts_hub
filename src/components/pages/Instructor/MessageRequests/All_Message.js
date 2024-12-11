@@ -69,14 +69,13 @@ const All_Message = () => {
     const result = await Student_Message_status(NotificationId, body);
     if (result?.success === true) {
       setMessageRequest(false);
-      Get_requests_pending()
+      Get_requests_pending();
       setLoading(false);
     } else {
-      toast.error(result.message)
+      toast.error(result.message);
       setMessageRequest(false);
       setLoading(false);
     }
-    
   };
 
   useEffect(() => {
@@ -85,7 +84,7 @@ const All_Message = () => {
 
   return (
     <>
-    {loading && <Spinner />}
+      {loading && <Spinner />}
       {MessageRequestdata?.length <= 0 && (
         <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
           <FaPaperPlane className="text-[80px] text-[#BDBBB5]" />
@@ -100,45 +99,45 @@ const All_Message = () => {
       )}
       {MessageRequestdata?.length >= 0 &&
         MessageRequestdata.map((messageReques) => (
-          <div className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400 min-w-[975px]">
-            <div className="flex items-center">
-              <div className="min-w-[82px] h-[82px] overflow-hidden rounded-full">
+          <div className="px-3 lg:px-8 md:h-[143px] md:py-0 gap-y-5 py-3 flex flex-wrap items-center sm:justify-between border-b border-gay-400">
+            <div className="flex items-center flex-wrap gap-y-5 sm:w-auto w-full">
+              <div className="sm:min-w-[82px]  w-1/2 sm:mx-0 mx-auto sm:h-[82px] overflow-hidden rounded-full">
                 <img
-                  src={messageReques.Student.profile_picture||User}
+                  src={messageReques?.Student?.profile_picture || User}
                   alt="Wrestling"
-                  className="w-[82px] h-[82px] rounded-full object-cover object-top grayscale"
+                  className="w-full h-full object-cover grayscale"
                 />
               </div>
-              <div className="ml-5">
+              <div className="sm:ml-5">
                 <h2 className="text-black texrt-[20px] font-medium">
-                  {messageReques.Student.name}
+                  {messageReques?.Student?.name}
                 </h2>
-                <div className="flex items-center">
+                <div className="flex items-center flex-wrap">
                   <p className="text-[13px] text-black/70  mt-0.5">
                     <span className="font-medium">Request received on:</span>{" "}
-                    {dayjs(messageReques.createdAt).format("DD-MM-YYYY")}
+                    {dayjs(messageReques?.createdAt).format("DD-MM-YYYY")}
                   </p>
                   <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                   <p className="text-[13px] text-black/70  mt-0.5">
                     <span className="font-medium">Inquiry class:</span>
-                    {messageReques.title}
+                    {messageReques?.title}
                   </p>
                 </div>
                 <p className="text-black/70 text-base max-w-5xl">
-                  {messageReques.body}
+                  {messageReques?.body}
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap sm:w-auto w-full">
               <OutlineBtn
                 text={"See Profile"}
-                className={"bg-transparent border-black text-black w-[148px]"}
+                className={"bg-transparent border-black text-black sm:w-[148px] w-full"}
                 onClick={() => heandleSeeProfile(messageReques)}
               />
               <OutlineBtn
                 text={"View Request"}
                 className={
-                  "bg-green border-none text-white font-medium w-[159px]"
+                  "bg-green border-none text-white font-medium sm:w-[159px] w-full"
                 }
                 onClick={() => heandleViewRequest(messageReques)}
               />
@@ -171,10 +170,13 @@ const All_Message = () => {
               </div>
               <div className="mt-10">
                 <div className="flex items-center sm:justify-between justify-center flex-wrap">
-                  <div className="flex items-center flex-wrap">
-                    <div className="w-[70px] h-[70px] rounded-full overflow-hidden">
+                  <div className="flex items-center flex-wrap sm:justify-start justify-center">
+                    <div className="sm:w-[70px] sm:h-[70px] rounded-full overflow-hidden">
                       <img
-                        src={StudentMessageRequest?.Student?.profile_picture||User}
+                        src={
+                          StudentMessageRequest?.Student?.profile_picture ||
+                          User
+                        }
                         alt="User"
                         className="grayscale h-full w-full object-cover"
                       />
@@ -183,12 +185,12 @@ const All_Message = () => {
                       <h2 className="text-black texrt-[20px] font-semibold">
                         {StudentMessageRequest?.Student?.name}
                       </h2>
-                      <div className="flex items-center">
+                      <div className="flex items-center flex-wrap">
                         <p className="text-[13px] text-black/70  mt-0.5">
                           <span className="font-medium">
                             Request received on:
                           </span>{" "}
-                          {dayjs(StudentMessageRequest.createdAt).format(
+                          {dayjs(StudentMessageRequest?.createdAt).format(
                             "DD-MM-YYYY"
                           )}
                         </p>
@@ -261,9 +263,9 @@ const All_Message = () => {
                       (Student)
                     </h2>
                   </div>
-                  <div className="w-[329px] h-[329px] rounded-full object-cover object-top grayscale scale-x-[-1] border-[5px] border-primary xl:absolute top-7 right-14 overflow-hidden">
+                  <div className="sm:w-[329px] sm:h-[329px] rounded-full object-cover object-top grayscale scale-x-[-1] border-[5px] border-primary xl:absolute top-7 right-14 overflow-hidden">
                     <img
-                      src={StudentData.profile||User}
+                      src={StudentData.profile || User}
                       className="h-full w-full object-cover"
                     />
                   </div>

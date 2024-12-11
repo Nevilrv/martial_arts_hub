@@ -20,7 +20,7 @@ const Inputfild = ({
   return (
     <>
       <div>
-        <label className={`text-sm text-black/50 block ${Labelclass}`}>{Label}</label>
+        <label className={`text-sm text-black/50 block ${Labelclass} `}>{Label}</label>
         <div className="relative">
           <input
           maxLength={maxLength}
