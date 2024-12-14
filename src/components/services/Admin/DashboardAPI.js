@@ -62,11 +62,11 @@ export const Instructor_Request = async () => {
   }
 };
 
-export const Weekly_Transactions = async () => {
+export const Weekly_Transactions = async (year) => {
   try {
     let response = await axios({
       method: "GET",
-      url: `${baseURL}/admin/barchart`,
+      url: `${baseURL}/admin/barchart?year=${year}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

@@ -68,5 +68,7 @@ export const Routing = {
   Admin_Dispute_Requests: "/admin/Finance/dispute_requests",
   Admin_Dispute_Details: "/admin/Finance/disputedetails/:disputeId",
   Admin_Generate_Reports: "/admin/Finance/generatereports",
-  Admin_Discipline_Centre: "/admin/disciplinecentre",
+  Admin_Discipline_Centre: "/admin/Categorie",
+  Admin_Create_Categorie: "/admin/add_Categorie",
+  Admin_Create_Sub_Categorie: "/admin/sub_Categorie/:categoryid/:name",
 };

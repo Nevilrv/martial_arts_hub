@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Instructor4 from "../../../../assets/images/Instructor-4.png";
 import PieChart from "./PieChart";
 import OutlineBtn from "../../common/OutlineBtn";
 import { MdCalendarToday } from "react-icons/md";
@@ -36,57 +35,80 @@ const Dashboard = () => {
   const data = [
     {
       Titile: "Total Classes",
-      number: DashboardCard.total_classes,
+      number:
+        DashboardCard.total_classes === null ? 0 : DashboardCard.total_classes,
       color: "text-black",
     },
     {
       Titile: "Active Classes",
-      number: DashboardCard.active_classes,
+      number:
+        DashboardCard.active_classes === null
+          ? 0
+          : DashboardCard.active_classes,
       color: "text-green",
     },
     {
       Titile: "Total Instructors",
-      number: DashboardCard.total_instructor,
+      number:
+        DashboardCard.total_instructor === null
+          ? 0
+          : DashboardCard.total_instructor,
       color: "text-black",
     },
     {
       Titile: "Total Students",
-      number: DashboardCard.total_student,
+      number:
+        DashboardCard.total_student === null ? 0 : DashboardCard.total_student,
       color: "text-black",
     },
     {
       Titile: "Blocked Students",
-      number: DashboardCard.block_student,
+      number:
+        DashboardCard.block_student === null ? 0 : DashboardCard.block_student,
       color: "text-red-200",
     },
     {
       Titile: "Total Instructor Requests",
-      number: DashboardCard.total_instructor_request,
+      number:
+        DashboardCard.total_instructor_request === null
+          ? 0
+          : DashboardCard.total_instructor_request,
       color: "text-black",
     },
     {
       Titile: "Accepted Inst. Requests",
-      number: DashboardCard.accept_instructor_request,
+      number:
+        DashboardCard.accept_instructor_request === null
+          ? 0
+          : DashboardCard.accept_instructor_request,
       color: "text-green",
     },
     {
       Titile: "Rejected Inst. Requests",
-      number: DashboardCard.reject_instructor_request,
+      number:
+        DashboardCard.reject_instructor_request === null
+          ? 0
+          : DashboardCard.reject_instructor_request,
       color: "text-red-200",
     },
     {
       Titile: "Total Earning",
-      number: DashboardCard.total_earning,
+      number:
+        DashboardCard.total_earning === null ? 0 : DashboardCard.total_earning,
       color: "text-black",
     },
     {
       Titile: "Total Refunds",
-      number: DashboardCard.total_refunds,
+      number:
+        DashboardCard.total_refunds === null ? 0 : DashboardCard.total_refunds,
       color: "text-black",
     },
     {
       Titile: "Total Released Funds",
-      number: DashboardCard.total_released_funds,
+      number:
+        DashboardCard.total_released_funds === null
+          ? 0
+          : DashboardCard.total_released_funds,
       color: "text-black",
     },
   ];

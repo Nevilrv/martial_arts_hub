@@ -13,7 +13,7 @@ import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { IoHeartSharp } from "react-icons/io5";
 import { MdDownloadForOffline } from "react-icons/md";
 import { usePDF } from "react-to-pdf";
-import { Resolution, Margin } from "react-to-pdf";
+import { Margin } from "react-to-pdf";
 
 const MyInvoice = () => {
   const studentId = JSON.parse(localStorage.getItem("_id"));

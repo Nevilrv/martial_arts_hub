@@ -13,7 +13,7 @@ const Popup = ({
   Headding,
   BodyText,
   Btnclass,
-  Star
+  BodyTextClass
 }) => {
   return (
     <>
@@ -33,12 +33,9 @@ const Popup = ({
                 <h1 className="text-center mt-3 font-semibold text-3xl">
                   {Headding}
                 </h1>
-                <p className="max-w-[471px] mx-auto text-center text-black/50 mt-1">
+                <p className={`max-w-[471px] mx-auto text-center text-black/50 mt-1 ${BodyTextClass}`}>
                   {BodyText}
                 </p>
-                <div className="flex items-center gap-1 justify-center mt-10">
-                  {Star}
-                </div>
                 <div className="flex sm:flex-row flex-col items-center gap-3 mt-14 justify-center">
                   <OutlineBtn
                     text={BtnText}

@@ -20,7 +20,7 @@ const ConfirmedBookingRequests = ({ data }) => {
           </p>
         </div>
       )}
-      {data.map((confirm) => (
+      {data?.map((confirm) => (
         <div className="px-3 lg:px-8 md:h-[143px] md:py-0 gap-y-5 py-3 flex flex-wrap items-center sm:justify-between border-b border-gay-400">
           <div className="flex flex-wrap items-center gap-y-5">
             <div className="sm:w-[82px] sm:h-[82px] w-1/2 sm:mx-0 mx-auto overflow-hidden rounded-full">

@@ -134,6 +134,11 @@ const SidbarNavigation = [
         icon: <BiChevronDown />,
         Path: Routing.Admin_Discipline_Centre,
       },
+      {
+        Navigate: "Create_Categorie",
+        icon: <BiChevronDown />,
+        Path: Routing.Admin_Create_Categorie,
+      },
     ],
   },
 ];

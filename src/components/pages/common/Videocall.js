@@ -53,12 +53,7 @@ const Videocall = () => {
         token,
         role,
         enableVideo: true,
-        enableScreensharing: true,
         enableAudio: true,
-        client: new AgoraRTC.Client({
-          mode: "rtc",
-          codec: "vp8",
-        }),
       });
     } catch (error) {
       console.error("Failed to initialize Agora:", error);
@@ -78,65 +73,32 @@ const Videocall = () => {
 
   useEffect(() => {
     initAgora();
-    return () => {
-      // Clean up Agora client on unmount
-      if (rtcProps && rtcProps.client) {
-        rtcProps.client.leave().catch((err) => {
-          console.warn("Error during cleanup leave:", err);
-        });
-      }
-    };
-  }, [channelName, role]);
-
-  const endClass = async () => {
-    const result = await Instructor_End_Class(userId, classId);
-    if (result?.success) {
-      localStorage.removeItem("classId");
-      navigate(Routing.InstructorMyClass);
-    }
-  };
-
-  const handleEndCall = async () => {
-    if (hasEnded) return;
-    setHasEnded(true);
-    if (rtcProps && rtcProps.client) {
-      try {
-        await rtcProps.client.leave();
-        console.log("Call ended successfully.");
-      } catch (error) {
-        if (error.code !== 102) {
-          console.error("Error ending call:", error);
-        }
-      }
-    }
-
-    setVideoCall(false);
-    if (userRole === "Instructor") {
-      endClass();
-    } else {
-      SetisOpen(true);
-    }
-  };
+  }, [channelName, role, videoCall]);
 
   const handleStudentReview = async () => {
     const body = {
       rating,
       feedback: reviewMessage,
-      userType: localStorage.getItem("Role").toLocaleLowerCase(),
+      userType: JSON.parse(localStorage.getItem("Role")).toLocaleLowerCase(),
     };
-    const studentId = localStorage.getItem("_id");
+    const studentId = JSON.parse(localStorage.getItem("_id"));
     const instructorId = localStorage.getItem("InstructorId");
     setLoading(true);
-
     const result = await Student_Review(body, studentId, instructorId);
-    setLoading(false);
-
     if (result?.success) {
       SetisOpen(false);
+      setLoading(false);
+      setVideoCall(false);
       toast.success("Thank you for your feedback!");
     } else {
       toast.error(result?.message);
     }
+  };
+
+  const callbacks = {
+    EndCall: () => {
+      userRole === "Student" ? SetisOpen(true) : setVideoCall(false);
+    },
   };
 
   const styleProps = {
@@ -185,25 +147,27 @@ const Videocall = () => {
           {loading && <Spinner />}
           <AgoraUIKit
             rtcProps={rtcProps}
-            callbacks={{ EndCall: handleEndCall }}
+            callbacks={callbacks}
             styleProps={styleProps}
           />
-          <RataingPopup
-            isOpen={isOpen}
-            SetisOpen={SetisOpen}
-            Icons={<Reviewsvg />}
-            Headding={"Rate Instructor!"}
-            rating={rating}
-            setRating={setRating}
-            setReviewMessage={setReviewMessage}
-            ReviewMessage={reviewMessage}
-            handleStarClick={handleStarClick}
-            onClick={handleStudentReview}
-            BodyText={
-              "Thank you for joining the session! Your feedback helps us improve! Rate your experience about our instructor to let us know what they’re doing right and where they can grow."
-            }
-            BtnText={"Submit"}
-          />
+          {userRole === "Student" && (
+            <RataingPopup
+              isOpen={isOpen}
+              SetisOpen={SetisOpen}
+              Icons={<Reviewsvg />}
+              Headding={"Rate Instructor!"}
+              rating={rating}
+              setRating={setRating}
+              setReviewMessage={setReviewMessage}
+              ReviewMessage={reviewMessage}
+              handleStarClick={handleStarClick}
+              onClick={handleStudentReview}
+              BodyText={
+                "Thank you for joining the session! Your feedback helps us improve! Rate your experience about our instructor to let us know what they’re doing right and where they can grow."
+              }
+              BtnText={"Submit"}
+            />
+          )}
         </>
       ) : (
         <Spinner />

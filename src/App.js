@@ -181,6 +181,12 @@ const Admin_Generate_Reports = lazy(() =>
 const Admin_Discipline_Centre = lazy(() =>
   import("./components/pages/admin/DisciplineCentre/Discipline_Centre.js")
 );
+const Admin_Create_Categorie = lazy(() =>
+  import("./components/pages/admin/DisciplineCentre/Create_Categorie.js")
+);
+const Admin_Create_Sub_Categorie = lazy(() =>
+  import("./components/pages/admin/DisciplineCentre/Sub_Categorie.js")
+);
 
 function App() {
   const routes = [
@@ -466,6 +472,16 @@ function App() {
     {
       path: Routing.Admin_Discipline_Centre,
       component: Admin_Discipline_Centre,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.Admin_Create_Categorie,
+      component: Admin_Create_Categorie,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.Admin_Create_Sub_Categorie,
+      component: Admin_Create_Sub_Categorie,
       isPrivateRoute: true,
     },
 

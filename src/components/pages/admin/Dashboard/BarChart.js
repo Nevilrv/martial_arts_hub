@@ -5,9 +5,12 @@ import { toast } from "react-toastify";
 import { Routing } from "../../../shared/Routing";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../../layouts/Spinner";
+import dayjs, { utc } from "dayjs";
 
 const BarChart = () => {
   const navigate = useNavigate();
+  dayjs.extend(utc);
+  const currentTime = dayjs.utc();
   const [series, setSeries] = useState([
     {
       name: "Q1 Budget",
@@ -39,14 +42,20 @@ const BarChart = () => {
 
   const Get_Bar_chart_Data = async () => {
     setLoading(true);
-    const result = await Weekly_Transactions();
+    const result = await Weekly_Transactions(currentTime.format("YYYY"));
     if (result?.success === true) {
-      const transformedSeries = Object.keys(result.data).map((key, index) => ({
-        name: `${key} Budget`, // e.g., Q1 Budget, Q2 Budget
+      const originalData = JSON.parse(result?.data?.data);
+      console.log(
+        "🚀 ~ constGet_Bar_chart_Data= ~ originalData:",
+        originalData
+      );
+
+      const transformedData = Object.keys(originalData).map((key, i) => ({
+        name: `${key} Budget`,
         group: "budget",
-        data: result.data[key].map((value) => parseFloat(value)), // Convert strings to numbers
+        data: originalData[key]?.map((value) => parseFloat(value)),
       }));
-      setSeries(transformedSeries);
+      setSeries(transformedData);
       setLoading(false);
     } else {
       if (

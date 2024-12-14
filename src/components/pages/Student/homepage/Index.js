@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SportsPsychology from "../../../../assets/images/SportsPsychology.png";
 import Physio from "../../../../assets/images/Physio.png";
 import MartialArts from "../../../../assets/images/MartialArts.png";
@@ -27,6 +27,7 @@ import Spinner from "../../../layouts/Spinner";
 import { Routing } from "../../../shared/Routing";
 import { CiSearch } from "react-icons/ci";
 import InstructorsCard from "../../common/Instructors_Card";
+import { Category_List } from "../../../services/Admin/Discipline_Centre/Discipline_Centre";
 
 const AskedQuestions = [
   {
@@ -54,7 +55,6 @@ const AskedQuestions = [
 const Index = () => {
   const [openId, setOpenId] = useState("");
   const [searchInstructor, setSearchInstructor] = useState("");
-  console.log("🚀 ~ Index ~ searchInstructor:", searchInstructor);
   const [Loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [discipline, setdiscipline] = useState({
@@ -65,6 +65,8 @@ const Index = () => {
   });
   const [Instructorsdata, setInstructorsdata] = useState([]);
   const [filteredInstructor, setFilteredInstructor] = useState([]);
+  const [category_list, Set_Category_List] = useState([]);
+  console.log("🚀 ~ Index ~ category_list:", category_list);
 
   const [Like, setLike] = useState(false);
 
@@ -79,10 +81,6 @@ const Index = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    getInstructors();
-  }, []);
 
   const HeandleLike = async (id) => {
     setLoading(true);
@@ -138,6 +136,23 @@ const Index = () => {
       )
     );
   };
+
+  const Get_Category_List = async () => {
+    setLoading(true);
+    const result = await Category_List();
+    if (result?.success === true) {
+      setLoading(false);
+      Set_Category_List(result.data);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+
+  useEffect(() => {
+    getInstructors();
+    Get_Category_List();
+  }, []);
 
   return (
     <>
@@ -197,55 +212,22 @@ const Index = () => {
       {/* Hero section start */}
       {/* Services section start */}
       <section className="bg-black px-3 gap-y-12 lg:px-8 py-[76px] grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
-        <div className="flex flex-col justify-center items-center">
-          <img src={SportsPsychology} alt="" />
-          <h2 className="text-white text-[22px] leading-[26.4px] text-center mt-4">
-            Sports Psychology
-          </h2>
-          <p className="text-white/50 text-[13px] leading-[18.2px] text-center max-w-[195px] mt-2">
-            Choose a specialist to enhance your mental game and boost
-            performance.
-          </p>
-        </div>
-        <div className="flex flex-col justify-center items-center">
-          <img src={Physio} alt="" />
-          <h2 className="text-white text-[22px] leading-[26.4px] text-center mt-4">
-            Physio
-          </h2>
-          <p className="text-white/50 text-[13px] leading-[18.2px] text-center max-w-[195px] mt-2">
-            Choose a specialist to optimize your recovery and maintain peak
-            physical performance.
-          </p>
-        </div>
-        <div className="flex flex-col justify-center items-center">
-          <img src={MartialArts} alt="" />
-          <h2 className="text-white text-[22px] leading-[26.4px] text-center mt-4">
-            Martial Arts Coaching
-          </h2>
-          <p className="text-white/50 text-[13px] leading-[18.2px] text-center max-w-[195px] mt-2">
-            Choose your coach for 1-to-1 sessions, group sessions, or fight
-            analysis, and elevate your game to new heights.
-          </p>
-        </div>
-        <div className="flex flex-col justify-center items-center">
-          <img src={Workout} alt="" />
-          <h2 className="text-white text-[22px] leading-[26.4px] text-center mt-4">
-            S&C
-          </h2>
-          <p className="text-white/50 text-[13px] leading-[18.2px] text-center max-w-[195px] mt-2">
-            Choose a specialist to tailor a strength and conditioning program to
-            achieve your goals.
-          </p>
-        </div>
-        <div className="flex flex-col justify-center items-center">
-          <img src={Nutrition} alt="" />
-          <h2 className="text-white text-[22px] leading-[26.4px] text-center mt-4">
-            Nutrition
-          </h2>
-          <p className="text-white/50 text-[13px] leading-[18.2px] text-center max-w-[195px] mt-2">
-            Choose a specialist to guide your nutrition and meet your needs.
-          </p>
-        </div>
+        {category_list.map((category) => (
+          <div
+            className="flex flex-col gap-3 items-center cursor-pointer"
+            onClick={() => navigate(Routing.InstructorsPage)}
+          >
+            <img src={category.maincategoryImage} alt="" className="h-[170px]" />
+            <div>
+              <h2 className="text-white text-[22px] leading-[26.4px] text-center mt-4">
+                {category.maincategory}
+              </h2>
+              <p className="text-white/50 text-[13px] leading-[18.2px] text-center max-w-[195px] mt-2 break-words">
+                {category.maincategoryDescription}
+              </p>
+            </div>
+          </div>
+        ))}
       </section>
       {/* Categories section start */}
       <CategoriesSection />

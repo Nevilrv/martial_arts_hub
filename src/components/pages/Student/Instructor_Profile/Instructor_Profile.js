@@ -26,6 +26,7 @@ import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import Inputfild from "../../common/Inputfild";
 import { Send_inqury_messages } from "../../../services/student/class";
 import User from "../../../../assets/images/userProfile.jpg";
+import { MdOutlineRateReview } from "react-icons/md";
 
 const InstructorProfile = () => {
   var settings = {
@@ -164,7 +165,6 @@ const InstructorProfile = () => {
     if (result?.success === true) {
       setLoading(false);
       setLike(!Like);
-    
     } else {
       if (
         result?.message === "Invalid token, Please Log-Out and Log-In again"
@@ -446,6 +446,13 @@ const InstructorProfile = () => {
                   icon={
                     <AiOutlineMessage className="text-black text-2xl mr-3" />
                   }
+                  className={
+                    "sm:w-[375px] w-full h-[60px] bg-transparent text-black font-medium"
+                  }
+                />
+                <OutlineBtn
+                  text={"Give Review Instructor"}
+                  icon={<MdOutlineRateReview  className="text-black text-xl mr-3" />}
                   className={
                     "sm:w-[375px] w-full h-[60px] bg-transparent text-black font-medium"
                   }

@@ -7,21 +7,16 @@ import {
   MenuButton,
   MenuItem,
   MenuItems,
-  Radio,
-  RadioGroup,
 } from "@headlessui/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Routing } from "../shared/Routing";
 import { IoMdClose } from "react-icons/io";
 import { FaBars } from "react-icons/fa6";
-import { BiCheckCircle } from "react-icons/bi";
 import { Allert_Popup_Icon } from "../../assets/icon";
 import OutlineBtn from "../pages/common/OutlineBtn";
 import Popup from "../pages/common/Popup";
 import {
   Link,
-  Button,
-  Element,
   Events,
   animateScroll as scroll,
   scrollSpy,
@@ -72,6 +67,7 @@ const Header = () => {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isOpen, SetisOpen] = useState(false);
+  const [scroll_event, Setscroll_event] = useState("home");
   const [selectedMailingLists, setSelectedMailingLists] = useState("");
   const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
 
@@ -100,16 +96,30 @@ const Header = () => {
 
   const Role = JSON.parse(localStorage.getItem("Role"));
   useEffect(() => {
+    Events.scrollEvent.register("begin", (to, element) => {
+      Setscroll_event(element.getAttribute("name"));
+    });
+    scrollSpy.update();
     const handleScroll = () => {
       const position = window.scrollY;
       setScrollPosition({ x: window.scrollX, y: position });
+      if (position <= 1763) {
+        Setscroll_event("home");
+      } else if (position <= 4514) {
+        Setscroll_event("about");
+      } else if (position >= 6664) {
+        Setscroll_event("Contact_Us");
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
 
     return () => {
+      Events.scrollEvent.remove("begin");
+      Events.scrollEvent.remove("end");
       window.removeEventListener("scroll", handleScroll);
     };
+    
   }, []);
 
   const headerClasses = `sticky top-0 left-0 z-[9] ${
@@ -117,27 +127,6 @@ const Header = () => {
       ? "bg-primary/60 backdrop-filter backdrop-blur-lg"
       : "bg-transparent"
   }`;
-
-  useEffect(() => {
-    // Registering the 'begin' event and logging it to the console when triggered.
-    Events.scrollEvent.register("begin", (to, element) => {
-      console.log("begin", to, element);
-    });
-
-    // Registering the 'end' event and logging it to the console when triggered.
-    Events.scrollEvent.register("end", (to, element) => {
-      console.log("end", to, element);
-    });
-
-    // Updating scrollSpy when the component mounts.
-    scrollSpy.update();
-
-    // Returning a cleanup function to remove the registered events when the component unmounts.
-    return () => {
-      Events.scrollEvent.remove("begin");
-      Events.scrollEvent.remove("end");
-    };
-  }, []);
 
   return (
     <>
@@ -174,10 +163,10 @@ const Header = () => {
                     to={item.href}
                     spy={true}
                     smooth={true}
-                    offset={50}
+                    offset={0}
                     duration={500}
                     className={`text-sm leading-6 hover:text-black cursor-pointer ${
-                      currentLocation === item.href
+                      scroll_event === item.href
                         ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
                         : "text-black/70 font-normal"
                     }`}
@@ -236,11 +225,6 @@ const Header = () => {
                 <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none">
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
-                  {/* <img
-                    alt=""
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    className="h-9 w-9 rounded-full border p-1"
-                  /> */}
                   <p className="h-9 w-9 rounded-full border p-1 flex items-center justify-center">
                     <span className="bg-black h-6 w-6 rounded-full flex items-center justify-center text-white font-bold">
                       {userName}
@@ -319,9 +303,13 @@ const Header = () => {
           onClose={setMobileMenuOpen}
           className="lg:hidden"
         >
+          <DialogBackdrop
+            transition
+            className="fixed inset-0 bg-gray-900/80 transform transition duration-300 ease-in-out data-[closed]:-translate-x-full"
+          />
           <div className="fixed inset-0 z-10" />
-          <DialogPanel className="fixed inset-y-0 right-0 z-[999999] w-full overflow-y-auto bg-white px-6 py-6 sm:ring-1 sm:ring-gray-900/10">
-            <div className="flex items-center justify-between">
+          <DialogPanel className="fixed inset-y-0 right-0 z-[999999]  w-full overflow-y-auto bg-white px-6 py-6 sm:ring-1 sm:ring-gray-900/10">
+            <div className="flex items-center justify-between ">
               <Link to="/" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
                 <h2 className="font-extrabold text-lg leading-[21.6px] tracking-[-1px]">
@@ -340,25 +328,49 @@ const Header = () => {
             <div className="mt-6 flow-root">
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
-                  {navigation.map((item, i) => (
-                    <Link
-                      key={i}
-                      activeClass="active"
-                      to={item.href}
-                      spy={true}
-                      smooth={true}
-                      offset={50}
-                      duration={500}
-                      className={`-mx-3 block rounded-lg px-3 py-2 text-sm leading-6 hover:text-black ${
-                        currentLocation === item.href
-                          ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-2 after:left-[13px]"
-                          : "text-black/50 font-normal"
-                      }`}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
+                  {currentLocation === "/"
+                    ? navigation.map((item, i) => (
+                        <Link
+                          key={i}
+                          activeClass="active"
+                          spy={true}
+                          smooth={true}
+                          to={item.href}
+                          offset={0}
+                          duration={500}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={`-mx-3 block rounded-lg px-3 py-2 text-sm leading-6 hover:text-black ${
+                            scroll_event === item.href
+                              ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-2 after:left-[13px]"
+                              : "text-black/50 font-normal"
+                          }`}
+                        >
+                          {item.name}
+                        </Link>
+                      ))
+                    : navigation.map((item, i) => (
+                        <div
+                          key={i}
+                          activeClass="active"
+                          onClick={() => {
+                            setMobileMenuOpen(false);
+                            navigate(Routing.Initial);
+                          }}
+                          spy={true}
+                          smooth={true}
+                          offset={50}
+                          duration={500}
+                          className={`-mx-3 block rounded-lg px-3 py-2 text-sm leading-6 hover:text-black ${
+                            item.href === item.href
+                              ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-2 after:left-[13px]"
+                              : "text-black/50 font-normal"
+                          }`}
+                        >
+                          {item.name}
+                        </div>
+                      ))}
                 </div>
+
                 <div className="py-6">
                   {!loggedIn && (
                     <p

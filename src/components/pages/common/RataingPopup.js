@@ -2,6 +2,7 @@ import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import React, { useState } from "react";
 import OutlineBtn from "./OutlineBtn";
 import { FaStar } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const RataingPopup = ({
   isOpen,
@@ -19,7 +20,7 @@ const RataingPopup = ({
 
   return (
     <>
-      <Dialog className="relative z-[9999]" open={isOpen} onClose={SetisOpen}>
+      <Dialog className="relative z-[9999]" open={isOpen}  onClose={() => {toast.info("Please Enter Your Reiview First")}}>
         <DialogBackdrop
           transition
           className="fixed inset-0 bg-black/60 backdrop-blur-md transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"

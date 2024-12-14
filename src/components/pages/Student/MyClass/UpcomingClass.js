@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { WorkOut } from "../../../../assets/icon";
 import Wrestling from "../../../../assets/images/Wrestling.png";
-import { RiEditBoxFill } from "react-icons/ri";
 import OutlineBtn from "../../common/OutlineBtn";
 // import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";

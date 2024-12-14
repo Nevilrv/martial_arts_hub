@@ -17,10 +17,10 @@ const PaymentSuccessful = () => {
       customerId: data?.customerId,
     };
     const result = await Payment_Successful_Data(
-      data.studentId,
-      data.classId,
-      data.bookingId,
-      data.instructorId,
+      data?.studentId,
+      data?.classId,
+      data?.bookingId,
+      data?.instructorId,
       body
     );
     if (result?.success === true) {

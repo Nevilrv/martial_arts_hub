@@ -6,7 +6,6 @@ import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { FaArrowLeft } from "react-icons/fa";
 import {
   SeeStudentProfile,
-  Student_Message_status,
 } from "../../../services/Instructor/MessageRequests/MessageRequests";
 import Spinner from "../../../layouts/Spinner";
 import { Confirm_Booking_status } from "../../../services/Instructor/Booking/Booking";

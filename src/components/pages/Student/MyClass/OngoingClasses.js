@@ -9,14 +9,10 @@ import {
   Student_Payment,
 } from "../../../services/student/class";
 import Spinner from "../../../layouts/Spinner";
-import { useNavigate } from "react-router-dom";
 
 const OngoingClasses = () => {
-  // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
   const [upcomingClass, setUpcomingClass] = useState([]);
-  const navigate = useNavigate();
-
   const Get_Upcoming_Classes = async () => {
     setLoading(true);
     const result = await Student_get_Upcoming_Classes();
