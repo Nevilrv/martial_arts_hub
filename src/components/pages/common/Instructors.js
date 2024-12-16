@@ -97,7 +97,7 @@ const Instructors = () => {
         </Slider>
         <div className="flex justify-center mt-10">
         <button
-          onClick={() => navigate(Routing.InstructorsPage)}
+          onClick={() => navigate(`/instructors/all`)}
           className="bg-transparent h-[55px] text-white hover:text-black text-xl leading-8 px-7 py-4 rounded-full flex justify-center items-center relative after:absolute after:bg-black after:h-full after:w-full after:bottom-0 after:left-0 hover:after:h-0 after:transition-[2s] after:-z-20 overflow-hidden border border-black"
         >
           View More

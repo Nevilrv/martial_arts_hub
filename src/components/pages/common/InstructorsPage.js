@@ -4,17 +4,18 @@ import { GetInstructors, GetLikesChek, InstructorLike } from "../../services/stu
 import { toast } from "react-toastify";
 import Spinner from "../../layouts/Spinner";
 import { Routing } from "../../shared/Routing";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const InstructorsPage = () => {
   const [Instructors, setInstructors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [Like, setLike] = useState(false);
   const navigate = useNavigate();
+  const {maincategory} = useParams()
 
   const getInstructors = async () => {
     setLoading(true);
-    const result = await GetInstructors();
+    const result = await GetInstructors(maincategory||null);
     if (result?.success === true) {
       setLoading(false);
       setInstructors(result.data);

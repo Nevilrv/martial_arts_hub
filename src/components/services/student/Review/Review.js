@@ -16,3 +16,19 @@ export const Student_Review = async (body,studentId,instructorId) => {
       return error?.response?.data;
     }
   };
+
+  export const Instructor_Review = async (body,studentId,instructorId) => {
+    try {
+      let response = await axios({
+        method: "POST",
+        url: `${baseURL}/instructor/review/student/${studentId}/${instructorId}`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        data:body
+      });
+      return response.data;
+    } catch (error) {
+      return error?.response?.data;
+    }
+  };

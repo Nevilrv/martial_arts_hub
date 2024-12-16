@@ -8,24 +8,30 @@ import { Routing } from "../../shared/Routing";
 import OutlineBtn from "./OutlineBtn";
 import { Instructor_End_Class } from "../../services/Instructor/createClass/Index";
 import Spinner from "../../layouts/Spinner";
-import { Reviewsvg } from "../../../assets/icon";
+import { Allert_Popup_Icon, Reviewsvg } from "../../../assets/icon";
 import RataingPopup from "./RataingPopup";
-import { Student_Review } from "../../services/student/Review/Review";
+import {
+  Instructor_Review,
+  Student_Review,
+} from "../../services/student/Review/Review";
 import AgoraRTC from "agora-rtc-sdk-ng";
+import Socket from "./Socket";
+import Popup from "./Popup";
 
 const Videocall = () => {
   const { channelName, role } = useParams();
   const [rtcProps, setRtcProps] = useState(null);
   const [videoCall, setVideoCall] = useState(true);
   const [isOpen, SetisOpen] = useState(false);
+  const [EndClassPopup, SetEndClassPopup] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [hasEnded, setHasEnded] = useState(false);
   const [rating, setRating] = useState(0);
   const [reviewMessage, setReviewMessage] = useState("");
   const navigate = useNavigate();
-  const classId = localStorage.getItem("classId");
-  const userId = JSON.parse(localStorage.getItem("_id"));
+  const classid = localStorage.getItem("classId");
+  const _id = JSON.parse(localStorage.getItem("_id"));
   const userRole = JSON.parse(localStorage.getItem("Role"));
+  const isMobile = window.innerWidth <= 768;
 
   const handleStarClick = (star) => {
     setRating(star);
@@ -57,10 +63,13 @@ const Videocall = () => {
       });
     } catch (error) {
       console.error("Failed to initialize Agora:", error);
+      setLoading(false);
       toast.error(error.response?.data?.message || "Failed to join the room");
       if (
         error.response?.data?.message ===
-        "Please log in to access this resource"
+          "Please log in to access this resource" ||
+        error.response?.data?.message ===
+          "Invalid token, Please Log-Out and Log-In again"
       ) {
         navigate(
           userRole === "Student"
@@ -69,6 +78,17 @@ const Videocall = () => {
         );
       }
     }
+  };
+
+  const InstructorEndclass = async () => {
+    const result = await Instructor_End_Class(_id, classid);
+    if (result?.success === true) {
+      SetisOpen(true);
+    }
+  };
+
+  const StudentEndclass = () => {
+    SetisOpen(true);
   };
 
   useEffect(() => {
@@ -89,7 +109,31 @@ const Videocall = () => {
       SetisOpen(false);
       setLoading(false);
       setVideoCall(false);
+      navigate(Routing.StudentMyClass, { replace: true });
       toast.success("Thank you for your feedback!");
+    } else {
+      toast.error(result?.message);
+    }
+  };
+
+  const handleInstructorReview = async () => {
+    const body = {
+      rating,
+      feedback: reviewMessage,
+      userType: JSON.parse(localStorage.getItem("Role")).toLocaleLowerCase(),
+    };
+    const instructorId = JSON.parse(localStorage.getItem("_id"));
+    const studentId = localStorage.getItem("studentId");
+    setLoading(true);
+    const result = await Instructor_Review(body, studentId, instructorId);
+    if (result?.success) {
+      Socket.emit("calldisconnect", { disconnect: true });
+      SetisOpen(false);
+      setLoading(false);
+      setVideoCall(false);
+      localStorage.removeItem("classId");
+      toast.success("Thank you for your feedback!");
+      navigate(Routing.InstructorMyClass, { replace: true });
     } else {
       toast.error(result?.message);
     }
@@ -97,18 +141,18 @@ const Videocall = () => {
 
   const callbacks = {
     EndCall: () => {
-      userRole === "Student" ? SetisOpen(true) : setVideoCall(false);
+      userRole === "Student" ? StudentEndclass() : SetEndClassPopup(true);
     },
   };
 
   const styleProps = {
     localBtnContainer: {
       backgroundColor: "#969696",
-      width: "83.4%",
+      width: isMobile ? "100%" : "83.4%",
     },
     remoteBtnContainer: {
       backgroundColor: "#969696",
-      width: "83.4%",
+      width: isMobile ? "100%" : "83.4%",
     },
     localBtnStyles: {
       backgroundColor: "transparent",
@@ -126,6 +170,29 @@ const Videocall = () => {
     },
   };
 
+  const HeandleSkipReview = () => {
+    SetisOpen(false);
+    setVideoCall(false);
+    userRole === "Student"
+      ? navigate(Routing.StudentMyClass, { replace: true })
+      : navigate(Routing.InstructorMyClass, { replace: true });
+  };
+
+  //
+  useEffect(() => {
+    Socket.on("getcalldisconnect", (data) => {
+      if (data.disconnect === true) {
+        setVideoCall(false);
+        userRole === "Student"
+          ? navigate(Routing.StudentMyClass, { replace: true })
+          : navigate(Routing.InstructorMyClass, { replace: true });
+      }
+    });
+    return () => {
+      Socket.off("getcalldisconnect");
+    };
+  }, [videoCall]);
+
   return !videoCall ? (
     <div style={{ textAlign: "center", marginTop: "20px" }}>
       <h3>Welcome Back {userRole}</h3>
@@ -139,40 +206,72 @@ const Videocall = () => {
       />
     </div>
   ) : (
-    <div
-      style={{ display: "flex", width: "100%", height: "calc(100vh - 85px)" }}
-    >
-      {rtcProps ? (
-        <>
-          {loading && <Spinner />}
-          <AgoraUIKit
-            rtcProps={rtcProps}
-            callbacks={callbacks}
-            styleProps={styleProps}
-          />
-          {userRole === "Student" && (
-            <RataingPopup
-              isOpen={isOpen}
-              SetisOpen={SetisOpen}
-              Icons={<Reviewsvg />}
-              Headding={"Rate Instructor!"}
-              rating={rating}
-              setRating={setRating}
-              setReviewMessage={setReviewMessage}
-              ReviewMessage={reviewMessage}
-              handleStarClick={handleStarClick}
-              onClick={handleStudentReview}
-              BodyText={
-                "Thank you for joining the session! Your feedback helps us improve! Rate your experience about our instructor to let us know what they’re doing right and where they can grow."
-              }
-              BtnText={"Submit"}
+    <>
+      <div
+        style={{ display: "flex", width: "100%", height: "calc(100vh - 85px)" }}
+      >
+        {rtcProps ? (
+          <>
+            {loading && <Spinner />}
+            <AgoraUIKit
+              rtcProps={rtcProps}
+              callbacks={callbacks}
+              styleProps={styleProps}
             />
-          )}
-        </>
-      ) : (
-        <Spinner />
-      )}
-    </div>
+            {userRole === "Student" ? (
+              <RataingPopup
+                isOpen={isOpen}
+                SetisOpen={SetisOpen}
+                HeandleSkipReview={HeandleSkipReview}
+                Icons={<Reviewsvg />}
+                Headding={"Rate Instructor!"}
+                rating={rating}
+                setRating={setRating}
+                setReviewMessage={setReviewMessage}
+                ReviewMessage={reviewMessage}
+                handleStarClick={handleStarClick}
+                onClick={handleStudentReview}
+                BodyText={
+                  "Thank you for joining the session! Your feedback helps us improve! Rate your experience about our instructor to let us know what they’re doing right and where they can grow."
+                }
+                BtnText={"Submit"}
+              />
+            ) : (
+              <RataingPopup
+                isOpen={isOpen}
+                SetisOpen={SetisOpen}
+                HeandleSkipReview={HeandleSkipReview}
+                Icons={<Reviewsvg />}
+                Headding={"Rate Student!"}
+                rating={rating}
+                setRating={setRating}
+                setReviewMessage={setReviewMessage}
+                ReviewMessage={reviewMessage}
+                handleStarClick={handleStarClick}
+                onClick={handleInstructorReview}
+                BodyText={
+                  "Thank you for joining the session! Your feedback helps us improve! Rate your experience about our instructor to let us know what they’re doing right and where they can grow."
+                }
+                BtnText={"Submit"}
+              />
+            )}
+          </>
+        ) : (
+          <Spinner />
+        )}
+      </div>
+      <Popup
+        Icons={<Allert_Popup_Icon />}
+        Headding={"Are you sure?"}
+        BodyText={"Are you sure you want to End Your Class?"}
+        isOpen={EndClassPopup}
+        SetisOpen={SetEndClassPopup}
+        onClick={InstructorEndclass}
+        BtnText={"EndClass"}
+        BtnText2={"Back To Class"}
+        BtnText2Click={() => SetEndClassPopup(false)}
+      />
+    </>
   );
 };
 

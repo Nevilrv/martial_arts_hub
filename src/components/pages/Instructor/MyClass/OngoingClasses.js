@@ -23,7 +23,6 @@ const OngoingClasses = (props) => {
     if (result?.success === true) {
       setLoading(false);
       setUpcomingClass(result.data.ongoing);
-       
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -41,6 +40,8 @@ const OngoingClasses = (props) => {
     );
     if (result?.success === true) {
       localStorage.setItem("classId", upcoming_class?.classId);
+      localStorage.setItem("studentId", upcoming_class?.studentId);
+
       window.location.replace(upcoming_class?.instructor_url);
       setLoading(false);
     } else {
@@ -67,8 +68,12 @@ const OngoingClasses = (props) => {
           return (
             <div className="px-3 lg:px-8 md:h-[143px] md:py-0 gap-y-5 py-3 flex flex-wrap items-center sm:justify-between border-b border-gay-400">
               <div className="flex items-center flex-wrap gap-y-5">
-              <div className="sm:w-[125px] sm:h-[85px] w-full overflow-hidden rounded-lg">
-                  <img src={Wrestling} alt="Wrestling"   className="w-full h-full object-cover object-top grayscale" />
+                <div className="sm:w-[125px] sm:h-[85px] w-full overflow-hidden rounded-lg">
+                  <img
+                    src={Wrestling}
+                    alt="Wrestling"
+                    className="w-full h-full object-cover object-top grayscale"
+                  />
                 </div>
                 <div className="sm:ml-5">
                   <div className="flex items-center cursor-pointer">
@@ -117,7 +122,9 @@ const OngoingClasses = (props) => {
                 {upcoming_class.payment !== "success" ? (
                   <OutlineBtn
                     text={`payment is Pending`}
-                    className={"bg-black border-none text-white sm:w-auto w-full"}
+                    className={
+                      "bg-black border-none text-white sm:w-auto w-full"
+                    }
                   />
                 ) : (
                   <>

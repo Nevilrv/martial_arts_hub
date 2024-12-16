@@ -66,7 +66,6 @@ const Index = () => {
   const [Instructorsdata, setInstructorsdata] = useState([]);
   const [filteredInstructor, setFilteredInstructor] = useState([]);
   const [category_list, Set_Category_List] = useState([]);
-  console.log("🚀 ~ Index ~ category_list:", category_list);
 
   const [Like, setLike] = useState(false);
 
@@ -215,7 +214,7 @@ const Index = () => {
         {category_list.map((category) => (
           <div
             className="flex flex-col gap-3 items-center cursor-pointer"
-            onClick={() => navigate(Routing.InstructorsPage)}
+            onClick={() => navigate(`/instructors/${category.maincategory}`)}
           >
             <img src={category.maincategoryImage} alt="" className="h-[170px]" />
             <div>
