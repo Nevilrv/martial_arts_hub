@@ -9,7 +9,7 @@ const Tabs = ({ children }) => {
     { name: "My Classes", href: Routing.StudentMyClass },
     { name: "My Invoices", href: Routing.StudentInvoices },
     { name: "Raise Dispute", href: Routing.StudentDispute },
-    { name: "Instructor", href: Routing.InstructorsPage },
+    { name: "Instructor", href: "/instructors/all" },
   ];
   return (
     <>

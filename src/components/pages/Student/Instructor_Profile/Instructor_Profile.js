@@ -227,7 +227,7 @@ const InstructorProfile = () => {
       <div className="pt-[80px]">
         <div className="px-3 lg:px-8">
           <div className="grid md:grid-cols-3 grid-cols-1 md:px-8 gap-[71px]">
-            <div className="md:col-span-2">
+            <div className="md:col-span-2 md:order-1 order-2">
               <div className="flex items-center gap-2 gap-y-4 flex-wrap">
                 {category?.map((category) => (
                   <>
@@ -373,7 +373,7 @@ const InstructorProfile = () => {
                 </div>
               </div>
             </div>
-            <div>
+            <div className="md:order-2 order-1">
               <div className="rounded-[25px] overflow-hidden relative">
                 <img
                   src={Instructor?.profile_picture || User}
@@ -451,13 +451,6 @@ const InstructorProfile = () => {
                   }
                 />
                 <OutlineBtn
-                  text={"Give Review Instructor"}
-                  icon={<MdOutlineRateReview  className="text-black text-xl mr-3" />}
-                  className={
-                    "sm:w-[375px] w-full h-[60px] bg-transparent text-black font-medium"
-                  }
-                />
-                <OutlineBtn
                   text={"Share Instructor’s Profile"}
                   icon={<IoMdShare className="text-black text-xl mr-3" />}
                   className={
@@ -468,7 +461,7 @@ const InstructorProfile = () => {
             </div>
           </div>
         </div>
-        <div className="mt-20">
+        {/* <div className="mt-20">
           <section className="bg-[#646363] py-[107px] px-3 lg:px-8">
             <h2 className="text-[40px] text-white font-medium text-center">
               Download the App to Get more{" "}
@@ -488,7 +481,7 @@ const InstructorProfile = () => {
               </button>
             </div>
           </section>
-        </div>
+        </div> */}
         <section className="px-3 lg:px-8 mt-20">
           <div className="md:px-8">
             <h2 className="font-medium text-[32px] flex items-center">
@@ -531,7 +524,7 @@ const InstructorProfile = () => {
                 ))}
               </Slider>
             ) : (
-              <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 mt-5">
+              <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 mt-5 gap-3">
                 {Reviews.map((Review) => (
                   <div className="px-2" key={Review.id}>
                     <div className="p-7 border border-[#848484]/30 rounded-3xl">
