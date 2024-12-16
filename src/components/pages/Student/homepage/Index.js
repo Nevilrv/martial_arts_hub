@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from "react";
-import SportsPsychology from "../../../../assets/images/SportsPsychology.png";
-import Physio from "../../../../assets/images/Physio.png";
-import MartialArts from "../../../../assets/images/MartialArts.png";
-import Workout from "../../../../assets/images/Workout.png";
-import Nutrition from "../../../../assets/images/Nutrition.png";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import {
   ArtsJourney,
@@ -504,7 +499,6 @@ const Index = () => {
       {/* Instructors section start */}
       <Instructors />
       {/* Download the App */}
-
       {/* <section className="bg-black py-[107px] px-3 lg:px-8">
         <h2 className="text-[40px] text-white font-medium text-center">
           Download the App to Get more{" "}
@@ -524,7 +518,7 @@ const Index = () => {
       </section> */}
       {/* Work section start */}
       <section className="">
-        <div className="px-3 lg:px-8 py-space">
+        <div className="px-3 lg:px-8 py-space pt-[10px]">
           <h2 className="text-black text-[40px] text-center">
             How does it Work?
           </h2>

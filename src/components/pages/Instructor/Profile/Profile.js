@@ -359,15 +359,15 @@ const Profile = () => {
     const result = await InstructorProfile(formData);
     if (result?.success === true) {
       setLoading(false);
-       console.log(result.data.status,"======>Profile");
-       if (result.data.status==="pending") {
+      console.log(result.data.status, "======>Profile");
+      if (result.data.status === "pending") {
         Socket.emit("Notification", {
           title: `${instructorDetails?.name} New_instructor`,
           notificationType: "Instructor_request",
           Time: new Date(),
         });
-       }
-       
+      }
+
       navigate(Routing.InstructorDashboard);
     } else {
       setLoading(false);
@@ -404,8 +404,6 @@ const Profile = () => {
           privateSessionFaceToFaceHourlyRate:
             result?.data?.privateSessionFaceToFaceHourlyRate,
         });
-
-         
       } else {
         setLoading(false);
         toast.error(result?.message);
@@ -417,6 +415,7 @@ const Profile = () => {
 
   useEffect(() => {
     getinstructorDetails();
+    // eslint-disable-next-line
   }, []);
 
   const handlePhoneNumberChange = (value) => {
@@ -429,10 +428,14 @@ const Profile = () => {
           mobileNo: phoneNumberDetails?.nationalNumber,
         });
       } catch (error) {
-        setInstructorDetails(instructorDetails?.mobileNo);
+        console.error("Error parsing phone number:", error);
       }
     } else {
-      setInstructorDetails(instructorDetails?.country_code);
+      setInstructorDetails((prevDetails) => ({
+        ...prevDetails,
+        country_code: "",
+        mobileNo: "",
+      }));
     }
   };
 
@@ -521,13 +524,8 @@ const Profile = () => {
             <label className={`text-sm text-black/50 block`}>Mobile No.</label>
             <PhoneInput
               placeholder="Enter phone number"
-              value={JSON.stringify(
-                "+" +
-                  instructorDetails?.country_code +
-                  instructorDetails?.mobileNo
-              )}
+              value={instructorDetails?.mobileNo ? `+${instructorDetails?.country_code}${instructorDetails?.mobileNo}` : ""}
               onChange={handlePhoneNumberChange}
-              // defaultCountry={JSON.stringify(instructorDetails?.country_code)}
               enableSearch={true}
             />
           </div>

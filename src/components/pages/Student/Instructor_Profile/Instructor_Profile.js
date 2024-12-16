@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import OutlineBtn from "../../common/OutlineBtn";
 import { HiMiniSignal } from "react-icons/hi2";
 import { BsPatchCheckFill, BsQuote } from "react-icons/bs";
-import { IoIosArrowRoundForward, IoMdShare } from "react-icons/io";
+import { IoMdShare } from "react-icons/io";
 import Instructors from "../../common/Instructors";
 import Slider from "react-slick";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
@@ -26,7 +26,6 @@ import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import Inputfild from "../../common/Inputfild";
 import { Send_inqury_messages } from "../../../services/student/class";
 import User from "../../../../assets/images/userProfile.jpg";
-import { MdOutlineRateReview } from "react-icons/md";
 
 const InstructorProfile = () => {
   var settings = {

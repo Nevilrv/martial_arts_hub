@@ -82,6 +82,22 @@ export const Category_List = async () => {
   }
 };
 
+export const Category_Sub_List = async () => {
+  try {
+    let response = await axios({
+      method: "GET",
+      url: `${baseURL}/admin/home/category`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
+
+
 export const Sub_Category_List = async (maincategoryId) => {
   try {
     let response = await axios({

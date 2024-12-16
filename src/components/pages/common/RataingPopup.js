@@ -1,5 +1,5 @@
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
-import React, { useState } from "react";
+import React from "react";
 import OutlineBtn from "./OutlineBtn";
 import { FaStar } from "react-icons/fa";
 import { toast } from "react-toastify";

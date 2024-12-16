@@ -8,7 +8,6 @@ import {
 import Spinner from "../../layouts/Spinner";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { Routing } from "../../shared/Routing";
 
 const Instructors = () => {
   const [Instructors, setInstructors] = useState([]);

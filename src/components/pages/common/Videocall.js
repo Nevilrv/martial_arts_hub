@@ -14,7 +14,6 @@ import {
   Instructor_Review,
   Student_Review,
 } from "../../services/student/Review/Review";
-import AgoraRTC from "agora-rtc-sdk-ng";
 import Socket from "./Socket";
 import Popup from "./Popup";
 
@@ -93,6 +92,7 @@ const Videocall = () => {
 
   useEffect(() => {
     initAgora();
+    // eslint-disable-next-line
   }, [channelName, role, videoCall]);
 
   const handleStudentReview = async () => {
@@ -191,6 +191,7 @@ const Videocall = () => {
     return () => {
       Socket.off("getcalldisconnect");
     };
+    // eslint-disable-next-line
   }, [videoCall]);
 
   return !videoCall ? (
@@ -261,6 +262,7 @@ const Videocall = () => {
         )}
       </div>
       <Popup
+      // eslint-disable-next-line
         Icons={<Allert_Popup_Icon />}
         Headding={"Are you sure?"}
         BodyText={"Are you sure you want to End Your Class?"}

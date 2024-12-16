@@ -4,8 +4,7 @@ import Wrestling from "../../../../assets/images/Wrestling.png";
 import OutlineBtn from "../../common/OutlineBtn";
 import { toast } from "react-toastify";
 import {
-  Instructor_change_class_status,
-  Instructor_End_Class,
+  Instructor_change_class_status, 
   Instructor_get_Upcoming_Classes,
 } from "../../../services/Instructor/createClass/Index";
 import Spinner from "../../../layouts/Spinner";

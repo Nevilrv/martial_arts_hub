@@ -27,6 +27,7 @@ const InstructorsPage = () => {
 
   useEffect(() => {
     getInstructors();
+    // eslint-disable-next-line
   }, []);
 
 
