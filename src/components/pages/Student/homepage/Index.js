@@ -211,7 +211,7 @@ const Index = () => {
             className="flex flex-col gap-3 items-center cursor-pointer"
             onClick={() => navigate(`/instructors/${category.maincategory}`)}
           >
-            <img src={category.maincategoryImage} alt="" className="h-[170px]" />
+            <img src={category.maincategoryImage} alt="" className="w-[52px]" />
             <div>
               <h2 className="text-white text-[22px] leading-[26.4px] text-center mt-4">
                 {category.maincategory}
@@ -517,7 +517,7 @@ const Index = () => {
         </div>
       </section> */}
       {/* Work section start */}
-      <section className="">
+      <section>
         <div className="px-3 lg:px-8 py-space pt-[10px]">
           <h2 className="text-black text-[40px] text-center">
             How does it Work?

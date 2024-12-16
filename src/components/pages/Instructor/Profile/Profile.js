@@ -18,269 +18,14 @@ import "react-phone-number-input/style.css";
 import { parsePhoneNumber } from "react-phone-number-input";
 import Select from "react-select";
 import Socket from "../../common/Socket";
+import { Category_List } from "../../../services/Admin/Discipline_Centre/Discipline_Centre";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const [category_list, Set_Category_List] = useState([]);
+  console.log("🚀 ~ Profile ~ category_list:", category_list);
   const [loading, setLoading] = useState(false);
 
-  const CategoryOption = [
-    {
-      label: "Judo",
-      value: "Judo",
-    },
-    {
-      label: "Karate",
-      value: "Karate",
-    },
-    {
-      label: "Taekwondo",
-      value: "Taekwondo",
-    },
-    {
-      label: "Kung Fu",
-      value: "Kung Fu",
-    },
-    {
-      label: "Brazilian Jiu-Jitsu",
-      value: "Brazilian Jiu-Jitsu",
-    },
-    {
-      label: "Muay Thai",
-      value: "Muay Thai",
-    },
-    {
-      label: "Boxing",
-      value: "Boxing",
-    },
-    {
-      label: "Wrestling",
-      value: "Wrestling",
-    },
-    {
-      label: "Krav Maga",
-      value: "Krav Maga",
-    },
-    {
-      label: "Aikido",
-      value: "Aikido",
-    },
-    {
-      label: "Capoeira",
-      value: "Capoeira",
-    },
-    {
-      label: "Sambo",
-      value: "Sambo",
-    },
-    {
-      label: "Jeet Kune Do",
-      value: "Jeet Kune Do",
-    },
-    {
-      label: "Hapkido",
-      value: "Hapkido",
-    },
-    {
-      label: "Savate",
-      value: "Savate",
-    },
-    {
-      label: "Kickboxing",
-      value: "Kickboxing",
-    },
-    {
-      label: "Sumo",
-      value: "Sumo",
-    },
-    {
-      label: "Wing Chun",
-      value: "Wing Chun",
-    },
-    {
-      label: "Kali",
-      value: "Kali",
-    },
-    {
-      label: "Silat",
-      value: "Silat",
-    },
-    {
-      label: "Shaolin Kung Fu",
-      value: "Shaolin Kung Fu",
-    },
-    {
-      label: "Kenjutsu",
-      value: "Kenjutsu",
-    },
-    {
-      label: "Iaido",
-      value: "Iaido",
-    },
-    {
-      label: "Ninjutsu",
-      value: "Ninjutsu",
-    },
-    {
-      label: "Kyudo",
-      value: "Kyudo",
-    },
-    {
-      label: "Shorinji Kempo",
-      value: "Shorinji Kempo",
-    },
-    {
-      label: "Jujutsu",
-      value: "Jujutsu",
-    },
-    {
-      label: "Pankration",
-      value: "Pankration",
-    },
-    {
-      label: "Vale Tudo",
-      value: "Vale Tudo",
-    },
-    {
-      label: "Systema",
-      value: "Systema",
-    },
-    {
-      label: "Lethwei",
-      value: "Lethwei",
-    },
-    {
-      label: "Bokator",
-      value: "Bokator",
-    },
-    {
-      label: "Taekkyeon",
-      value: "Taekkyeon",
-    },
-    {
-      label: "Wushu",
-      value: "Wushu",
-    },
-    {
-      label: "Qwan Ki Do",
-      value: "Qwan Ki Do",
-    },
-    {
-      label: "Yaw Yan",
-      value: "Yaw Yan",
-    },
-    {
-      label: "Choi Kwang-Do",
-      value: "Choi Kwang-Do",
-    },
-    {
-      label: "Vovinam",
-      value: "Vovinam",
-    },
-    {
-      label: "Eskrima",
-      value: "Eskrima",
-    },
-    {
-      label: "Bando",
-      value: "Bando",
-    },
-    {
-      label: "Sanda",
-      value: "Sanda",
-    },
-    {
-      label: "Canne de combat",
-      value: "Canne de combat",
-    },
-    {
-      label: "Glima",
-      value: "Glima",
-    },
-    {
-      label: "Kapu Kuialua",
-      value: "Kapu Kuialua",
-    },
-    {
-      label: "Malla-yuddha",
-      value: "Malla-yuddha",
-    },
-    {
-      label: "Nguni stick fighting",
-      value: "Nguni stick fighting",
-    },
-    {
-      label: "Okichitaw",
-      value: "Okichitaw",
-    },
-    {
-      label: "Shootfighting",
-      value: "Shootfighting",
-    },
-    {
-      label: "Shoot wrestling",
-      value: "Shoot wrestling",
-    },
-    {
-      label: "San Soo",
-      value: "San Soo",
-    },
-    {
-      label: "Shuai Jiao",
-      value: "Shuai Jiao",
-    },
-    {
-      label: "Zui Quan (Drunken Fist)",
-      value: "Zui Quan (Drunken Fist)",
-    },
-    {
-      label: "Tang Soo Do",
-      value: "Tang Soo Do",
-    },
-    {
-      label: "Han Mu Do",
-      value: "Han Mu Do",
-    },
-    {
-      label: "American Kenpo",
-      value: "American Kenpo",
-    },
-    {
-      label: "Modern Arnis",
-      value: "Modern Arnis",
-    },
-    {
-      label: "Budokan",
-      value: "Budokan",
-    },
-    {
-      label: "Shinkendo",
-      value: "Shinkendo",
-    },
-    {
-      label: "Kendo",
-      value: "Kendo",
-    },
-    {
-      label: "Yawara",
-      value: "Yawara",
-    },
-    {
-      label: "Tantojutsu",
-      value: "Tantojutsu",
-    },
-    {
-      label: "Atemi",
-      value: "Atemi",
-    },
-    {
-      label: "Defendo",
-      value: "Defendo",
-    },
-    {
-      label: "Hwa Rang Do",
-      value: "Hwa Rang Do",
-    },
-  ];
 
   const handleChangeCategory = (selectedOptions) => {
     setInstructorDetails({
@@ -288,6 +33,8 @@ const Profile = () => {
       category: selectedOptions,
     });
   };
+
+  
   const handleChange = (e) => {
     setInstructorDetails({
       ...instructorDetails,
@@ -315,6 +62,7 @@ const Profile = () => {
     privateSessionOnlineHourlyRate: "",
     privateSessionFaceToFaceHourlyRate: "",
   });
+  console.log("🚀 ~ Profile ~ instructorDetails:", instructorDetails)
 
   const heandleImage = (e) => {
     setInstructorDetails({
@@ -413,8 +161,26 @@ const Profile = () => {
     }
   };
 
+  const Get_Category_List = async () => {
+    setLoading(true);
+    const result = await Category_List();
+    if (result?.success === true) {
+      setLoading(false);
+      const data = result.data;
+     let transformedCategories = data.map((item) => ({
+        label: item.maincategory,
+        value: item.maincategory,
+      }));
+      Set_Category_List(transformedCategories);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+
   useEffect(() => {
     getinstructorDetails();
+    Get_Category_List();
     // eslint-disable-next-line
   }, []);
 
@@ -464,17 +230,34 @@ const Profile = () => {
               <span className="font-bold">martial arts hub</span> as an
               Instructor!
             </p>
-            <div className="mt-10">
-              <Inputfild
-                type={"text"}
-                placeholder={"Name"}
-                Label={"Name"}
-                onChange={handleChange}
-                name={"name"}
-                value={instructorDetails?.name}
-                Labelclass={"text-Dark_black font-medium"}
-                className={"rounded-xl md:w-full h-[70px]"}
-              />
+            <div className="mt-10 flex items-center gap-x-5 gap-y-9">
+              <div className="md:w-[40%] w-full">
+                <Inputfild
+                  type={"text"}
+                  placeholder={"Name"}
+                  Label={"Name"}
+                  onChange={handleChange}
+                  name={"name"}
+                  value={instructorDetails?.name}
+                  Labelclass={"text-Dark_black font-medium"}
+                  className={"rounded-xl md:w-full h-[70px]"}
+                />
+              </div>
+              <div className="md:w-1/2 w-full">
+                <label className={`text-sm text-black/50 block`}>
+                  Mobile No.
+                </label>
+                <PhoneInput
+                  placeholder="Enter phone number"
+                  value={
+                    instructorDetails?.mobileNo
+                      ? `+${instructorDetails?.country_code}${instructorDetails?.mobileNo}`
+                      : ""
+                  }
+                  onChange={handlePhoneNumberChange}
+                  enableSearch={true}
+                />
+              </div>
             </div>
           </div>
           <div className="md:w-[245px] w-full h-[202px] rounded-xl overflow-hidden bg-[#DAD8D0] flex items-center justify-center relative">
@@ -520,15 +303,7 @@ const Profile = () => {
               className={"rounded-xl md:w-full h-[70px]"}
             />
           </div>
-          <div>
-            <label className={`text-sm text-black/50 block`}>Mobile No.</label>
-            <PhoneInput
-              placeholder="Enter phone number"
-              value={instructorDetails?.mobileNo ? `+${instructorDetails?.country_code}${instructorDetails?.mobileNo}` : ""}
-              onChange={handlePhoneNumberChange}
-              enableSearch={true}
-            />
-          </div>
+
           <div className="md:col-span-1 col-span-1">
             <Inputfild
               type={"date"}
@@ -543,14 +318,27 @@ const Profile = () => {
           </div>
           <div className="md:col-span-1 col-span-1">
             <label className={`text-sm text-black/50 block`}>
-              Select Your Category
+              Select Your Main Category
             </label>
             <div className="Profile">
               <Select
                 onChange={handleChangeCategory}
-                options={CategoryOption}
+                options={category_list}
                 value={instructorDetails?.category}
-                isMulti
+                onMenuOpen={() => {}}
+                style={{ with: "100%" }}
+              />
+            </div>
+          </div>
+          <div className="md:col-span-1 col-span-1">
+            <label className={`text-sm text-black/50 block`}>
+              Select Your Sub Category
+            </label>
+            <div className="Profile">
+              <Select
+                onChange={handleChangeCategory}
+                options={category_list}
+                value={instructorDetails?.category}
                 onMenuOpen={() => {}}
                 style={{ with: "100%" }}
               />
