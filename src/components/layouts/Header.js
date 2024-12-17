@@ -194,9 +194,9 @@ const Header = () => {
                 ))}
             <div
               activeClass="active"
-              onClick={() => navigate(Routing.InstructorsPage)}
+              onClick={() => navigate("/instructors/all")}
               className={`text-sm leading-6 hover:text-black cursor-pointer ${
-                currentLocation === Routing.InstructorsPage
+                currentLocation === "/instructors/all"
                   ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
                   : "text-black/70 font-normal"
               }`}
