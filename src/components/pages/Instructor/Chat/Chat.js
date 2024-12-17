@@ -224,7 +224,7 @@ const Chat = () => {
                     <>
                       <div
                         className={`flex items-start gap-3 ${
-                          chat.sender_type ===
+                          chat.sender ===
                           JSON.parse(
                             localStorage.getItem("Role")
                           ).toLocaleLowerCase()
@@ -235,7 +235,7 @@ const Chat = () => {
                         <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
                           <img
                             src={
-                              chat.sender_type ===
+                              chat.sender ===
                               JSON.parse(
                                 localStorage.getItem("Role")
                               ).toLocaleLowerCase()
@@ -250,7 +250,7 @@ const Chat = () => {
                         <div>
                           <div
                             className={` ${
-                              chat.sender_type ===
+                              chat.sender ===
                               JSON.parse(
                                 localStorage.getItem("Role")
                               ).toLocaleLowerCase()
@@ -260,7 +260,7 @@ const Chat = () => {
                           >
                             <p
                               className={`text-[15px]  ${
-                                chat.sender_type ===
+                                chat.sender ===
                                 JSON.parse(
                                   localStorage.getItem("Role")
                                 ).toLocaleLowerCase()
@@ -417,7 +417,7 @@ const Chat = () => {
                     <>
                       <div
                         className={`flex items-start gap-3 ${
-                          chat.sender_type ===
+                          chat.sender ===
                           JSON.parse(
                             localStorage.getItem("Role")
                           ).toLocaleLowerCase()
@@ -428,7 +428,7 @@ const Chat = () => {
                         <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
                           <img
                             src={
-                              chat.sender_type ===
+                              chat.sender ===
                               JSON.parse(
                                 localStorage.getItem("Role")
                               ).toLocaleLowerCase()
@@ -443,7 +443,7 @@ const Chat = () => {
                         <div>
                           <div
                             className={` ${
-                              chat.sender_type ===
+                              chat.sender ===
                               JSON.parse(
                                 localStorage.getItem("Role")
                               ).toLocaleLowerCase()
@@ -453,7 +453,7 @@ const Chat = () => {
                           >
                             <p
                               className={`text-[15px]  ${
-                                chat.sender_type ===
+                                chat.sender ===
                                 JSON.parse(
                                   localStorage.getItem("Role")
                                 ).toLocaleLowerCase()

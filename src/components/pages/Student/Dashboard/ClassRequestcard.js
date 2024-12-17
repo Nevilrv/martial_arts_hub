@@ -2,8 +2,11 @@ import React from "react";
 import { FiPlus } from "react-icons/fi";
 import OutlineBtn from "../../common/OutlineBtn";
 import User from "../../../../assets/images/userProfile.jpg"
+import { useNavigate } from "react-router-dom";
+import { Routing } from "../../../shared/Routing";
 
 const ClassRequestcard = ({ cardDetails, data }) => {
+  const navigate = useNavigate()
   return (
     <>
       <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[375px] overflow-y-auto">
@@ -49,7 +52,7 @@ const ClassRequestcard = ({ cardDetails, data }) => {
                   <p className="text-black/50 truncate max-w-[300px]">
                     • {ClassRequests?.message_title}
                   </p>
-                  <OutlineBtn text={"View"} className={"h-[40px]"} />
+                  <OutlineBtn text={"View"} onClick={()=>navigate(Routing.StudentMyClass)} className={"h-[40px]"} />
                 </div>
                 <p className="text-black/70 max-w-[375px]">
                   {ClassRequests?.message_body}

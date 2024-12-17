@@ -217,7 +217,7 @@ const BankAccountDetails = () => {
           <Inputfild
             type={"text"}
             Label={"Bank Account Last 4 Digits"}
-            value={".... "+accountDetails?.external_accounts?.data[0]?.last4===undefined||"undefined"?"":accountDetails?.external_accounts?.data[0]?.last4}
+            value={`.......${accountDetails?.external_accounts?.data[0]?.last4===undefined?"":accountDetails?.external_accounts?.data[0]?.last4}`}
             Labelclass={"customradiusBlack mb-1.5 font-medium"}
             readOnly={true}
             className={"rounded-xl md:w-full h-[70px]"}

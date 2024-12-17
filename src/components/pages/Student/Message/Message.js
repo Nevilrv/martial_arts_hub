@@ -228,7 +228,7 @@ useEffect(() => {
                     <>
                       <div
                         className={`flex items-start gap-3 ${
-                          chat.sender_type ===
+                          chat.sender ===
                           JSON.parse(
                             localStorage.getItem("Role")
                           )?.toLocaleLowerCase()
@@ -239,7 +239,7 @@ useEffect(() => {
                         <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
                           <img
                             src={
-                              chat.sender_type ===
+                              chat.sender ===
                               JSON.parse(
                                 localStorage.getItem("Role")
                               )?.toLocaleLowerCase()
@@ -256,7 +256,7 @@ useEffect(() => {
                         <div>
                           <div
                             className={` ${
-                              chat.sender_type ===
+                              chat.sender ===
                               JSON.parse(
                                 localStorage.getItem("Role")
                               )?.toLocaleLowerCase()
@@ -266,7 +266,7 @@ useEffect(() => {
                           >
                             <p
                               className={`text-[15px]  ${
-                                chat.sender_type ===
+                                chat.sender ===
                                 JSON.parse(
                                   localStorage.getItem("Role")
                                 )?.toLocaleLowerCase()
@@ -423,7 +423,7 @@ useEffect(() => {
                     <>
                       <div
                         className={`flex items-start gap-3 ${
-                          chat.sender_type ===
+                          chat.sender ===
                           JSON.parse(
                             localStorage.getItem("Role")
                           )?.toLocaleLowerCase()
@@ -434,7 +434,7 @@ useEffect(() => {
                         <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
                           <img
                             src={
-                              chat.sender_type ===
+                              chat.sender ===
                               JSON.parse(
                                 localStorage.getItem("Role")
                               )?.toLocaleLowerCase()
@@ -451,7 +451,7 @@ useEffect(() => {
                         <div>
                           <div
                             className={` ${
-                              chat.sender_type ===
+                              chat.sender ===
                               JSON.parse(
                                 localStorage.getItem("Role")
                               )?.toLocaleLowerCase()
@@ -461,7 +461,7 @@ useEffect(() => {
                           >
                             <p
                               className={`text-[15px]  ${
-                                chat.sender_type ===
+                                chat.sender ===
                                 JSON.parse(
                                   localStorage.getItem("Role")
                                 )?.toLocaleLowerCase()

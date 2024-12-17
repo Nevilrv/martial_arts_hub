@@ -101,7 +101,7 @@ const All_Message = () => {
         MessageRequestdata.map((messageReques) => (
           <div className="px-3 lg:px-8 md:h-[143px] md:py-0 gap-y-5 py-3 flex flex-wrap items-center sm:justify-between border-b border-gay-400">
             <div className="flex items-center flex-wrap gap-y-5 sm:w-auto w-full">
-              <div className="sm:min-w-[82px]  w-1/2 sm:mx-0 mx-auto sm:h-[82px] overflow-hidden rounded-full">
+              <div className="sm:w-[82px]  w-1/2 sm:mx-0 mx-auto sm:h-[82px] overflow-hidden rounded-full">
                 <img
                   src={messageReques?.Student?.profile_picture || User}
                   alt="Wrestling"

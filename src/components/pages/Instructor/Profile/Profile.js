@@ -18,37 +18,25 @@ import "react-phone-number-input/style.css";
 import { parsePhoneNumber } from "react-phone-number-input";
 import Select from "react-select";
 import Socket from "../../common/Socket";
-import { Category_List } from "../../../services/Admin/Discipline_Centre/Discipline_Centre";
+import {
+  Category_List,
+  Sub_Category_List,
+  Sub_Category_List_For_Instructor,
+} from "../../../services/Admin/Discipline_Centre/Discipline_Centre";
 
 const Profile = () => {
   const navigate = useNavigate();
   const [category_list, Set_Category_List] = useState([]);
-  console.log("🚀 ~ Profile ~ category_list:", category_list);
+  const [Sub_category_list, SetSub_category_list] = useState([]);
   const [loading, setLoading] = useState(false);
-
-
-  const handleChangeCategory = (selectedOptions) => {
-    setInstructorDetails({
-      ...instructorDetails,
-      category: selectedOptions,
-    });
-  };
-
-  
-  const handleChange = (e) => {
-    setInstructorDetails({
-      ...instructorDetails,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   const [instructorDetails, setInstructorDetails] = useState({
     email: JSON.parse(localStorage.getItem("email")),
     name: "",
     country_code: "",
     mobileNo: "",
     profile_picture: "",
-    category: [],
+    maincategory: {},
+    category: {},
     availability: "",
     bio: "",
     tagline: "",
@@ -62,7 +50,68 @@ const Profile = () => {
     privateSessionOnlineHourlyRate: "",
     privateSessionFaceToFaceHourlyRate: "",
   });
-  console.log("🚀 ~ Profile ~ instructorDetails:", instructorDetails)
+  const [Selected_category, setSelected_category] = useState(
+    instructorDetails.category
+  );
+  const getinstructorDetails = async () => {
+    setLoading(true);
+    if (token !== "undefined") {
+      const result = await Get_Instructor_Details(token);
+      if (result?.success === true) {
+        setLoading(false);
+        setInstructorDetails({
+          email: result.data?.email,
+          name: result.data?.name,
+          country_code: result?.data?.country_code,
+          mobileNo: result?.data?.mobileNo,
+          profile_picture: result?.data?.profile_picture,
+          maincategory: result?.data?.maincategory,
+          // category: JSON.parse(result?.data?.category),
+          availability: result?.data?.availability,
+          bio: result?.data?.bio,
+          tagline: result?.data?.tagline,
+          experience: result?.data?.experience,
+          trainingHistory: result?.data?.trainingHistory,
+          certifications: result?.data?.certifications,
+          keywords: result?.data?.keywords,
+          idProof: result?.data?.idProof,
+          firstFreeSessionHourlyRate: result?.data?.firstFreeSessionHourlyRate,
+          classTypeFirstFreeSession: result?.data?.classTypeFirstFreeSession,
+          privateSessionOnlineHourlyRate:
+            result?.data?.privateSessionOnlineHourlyRate,
+          privateSessionFaceToFaceHourlyRate:
+            result?.data?.privateSessionFaceToFaceHourlyRate,
+        });
+      } else {
+        setLoading(false);
+        toast.error(result?.message);
+      }
+    } else {
+      setLoading(false);
+    }
+  };
+
+  const handleChangeCategory = (selectedOptions) => {
+    setInstructorDetails({
+      ...instructorDetails,
+      category: selectedOptions,
+    });
+    setSelected_category(selectedOptions);
+  };
+
+  const handleChangeSubCategory = (selectedOptions) => {
+    setInstructorDetails({
+      ...instructorDetails,
+      Sub_category: selectedOptions,
+    });
+  };
+
+  const handleChange = (e) => {
+    setInstructorDetails({
+      ...instructorDetails,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const heandleImage = (e) => {
     setInstructorDetails({
@@ -78,7 +127,8 @@ const Profile = () => {
     formData.append("country_code", instructorDetails?.country_code);
     formData.append("mobileNo", instructorDetails?.mobileNo);
     formData.append("profile_picture", instructorDetails?.profile_picture);
-    formData.append("category", JSON.stringify(instructorDetails?.category));
+    formData.append("maincategory", instructorDetails?.maincategory);
+    // formData.append("category", JSON.stringify(instructorDetails?.category));
     formData.append("availability", instructorDetails?.availability);
     formData.append("bio", instructorDetails?.bio);
     formData.append("tagline", instructorDetails?.tagline);
@@ -124,42 +174,7 @@ const Profile = () => {
   };
 
   const token = localStorage.getItem("token");
-  const getinstructorDetails = async () => {
-    setLoading(true);
-    if (token !== "undefined") {
-      const result = await Get_Instructor_Details(token);
-      if (result?.success === true) {
-        setLoading(false);
-        setInstructorDetails({
-          email: result.data?.email,
-          name: result.data?.name,
-          country_code: result?.data?.country_code,
-          mobileNo: result?.data?.mobileNo,
-          profile_picture: result?.data?.profile_picture,
-          category: JSON.parse(result?.data?.category),
-          availability: result?.data?.availability,
-          bio: result?.data?.bio,
-          tagline: result?.data?.tagline,
-          experience: result?.data?.experience,
-          trainingHistory: result?.data?.trainingHistory,
-          certifications: result?.data?.certifications,
-          keywords: result?.data?.keywords,
-          idProof: result?.data?.idProof,
-          firstFreeSessionHourlyRate: result?.data?.firstFreeSessionHourlyRate,
-          classTypeFirstFreeSession: result?.data?.classTypeFirstFreeSession,
-          privateSessionOnlineHourlyRate:
-            result?.data?.privateSessionOnlineHourlyRate,
-          privateSessionFaceToFaceHourlyRate:
-            result?.data?.privateSessionFaceToFaceHourlyRate,
-        });
-      } else {
-        setLoading(false);
-        toast.error(result?.message);
-      }
-    } else {
-      setLoading(false);
-    }
-  };
+
 
   const Get_Category_List = async () => {
     setLoading(true);
@@ -167,11 +182,29 @@ const Profile = () => {
     if (result?.success === true) {
       setLoading(false);
       const data = result.data;
-     let transformedCategories = data.map((item) => ({
+      let transformedCategories = data.map((item) => ({
         label: item.maincategory,
         value: item.maincategory,
       }));
       Set_Category_List(transformedCategories);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+
+  const Get_Sub_Category_List = async () => {
+    setLoading(true);
+    const category = instructorDetails.category.value;
+    const result = await Sub_Category_List_For_Instructor(category);
+    if (result?.success === true) {
+      setLoading(false);
+      const data = result.data;
+       let transformedCategories = data.map((item) => ({
+          label: item.categoryName,
+          value: item.categoryName,
+        }));
+        SetSub_category_list(transformedCategories);
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -183,6 +216,10 @@ const Profile = () => {
     Get_Category_List();
     // eslint-disable-next-line
   }, []);
+  useEffect(() => {
+    Get_Sub_Category_List()
+  }, [instructorDetails.category.value])
+  
 
   const handlePhoneNumberChange = (value) => {
     if (value) {
@@ -324,26 +361,26 @@ const Profile = () => {
               <Select
                 onChange={handleChangeCategory}
                 options={category_list}
-                value={instructorDetails?.category}
+                value={instructorDetails?.maincategory}
                 onMenuOpen={() => {}}
                 style={{ with: "100%" }}
               />
             </div>
           </div>
-          <div className="md:col-span-1 col-span-1">
+          {/* <div className="md:col-span-1 col-span-1">
             <label className={`text-sm text-black/50 block`}>
               Select Your Sub Category
             </label>
             <div className="Profile">
               <Select
-                onChange={handleChangeCategory}
-                options={category_list}
+                onChange={handleChangeSubCategory}
+                options={Sub_category_list}
                 value={instructorDetails?.category}
                 onMenuOpen={() => {}}
                 style={{ with: "100%" }}
               />
             </div>
-          </div>
+          </div> */}
           <div className="md:col-span-2 col-span-1">
             <label className={`text-sm text-black block font-medium`}>
               Add Bio
