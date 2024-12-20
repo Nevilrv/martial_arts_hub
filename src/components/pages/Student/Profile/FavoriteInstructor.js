@@ -13,6 +13,7 @@ const FavoriteInstructor = () => {
   const [loading, setLoading] = useState(false);
   const [Like, setLike] = useState(false);
   const [data, setData] = useState([]);
+  console.log("🚀 ~ FavoriteInstructor ~ data:", data)
 
   const Getdata = async () => {
     setLoading(true);
@@ -25,25 +26,25 @@ const FavoriteInstructor = () => {
     }
   };
 
-  const HeandleLike = async (id) => {
-    setLoading(true);
-    const result = await InstructorLike(
-      id,
-      JSON.parse(localStorage.getItem("_id"))
-    );
-    if (result?.success === true) {
-      Getdata()
-      setLoading(false);
-      setLike(!Like);
-    } else {
-      if (
-        result?.message === "Invalid token, Please Log-Out and Log-In again"
-      ) {
-        toast.error("Please Login");
-      }
-      setLoading(false);
-    }
-  };
+   const HeandleLike = async (id) => {
+     setLoading(true);
+     const result = await InstructorLike(
+       id,
+       JSON.parse(localStorage.getItem("_id"))
+     );
+     if (result?.success === true) {
+       setLoading(false);
+       setLike(!Like);
+       Getdata()
+     } else {
+       if (
+         result?.message === "Invalid token, Please Log-Out and Log-In again"
+       ) {
+         toast.error("Please Login");
+       }
+       setLoading(false);
+     }
+   };
 
   useEffect(() => {
     Getdata();
@@ -85,15 +86,10 @@ const FavoriteInstructor = () => {
                 access them anytime.
               </p>
             </div>
-            {/* <OutlineBtn
-              text={"Find more"}
-              icon={<HiMagnifyingGlass className="text-xl mr-2" />}
-              className={"bg-black text-white h-[60px]"}
-            /> */}
           </div>
           <div className="mt-7 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-y-7">
-            {data.map((data) => (
-              <InstructorsCard data={data} HeandleLike={HeandleLike} />
+            {data.map((data,i) => (
+              <InstructorsCard data={data} HeandleLike={()=>HeandleLike(data.instructorId)} key={i} />
             ))}
           </div>
         </div>

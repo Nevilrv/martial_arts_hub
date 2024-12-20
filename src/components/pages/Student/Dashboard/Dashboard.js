@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const Dashboard = () => {
   const ClassCard = {
-    CardTitle: "Class Requests",
+    CardTitle: "Message Requests",
     CardIcon: <FaPaperPlane className="text-[#BDBBB5] text-4xl" />,
     CardHeadding: "Requests list is empty!",
     CardDetails:

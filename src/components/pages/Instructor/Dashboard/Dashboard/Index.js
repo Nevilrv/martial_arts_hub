@@ -11,7 +11,7 @@ import OutlineBtn from "../../../common/OutlineBtn";
 import Spinner from "../../../../layouts/Spinner";
 import { Routing } from "../../../../shared/Routing";
 import { useNavigate } from "react-router-dom";
-import User from "../../../../../assets/images/userProfile.jpg"
+import User from "../../../../../assets/images/userProfile.jpg";
 
 const Index = () => {
   const ProfileDetals = [
@@ -54,7 +54,7 @@ const Index = () => {
   const [Class, setClass] = useState([]);
   const [MessagesRequest, setMessagesRequest] = useState([]);
   const [earning, setearning] = useState({});
-  const Navigate = useNavigate()
+  const Navigate = useNavigate();
 
   const getdata = async () => {
     setLoading(true);
@@ -70,12 +70,12 @@ const Index = () => {
       setearning(result.data.earnings);
       setLoading(false);
     } else {
-      if (result?.message==="Invalid token, Please Log-Out and Log-In again") {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
         toast.info("Token is Expired");
-        Navigate(Routing.InstructorLogin)
-      }
-      else
-      {
+        Navigate(Routing.InstructorLogin);
+      } else {
         toast.error(result?.message);
         setLoading(false);
       }
@@ -83,6 +83,7 @@ const Index = () => {
   };
   useEffect(() => {
     getdata();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -92,8 +93,12 @@ const Index = () => {
         <div className="mt-10 px-3 lg:px-8 grid lg:grid-cols-3 gap-5">
           <ProfileCard ProfileDetals={Profile || ProfileDetals} />
           <div className="lg:col-span-2 grid lg:grid-cols-2 gap-5">
-            <ClassRequestcard cardDetails={ClassCard} data={Class} />
-            <DashboardCard cardDetails={EarningsCard} earnings={earning} />
+            <div className="2xl:col-span-1 lg:col-span-2 col-span-1 max-h-[375px] overflow-y-auto">
+              <ClassRequestcard cardDetails={ClassCard} data={Class} />
+            </div>
+            <div className="2xl:col-span-1 lg:col-span-2 col-span-1 max-h-[375px] overflow-y-auto">
+              <DashboardCard cardDetails={EarningsCard} earnings={earning} />
+            </div>
             <div className="lg:col-span-2 bg-gay-600 rounded-3xl w-full overflow-x-auto">
               <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[375px] overflow-auto w-full">
                 <div className="flex items-center justify-between">
@@ -115,56 +120,59 @@ const Index = () => {
                     </p>
                   </div>
                 ) : (
-                    MessagesRequest.map((Request) => (
-                      <div className="md:h-[115px] md:py-0 py-3 flex items-center justify-between border-b border-gay-400 min-w-[840px]">
-                        <div className="flex items-center">
-                          <div className="min-w-[82px] h-[82px] overflow-hidden rounded-full">
-                            <img
-                              src={Request.profile_picture||User}
-                              alt="Wrestling"
-                              className="w-full h-full object-cover object-top grayscale"
-                            />
-                          </div>
-                          <div className="ml-5">
-                            <h2 className="text-black texrt-[20px] font-medium">
-                              {Request.name}
-                            </h2>
-                            <div className="flex items-center">
-                              <p className="text-[13px] text-black/70  mt-0.5">
-                                <span className="font-medium">
-                                  Request received on:
-                                </span>{" "}
-                                {Request.recived}
-                              </p>
-                              <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
-                              <p className="text-[13px] text-black/70  mt-0.5">
-                                <span className="font-medium">
-                                  Inquiry class:
-                                </span>
-                                {Request.title}
-                              </p>
-                            </div>
-                            <p className="text-black/70 text-base max-w-2xl">
-                              {Request.body}
+                  MessagesRequest.map((Request) => (
+                    <div
+                      className="md:h-[115px] md:py-0 py-3 flex items-center justify-between border-b border-gay-400 min-w-[840px]"
+                      onClick={() => Navigate(Routing.InstructorMessageRequest)}
+                    >
+                      <div className="flex items-center">
+                        <div className="min-w-[82px] h-[82px] overflow-hidden rounded-full">
+                          <img
+                            src={Request.profile_picture || User}
+                            alt="Wrestling"
+                            className="w-full h-full object-cover object-top grayscale"
+                          />
+                        </div>
+                        <div className="ml-5">
+                          <h2 className="text-black texrt-[20px] font-medium">
+                            {Request.name}
+                          </h2>
+                          <div className="flex items-center">
+                            <p className="text-[13px] text-black/70  mt-0.5">
+                              <span className="font-medium">
+                                Request received on:
+                              </span>{" "}
+                              {Request.recived}
+                            </p>
+                            <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
+                            <p className="text-[13px] text-black/70  mt-0.5">
+                              <span className="font-medium">
+                                Inquiry class:
+                              </span>
+                              {Request.title}
                             </p>
                           </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <OutlineBtn
-                            text={"See Profile"}
-                            className={
-                              "bg-transparent border-black text-black text-sm"
-                            }
-                          />
-                          <OutlineBtn
-                            text={"View Request"}
-                            className={
-                              "bg-green border-none text-white font-medium"
-                            }
-                          />
+                          <p className="text-black/70 text-base max-w-2xl">
+                            {Request.body}
+                          </p>
                         </div>
                       </div>
-                    ))
+                      <div className="flex items-center gap-3">
+                        <OutlineBtn
+                          text={"See Profile"}
+                          className={
+                            "bg-transparent border-black text-black text-sm"
+                          }
+                        />
+                        <OutlineBtn
+                          text={"View Request"}
+                          className={
+                            "bg-green border-none text-white font-medium"
+                          }
+                        />
+                      </div>
+                    </div>
+                  ))
                 )}
               </div>
             </div>

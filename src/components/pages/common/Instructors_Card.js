@@ -6,7 +6,7 @@ import User from "../../../assets/images/userProfile.jpg"
 
 const InstructorsCard = ({ data,HeandleLike }) => {
   // eslint-disable-next-line
-  let  liked= data?.favorite?.includes(JSON.parse(localStorage.getItem("_id")))
+  let  liked= data?.favorite?.includes(JSON.parse(localStorage.getItem("_id")))||data?.Likes?.includes(JSON.parse(localStorage.getItem("_id")))
   const getStars = (rating) => {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 >= 0.5;
@@ -30,7 +30,7 @@ const InstructorsCard = ({ data,HeandleLike }) => {
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-full sm:pr-6">
         <div className="relative">
           <img
             src={data.profile_picture||User}

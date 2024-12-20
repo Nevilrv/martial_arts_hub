@@ -36,13 +36,13 @@ const My_Profile = () => {
     <>
       {loading && <Spinner />}
       <StudentProfile>
-        <div className="border border-[#71717194] py-7 px-6 rounded-lg min-h-[212px] mt-14">
+        <div className="border border-[#71717194] py-7 px-6 rounded-lg  mt-14">
           <p className="font-semibold text-lg">About Me</p>
           <p className="text-black/70 mt-1">
             {Profiledetails?.profile?.aboutMe || "No about found"}
           </p>
         </div>
-        <div className="border border-[#71717194] py-7 px-6 rounded-lg mt-4 min-h-[212px]">
+        <div className="border border-[#71717194] py-7 px-6 rounded-lg mt-4 ">
           <p className="font-semibold text-lg">Additional Details</p>
           <p className="text-black/70 mt-1">
             {" "}
@@ -51,7 +51,7 @@ const My_Profile = () => {
         </div>
         <div className="border border-[#71717194] py-7 px-6 rounded-lg mt-4 min-h-[212px]">
           <p className="font-semibold text-lg">My Classes</p>
-          <div className="grid md:grid-cols-4 grid-cols-2 items-center gap-6 mt-3">
+          <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 items-center gap-6 mt-3">
             {Profiledetails?.Myclass?.map((datas) => (
               <CategoriesCard data={datas} />
             ))}
@@ -63,14 +63,14 @@ const My_Profile = () => {
           </p>
           <div className="mt-4 flex flex-col gap-4">
             {Profiledetails?.payments?.map((item) => (
-              <div className="flex items-center justify-between border-b border-black/40 pb-4">
-                <div className="flex items-start gap-4">
+              <div className="flex items-center justify-between border-b border-black/40 pb-4 flex-wrap">
+                <div className="flex items-start gap-4 flex-wrap">
                   <img
                     src={Wrestling}
                     alt=""
-                    className=" h-[95px] object-cover rounded-md"
+                    className="sm:w-auto w-full sm:h-[95px] object-cover rounded-md"
                   />
-                  <div>
+                  <div className="sm:w-auto w-full flex flex-col gap-y-1.5">
                     <h2 className="text-base text-black font-semibold">
                       {item.className}
                     </h2>
@@ -89,8 +89,8 @@ const My_Profile = () => {
                     </p>
                   </div>
                 </div>
-                <div>
-                  <h2 className="text-2xl font-semibold text-right">
+                <div className="sm:w-auto w-full">
+                  <h2 className="text-2xl font-semibold sm:text-right sm:my-0 my-2">
                     ${item.paidAmount}
                   </h2>
                   <OutlineBtn
@@ -99,7 +99,7 @@ const My_Profile = () => {
                       item.paymentStatus === "success"
                         ? "bg-green"
                         : "bg-red-200"
-                    } text-white border-none px-4 h-[35px] mt-1}`}
+                    } text-white border-none px-4 sm:h-[35px] h-10 mt-1 sm:w-auto w-full`}
                     endicon={
                       <IoIosArrowRoundForward className="text-2xl ml-1 -rotate-45" />
                     }

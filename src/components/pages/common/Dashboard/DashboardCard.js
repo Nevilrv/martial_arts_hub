@@ -7,8 +7,8 @@ import User from "../../../../assets/images/userProfile.jpg"
 const DashboardCard = ({ cardDetails, data, earnings }) => {
   return (
     <>
-      <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[375px] overflow-auto">
-        <div className="flex items-center justify-between min-w-[448px]">
+      <div className=" bg-gay-600 rounded-3xl px-8 py-7 h-full overflow-auto">
+        <div className="flex items-center justify-between">
           <h3 className="text-gay-300 text-lg font-medium">
             {cardDetails.CardTitle}
           </h3>
@@ -24,7 +24,7 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
         </div>
         {data?.length <= 0 ||
           (earnings?.length <= 0 && (
-            <div className="flex items-center justify-center flex-col mt-24 min-w-[448px]">
+            <div className="flex items-center justify-center flex-col mt-24">
               {cardDetails.CardIcon}
               <h3 className="text-black font-semibold text-lg">
                 {cardDetails.CardHeadding}
@@ -39,20 +39,19 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
             </div>
           ))}
           {data?.map((payments) => (
-            <div className="min-w-[448px]">
-              <div className="flex items-center justify-between mt-7">
-                <img src={Wrestling} alt="" className="w-20 h-14 rounded-lg" />
-                <div>
+              <div className="sm:flex grid grid-cols-1 items-center justify-between mt-7 flex-wrap gap-y-3 gap-x-3">
+                <img src={Wrestling} alt="" className="2xl:w-20 lg:w-full md:w-[30%] w-full 2xl:h-14 rounded-lg" />
+                <div className="w-[228px]">
                   <h2 className="text-Dark_black font-medium text-lg">
                     {payments?.className}
                   </h2>
-                  <p className="text-sm font-light">
+                  <p className="text-sm font-light flex sm:justify-start justify-between">
                     <span className="text-black/70 font-medium">
                       Course Duration:
                     </span>
                     {payments?.classDuration} hr
                   </p>
-                  <p className="text-sm font-light">
+                  <p className="text-sm font-light flex sm:justify-start justify-between sm:mt-0 mt-2">
                     <span className="text-black/70 font-medium">
                       Instructor Name:{" "}
                     </span>
@@ -60,7 +59,7 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
                   </p>
                 </div>
                 <div>
-                  <h2 className="text-red-200 font-semibold text-xl text-right">
+                  <h2 className="text-red-200 font-semibold text-xl sm:text-right text-left sm:mb-0 mb-2">
                     {payments?.paidAmount}
                   </h2>
                   <div
@@ -78,10 +77,9 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
                   </div>
                 </div>
               </div>
-            </div>
           ))}
           {earnings?.formatedData?.map((earning) => (
-              <div className="flex items-center justify-between mt-7 gap-4 min-w-[448px]">
+              <div className="flex items-center justify-between mt-7 gap-4">
                 <img
                   src={earning.profile||User}
                   alt="userimage"

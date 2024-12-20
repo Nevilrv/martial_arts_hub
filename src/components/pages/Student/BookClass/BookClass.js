@@ -292,7 +292,7 @@ const BookClass = () => {
               </fieldset>
             </div>
             <div className="w-full">
-              <label className="text-black/100 font-semibold text-xl opacity-0">
+              <label className="text-black/100 font-semibold text-xl  md:block hidden opacity-0">
                 How would you like to attend your class?
               </label>
               <fieldset>

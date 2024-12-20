@@ -74,6 +74,7 @@ const Instructors = () => {
     if (result?.success === true) {
       setLoading(false);
       setLike(!Like);
+      getInstructors()
     } else {
       if (
         result?.message === "Invalid token, Please Log-Out and Log-In again"
@@ -91,7 +92,7 @@ const Instructors = () => {
         <h2 className="font-medium text-[32px]">Our Instructors</h2>
         <Slider {...settings} className="mt-5 slider-2 relative">
           {Instructors.map((items, i) => (
-            <InstructorsCard data={items} HeandleLike={HeandleLike} key={i} />
+            <InstructorsCard data={items} HeandleLike={()=>HeandleLike(items.instructorId)} key={i} />
           ))}
         </Slider>
         <div className="flex justify-center mt-10">

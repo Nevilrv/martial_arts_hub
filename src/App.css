@@ -381,9 +381,9 @@ input[type="number"] {
 .customradius {
   border-radius: 15px !important;
 }
-.slick-slide {
+/* .slick-slide {
   padding-right:24px;
-}
+} */
 .customradiusBlack {
   color: #000 !important;
 }
@@ -405,7 +405,9 @@ input[type="number"] {
 }
 .FinanceDashboardChart .apexcharts-legend {
   flex-direction: row-reverse;
+  overflow: hidden;
 }
+
 .FinanceDashboardChart foreignObject,
 .FinanceDashboardChart svg {
   height: 430px !important;

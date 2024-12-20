@@ -18,17 +18,17 @@ import Socket from "../../common/Socket";
 import User from "../../../../assets/images/userProfile.jpg"
 
 const Chat = () => {
-  const [message, setMessage] = useState(null);
-  const [studentId, setstudentId] = useState({});
-  const [Loading, setLoading] = useState(false);
-  const [showChat, setshowChat] = useState(false);
-  const [chatMessages, setChatMessages] = useState([]);
-  const [StudentList, setStudentList] = useState([]);
   const InstructorId = JSON.parse(localStorage.getItem("_id"));
   const navigate = useNavigate();
   let chatId;
-
+  const [message, setMessage] = useState(null);
   const chatContainerRef = useRef(null);
+  const [studentId, setstudentId] = useState({});
+  const [Loading, setLoading] = useState(false);
+  const [showChat, setshowChat] = useState(false);
+  const [ChatLimit, setChatLimit] = useState(false);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [StudentList, setStudentList] = useState([]);
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
@@ -95,6 +95,20 @@ const Chat = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // Filter messages with sender === "instructor"
+    const instructorMessages = chatMessages.filter(
+      (message) => message.sender === "instructor"
+    );
+
+    // Update the state if the length exceeds 9
+    if (instructorMessages.length > 9) {
+      setChatLimit(true);
+    } else {
+      setChatLimit(false);
+    }
+  }, [chatMessages]);
 
   useEffect(() => {
     Student_List();
@@ -411,8 +425,8 @@ const Chat = () => {
                   messages before joining your class.
                 </p>
               </div>
-              <div className="flex flex-col justify-end lg:py-0 py-5 px-5 mt-auto h-[68%] overflow-y-auto pb-10">
-                <div className="flex justify-between flex-col overflow-y-auto">
+              <div className="flex flex-col justify-end lg:py-0 py-5 px-5 mt-auto h-[87%] overflow-y-auto pb-10">
+                <div className="flex justify-between flex-col">
                   {chatMessages?.map((chat) => (
                     <>
                       <div

@@ -87,7 +87,7 @@ const ReleaseFunds = () => {
       instructorId: data?.instructorId,
       accountId: data?.accountId?.AccountId,
       balance: data.balance,
-      prvMonth: GetPrivesMonth,
+      month: GetPrivesMonth,
       prvMonthAmount: data.prvMonthAmount,
       prvMonthReAmount: data.prvMonthReAmount,
       prvTotalpaid: TotalPaid.Instructor_TotalPaid,

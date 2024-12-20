@@ -4,13 +4,15 @@ import OutlineBtn from "../../common/OutlineBtn";
 import Wrestling from "../../../../assets/images/Wrestling.png";
 import { useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
+import dayjs from "dayjs";
 
 const RecentClasses = ({ cardDetails, data }) => {
+  console.log("🚀 ~ RecentClasses ~ data:", data)
   const navigate = useNavigate();
   return (
     <>
-      <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[400px] min-w-[548px]">
-        <div className="flex items-center justify-between">
+      <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[400px]">
+        <div className="flex items-center justify-between ">
           <h3 className="text-gay-300 text-lg font-medium">
             {cardDetails.CardTitle}
           </h3>
@@ -36,12 +38,12 @@ const RecentClasses = ({ cardDetails, data }) => {
             </div>
           )}
           {data?.map((recentClass) => (
-              <div className="flex items-center justify-between mt-7 gap-y-3 ">
-                <div className="flex items-start gap-5">
+              <div className="flex items-center justify-between mt-7 gap-y-3 flex-wrap">
+                <div className="flex items-start gap-5 flex-wrap">
                   <img
                     src={Wrestling}
                     alt=""
-                    className="grayscale hover:grayscale-0 w-[125px] h-[85px] rounded-lg"
+                    className="grayscale hover:grayscale-0 sm:w-[125px] sm:h-[85px] w-full  h-full rounded-lg object-cover"
                   />
                   <div>
                     <h2 className="text-black text-xl font-semibold">
@@ -53,7 +55,8 @@ const RecentClasses = ({ cardDetails, data }) => {
                   </div>
                 </div>
                 <OutlineBtn
-                  text={"See Details"}
+                  text={`started on ${dayjs(recentClass.classdate).format("DD MMM")}`}
+                  className={"sm:w-auto w-full"}
                   onClick={() => navigate(Routing.StudentMyClass)}
                 />
               </div>

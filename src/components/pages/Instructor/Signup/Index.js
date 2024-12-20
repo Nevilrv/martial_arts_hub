@@ -71,7 +71,7 @@ const Index = () => {
             </h2>
             <p className="text-black/70 text-[15px]">
               Please fill below details to join{" "}
-              <span className="font-bold">martial arts hub</span> as a student!
+              <span className="font-bold">martial arts hub</span> as a Instructor!
             </p>
             <div className="mt-[31px] flex flex-col gap-y-6">
               <Inputfild

@@ -18,7 +18,6 @@ const CategoriesSection = () => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
-    initialSlide: 0,
     responsive: [
       {
         breakpoint: 1200,
@@ -60,12 +59,13 @@ const CategoriesSection = () => {
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 640,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
           dots: true,
           arrows: false,
+          infinite: true,
         },
       },
     ],
@@ -83,9 +83,9 @@ const CategoriesSection = () => {
       toast.error(result?.message);
     }
   };
-
   useEffect(() => {
     Get_Sub_Cgory_List();
+    // eslint-disable-next-line
   }, []);
 
   const handleSearch = () => {
@@ -104,6 +104,7 @@ const CategoriesSection = () => {
   useEffect(() => {
     setFilteredCategories(category_list);
     handleSearch()
+    // eslint-disable-next-line
   }, [FindCategorie]);
 
   return (
