@@ -32,7 +32,23 @@ export const Instructor_Create_Slot = async (body) => {
     return error?.response?.data;
   }
 };
-export const Instructor_End_Class = async (instructorId,classId) => {
+
+export const Instructor_Created_Slot = async (instructorId, classdate) => {
+  try {
+    let response = await axios({
+      method: "GET",
+      url: `${baseURL}/instructor/timeslots?instructorId=${instructorId}&classdate=${classdate}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
+
+export const Instructor_End_Class = async (instructorId, classId) => {
   try {
     let response = await axios({
       method: "PUT",
@@ -60,7 +76,6 @@ export const Instructor_change_class_status = async (classId) => {
     return error?.response?.data;
   }
 };
-
 
 export const Instructor_get_Upcoming_Classes = async (instructorId) => {
   try {

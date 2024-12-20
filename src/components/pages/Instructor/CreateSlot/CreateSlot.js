@@ -12,24 +12,27 @@ import NormalBtn from "../../common/NormalBtn";
 import { useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
 import { toast } from "react-toastify";
-import { Instructor_Create_Slot } from "../../../services/Instructor/createClass/Index";
+import { Instructor_Create_Slot, Instructor_Created_Slot } from "../../../services/Instructor/createClass/Index";
 import Select from "react-select";
 import Spinner from "../../../layouts/Spinner";
 import dayjs from "dayjs";
 
 const CreateSlot = () => {
   // Helper function to format time to 12-hour
-  const formatTo12Hour = (time24) => {
-    const [hour, minute] = time24.split(":").map(Number);
-    const suffix = hour >= 12 ? "PM" : "AM";
-    const hour12 = hour % 12 || 12;
-    return `${hour12}:${minute.toString().padStart(2, "0")} ${suffix}`;
-  };
+  function formatTo12Hour(time) {
+    const [hour, minute] = time.split(":");
+    let hourInt = parseInt(hour, 10);
+    const period = hourInt >= 12 ? "PM" : "AM";
+    hourInt = hourInt % 12 || 12;
+    const formattedHour = hourInt.toString().padStart(2, "0"); // Ensure 2 digits
+    return `${formattedHour}:${minute} ${period}`;
+  }
 
   // slot time
   const [selectedTimeSlot, setselectedTimeSlot] = useState([]);
   const [classType, setClassType] = useState("Online");
   const [loading, setLoading] = useState(false);
+  const [OldSlot, setOldSlot] = useState([]);
   const [FormData, setFormData] = useState({
     classdate: "",
     classRate: "",
@@ -37,6 +40,32 @@ const CreateSlot = () => {
   const navigate = useNavigate();
   const TimeSlot = [];
   const [minDate, setMinDate] = useState("");
+
+  const getdata = async () => {
+    setLoading(true);
+    const result = await Instructor_Created_Slot(
+      JSON.parse(localStorage.getItem("_id")),
+      FormData.classdate
+    );
+    if (result?.success === true) {
+      setOldSlot(result.data);
+      setLoading(false);
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        toast.info("Token is Expired");
+      } else {
+        setLoading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (FormData.classdate) {
+      getdata();
+    }
+  }, [FormData.classdate]);
 
   // Generate TimeSlots based on class date
   if (FormData.classdate === dayjs(new Date()).format("YYYY-MM-DD")) {
@@ -90,6 +119,13 @@ const CreateSlot = () => {
     });
   }
 
+  // Filter out already reserved slots
+  const availableTimeSlots = TimeSlot.filter(
+    (slot) => !OldSlot.includes(slot.label)
+);
+
+  console.log("🚀 ~ CreateSlot ~ availableTimeSlots:", availableTimeSlots)
+
   const handleChange = (e) => {
     setFormData({
       ...FormData,
@@ -103,7 +139,8 @@ const CreateSlot = () => {
     for (let i = 0; i < selectedTimeSlot?.length; i++) {
       TimeSlot.push(selectedTimeSlot[i].value);
     }
-    const rateWithpayment = parseInt(FormData.classRate)+Math.ceil(FormData.classRate*5/100)
+    const rateWithpayment =
+      parseInt(FormData.classRate) + Math.ceil((FormData.classRate * 5) / 100);
     const body = {
       classdate: FormData.classdate,
       timeSlot: TimeSlot,
@@ -159,7 +196,7 @@ const CreateSlot = () => {
                   <Select
                     defaultValue={selectedTimeSlot}
                     onChange={setselectedTimeSlot}
-                    options={TimeSlot}
+                    options={availableTimeSlots}
                     isMulti
                     onMenuOpen={() => {}}
                   />
