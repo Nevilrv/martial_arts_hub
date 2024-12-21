@@ -38,7 +38,7 @@ const Header = () => {
   const Instructornavigation = [
     { name: "Dashboard", href: Routing.InstructorDashboard },
     { name: "My Profile", href: Routing.InstructorProfile },
-    { name: "Create Class", href: Routing.InstructorCreateClass },
+    { name: "Create Slot", href: Routing.InstructorCreateClass },
     { name: "Chat", href: Routing.InstructorChat },
     { name: "Message Requests", href: Routing.InstructorMessageRequests },
   ];

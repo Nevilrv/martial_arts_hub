@@ -20,7 +20,6 @@ import Select from "react-select";
 import Socket from "../../common/Socket";
 import {
   Category_List,
-  Sub_Category_List,
   Sub_Category_List_For_Instructor,
 } from "../../../services/Admin/Discipline_Centre/Discipline_Centre";
 
@@ -50,9 +49,7 @@ const Profile = () => {
     privateSessionOnlineHourlyRate: "",
     privateSessionFaceToFaceHourlyRate: "",
   });
-  const [Selected_category, setSelected_category] = useState(
-    instructorDetails.category
-  );
+  console.log("🚀 ~ Profile ~ instructorDetails:", instructorDetails);
   const getinstructorDetails = async () => {
     setLoading(true);
     if (token !== "undefined") {
@@ -65,8 +62,8 @@ const Profile = () => {
           country_code: result?.data?.country_code,
           mobileNo: result?.data?.mobileNo,
           profile_picture: result?.data?.profile_picture,
-          maincategory: result?.data?.maincategory,
-          // category: JSON.parse(result?.data?.category),
+          maincategory: JSON.parse(result?.data?.maincategory),
+          category: JSON.parse(result?.data?.category),
           availability: result?.data?.availability,
           bio: result?.data?.bio,
           tagline: result?.data?.tagline,
@@ -94,15 +91,14 @@ const Profile = () => {
   const handleChangeCategory = (selectedOptions) => {
     setInstructorDetails({
       ...instructorDetails,
-      category: selectedOptions,
+      maincategory: selectedOptions,
     });
-    setSelected_category(selectedOptions);
   };
 
   const handleChangeSubCategory = (selectedOptions) => {
     setInstructorDetails({
       ...instructorDetails,
-      Sub_category: selectedOptions,
+      category: selectedOptions,
     });
   };
 
@@ -127,8 +123,11 @@ const Profile = () => {
     formData.append("country_code", instructorDetails?.country_code);
     formData.append("mobileNo", instructorDetails?.mobileNo);
     formData.append("profile_picture", instructorDetails?.profile_picture);
-    formData.append("maincategory", instructorDetails?.maincategory);
-    // formData.append("category", JSON.stringify(instructorDetails?.category));
+    formData.append(
+      "maincategory",
+      JSON.stringify(instructorDetails?.maincategory)
+    );
+    formData.append("category", JSON.stringify(instructorDetails?.category));
     formData.append("availability", instructorDetails?.availability);
     formData.append("bio", instructorDetails?.bio);
     formData.append("tagline", instructorDetails?.tagline);
@@ -175,7 +174,6 @@ const Profile = () => {
 
   const token = localStorage.getItem("token");
 
-
   const Get_Category_List = async () => {
     setLoading(true);
     const result = await Category_List();
@@ -195,16 +193,16 @@ const Profile = () => {
 
   const Get_Sub_Category_List = async () => {
     setLoading(true);
-    const category = instructorDetails.category.value;
+    const category = instructorDetails.maincategory.value;
     const result = await Sub_Category_List_For_Instructor(category);
     if (result?.success === true) {
       setLoading(false);
       const data = result.data;
-       let transformedCategories = data.map((item) => ({
-          label: item.categoryName,
-          value: item.categoryName,
-        }));
-        SetSub_category_list(transformedCategories);
+      let transformedCategories = data.map((item) => ({
+        label: item.categoryName,
+        value: item.categoryName,
+      }));
+      SetSub_category_list(transformedCategories);
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -217,9 +215,11 @@ const Profile = () => {
     // eslint-disable-next-line
   }, []);
   useEffect(() => {
-    Get_Sub_Category_List()
-  }, [instructorDetails.category.value])
-  
+    if (instructorDetails.maincategory.value) {
+      Get_Sub_Category_List();
+    }
+       // eslint-disable-next-line
+  }, [instructorDetails.maincategory.value]);
 
   const handlePhoneNumberChange = (value) => {
     if (value) {
@@ -268,7 +268,7 @@ const Profile = () => {
               Instructor!
             </p>
             <div className="mt-10 flex items-center gap-x-5 gap-y-9">
-              <div className="md:w-[40%] w-full">
+              <div className="md:w-[50%] w-full">
                 <Inputfild
                   type={"text"}
                   placeholder={"Name"}
@@ -361,13 +361,14 @@ const Profile = () => {
               <Select
                 onChange={handleChangeCategory}
                 options={category_list}
-                value={instructorDetails?.maincategory}
+                // defaultValue={instructorDetails?.maincategory}
+                value={instructorDetails?.maincategory||""}
                 onMenuOpen={() => {}}
                 style={{ with: "100%" }}
               />
             </div>
           </div>
-          {/* <div className="md:col-span-1 col-span-1">
+          <div className="md:col-span-1 col-span-1">
             <label className={`text-sm text-black/50 block`}>
               Select Your Sub Category
             </label>
@@ -375,12 +376,14 @@ const Profile = () => {
               <Select
                 onChange={handleChangeSubCategory}
                 options={Sub_category_list}
-                value={instructorDetails?.category}
+                isMulti
+                // defaultValue={instructorDetails?.category}
+                value={instructorDetails?.category||""}
                 onMenuOpen={() => {}}
                 style={{ with: "100%" }}
               />
             </div>
-          </div> */}
+          </div>
           <div className="md:col-span-2 col-span-1">
             <label className={`text-sm text-black block font-medium`}>
               Add Bio

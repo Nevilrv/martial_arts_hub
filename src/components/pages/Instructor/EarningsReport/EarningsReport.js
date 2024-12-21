@@ -49,11 +49,12 @@ const EarningsReport = () => {
             </div>
           </div>
           <div className="md:flex grid sm:grid-cols-2 grid-cols-1 items-center mt-5 gap-2">
-            <OutlineBtn
+            {/* <OutlineBtn
               text={"Filter by"}
               icon={<TbFilterSearch className="text-[#6B6B6B] mr-1" />}
               className={`bg-transparent text-black`}
-            />
+            /> */}
+            
             <OutlineBtn
               text={"All"}
               className={`bg-gay-300 text-white font-semibold min-w-[75px]`}

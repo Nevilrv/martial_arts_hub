@@ -47,8 +47,48 @@ const AskedQuestions = [
   },
 ];
 
+const Who_we_are = [
+  {
+    title: "online platform",
+    body: "Welcome to Martial Arts Hub, the global online platform for martial artists of all levels. We connect practitioners who want to learn and improve themselves with top-notch instructors who are passionate about sharing their knowledge and helping others. Our personalized guidance is tailored to fit your unique needs, whether you prefer the convenience of online sessions or the hands-on experience of face-to-face training.",
+  },
+  {
+    title: "At Martial Arts Hub",
+    body: "But we don't stop there. At Martial Arts Hub, we believe in holistic improvement. That's why we also offer access to nutritionists, strength and conditioning coaches, physiotherapists, and sports psychologists. Our diverse network of experts ensures you have the comprehensive support you need to excel in every aspect of your martial arts journey. Wherever you are based in the world, you can join us at Martial Arts Hub and unlock your full potential. Your path to excellence starts here.",
+  },
+];
+
+const Why_Join_Us = [
+  {
+    title: "Expert Instructors",
+    body: "Our highly qualified instructors bring years of experience and passion to every class.",
+  },
+  {
+    title: "Diverse Styles",
+    body: "We offer a variety of martial arts styles, including Karate, Taekwondo, Brazilian Jiu-Jitsu, Muay Thai, and Judo.",
+  },
+  {
+    title: "Supportive Community",
+    body: "Join a welcoming and encouraging community that fosters growth and camaraderie.",
+  },
+  {
+    title: "Holistic Development",
+    body: "Our programs focus on physical fitness, mental resilience, and building confidence.",
+  },
+  {
+    title: "Flexible Training",
+    body: "We provide classes for all ages and skill levels, ensuring everyone can find their perfect fit.",
+  },
+  {
+    title: "Community Focus",
+    body: "Join a community dedicated to your personal growth and excellence.",
+  },
+];
+
 const Index = () => {
   const [openId, setOpenId] = useState("");
+  const [Who_we_are_Id, setWho_we_are_Id] = useState("");
+  const [Why_Join_Us_Id, setWhy_Join_Us_Id] = useState("");
   const [searchInstructor, setSearchInstructor] = useState("");
   const [Loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -61,6 +101,7 @@ const Index = () => {
   const [Instructorsdata, setInstructorsdata] = useState([]);
   const [filteredInstructor, setFilteredInstructor] = useState([]);
   const [category_list, Set_Category_List] = useState([]);
+  const [openModel, setOpenModel] = useState(true);
 
   const [Like, setLike] = useState(false);
 
@@ -112,7 +153,7 @@ const Index = () => {
     }
   };
 
-  const [openModel, setOpenModel] = useState(true);
+ 
 
   const handleToggle = (id) => {
     setOpenId(openId === id ? null : id);
@@ -273,7 +314,7 @@ const Index = () => {
           <h2 className="text-black text-[40px] font-medium leading-10 text-center">
             Who we are
           </h2>
-          <p className="text-center max-w-[1052px] text-lg text-black/50 mx-auto mt-4">
+          <p className="text-center max-w-[1052px] text-lg text-black/50 mx-auto mt-4 sm:block hidden">
             Welcome to Martial Arts Hub, the global online platform for martial
             artists of all levels. We connect practitioners who want to learn
             and improve themselves with top-notch instructors who are passionate
@@ -282,7 +323,7 @@ const Index = () => {
             the convenience of online sessions or the hands-on experience of
             face-to-face training.
           </p>
-          <p className="text-center max-w-[991px] text-lg text-black/50 mx-auto mt-4">
+          <p className="text-center max-w-[991px] text-lg text-black/50 mx-auto mt-4 sm:block hidden">
             But we don't stop there. At Martial Arts Hub, we believe in holistic
             improvement. That's why we also offer access to nutritionists,
             strength and conditioning coaches, physiotherapists, and sports
@@ -292,6 +333,53 @@ const Index = () => {
             join us at Martial Arts Hub and unlock your full potential. Your
             path to excellence starts here.
           </p>
+          <div className="sm:hidden block">
+          {Who_we_are.map((question, index) => (
+            <div
+              key={index}
+              className="bg-white/50 py-6 md:px-10 px-5 rounded-xl mt-5"
+            >
+              <h2 id={`accordion-heading-${index}`}>
+                <button
+                  type="button"
+                  className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 dark:border-gray-700 dark:text-gray-400 gap-3 focus:outline-none"
+                  onClick={() => handleToggle(index)}
+                  aria-expanded={openId === index}
+                  aria-controls={`accordion-body-${index}`}
+                >
+                  <span>{question.title}</span>
+                  <svg
+                    className={`w-3 h-3 ${
+                      openId === index ? "" : "rotate-180"
+                    } shrink-0`}
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 10 6"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 5 5 1 1 5"
+                    />
+                  </svg>
+                </button>
+              </h2>
+              {openId === index && (
+                <div
+                  id={`accordion-body-${index}`}
+                  aria-labelledby={`accordion-heading-${index}`}
+                >
+                  <div className="py-2 border-gray-200 dark:border-gray-700">
+                    <p className="mb-2 text-black/50">{question.body}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+          </div>
           <div className="flex items-center justify-center">
             <button className="relative bg-transparent h-[50px] border border-black/50 text-white text-lg leading-8 px-4 py-4 rounded-full flex justify-center items-center after:absolute after:bg-black after:h-full after:w-full after:top-0 after:left-0 hover:after:h-0 after:transition-[2s] after:-z-20 hover:text-black overflow-hidden group mt-4">
               Learn more
@@ -328,7 +416,7 @@ const Index = () => {
       {/* Join Us section start */}
       <section className="md:py-space py-20 px-3 lg:px-8">
         <h2 className="text-center text-[40px] font-medium">Why Join Us</h2>
-        <div>
+        <div className="sm:block hidden">
           <div className="h-[420px] w-[420px] bg-gay-400/15 rounded-full mt-[188px] mx-auto  items-center justify-center relative lg:flex hidden">
             <div className="h-[285px] w-[285px] bg-primary rounded-full border-2 flex items-center justify-center">
               <h2 className="text-black text-[28px] font-bold tracking-[-1px]">
@@ -495,6 +583,53 @@ const Index = () => {
             </div>
           </div>
         </div>
+        <div className="sm:hidden block">
+        {Why_Join_Us.map((question, index) => (
+            <div
+              key={index}
+              className="bg-white/50 py-6 md:px-10 px-5 rounded-xl mt-5"
+            >
+              <h2 id={`accordion-heading-${index}`}>
+                <button
+                  type="button"
+                  className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 dark:border-gray-700 dark:text-gray-400 gap-3 focus:outline-none"
+                  onClick={() => setWhy_Join_Us_Id(index)}
+                  aria-expanded={Why_Join_Us_Id === index}
+                  aria-controls={`accordion-body-${index}`}
+                >
+                  <span>{question.title}</span>
+                  <svg
+                    className={`w-3 h-3 ${
+                      Why_Join_Us_Id === index ? "" : "rotate-180"
+                    } shrink-0`}
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 10 6"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 5 5 1 1 5"
+                    />
+                  </svg>
+                </button>
+              </h2>
+              {Why_Join_Us_Id === index && (
+                <div
+                  id={`accordion-body-${index}`}
+                  aria-labelledby={`accordion-heading-${index}`}
+                >
+                  <div className="py-2 border-gray-200 dark:border-gray-700">
+                    <p className="mb-2 text-black/50">{question.body}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </section>
       {/* Instructors section start */}
       <Instructors />
@@ -615,14 +750,14 @@ const Index = () => {
                 <button
                   type="button"
                   className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 dark:border-gray-700 dark:text-gray-400 gap-3 focus:outline-none"
-                  onClick={() => handleToggle(index)}
-                  aria-expanded={openId === index}
+                  onClick={() => setWho_we_are_Id(index)}
+                  aria-expanded={Who_we_are_Id === index}
                   aria-controls={`accordion-body-${index}`}
                 >
                   <span>{question.title}</span>
                   <svg
                     className={`w-3 h-3 ${
-                      openId === index ? "" : "rotate-180"
+                      Who_we_are_Id === index ? "" : "rotate-180"
                     } shrink-0`}
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
@@ -639,7 +774,7 @@ const Index = () => {
                   </svg>
                 </button>
               </h2>
-              {openId === index && (
+              {Who_we_are_Id === index && (
                 <div
                   id={`accordion-body-${index}`}
                   aria-labelledby={`accordion-heading-${index}`}

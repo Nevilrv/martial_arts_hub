@@ -31,11 +31,11 @@ export const Dispute_Details = async (disputeId) => {
   }
 };
 
-export const Close_Dispute = async (disputeId,close) => {
+export const Close_Dispute = async (disputeId,instructorId,close) => {
   try {
     let response = await axios({
       method: "POST",
-      url: `${baseURL}/admin/dispute/close?disputeId=${disputeId}&status=${close}`,
+      url: `${baseURL}/admin/dispute/close?disputeId=${disputeId}&instructorId=${instructorId}&status=${close}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

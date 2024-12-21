@@ -300,7 +300,7 @@ const MonitorPayments = () => {
                       {person.instructorId}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                      {dayjs(person.paymentsDate).format("DD/MM/YYY")}
+                      {dayjs(person.paymentsDate).format("DD/MM/YYYY")}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
                       {person.prvTotalpaid}

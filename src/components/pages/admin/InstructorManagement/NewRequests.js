@@ -27,6 +27,10 @@ const NewRequests = () => {
   const [Instructor_Request_detail, setInstructor_Request_detail] = useState(
     {}
   );
+  console.log(
+    "🚀 ~ NewRequests ~ Instructor_Request_detail:",
+    Instructor_Request_detail
+  );
   let getinstructorId = "";
 
   const Get_Instructor_Requests = async () => {
@@ -52,6 +56,10 @@ const NewRequests = () => {
     const result = await Instructor_Request_Details(getinstructorId);
     if (result?.success === true) {
       setInstructor_Request_detail(result.data);
+      setInstructor_Request_detail((prev) => ({
+        ...prev,
+        category: JSON.parse(result.data.category),
+      }));
       SetisOpen(true);
       setLoading(false);
     } else {

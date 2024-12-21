@@ -301,7 +301,7 @@ const Dashboard = () => {
                 </p>
                 <p className="text-red-200 underline font-medium">View All</p>
               </div>
-              {Instructor_Request_List.map((Request_List) => (
+              {Instructor_Request_List?.map((Request_List) => (
                 <div className="flex flex-col gap-4 mt-5">
                   <div className="flex items-center justify-between">
                     <div className="flex items-start gap-3">

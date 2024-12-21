@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Dispute_List } from "../../../services/Admin/Dispute/Dispute";
 import { toast } from "react-toastify";
 import Spinner from "../../../layouts/Spinner";
+import { RaisedHand } from "../../../../assets/icon";
 
 const DisputeRequests = () => {
   const [Disputes_List, setDisputes_List] = useState([]);
@@ -21,7 +22,7 @@ const DisputeRequests = () => {
       //   toast.warning("There are no any stiudent Blocked")
       // }
       // else{
-        toast.error(result?.message);
+      // toast.error(result?.message);
       // }
     }
   };
@@ -29,18 +30,15 @@ const DisputeRequests = () => {
     Get_Dispute_list();
   }, []);
 
-
-
-
   const navigate = useNavigate();
 
   return (
     <>
-    {Loading&&<Spinner/>}
+      {Loading && <Spinner />}
       <div className="flex items-center justify-between">
         <AdminHeadding Headding={"All Dispute Requests"} />
         <div className="flex items-center gap-2 flex-wrap">
-          <select
+          {/* <select
             id="ID"
             name="ID"
             defaultValue="ID"
@@ -60,7 +58,7 @@ const DisputeRequests = () => {
             <option>06/06/2024</option>
             <option>12/07/2024</option>
             <option>05/07/2024</option>
-          </select>
+          </select> */}
           <select
             id="Status"
             name="Status"
@@ -120,6 +118,24 @@ const DisputeRequests = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#C6C6C6] bg-primary">
+              {Disputes_List?.length <= 0 && (
+                <tr>
+                  <td colSpan={7}>
+                    <div className="h-80 border border-gay-350 border-t-0 flex items-center justify-center">
+                      <div className="flex items-center justify-center flex-col">
+                        <RaisedHand />
+                        <h2 className="text-2xl font-semibold mt-5">
+                          No Active Disputes!
+                        </h2>
+                        <p className="text-gay-300 text-base">
+                          No disputes to show! your raised disputes will be
+                          shown here.
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              )}
               {Disputes_List.map((person) => (
                 <tr key={person.id}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-lg text-Dark_black font-medium sm:pl-6">
@@ -149,7 +165,11 @@ const DisputeRequests = () => {
                   </td>
                   <td
                     className="whitespace-nowrap px-3 pr-6 py-4 text-red-200 underline font-medium w-[200px] cursor-pointer"
-                    onClick={() => navigate(`/admin/Finance/disputedetails/${person.disputeId}`)}
+                    onClick={() =>
+                      navigate(
+                        `/admin/Finance/disputedetails/${person.disputeId}`
+                      )
+                    }
                   >
                     View Details
                   </td>

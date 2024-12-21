@@ -14,7 +14,7 @@ const CategoriesSection = () => {
 
   var settings = {
     dots: true,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
@@ -89,23 +89,23 @@ const CategoriesSection = () => {
   }, []);
 
   const handleSearch = () => {
-    const trimmedSearch = FindCategorie.trim();
-    if (trimmedSearch === "") {
-      setFilteredCategories(category_list); 
+    if (FindCategorie === "") {
+      setFilteredCategories(category_list); // If search is empty, show the full list
     } else {
       const filtered = category_list.filter(
         (item) =>
           item.categoryName &&
-          item.categoryName.toLowerCase().includes(trimmedSearch.toLowerCase())
+          item.categoryName.toLowerCase().includes(FindCategorie.toLowerCase())
       );
-      setFilteredCategories(filtered);
+      setFilteredCategories(filtered); // Show the filtered results
     }
   };
+  
   useEffect(() => {
-    setFilteredCategories(category_list);
-    handleSearch()
+    handleSearch(); // Call handleSearch whenever FindCategorie changes
     // eslint-disable-next-line
-  }, [FindCategorie]);
+  }, [FindCategorie, category_list]); // Make sure to include category_list in dependencies if it can change
+  
 
   return (
     <>
@@ -122,7 +122,9 @@ const CategoriesSection = () => {
                 className="md:w-[315px] w-full h-[50px] border border-black/80 rounded-full bg-transparent placeholder:text-[15px] placeholder:text-black/40 pl-[44px] pr-[52px]"
                 placeholder="Search Category"
                 value={FindCategorie}
-                onChange={(e) => {SetFindCategorie(e.target.value)}}
+                onChange={(e) => {
+                  SetFindCategorie(e.target.value);
+                }}
               />
               <CiSearch className="absolute top-1/2 -translate-y-1/2 left-4 text-2xl" />
               <button

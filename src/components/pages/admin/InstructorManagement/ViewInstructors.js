@@ -137,7 +137,7 @@ const ViewInstructors = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-primary">
-                  {Instructors_List.map((person) => {
+                  {Instructors_List?.map((person) => {
                     return (
                       <tr key={person?.instructorId} className="group">
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">

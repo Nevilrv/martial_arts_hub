@@ -6,7 +6,7 @@ import Instructor1 from "../../../../assets/images/Instructor-4.png";
 import "react-medium-image-zoom/dist/styles.css";
 import Zoom from "react-medium-image-zoom";
 import { useNavigate, useParams } from "react-router-dom";
-import User from "../../../../assets/images/userProfile.jpg"
+import User from "../../../../assets/images/userProfile.jpg";
 import {
   Close_Dispute,
   Dispute_Details,
@@ -27,7 +27,8 @@ const DisputeDetails = () => {
   const [DisputeChats, setDisputeChats] = useState([]);
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
     }
   };
   const chatContainerRef = useRef(null);
@@ -50,7 +51,11 @@ const DisputeDetails = () => {
 
   const CloseDispute = async () => {
     setLoading(true);
-    const result = await Close_Dispute(disputeId, "close");
+    const result = await Close_Dispute(
+      disputeId,
+      Disputes?.instructorId,
+      "close"
+    );
     if (result?.success === true) {
       setLoading(false);
       navigate(Routing.Admin_Dispute_Requests);
@@ -123,7 +128,10 @@ const DisputeDetails = () => {
     <>
       <div className="flex items-center justify-between flex-wrap">
         <div className="flex items-center gap-x-5 flex-wrap sm:justify-start justify-center">
-          <FaArrowLeft className="text-2xl cursor-pointer" onClick={()=>navigate(Routing.Admin_Dispute_Requests)} />
+          <FaArrowLeft
+            className="text-2xl cursor-pointer"
+            onClick={() => navigate(Routing.Admin_Dispute_Requests)}
+          />
           <h2 className="text-Dark_black font-bold text-2xl">
             Dispute Details
           </h2>
@@ -205,7 +213,7 @@ const DisputeDetails = () => {
               <Zoom className="sm:w-auto w-full">
                 <div className="sm:mx-0 mx-auto w-[125px] h-[100px] rounded-md overflow-hidden group relative cursor-pointer">
                   <img
-                    src={ScreenShort||User}
+                    src={ScreenShort || User}
                     alt=""
                     className="h-full w-full object-cover object-top"
                   />
@@ -234,20 +242,24 @@ const DisputeDetails = () => {
             {DisputeChats?.map((chat) => (
               <div
                 className={`${
-                  chat?.sender_type !== "student" ? "justify-end" : null
+                  chat?.sender !== "student" ? "justify-end" : null
                 } flex items-start gap-4`}
               >
                 <div
                   className={`h-14 w-14 rounded-full overflow-hidden ${
-                    chat?.sender_type !== "student" ? "order-2" : null
+                    chat?.sender !== "student" ? "order-2" : null
                   }`}
                 >
-                  <img src={Instructor1||User} alt="" className="w-full h-full" />
+                  <img
+                    src={Instructor1 || User}
+                    alt=""
+                    className="w-full h-full"
+                  />
                 </div>
                 <div className="max-w-[75%]">
                   <div
                     className={`w-full p-4 ${
-                      chat?.sender_type === "student"
+                      chat?.sender === "student"
                         ? "bg-red-100 text-gay-400 rounded-tl-none"
                         : "bg-black text-white rounded-tr-none"
                     } rounded-xl  text-sm  border border-red-200/15`}
@@ -256,9 +268,7 @@ const DisputeDetails = () => {
                   </div>
                   <p
                     className={`${
-                      chat?.sender_type === "student"
-                        ? "text-red-200"
-                        : "text-black"
+                      chat?.sender === "student" ? "text-red-200" : "text-black"
                     }  text-xs mt-2`}
                   >
                     {chat?.updated_at}

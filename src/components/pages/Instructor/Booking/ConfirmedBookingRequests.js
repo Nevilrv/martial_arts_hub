@@ -3,9 +3,14 @@ import { FaPaperPlane } from "react-icons/fa6";
 import User from "../../../../assets/images/userImage.png";
 import OutlineBtn from "../../common/OutlineBtn";
 import { Instructor_Booking_Requests } from "../../../services/Instructor/Booking/Booking";
+import { useNavigate } from "react-router-dom";
+import { Routing } from "../../../shared/Routing";
 
 
 const ConfirmedBookingRequests = ({ data }) => {
+
+  const navigate =  useNavigate()
+
   return (
     <>
       {data?.length <= 0 && (
@@ -68,11 +73,7 @@ const ConfirmedBookingRequests = ({ data }) => {
             <OutlineBtn
               text={confirm?.HostUrl === "FaceToFace" ? "FaceToFace" : "Start"}
               className={"bg-transparent border-black text-black font-medium sm:w-auto w-full"}
-              onClick={() =>
-                confirm?.HostUrl !== "FaceToFace"
-                  ? window.open(confirm?.HostUrl)
-                  : null
-              }
+              onClick={() =>navigate(Routing.InstructorMyClass)}
             />
           </div>
         </div>
