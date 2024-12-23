@@ -238,7 +238,7 @@ const StudentProfile = ({ children }) => {
           </div>
           <p className="text-black/50 mt-1">
             Your profile is incomplete.{" "}
-            <span className="text-red-200 underline">Complete Now</span>
+            <span className="text-red-200 underline cursor-pointer" onClick={()=>setOpen(true)}>Complete Now</span>
           </p>
           {children}
         </div>

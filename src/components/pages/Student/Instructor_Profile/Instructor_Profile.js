@@ -314,7 +314,7 @@ const InstructorProfile = () => {
                 </h2>
                 <div className="grid grid-cols-2 gap-2 my-5 justify-between">
                   <div>
-                    <p className="flex items-center gap-2 text-red text-base">
+                    <p className="flex items-center gap-2 text-red text-base text-red-200">
                       <BsPatchCheckFill className="" />
                       Online Lesson
                     </p>
@@ -323,7 +323,7 @@ const InstructorProfile = () => {
                     </p>
                   </div>
                   <div>
-                    <p className="flex items-center gap-2 text-red text-base">
+                    <p className="flex items-center gap-2 text-red text-base text-red-200">
                       <BsPatchCheckFill className="" />
                       Private Lesson (1-on-1)
                     </p>

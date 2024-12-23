@@ -29,6 +29,7 @@ const Chat = () => {
   const [ChatLimit, setChatLimit] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [StudentList, setStudentList] = useState([]);
+  const [AllStudentList, setAllStudentList] = useState([]);
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
@@ -42,6 +43,7 @@ const Chat = () => {
     if (result?.success === true) {
       setLoading(false);
       setStudentList(result.data.student);
+      setAllStudentList(result.data.student);
       setstudentId(result.data.student[0]);
     } else {
       setLoading(false);
@@ -140,6 +142,19 @@ const Chat = () => {
     setshowChat(true);
   };
 
+  const heandleSearch = (event) => {
+    const search = event.target.value;
+    if (search === "") {
+      setStudentList(AllStudentList);
+    }
+    else{
+      const filterStudent = StudentList.filter((student) =>
+        student.name.toLowerCase().includes(search.toLowerCase())
+      );
+      setStudentList(filterStudent);
+    }
+  }
+
   return (
     <>
       {Loading && <Spinner />}
@@ -153,6 +168,7 @@ const Chat = () => {
                     type="text"
                     className="w-full h-[55px] border border-black/30 bg-transparent rounded-full placeholder:text-black/40 pl-[55px] focus:outline-none"
                     placeholder="Search person"
+                    onChange={(event) => {heandleSearch(event)}}
                   />
                   <CiSearch className="absolute top-1/2 -translate-y-1/2 left-6 text-2xl" />
                 </div>
@@ -217,14 +233,14 @@ const Chat = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
+                {/* <div className="flex items-center gap-4">
                   <div className="cursor-pointer">
                     <ShareIcon />
                   </div>
                   <div className="cursor-pointer">
                     <BsThreeDotsVertical className="text-2xl" />
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="max-w-[957px] bg-Green-100 h-[55px] text-green rounded-full mx-auto mt-8 flex items-center justify-center">
                 <p>

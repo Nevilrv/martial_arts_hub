@@ -39,11 +39,13 @@ const ConfirmedBookingRequests = ({ data }) => {
               <h2 className="text-black texrt-[20px] font-medium">
                 {confirm?.studentName}
               </h2>
+              
               <div className="flex items-center flex-wrap">
                 <p className="text-[13px] text-black/70 font-light mt-0.5">
                   <span className="font-medium">Class Name:</span>
                   {confirm?.message?.slice(0, 20)}
                 </p>
+                <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                 <p className="text-[13px] text-black/70 font-light mt-0.5">
                   <span className="font-medium">Class Date:</span>{" "}
                   {confirm?.classDate}
@@ -72,7 +74,7 @@ const ConfirmedBookingRequests = ({ data }) => {
           <div className="flex items-center gap-3 flex-wrap sm:w-auto w-full">
             <OutlineBtn
               text={confirm?.HostUrl === "FaceToFace" ? "FaceToFace" : "Start"}
-              className={"bg-transparent border-black text-black font-medium sm:w-auto w-full"}
+              className={"bg-transparent min-w-[138px] border-black text-black font-medium sm:w-auto w-full"}
               onClick={() =>navigate(Routing.InstructorMyClass)}
             />
           </div>

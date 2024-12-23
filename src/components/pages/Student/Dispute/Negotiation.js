@@ -256,7 +256,7 @@ const Negotiation = () => {
               </div>
               <div className="flex items-center justify-between mt-5">
                 <h4 className="text-base text-gay-300 font-normal">
-                  Instructor ({DisputeDetails.instructorName}) wants to pay:
+                  Admin ({DisputeDetails.instructorName}) wants to pay:
                 </h4>
                 <h2 className="text-red-200 font-bold text-[22px]">
                   $

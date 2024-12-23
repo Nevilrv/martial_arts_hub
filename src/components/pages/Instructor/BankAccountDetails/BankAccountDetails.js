@@ -142,24 +142,24 @@ const BankAccountDetails = () => {
               Note 2 : And last Review and submit page Click "Edit button" and
               upload document if option show other wise
             </p>
-            <label className="text-base font-medium text-black block mt-7">
-              select country
-            </label>
-            <div className="TimeSlot">
-              <Select
-                defaultValue={selectedTimeSlot}
-                onChange={handlecountriesChange}
-                options={countries}
-                onMenuOpen={() => {}}
-              />
+            <div className="w-full">
+              <label className="text-base font-medium text-black block mt-7">
+                select country
+              </label>
+              <div className="flex items-center justify-between gap-3">
+                <div className="TimeSlot w-full">
+                  <Select
+                    defaultValue={selectedTimeSlot}
+                    onChange={handlecountriesChange}
+                    options={countries}
+                    onMenuOpen={() => {}}
+                  />
+                </div>
+                <OutlineBtn text={"Proceed"} onClick={send_countries} />
+              </div>
             </div>
             <p className="mt-3">{errormess}</p>
           </div>
-          <OutlineBtn
-            text={"select country"}
-            className={"mb-6"}
-            onClick={send_countries}
-          />
         </div>
 
         <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 gap-y-9 mt-16 max-w-6xl mx-auto">
@@ -201,7 +201,13 @@ const BankAccountDetails = () => {
           <Inputfild
             type={"text"}
             Label={"Bank Account Holder Name"}
-            value={accountDetails?.external_accounts?.data[0]?.account_holder_name===null?"Name is not Given":accountDetails?.external_accounts?.data[0]?.account_holder_name}
+            value={
+              accountDetails?.external_accounts?.data[0]
+                ?.account_holder_name === null
+                ? "Name is not Given"
+                : accountDetails?.external_accounts?.data[0]
+                    ?.account_holder_name
+            }
             Labelclass={"customradiusBlack mb-1.5 font-medium"}
             readOnly={true}
             className={"rounded-xl md:w-full h-[70px]"}
@@ -217,7 +223,11 @@ const BankAccountDetails = () => {
           <Inputfild
             type={"text"}
             Label={"Bank Account Last 4 Digits"}
-            value={`.......${accountDetails?.external_accounts?.data[0]?.last4===undefined?"":accountDetails?.external_accounts?.data[0]?.last4}`}
+            value={`.......${
+              accountDetails?.external_accounts?.data[0]?.last4 === undefined
+                ? ""
+                : accountDetails?.external_accounts?.data[0]?.last4
+            }`}
             Labelclass={"customradiusBlack mb-1.5 font-medium"}
             readOnly={true}
             className={"rounded-xl md:w-full h-[70px]"}

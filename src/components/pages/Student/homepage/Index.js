@@ -249,15 +249,15 @@ const Index = () => {
       <section className="bg-black px-3 gap-y-12 lg:px-8 py-[76px] grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
         {category_list.map((category) => (
           <div
-            className="flex flex-col gap-3 items-center cursor-pointer"
+            className="flex flex-col justify-between items-center cursor-pointer h-[187px]"
             onClick={() => navigate(`/instructors/${category.maincategory}`)}
           >
-            <img src={category.maincategoryImage} alt="" className="w-[52px]" />
-            <div>
-              <h2 className="text-white text-[22px] leading-[26.4px] text-center mt-4">
+            <img src={category.maincategoryImage} alt="" className="w-[52px] h-[52px] object-contain" />
+            <div className="h-[123px] overflow-hidden flex flex-col justify-end">
+              <h2 className="text-white text-[22px] leading-[26.4px] text-center">
                 {category.maincategory}
               </h2>
-              <p className="text-white/50 text-[13px] leading-[18.2px] text-center max-w-[195px] mt-2 break-words">
+              <p className="text-white/50 text-[13px] leading-[18.2px] text-center max-w-[195px] mt-2 break-words mx-auto line-clamp-3">
                 {category.maincategoryDescription}
               </p>
             </div>
@@ -271,10 +271,10 @@ const Index = () => {
           <div className="flex items-center justify-between flex-wrap gap-y-5">
             <div>
               <h2 className="text-white text-[32px] font-semibold">
-                Can't see your discipline?
+                Can't see your Categories?
               </h2>
               <p className="text-lg font-light text-white max-w-[429px] mt-3">
-                Can't find your martial art discipline in our list? Don't worry!
+                Can't find your martial art Categories in our list? Don't worry!
                 Simply notify us, and we'll make every effort to add it to our
                 offerings.
               </p>
@@ -286,7 +286,7 @@ const Index = () => {
                 value={discipline.disciplineName}
                 onChange={heandleChange}
                 className="border border-white/30 md:w-[485px] w-full h-[50px] rounded-full px-8 focus:outline-none bg-gay-100/10 placeholder:text-white/50 text-white"
-                placeholder="Enter Discipline’s name"
+                placeholder="Enter Categorie’s name"
               />
               <textarea
                 className="border border-white/30 md:w-[485px] w-full h-[90px] rounded-2xl px-8 focus:outline-none bg-gay-100/10 placeholder:text-white/50 text-white pt-4"

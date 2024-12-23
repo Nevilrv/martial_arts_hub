@@ -24,13 +24,34 @@ const Dashboard = () => {
   const [DashboardCard, setDashboardCard] = useState({});
   const [Admin_Progress_data, setAdmin_Progress_data] = useState([]);
   const [admin_Notification, setadmin_Notification] = useState([]);
+  console.log("🚀 ~ Dashboard ~ admin_Notification:", admin_Notification)
   const [Instructor_Request_List, setInstructor_Request_List] = useState([]);
   const [Loading, setLoading] = useState(false);
   const currentMonthIndex = new Date().getMonth();
   const [selectedMonth, setSelectedMonth] = useState(currentMonthIndex + 1);
   const navigate = useNavigate();
   dayjs.extend(utc);
-  const currentTime = dayjs.utc();
+
+
+  function formatTimeDiff(createdAt) {
+    const currentTime = dayjs();
+    const diffInMinutes = currentTime.diff(dayjs.utc(createdAt), "minute");
+  
+    if (diffInMinutes >= 1440) { // 1440 minutes = 1 day
+      const days = Math.floor(diffInMinutes / 1440);
+      return `${days} ${days === 1 ? "day" : "days"}`;
+    } else if (diffInMinutes >= 60) { // 60 minutes = 1 hour
+      const hours = Math.floor(diffInMinutes / 60);
+      return `${hours} ${hours === 1 ? "hr" : "hrs"}`;
+    } else {
+      return `${diffInMinutes} ${diffInMinutes === 1 ? "min" : "mins"}`;
+    }
+  }
+  
+  // Example Usage
+  const createdAt = "2024-04-22T12:00:00Z"; // Replace with your `createdAt`
+  const formattedTimeDiff = formatTimeDiff(createdAt);
+  console.log(formattedTimeDiff);
 
   const data = [
     {
@@ -262,8 +283,7 @@ const Dashboard = () => {
                       {item.title}
                     </p>
                     <p className="text-black/70 text-sm font-medium">
-                      {currentTime.diff(dayjs.utc(item.createdAt), "minute")}{" "}
-                      Minutes ago
+                    {formatTimeDiff(item.createdAt)}
                     </p>
                   </div>
                 </div>

@@ -7,8 +7,8 @@ import Boxing from "../../../../../assets/images/Boxing.png";
 const ClassRequestcard = ({ cardDetails, data }) => {
   return (
     <>
-      <div className=" bg-gay-600 rounded-3xl px-8 py-7 h-full overflow-y-auto">
-        <div className="flex items-center justify-between">
+      <div className="bg-gay-600 rounded-3xl px-8 py-7 h-full overflow-y-auto">
+        <div className="flex items-center justify-between ">
           <h3 className="text-gay-300 text-lg font-medium">
             {cardDetails.CardTitle}
           </h3>
@@ -37,10 +37,10 @@ const ClassRequestcard = ({ cardDetails, data }) => {
           ))}
         {data.map((classdata) =>
           classdata?.classStatus === "ongoing" ? (
-            <div className="flex items-start mt-6 gap-3">
+            <div className="flex items-start mt-6 gap-3 md:flex-nowrap flex-wrap sm:border-0 border-b pb-3">
               <img
                 src={Boxing}
-                className="w-[80px] h-[66px] rounded-lg grayscale"
+                className="md:w-[80px] w-full md:h-[66px] rounded-lg grayscale"
                 alt=""
               />
               <div className="w-full">
@@ -53,7 +53,7 @@ const ClassRequestcard = ({ cardDetails, data }) => {
                       "DD-MM-YYYY"
                     )}`}
                     className={
-                      "w-[160px] bg-gay-300/50 text-white border-none text-[11px] h-[28px]"
+                      "w-[160px] bg-gay-300/50 text-white border-none sm:text-[11px] text-xs sm:h-[28px]"
                     }
                     onClick={() =>
                       window.open(
@@ -67,7 +67,7 @@ const ClassRequestcard = ({ cardDetails, data }) => {
 
                 <div className="grid md:grid-cols-2 items-center">
                   <div className="mt-1">
-                    <div className="flex items-center">
+                    <div className="flex items-center sm:justify-start justify-between">
                       <p className="text-black/50 text-[15px] font-semibold">
                         Class Date:
                       </p>
@@ -76,26 +76,26 @@ const ClassRequestcard = ({ cardDetails, data }) => {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex items-center sm:justify-start justify-between">
                     <p className="text-black/50 text-[15px] font-semibold">
                       Created on:{" "}
                     </p>
                     <p className="text-black/70 text-[13px] font-light">
                       {classdata.createdOn}
                     </p>
-                    <span className="text-xl mt-1 text-black/70 h-[3px] w-[3px] rounded-full bg-black/70 mx-0.5"></span>
+                    <span className="text-xl mt-1 text-black/70 h-[3px] w-[3px] rounded-full bg-black/70 mx-0.5 sm:block hidden"></span>
                   </div>
 
-                  <div className="flex items-center">
+                  <div className="flex items-center sm:justify-start justify-between">
                     <p className="text-black/50 text-[15px] font-semibold">
                       Class Time:{" "}
                     </p>
                     <p className="text-black/70 text-[13px] font-light">
                       {classdata.classTime}
                     </p>
-                    <span className="text-xl mt-1 text-black/70 h-[3px] w-[3px] rounded-full bg-black/70 mx-0.5"></span>
+                    <span className="text-xl mt-1 text-black/70 h-[3px] w-[3px] rounded-full bg-black/70 mx-0.5 sm:block hidden"></span>
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex items-center sm:justify-start justify-between">
                     <p className="text-black/50 text-[15px] font-semibold">
                       Class Rate:{" "}
                     </p>

@@ -94,6 +94,12 @@ const Profile = () => {
       maincategory: selectedOptions,
     });
   };
+  // const handle_Class_Type = (selectedOptions) => {
+  //   setInstructorDetails({
+  //     ...instructorDetails,
+  //     maincategory: selectedOptions,
+  //   });
+  // };
 
   const handleChangeSubCategory = (selectedOptions) => {
     setInstructorDetails({
@@ -218,7 +224,7 @@ const Profile = () => {
     if (instructorDetails.maincategory.value) {
       Get_Sub_Category_List();
     }
-       // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [instructorDetails.maincategory.value]);
 
   const handlePhoneNumberChange = (value) => {
@@ -362,7 +368,7 @@ const Profile = () => {
                 onChange={handleChangeCategory}
                 options={category_list}
                 // defaultValue={instructorDetails?.maincategory}
-                value={instructorDetails?.maincategory||""}
+                value={instructorDetails?.maincategory || ""}
                 onMenuOpen={() => {}}
                 style={{ with: "100%" }}
               />
@@ -378,7 +384,7 @@ const Profile = () => {
                 options={Sub_category_list}
                 isMulti
                 // defaultValue={instructorDetails?.category}
-                value={instructorDetails?.category||""}
+                value={instructorDetails?.category || ""}
                 onMenuOpen={() => {}}
                 style={{ with: "100%" }}
               />
@@ -524,6 +530,23 @@ const Profile = () => {
               Labelclass={"text-Dark_black font-medium"}
               className={"rounded-xl md:w-full h-[70px]"}
             />
+            {/* <div className="md:col-span-1 col-span-1">
+              <label className={`text-sm text-black/50 block`}>
+              Class Type for first free session (Online/Face-to-Face)
+              </label>
+              <div className="Profile">
+                <Select
+                  onChange={handle_Class_Type}
+                  options={[
+                    { label: "Online", value: "Online" },
+                    { label: "Face-to-Face", value: "Face-to-Face" },
+                  ]}
+                  value={instructorDetails?.classTypeFirstFreeSession || ""}
+                  onMenuOpen={() => {}}
+                  style={{ with: "100%" }}
+                />
+              </div>
+            </div> */}
           </div>
           <div>
             <Inputfild

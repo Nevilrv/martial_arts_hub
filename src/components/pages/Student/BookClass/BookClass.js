@@ -156,7 +156,7 @@ const BookClass = () => {
     };
     if (heandalChangeData.message===""||null||undefined) {
       toast.error("Please Enter your message")
-    }else if (selectedMailingLists===""||null||"undefined") {
+    }else if (selectedMailingLists===""||null||undefined) {
       toast.error("Please Select Class Type")
     }
     else if (timeSlots.length===0) {
@@ -179,9 +179,10 @@ const BookClass = () => {
       setSelectedTimeSlot([]);
       navigate(Routing.StudentMyClass)
       setSelectedMailingLists();
+      toast.success("Booking request sent successfully");
     } else {
       setLoading(false);
-      // toast.error(result.message)
+      toast.error(result.message)
     }
   };
 
@@ -246,7 +247,7 @@ const BookClass = () => {
             <p className="text-black/50 text-sm">
               {rating}
               <span className="underline">
-                ({instructorData.totalReviews} Reviews)
+                ({instructorData.totalReviews||0} Reviews)
               </span>
             </p>
           </div>

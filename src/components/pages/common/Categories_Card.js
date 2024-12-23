@@ -5,7 +5,7 @@ import Wrestling from "../../../assets/images/Wrestling.png";
 const CategoriesCard = ({ data }) => {
   return (
     <>
-      <div className="group flex flex-col sm:mr-6 justify-between min-h-[449px]">
+      <div className="group flex flex-col sm:mr-6 justify-between min-h-[249px]">
         <img
           src={data.categoryImage||Wrestling}
           alt="card_image"
@@ -15,7 +15,7 @@ const CategoriesCard = ({ data }) => {
         <h2 className="font-semibold text-[22px] text-black mt-6 max-w-[315px]">
           {data?.categoryName||data.className?.slice(0,5)}
         </h2>
-        <p className="mt-1 text-black/70 text-sm font-light text-justify max-w-[315px]">
+        <p className="mt-1 text-black/70 text-sm font-light text-justify line-clamp-3 h-[40px]">
           {data?.categoryDescription||data.className}
         </p>
         </div>

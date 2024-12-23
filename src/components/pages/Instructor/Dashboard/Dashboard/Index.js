@@ -122,29 +122,29 @@ const Index = () => {
                 ) : (
                   MessagesRequest.map((Request) => (
                     <div
-                      className="md:h-[115px] md:py-0 py-3 flex items-center justify-between border-b border-gay-400 min-w-[840px]"
+                      className="md:h-[115px] md:py-0 py-3 flex items-center justify-between border-b border-gay-400 flex-wrap "
                       onClick={() => Navigate(Routing.InstructorMessageRequest)}
                     >
-                      <div className="flex items-center">
-                        <div className="w-[82px] h-[82px] overflow-hidden rounded-full">
+                      <div className="flex items-center flex-wrap">
+                        <div className="sm:w-[82px] w-1/2 sm:mx-0 mx-auto sm:h-[82px] overflow-hidden rounded-full">
                           <img
                             src={Request.profile_picture || User}
                             alt="Wrestling"
                             className="w-full h-full object-cover object-top grayscale"
                           />
                         </div>
-                        <div className="ml-5">
+                        <div className="sm:ml-5 ml-0">
                           <h2 className="text-black texrt-[20px] font-medium">
                             {Request.name}
                           </h2>
-                          <div className="flex items-center">
+                          <div className="flex items-center flex-wrap">
                             <p className="text-[13px] text-black/70  mt-0.5">
                               <span className="font-medium">
                                 Request received on:
                               </span>{" "}
                               {Request.recived}
                             </p>
-                            <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
+                            <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1 sm:block hidden"></span>
                             <p className="text-[13px] text-black/70  mt-0.5">
                               <span className="font-medium">
                                 Inquiry class:
@@ -157,17 +157,17 @@ const Index = () => {
                           </p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 flex-wrap">
                         <OutlineBtn
                           text={"See Profile"}
                           className={
-                            "bg-transparent border-black text-black text-sm"
+                            "bg-transparent border-black text-black text-sm sm:w-auto w-full sm:mt-0 mt-3"
                           }
                         />
                         <OutlineBtn
                           text={"View Request"}
                           className={
-                            "bg-green border-none text-white font-medium"
+                            "bg-green border-none text-white font-medium sm:w-auto w-full"
                           }
                         />
                       </div>

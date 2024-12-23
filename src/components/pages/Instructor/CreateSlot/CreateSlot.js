@@ -255,7 +255,7 @@ const CreateSlot = () => {
                   name="classRate"
                   placeholder="eg. $5, $10"
                   value={FormData.classRate}
-                  className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[80px] rounded-2xl"
+                  className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[80px] rounded-2xl mt-1.5"
                   onChange={(e) => handleChange(e)}
                 />
               </div>
