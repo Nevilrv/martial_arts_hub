@@ -86,6 +86,7 @@ const NewRequests = () => {
   const heandle_Accept_Profile = (instructorId) => {
     getinstructorId = instructorId;
     Instructor_Requests_Accept(getinstructorId, "accept");
+    Get_Instructor_Requests()
   };
 
   useEffect(() => {
@@ -131,7 +132,7 @@ const NewRequests = () => {
                 <OutlineBtn
                   className={"bg-green text-white border-none"}
                   text={"Accept"}
-                  onClick={() => Setconformation(true)}
+                  onClick={() => {Setconformation(true);setgetinstructor_Id(List.instructorId)}}
                 />
               </div>
             </div>

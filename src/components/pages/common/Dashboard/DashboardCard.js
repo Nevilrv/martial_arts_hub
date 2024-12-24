@@ -5,7 +5,6 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 import User from "../../../../assets/images/userProfile.jpg"
 
 const DashboardCard = ({ cardDetails, data, earnings }) => {
-  console.log("🚀 ~ DashboardCard ~ earnings:", earnings)
   return (
     <>
       <div className=" bg-gay-600 rounded-3xl px-8 py-7 h-full overflow-auto">
@@ -19,7 +18,7 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
             </div>
           ) : (
             <p className="text-red-200 font-bold text-xl">
-              ${earnings.totalEarnings}
+              ${earnings?.totalEarnings}
             </p>
           )}
         </div>

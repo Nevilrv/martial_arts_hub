@@ -49,7 +49,6 @@ const Profile = () => {
     privateSessionOnlineHourlyRate: "",
     privateSessionFaceToFaceHourlyRate: "",
   });
-  console.log("🚀 ~ Profile ~ instructorDetails:", instructorDetails);
   const getinstructorDetails = async () => {
     setLoading(true);
     if (token !== "undefined") {
@@ -162,7 +161,6 @@ const Profile = () => {
     const result = await InstructorProfile(formData);
     if (result?.success === true) {
       setLoading(false);
-      console.log(result.data.status, "======>Profile");
       if (result.data.status === "pending") {
         Socket.emit("Notification", {
           title: `${instructorDetails?.name} New_instructor`,

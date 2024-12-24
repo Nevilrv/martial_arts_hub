@@ -107,7 +107,7 @@ const Header = () => {
         Setscroll_event("home");
       } else if (position <= 4514) {
         Setscroll_event("about");
-      } else if (position >= 6664) {
+      } else if (position >= 5532) {
         Setscroll_event("Contact_Us");
       }
     };

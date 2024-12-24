@@ -93,6 +93,12 @@ const Create_Categorie = () => {
     if (result?.success === true) {
       setLoading(false);
       SetisOpen(false);
+      setCategory({
+        maincategory: "",
+        maincategoryDescription: "",
+        adminId: localStorage.getItem("_id"),
+        maincategoryImage: "",
+      });
       Get_Category_List();
     } else {
       setLoading(false);

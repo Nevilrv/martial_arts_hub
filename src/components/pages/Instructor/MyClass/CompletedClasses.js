@@ -20,10 +20,9 @@ const CompletedClasses = () => {
     if (result?.success === true) {
       setLoading(false);
       setUpcomingClass(result.data.complete);
-       
     } else {
       setLoading(false);
-      toast.error(result?.message);
+      // toast.error(result?.message);
     }
   };
   useEffect(() => {

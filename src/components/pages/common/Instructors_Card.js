@@ -52,11 +52,11 @@ const InstructorsCard = ({ data,HeandleLike }) => {
           <div className="flex items-center mt-5 gap-1">
             <div className="flex items-center">{getStars(data.reviews)}</div>
             <span className="text-[10px] text-black/50">
-              {data.reviews} ({data.TotalReview} TotalReview)
+              {data.reviews} ({data.TotalReview||0} TotalReview)
             </span>
           </div>
           <h2 className="text-black text-xl font-medium">{data.name}</h2>
-          <p className="text-black/50 text-sm">{data.experience}</p>
+          <p className="text-black/50 text-sm line-clamp-2 h-[40px]">{data.experience}</p>
           <div className="flex items-center mt-4">
             <button
               className="bg-black text-white text-xs text-center py-3 px-20 rounded-full"

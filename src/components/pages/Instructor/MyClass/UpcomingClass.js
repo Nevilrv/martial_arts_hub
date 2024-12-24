@@ -17,10 +17,9 @@ const UpcomingClass = () => {
     const result = await Instructor_get_Upcoming_Classes(id);
     if (result?.success === true) {
       setUpcomingClass(result.data.upcoming);
-       
       setLoading(false);
     } else {
-      toast.error(result?.message);
+      // toast.error(result?.message);
       setLoading(false);
     }
   };

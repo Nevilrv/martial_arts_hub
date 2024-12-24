@@ -56,7 +56,7 @@ const Instructors = () => {
       setLoading(false);
       setInstructors(result.data);
     } else {
-      toast.error("message");
+      // toast.error("message");
       setLoading(false);
     }
   };
@@ -90,6 +90,7 @@ const Instructors = () => {
       {loading && <Spinner />}
       <section className="md:py-space pb-20 px-3 lg:px-8">
         <h2 className="font-medium text-[32px]">Our Instructors</h2>
+        {Instructors.length <= 0 && (<h1 className="font-medium text-[32px] text-center">No Instructors Founded</h1>)}
         <Slider {...settings} className="mt-5 slider-2 relative">
           {Instructors.map((items, i) => (
             <InstructorsCard data={items} HeandleLike={()=>HeandleLike(items.instructorId)} key={i} />

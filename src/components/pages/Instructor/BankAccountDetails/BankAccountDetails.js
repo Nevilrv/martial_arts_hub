@@ -113,15 +113,16 @@ const BankAccountDetails = () => {
       setLoading(false);
     } else {
       setLoading(false);
-      if (result.message === "Account not found") {
-        toast.error(
-          "Details of the instructor's bank account are not provided."
-        );
-      } else {
-        toast.error(result.message);
-      }
-    }
+    //   if (result.message === "Account not found") {
+    //     toast.error(
+    //       "Details of the instructor's bank account are not provided."
+    //     );
+    //   } else {
+    //     toast.error(result.message);
+    //   }
+    // }
   };
+}
 
   useEffect(() => {
     GetAccount();

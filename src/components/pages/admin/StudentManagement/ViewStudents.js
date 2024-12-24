@@ -20,7 +20,6 @@ const ViewStudents = () => {
   const [Loading, setLoading] = useState(false);
   const [Student_Deatils_Popup, setStudent_Deatils_Popup] = useState(false);
   const [Student_Deatils, setStudent_Deatils] = useState({});
-  console.log("🚀 ~ ViewStudents ~ Student_Deatils:", Student_Deatils)
   const [Student_List, setStudent_List] = useState([]);
   const [studentid, setstudentid] = useState();
 
@@ -32,7 +31,7 @@ const ViewStudents = () => {
       setLoading(false);
     } else {
       setLoading(false);
-      toast.error(result?.message);
+      // toast.error(result?.message);
     }
   };
 
@@ -44,7 +43,7 @@ const ViewStudents = () => {
       setLoading(false);
     } else {
       setLoading(false);
-      toast.error(result?.message);
+      // toast.error(result?.message);
     }
   };
 
@@ -64,12 +63,12 @@ const ViewStudents = () => {
       Get_Student_list();
     } else {
       setLoading(false);
-      result?.message === "Student data not found" && Get_Student_list([]);
-      toast.error(
-        result?.message === "Student data not found"
-          ? "There are no any studentid."
-          : result?.message
-      );
+      // result?.message === "Student data not found" && Get_Student_list([]);
+      // toast.error(
+      //   result?.message === "Student data not found"
+      //     ? "There are no any studentid."
+      //     : result?.message
+      // );
     }
   };
 

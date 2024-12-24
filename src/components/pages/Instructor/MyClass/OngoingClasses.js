@@ -24,7 +24,7 @@ const OngoingClasses = (props) => {
       setUpcomingClass(result.data.ongoing);
     } else {
       setLoading(false);
-      toast.error(result?.message);
+      // toast.error(result?.message);
     }
   };
   useEffect(() => {

@@ -108,7 +108,7 @@ const Index = () => {
       setLoading(false);
       setInstructorsdata(result.data);
     } else {
-      toast.error("message");
+      // toast.error(result?.message);
       setLoading(false);
     }
   };
@@ -174,7 +174,7 @@ const Index = () => {
       Set_Category_List(result.data);
     } else {
       setLoading(false);
-      toast.error(result?.message);
+      // toast.error(result?.message);
     }
   };
 
