@@ -49,12 +49,8 @@ const AskedQuestions = [
 
 const Who_we_are = [
   {
-    title: "online platform",
-    body: "Welcome to Martial Arts Hub, the global online platform for martial artists of all levels. We connect practitioners who want to learn and improve themselves with top-notch instructors who are passionate about sharing their knowledge and helping others. Our personalized guidance is tailored to fit your unique needs, whether you prefer the convenience of online sessions or the hands-on experience of face-to-face training.",
-  },
-  {
-    title: "At Martial Arts Hub",
-    body: "But we don't stop there. At Martial Arts Hub, we believe in holistic improvement. That's why we also offer access to nutritionists, strength and conditioning coaches, physiotherapists, and sports psychologists. Our diverse network of experts ensures you have the comprehensive support you need to excel in every aspect of your martial arts journey. Wherever you are based in the world, you can join us at Martial Arts Hub and unlock your full potential. Your path to excellence starts here.",
+    title: "",
+    body: "Welcome to Martial Arts Hub, the global online platform for martial artists of all levels. We connect practitioners who want to learn and improve themselves with top-notch instructors who are passionate about sharing their knowledge and helping others. Our personalized guidance is tailored to fit your unique needs, whether you prefer the convenience of online sessions or the hands-on experience of face-to-face training. But we don't stop there. At Martial Arts Hub, we believe in holistic improvement. That's why we also offer access to nutritionists, strength and conditioning coaches, physiotherapists, and sports psychologists. Our diverse network of experts ensures you have the comprehensive support you need to excel in every aspect of your martial arts journey. Wherever you are based in the world, you can join us at Martial Arts Hub and unlock your full potential. Your path to excellence starts here.",
   },
 ];
 
@@ -153,8 +149,6 @@ const Index = () => {
     }
   };
 
- 
-
   const handleToggle = (id) => {
     setOpenId(openId === id ? null : id);
   };
@@ -252,7 +246,11 @@ const Index = () => {
             className="flex flex-col justify-between items-center cursor-pointer h-[187px]"
             onClick={() => navigate(`/instructors/${category.maincategory}`)}
           >
-            <img src={category.maincategoryImage} alt="" className="w-[52px] h-[52px] object-contain" />
+            <img
+              src={category.maincategoryImage}
+              alt=""
+              className="w-[52px] h-[52px] object-contain"
+            />
             <div className="h-[123px] overflow-hidden flex flex-col justify-end">
               <h2 className="text-white text-[22px] leading-[26.4px] text-center">
                 {category.maincategory}
@@ -334,51 +332,51 @@ const Index = () => {
             path to excellence starts here.
           </p>
           <div className="sm:hidden block">
-          {Who_we_are.map((question, index) => (
-            <div
-              key={index}
-              className="bg-white/50 py-6 md:px-10 px-5 rounded-xl mt-5"
-            >
-              <h2 id={`accordion-heading-${index}`}>
-                <button
-                  type="button"
-                  className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 dark:border-gray-700 dark:text-gray-400 gap-3 focus:outline-none"
-                  onClick={() => handleToggle(index)}
-                  aria-expanded={openId === index}
-                  aria-controls={`accordion-body-${index}`}
-                >
-                  <span>{question.title}</span>
-                  <svg
-                    className={`w-3 h-3 ${
-                      openId === index ? "" : "rotate-180"
-                    } shrink-0`}
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 10 6"
+            {Who_we_are.map((question, index) => (
+              <div
+                key={index}
+                className="bg-white/50 py-6 md:px-10 px-5 rounded-xl mt-5"
+              >
+                <h2 id={`accordion-heading-${index}`}>
+                  <button
+                    type="button"
+                    className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 dark:border-gray-700 dark:text-gray-400 gap-3 focus:outline-none"
+                    onClick={() => handleToggle(index)}
+                    aria-expanded={openId === index}
+                    aria-controls={`accordion-body-${index}`}
                   >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 5 5 1 1 5"
-                    />
-                  </svg>
-                </button>
-              </h2>
-              {openId === index && (
-                <div
-                  id={`accordion-body-${index}`}
-                  aria-labelledby={`accordion-heading-${index}`}
-                >
-                  <div className="py-2 border-gray-200 dark:border-gray-700">
-                    <p className="mb-2 text-black/50">{question.body}</p>
+                    <span>{question.title}</span>
+                    <svg
+                      className={`w-3 h-3 mx-auto ${
+                        openId === index ? "" : "rotate-180"
+                      } shrink-0`}
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 10 6"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 5 5 1 1 5"
+                      />
+                    </svg>
+                  </button>
+                </h2>
+                {openId === index && (
+                  <div
+                    id={`accordion-body-${index}`}
+                    aria-labelledby={`accordion-heading-${index}`}
+                  >
+                    <div className="py-2 border-gray-200 dark:border-gray-700">
+                      <p className="mb-2 text-black/50">{question.body}</p>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          ))}
+                )}
+              </div>
+            ))}
           </div>
           <div className="flex items-center justify-center">
             <button className="relative bg-transparent h-[50px] border border-black/50 text-white text-lg leading-8 px-4 py-4 rounded-full flex justify-center items-center after:absolute after:bg-black after:h-full after:w-full after:top-0 after:left-0 hover:after:h-0 after:transition-[2s] after:-z-20 hover:text-black overflow-hidden group mt-4">
@@ -584,7 +582,7 @@ const Index = () => {
           </div>
         </div>
         <div className="sm:hidden block">
-        {Why_Join_Us.map((question, index) => (
+          {Why_Join_Us.map((question, index) => (
             <div
               key={index}
               className="bg-white/50 py-6 md:px-10 px-5 rounded-xl mt-5"

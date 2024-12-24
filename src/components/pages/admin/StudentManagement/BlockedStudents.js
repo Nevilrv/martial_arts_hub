@@ -26,12 +26,6 @@ const BlockedStudents = () => {
       setLoading(false);
     } else {
       setLoading(false);
-      if (result?.message === "Blocked students not found") {
-        toast.warning("There are no any stiudent Blocked")
-      }
-      else{
-        toast.error(result?.message);
-      }
     }
   };
   useEffect(() => {
@@ -50,13 +44,6 @@ const BlockedStudents = () => {
       Get_Student_Blocked_list();
     } else {
       setLoading(false);
-      result?.message === "Student data not found" &&
-        Get_Student_Blocked_list([]);
-      toast.error(
-        result?.message === "Blocked students not found"
-          ? "There are no any studentid."
-          : result?.message
-      );
     }
   };
 

@@ -51,6 +51,7 @@ const ViewInstructors = () => {
   };
 
   const heandleRemove = async (Instructorid) => {
+    setLoading(true);
     const result = await Instructor_Remove(Instructorid);
     if (result?.success === true) {
       setLoading(false);

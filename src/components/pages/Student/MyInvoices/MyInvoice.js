@@ -234,13 +234,13 @@ const MyInvoice = () => {
                     <IoHeartSharp className="text-red-200 text-xl" />
                     Thank You!
                   </div>
-                  <button
+                  {/* <button
                     onClick={() => toPDF()}
                     className="text-[#CBC9C2] px-3 text-xs h-[35px] bg-gay-300 rounded-full flex items-center justify-center gap-1.5"
                   >
                     <MdDownloadForOffline className="text-[#CBC9C2] text-base" />{" "}
                     Download Invoice
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </DialogPanel>

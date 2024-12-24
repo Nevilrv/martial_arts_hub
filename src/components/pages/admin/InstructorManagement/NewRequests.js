@@ -23,13 +23,10 @@ const NewRequests = () => {
   const [isOpen, SetisOpen] = useState(false);
   const [conformation, Setconformation] = useState(false);
   const [Loading, setLoading] = useState(false);
+  const [getinstructor_Id, setgetinstructor_Id] = useState("");
   const [Instructor_Request_List, setInstructor_Request_List] = useState([]);
   const [Instructor_Request_detail, setInstructor_Request_detail] = useState(
     {}
-  );
-  console.log(
-    "🚀 ~ NewRequests ~ Instructor_Request_detail:",
-    Instructor_Request_detail
   );
   let getinstructorId = "";
 
@@ -41,13 +38,13 @@ const NewRequests = () => {
       setLoading(false);
     } else {
       setLoading(false);
-      result?.message === "Instructor data not found" &&
-        setInstructor_Request_List([]);
-      toast.error(
-        result?.message === "Instructor data not found"
-          ? "There are no any new requests."
-          : result?.message
-      );
+      // result?.message === "Instructor data not found" &&
+      //   setInstructor_Request_List([]);
+      // toast.error(
+      //   result?.message === "Instructor data not found"
+      //     ? "There are no any new requests."
+      //     : result?.message
+      // );
     }
   };
 
@@ -83,6 +80,7 @@ const NewRequests = () => {
   const heandle_See_Profile = (instructorId) => {
     getinstructorId = instructorId;
     Get_Instructor_Requests_Deatls(getinstructorId);
+    setgetinstructor_Id(getinstructorId);
   };
 
   const heandle_Accept_Profile = (instructorId) => {
@@ -99,7 +97,7 @@ const NewRequests = () => {
       {Loading && <Spinner />}
       <div className="flex items-center justify-between">
         <AdminHeadding Headding={"New Instructor Requests"} />
-        <Link className="text-red-200 underline font-semibold">Accept all</Link>
+        {/* <Link className="text-red-200 underline font-semibold">Accept all</Link> */}
       </div>
       <div className="mt-5">
         {Instructor_Request_List?.length <= 0 && (
@@ -107,7 +105,7 @@ const NewRequests = () => {
             No Requests founde
           </h2>
         )}
-        {Instructor_Request_List.map((List) => (
+        {Instructor_Request_List?.map((List) => (
           <div className="w-full overflow-x-auto">
             <div className="flex items-center justify-between border-b border-gay-400/25 pb-5 h-[100px] min-w-[639px]">
               <div className="flex items-center gap-4">
@@ -133,7 +131,7 @@ const NewRequests = () => {
                 <OutlineBtn
                   className={"bg-green text-white border-none"}
                   text={"Accept"}
-                  onClick={() => heandle_Accept_Profile(List.instructorId)}
+                  onClick={() => Setconformation(true)}
                 />
               </div>
             </div>
@@ -163,14 +161,14 @@ const NewRequests = () => {
                   </h2>
                 </div>
                 <div className="flex items-center gap-3">
-                  <OutlineBtn
+                  {/* <OutlineBtn
                     text={"Decline"}
                     className={"text-red-200 bg-transparent border-red-200"}
                     onClick={() => Setconformation(true)}
-                  />
+                  /> */}
                   <OutlineBtn
                     text={"Accept"}
-                    onClick={() => Setconformation(true)}
+                    onClick={() => {Setconformation(true);Setconformation(true)}}
                     className={
                       "bg-green text-white text-base font-semibold border-none"
                     }
@@ -182,13 +180,13 @@ const NewRequests = () => {
                   <div className="flex flex-col gap-4 lg:justify-start justify-center lg:items-start items-center">
                     <div className="w-[247px] h-[247px] rounded-full overflow-hidden">
                       <img
-                        src={Instructor_Request_detail.profile_picture || User}
+                        src={Instructor_Request_detail?.profile_picture || User}
                         alt=""
                         className="w-full h-full object-cover object-center"
                       />
                     </div>
                     <h2 className="text-black font-bold text-3xl">
-                      {Instructor_Request_detail.name}
+                      {Instructor_Request_detail?.name}
                       <span className="text-black/50 text-sm">
                         (Instructor)
                       </span>
@@ -206,9 +204,9 @@ const NewRequests = () => {
                   </div>
                   <div className="md:col-span-2">
                     <div className="flex items-center gap-2 flex-wrap">
-                      {Instructor_Request_detail?.category?.map((category) => (
+                      {/* {Instructor_Request_detail.category?.map((category) => (
                         <OutlineBtn text={category.value} />
-                      ))}
+                      ))} */}
                     </div>
                     <h2 className="text-2xl text-Dark_black font-semibold mt-3 max-w-[690px]">
                       I’m here to support your fitness ambitions, cut fat, and
@@ -378,6 +376,7 @@ const NewRequests = () => {
         onClick={() => {
           SetisOpen(false);
           Setconformation(false);
+          heandle_Accept_Profile(getinstructor_Id);
         }}
       />
     </>
