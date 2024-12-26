@@ -47,7 +47,6 @@ const Index = ({tabs,children}) => {
                       className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg"
                     >
                       {tabs.map((person, i) => (
-                        // console.log(person)
                         
                         <ListboxOption
                           key={i}

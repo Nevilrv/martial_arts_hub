@@ -49,7 +49,6 @@ const MonitorPayments = () => {
     if (result?.success === true) {
       SetisOpen(true);
       setStudentPaymentDetails(result.data);
-      console.log(result.data, "============>Get Student_payment");
       setLoading(false);
     } else {
       if (

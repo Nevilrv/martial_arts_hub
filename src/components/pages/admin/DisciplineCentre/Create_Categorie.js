@@ -287,7 +287,10 @@ const Create_Categorie = () => {
                     Category?.maincategoryImage?.name === null ||
                     Category?.maincategoryImage?.name === "" ? (
                       <div className="flex items-center justify-center flex-col absolute top-0 left-0 h-full w-full bg-[#DAD8D0]">
-                        <IoCamera className="text-black/20 text-4xl" />
+                        {Category?.maincategoryImage !== null ||
+                        Category?.maincategoryImage !== "" ? (
+                          <IoCamera className="text-black/20 text-4xl" />
+                        ) : null}
                         <p className="text-black/20 text-[13px] font-medium">
                           {Category?.maincategoryImage === null ||
                           Category?.maincategoryImage === ""
@@ -305,10 +308,7 @@ const Create_Categorie = () => {
                       />
                     )}
                     <div className="flex items-center justify-center flex-col">
-                      {Category?.maincategoryImage !== null ||
-                      Category?.maincategoryImage !== "" ||
-                      EditCategory?.maincategoryImage !== "" ||
-                      EditCategory?.maincategoryImage !== null ? (
+                      {EditCategory?.maincategoryImage.slice(0,5) !== "https" ? (
                         <IoCamera className="text-black/20 text-4xl" />
                       ) : null}
                       <p className="text-black text-[13px] font-medium">

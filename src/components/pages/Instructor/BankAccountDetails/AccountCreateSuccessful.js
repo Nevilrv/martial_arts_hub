@@ -6,7 +6,6 @@ import Spinner from "../../../layouts/Spinner";
 
 const AccountCreateSuccessful = () => {
   const details = useParams();
-  console.log(details.accountId, "==========>useParams");
   
 
   const [Loading, setLoading] = useState(false);

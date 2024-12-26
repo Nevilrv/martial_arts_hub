@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
 
 const ClosedDisput = ({ data }) => {
-  console.log("🚀 ~ ClosedDisput ~ data:", data)
   const navigate = useNavigate();
 
   return (

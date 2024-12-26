@@ -5,7 +5,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
 
 const ActiveDisput = ({ data }) => {
-  console.log("🚀 ~ ActiveDisput ~ data:", data)
   const navigate = useNavigate();
 
   return (

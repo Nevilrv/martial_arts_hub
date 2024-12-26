@@ -32,7 +32,6 @@ export const GetInstructorClassForDispute = async (instructorId, studentId) => {
 };
 
 export const CreateDispute = async (formData,studentId) => {
-  console.log("🚀 ~ CreateDispute ~ formData:", formData)
   try {
     let response = await axios({
       method: "POST",

@@ -83,7 +83,6 @@ const CreateClass = () => {
     const result = await Instructor_Create_Class(body);
     if (result?.success === true) {
       setLoading(false);
-      console.log(result, "=======>");
       navigate(Routing.InstructorDashboard);
     } else {
       setLoading(false);
@@ -95,7 +94,6 @@ const CreateClass = () => {
     const result = await Instructor_Edit_Class(id);
     if (result?.success === true) {
       setLoading(false);
-      console.log(result, "=======>");
       setClassdata(result.data);
     } else {
       setLoading(false);

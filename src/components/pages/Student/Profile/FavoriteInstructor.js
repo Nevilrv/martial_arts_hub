@@ -13,7 +13,6 @@ const FavoriteInstructor = () => {
   const [loading, setLoading] = useState(false);
   const [Like, setLike] = useState(false);
   const [data, setData] = useState([]);
-  console.log("🚀 ~ FavoriteInstructor ~ data:", data)
 
   const Getdata = async () => {
     setLoading(true);

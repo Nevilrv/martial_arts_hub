@@ -45,11 +45,6 @@ const BarChart = () => {
     const result = await Weekly_Transactions(currentTime.format("YYYY"));
     if (result?.success === true) {
       const originalData = JSON.parse(result?.data?.data);
-      console.log(
-        "🚀 ~ constGet_Bar_chart_Data= ~ originalData:",
-        originalData
-      );
-
       const transformedData = Object.keys(originalData).map((key, i) => ({
         name: `${key} Budget`,
         group: "budget",

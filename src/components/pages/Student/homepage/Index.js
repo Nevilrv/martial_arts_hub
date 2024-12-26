@@ -56,28 +56,32 @@ const Who_we_are = [
 
 const Why_Join_Us = [
   {
-    title: "Expert Instructors",
-    body: "Our highly qualified instructors bring years of experience and passion to every class.",
-  },
-  {
-    title: "Diverse Styles",
-    body: "We offer a variety of martial arts styles, including Karate, Taekwondo, Brazilian Jiu-Jitsu, Muay Thai, and Judo.",
-  },
-  {
-    title: "Supportive Community",
-    body: "Join a welcoming and encouraging community that fosters growth and camaraderie.",
-  },
-  {
-    title: "Holistic Development",
-    body: "Our programs focus on physical fitness, mental resilience, and building confidence.",
-  },
-  {
-    title: "Flexible Training",
-    body: "We provide classes for all ages and skill levels, ensuring everyone can find their perfect fit.",
-  },
-  {
-    title: "Community Focus",
-    body: "Join a community dedicated to your personal growth and excellence.",
+    value: [
+      {
+        title: "Expert Instructors",
+        body: "Our highly qualified instructors bring years of experience and passion to every class.",
+      },
+      {
+        title: "Diverse Styles",
+        body: "We offer a variety of martial arts styles, including Karate, Taekwondo, Brazilian Jiu-Jitsu, Muay Thai, and Judo.",
+      },
+      {
+        title: "Supportive Community",
+        body: "Join a welcoming and encouraging community that fosters growth and camaraderie.",
+      },
+      {
+        title: "Holistic Development",
+        body: "Our programs focus on physical fitness, mental resilience, and building confidence.",
+      },
+      {
+        title: "Flexible Training",
+        body: "We provide classes for all ages and skill levels, ensuring everyone can find their perfect fit.",
+      },
+      {
+        title: "Community Focus",
+        body: "Join a community dedicated to your personal growth and excellence.",
+      },
+    ],
   },
 ];
 
@@ -98,7 +102,9 @@ const Index = () => {
   const [filteredInstructor, setFilteredInstructor] = useState([]);
   const [category_list, Set_Category_List] = useState([]);
   const [openModel, setOpenModel] = useState(true);
-
+  const { pathname } = useLocation();
+  const isLogin = JSON.parse(localStorage.getItem("is_login"));
+  const Logintype = JSON.parse(localStorage.getItem("Role"));
   const [Like, setLike] = useState(false);
 
   const getInstructors = async () => {
@@ -152,11 +158,6 @@ const Index = () => {
   const handleToggle = (id) => {
     setOpenId(openId === id ? null : id);
   };
-
-  const { pathname } = useLocation();
-
-  const isLogin = JSON.parse(localStorage.getItem("is_login"));
-  const Logintype = JSON.parse(localStorage.getItem("Role"));
 
   const HeandleSearch = () => {
     setFilteredInstructor(
@@ -586,18 +587,20 @@ const Index = () => {
             <div
               key={index}
               className="bg-white/50 py-6 md:px-10 px-5 rounded-xl mt-5"
+              onClick={() =>
+                setWhy_Join_Us_Id(Why_Join_Us_Id === index ? null : index)
+              }
             >
               <h2 id={`accordion-heading-${index}`}>
                 <button
                   type="button"
                   className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 dark:border-gray-700 dark:text-gray-400 gap-3 focus:outline-none"
-                  onClick={() => setWhy_Join_Us_Id(index)}
+                 
                   aria-expanded={Why_Join_Us_Id === index}
                   aria-controls={`accordion-body-${index}`}
                 >
-                  <span>{question.title}</span>
                   <svg
-                    className={`w-3 h-3 ${
+                    className={`w-3 mx-auto h-3 ${
                       Why_Join_Us_Id === index ? "" : "rotate-180"
                     } shrink-0`}
                     aria-hidden="true"
@@ -616,14 +619,17 @@ const Index = () => {
                 </button>
               </h2>
               {Why_Join_Us_Id === index && (
+                question.value.map((newdata,index)=>(
                 <div
                   id={`accordion-body-${index}`}
                   aria-labelledby={`accordion-heading-${index}`}
                 >
+                  <h2 className="font-medium text-xl rtl:text-right text-gray-500 dark:border-gray-700 dark:text-gray-400">{newdata.title}</h2>
                   <div className="py-2 border-gray-200 dark:border-gray-700">
-                    <p className="mb-2 text-black/50">{question.body}</p>
+                    <p className="mb-2 text-black/50">{newdata.body}</p>
                   </div>
                 </div>
+                ))
               )}
             </div>
           ))}

@@ -7,7 +7,6 @@ import { Routing } from "../../../shared/Routing";
 import dayjs from "dayjs";
 
 const RecentClasses = ({ cardDetails, data }) => {
-  console.log("🚀 ~ RecentClasses ~ data:", data)
   const navigate = useNavigate();
   return (
     <>

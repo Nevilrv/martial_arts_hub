@@ -124,8 +124,6 @@ const CreateSlot = () => {
     (slot) => !OldSlot.includes(slot.label)
 );
 
-  console.log("🚀 ~ CreateSlot ~ availableTimeSlots:", availableTimeSlots)
-
   const handleChange = (e) => {
     setFormData({
       ...FormData,

@@ -52,7 +52,6 @@ const Chat = () => {
 
   const Student_Chat_Messages = async () => {
     setLoading(true);
-    console.log(studentId.studentId, "========>studentId.studentId");
     const result = await Chat_Messages(InstructorId, studentId.studentId);
     if (result?.success === true) {
       setLoading(false);

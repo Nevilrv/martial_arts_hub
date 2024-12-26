@@ -55,10 +55,6 @@ const StudentProfile = ({ children }) => {
     about: "",
     adetail: "",
   });
-  console.log(
-    "🚀 ~ StudentProfile ~ Update_Profiledetail:",
-    Update_Profiledetail
-  );
   const studentId = JSON.parse(localStorage.getItem("_id"));
 
   const GetProfiledetails = async () => {

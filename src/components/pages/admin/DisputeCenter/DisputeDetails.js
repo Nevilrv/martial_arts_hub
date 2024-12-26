@@ -116,7 +116,6 @@ const DisputeDetails = () => {
     Socket.emit("joinRoom", disputeId);
     // Listen for incoming messages
     Socket.on("getchat", (data) => {
-      console.log("Student received chat:", data);
       setDisputeChats((prev) => [...prev, data]);
     });
 

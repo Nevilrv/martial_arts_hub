@@ -57,6 +57,22 @@ const Sub_Categorie = () => {
   const HenadleClose = () => {
     SetisOpen(false);
     setIsEdit(false);
+    SetEditSub_Categorie_Details({
+      maincategory: Paramsdata.name,
+      maincategoryId: Paramsdata.categoryid,
+      categoryName: "",
+      categoryDescription: "",
+      adminId: JSON.parse(localStorage.getItem("_id")),
+      categoryImage: "",
+    });
+    SetSub_Categorie_Details({
+      maincategory: Paramsdata.name,
+      maincategoryId: Paramsdata.categoryid,
+      categoryName: "",
+      categoryDescription: "",
+      adminId: JSON.parse(localStorage.getItem("_id")),
+      categoryImage: "",
+    });
   };
 
   const handleChange = (e) => {
@@ -134,11 +150,13 @@ const Sub_Categorie = () => {
 
   const Delete_Sub_Category = async () => {
     setLoading(true);
-    const result = await Delete_Sub_Categories(localStorage.getItem("Sub_Categorie_Id"));
+    const result = await Delete_Sub_Categories(
+      localStorage.getItem("Sub_Categorie_Id")
+    );
     if (result?.success === true) {
       setLoading(false);
       SetDelete(false);
-      localStorage.removeItem("Sub_Categorie_Id")
+      localStorage.removeItem("Sub_Categorie_Id");
       Get_Sub_Category_List();
     } else {
       setLoading(false);
@@ -269,18 +287,18 @@ const Sub_Categorie = () => {
                     Sub_Categorie_Details?.categoryImage === null ||
                     EditSub_Categorie_Details?.categoryImage === null ||
                     EditSub_Categorie_Details?.categoryImage === "" ? (
+                      <img
+                        src={EditSub_Categorie_Details?.categoryImage}
+                        alt=""
+                        className="h-full  z-20 object-cover absolute top-0 left-1/2 -translate-x-1/2"
+                      />
+                    ) : (
                       <div className="flex items-center justify-center flex-col absolute top-0 left-0 h-full w-full bg-[#DAD8D0]">
                         <IoCamera className="text-black/20 text-4xl" />
                         <p className="text-black/20 text-[13px] font-medium">
                           Add Sub Categorie Image
                         </p>
                       </div>
-                    ) : (
-                      <img
-                        src={EditSub_Categorie_Details?.categoryImage}
-                        alt=""
-                        className="h-full  z-20 object-cover absolute top-0 left-1/2 -translate-x-1/2"
-                      />
                     )}
                     <div className="flex items-center justify-center flex-col">
                       <IoCamera className="text-black/20 text-4xl" />

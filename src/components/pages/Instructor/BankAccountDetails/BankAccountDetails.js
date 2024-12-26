@@ -68,7 +68,6 @@ const BankAccountDetails = () => {
   const [Loading, setLoading] = useState(false);
   const [errormess, seterrormess] = useState("");
   const [accountDetails, setDccountDetails] = useState({});
-  console.log("🚀 ~ BankAccountDetails ~ accountDetails:", accountDetails);
 
   const handlecountriesChange = (selectedOption) => {
     setselectedTimeSlot(selectedOption);

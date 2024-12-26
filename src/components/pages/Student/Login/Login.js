@@ -40,7 +40,6 @@ const Login = () => {
     };
     const result = await StudentLogin(data);
     if (result?.success === true) {
-      console.log("🚀 ~ handleLogin ~ result:", result)
       setLoading(false);
       localStorage.setItem("_id", JSON.stringify(result?.data?.studentId));
       localStorage.setItem("Role", JSON.stringify(result?.data?.role));

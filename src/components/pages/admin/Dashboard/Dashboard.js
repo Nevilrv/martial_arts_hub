@@ -24,7 +24,6 @@ const Dashboard = () => {
   const [DashboardCard, setDashboardCard] = useState({});
   const [Admin_Progress_data, setAdmin_Progress_data] = useState([]);
   const [admin_Notification, setadmin_Notification] = useState([]);
-  console.log("🚀 ~ Dashboard ~ admin_Notification:", admin_Notification)
   const [Instructor_Request_List, setInstructor_Request_List] = useState([]);
   const [Loading, setLoading] = useState(false);
   const currentMonthIndex = new Date().getMonth();
@@ -51,7 +50,6 @@ const Dashboard = () => {
   // Example Usage
   const createdAt = "2024-04-22T12:00:00Z"; // Replace with your `createdAt`
   const formattedTimeDiff = formatTimeDiff(createdAt);
-  console.log(formattedTimeDiff);
 
   const data = [
     {
@@ -230,7 +228,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     Socket.on("getNotification", (data) => {
-      console.log("🚀 ~ Socket.on ~ data:", data);
       setadmin_Notification((prev) => [...prev, data]);
     });
     return () => {

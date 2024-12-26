@@ -38,7 +38,6 @@ const Arbitration = () => {
     const result = await GetDisputeChat(disputeId);
     if (result?.success === true) {
       setLoading(false);
-      console.log(result.data, "====>log Chat");
       setDisputeChats(result.data);
     } else {
       setLoading(false);

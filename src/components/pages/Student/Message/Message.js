@@ -113,7 +113,6 @@ useEffect(() => {
     Socket.emit("joinRoom", studentId?.roomId);
     // Listen for incoming messages
     Socket.on("getchat", (data) => {
-      console.log("Student received chat:", data);
       setChatMessages((prev) => [...prev, data]);
     });
 

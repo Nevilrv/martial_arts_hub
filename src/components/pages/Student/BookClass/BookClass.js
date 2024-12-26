@@ -22,7 +22,7 @@ import {
 } from "../../../services/student/class";
 import Spinner from "../../../layouts/Spinner";
 import { toast } from "react-toastify";
-import User from "../../../../assets/images/userProfile.jpg"
+import User from "../../../../assets/images/userProfile.jpg";
 
 const BookClass = () => {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ const BookClass = () => {
     studentEmail: "",
     mobileNumber: "",
     classRate: "",
-    timeslotId:""
+    timeslotId: "",
   });
 
   const [TimeSlot, setTimeSlot] = useState([]);
@@ -101,7 +101,7 @@ const BookClass = () => {
       setheandalChangeData((prevState) => ({
         ...prevState,
         classRate: result?.data[0]?.classRate,
-        timeslotId:result?.data[0]?.timeslotId
+        timeslotId: result?.data[0]?.timeslotId,
       }));
     } else {
       setLoading(false);
@@ -152,18 +152,16 @@ const BookClass = () => {
       studentEmail: JSON.parse(localStorage.getItem("email")),
       mobileNumber: heandalChangeData.mobileNumber,
       instructorId: instructorId,
-      timeslotId:heandalChangeData.timeslotId
+      timeslotId: heandalChangeData.timeslotId,
     };
-    if (heandalChangeData.message===""||null||undefined) {
-      toast.error("Please Enter your message")
-    }else if (selectedMailingLists===""||null||undefined) {
-      toast.error("Please Select Class Type")
-    }
-    else if (timeSlots.length===0) {
-      toast.error("Please Select TimeSlots")
-    }
-    else if (heandalChangeData.mobileNumber===""||null||undefined) {
-      toast.error("Please Enter Your Number")
+    if (heandalChangeData.message === "" || null || undefined) {
+      toast.error("Please Enter your message");
+    } else if (selectedMailingLists === "" || null || undefined) {
+      toast.error("Please Select Class Type");
+    } else if (timeSlots.length === 0) {
+      toast.error("Please Select TimeSlots");
+    } else if (heandalChangeData.mobileNumber === "" || null || undefined) {
+      toast.error("Please Enter Your Number");
     }
     const result = await Payment_Book_class(
       JSON.parse(localStorage.getItem("_id")),
@@ -177,12 +175,12 @@ const BookClass = () => {
         classRate: "",
       });
       setSelectedTimeSlot([]);
-      navigate(Routing.StudentMyClass)
+      navigate(Routing.StudentMyClass);
       setSelectedMailingLists();
       toast.success("Booking request sent successfully");
     } else {
       setLoading(false);
-      toast.error(result.message)
+      toast.error(result.message);
     }
   };
 
@@ -194,8 +192,6 @@ const BookClass = () => {
       setShowCalendar(!ShowCalendar);
     }
   };
-
-  
 
   return (
     <>
@@ -217,7 +213,7 @@ const BookClass = () => {
         <div className="mt-3">
           <div className="relative">
             <img
-              src={instructorData.profile_picture||User}
+              src={instructorData.profile_picture || User}
               alt={Instructors4}
               className="w-full h-[613px] grayscale hover:grayscale-0 object-cover rounded-[25px]"
             />
@@ -247,7 +243,7 @@ const BookClass = () => {
             <p className="text-black/50 text-sm">
               {rating}
               <span className="underline">
-                ({instructorData.totalReviews||0} Reviews)
+                ({instructorData.totalReviews || 0} Reviews)
               </span>
             </p>
           </div>
@@ -389,6 +385,17 @@ const BookClass = () => {
               name="mobileNumber"
               value={heandalChangeData.mobileNumber}
               onChange={(e) => handleChange(e)}
+              
+              // with the Limit of 10 digit Only
+
+              //  onChange={(e) => {
+              //    const value = e.target.value;
+              //     Allow only numbers and restrict to 10 digits
+              //    if (/^\d{0,10}$/.test(value)) {
+              //      handleChange(e);
+              //    }
+              //  }}
+
               placeholder={"Mobile No. here"}
               Label={"Mobile No."}
               className={"h-[80px] md:w-full customradius mt-1"}
