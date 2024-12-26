@@ -27,7 +27,7 @@ const BlockedInstructors = () => {
       setLoading(false);
     } else {
       setLoading(false);
-      toast.error(result?.message);
+      // toast.error(result?.message);
     }
   };
   useEffect(() => {
@@ -47,11 +47,11 @@ const BlockedInstructors = () => {
       setLoading(false);
       result?.message === "Instructor data not found" &&
       setsetInstructors_List([]);
-      toast.error(
-        result?.message === "Instructor data not found"
-          ? "There are no any Blocked Instructors."
-          : result?.message
-      );
+      // toast.error(
+      //   result?.message === "Instructor data not found"
+      //     ? "There are no any Blocked Instructors."
+      //     : result?.message
+      // );
     }
   };
 

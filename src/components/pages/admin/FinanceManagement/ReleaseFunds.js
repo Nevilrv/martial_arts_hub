@@ -121,7 +121,7 @@ const ReleaseFunds = () => {
       {Loading && <Spinner />}
       <div className="flex items-center justify-between">
         <AdminHeadding Headding={"Release Funds"} />
-        <div className="flex items-center gap-2 flex-wrap">
+        {/* <div className="flex items-center gap-2 flex-wrap">
           <select
             id="Class Date"
             name="Class Date"
@@ -143,7 +143,7 @@ const ReleaseFunds = () => {
             <option>Release</option>
             <option>Release</option>
           </select>
-        </div>
+        </div> */}
       </div>
       <div className="mt-5">
         <div className="mt-5 w-full overflow-x-auto">

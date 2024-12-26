@@ -83,7 +83,7 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
                 <img
                   src={earning.profile||User}
                   alt="userimage"
-                  className="sm:w-[56px] w-1/2 sm:mx-0 mx-auto sm:h-[56px] rounded-full object-cover object-top grayscale"
+                  className="sm:w-[56px] w-1/2 sm:mx-0 mx-auto sm:h-[56px] rounded-full object-cover object-top grayscale aspect-square"
                 />
                 <div>
                   <h2 className="text-black font-medium">

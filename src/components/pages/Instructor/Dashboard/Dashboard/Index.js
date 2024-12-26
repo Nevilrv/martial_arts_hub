@@ -126,7 +126,7 @@ const Index = () => {
                       onClick={() => Navigate(Routing.InstructorMessageRequest)}
                     >
                       <div className="flex items-center flex-wrap">
-                        <div className="sm:w-[82px] w-1/2 sm:mx-0 mx-auto sm:h-[82px] overflow-hidden rounded-full">
+                        <div className="sm:w-[82px] w-1/2 sm:mx-0 mx-auto sm:h-[82px] overflow-hidden rounded-full aspect-square">
                           <img
                             src={Request.profile_picture || User}
                             alt="Wrestling"

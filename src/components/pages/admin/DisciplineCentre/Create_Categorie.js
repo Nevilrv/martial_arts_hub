@@ -40,6 +40,19 @@ const Create_Categorie = () => {
   const heandleClose = () => {
     SetisOpen(false);
     SetIsEdit(false);
+    setCategory({
+      maincategory: "",
+      maincategoryDescription: "",
+      adminId: localStorage.getItem("_id"),
+      maincategoryImage: "",
+    });
+    setEditCategory({
+      maincategory: "",
+      maincategoryDescription: "",
+      adminId: localStorage.getItem("_id"),
+      maincategoryImage: "",
+      CategoryId: "",
+    });
   };
 
   const Get_Category_List = async () => {
@@ -276,7 +289,12 @@ const Create_Categorie = () => {
                       <div className="flex items-center justify-center flex-col absolute top-0 left-0 h-full w-full bg-[#DAD8D0]">
                         <IoCamera className="text-black/20 text-4xl" />
                         <p className="text-black/20 text-[13px] font-medium">
-                          Add Picture
+                          {Category?.maincategoryImage === null ||
+                          Category?.maincategoryImage === ""
+                            ? "Add Picture"
+                            : isEdit === true
+                            ? EditCategory?.maincategoryImage?.name
+                            : Category?.maincategoryImage?.name}
                         </p>
                       </div>
                     ) : (
@@ -287,7 +305,12 @@ const Create_Categorie = () => {
                       />
                     )}
                     <div className="flex items-center justify-center flex-col">
-                      <IoCamera className="text-black/20 text-4xl" />
+                      {Category?.maincategoryImage !== null ||
+                      Category?.maincategoryImage !== "" ||
+                      EditCategory?.maincategoryImage !== "" ||
+                      EditCategory?.maincategoryImage !== null ? (
+                        <IoCamera className="text-black/20 text-4xl" />
+                      ) : null}
                       <p className="text-black text-[13px] font-medium">
                         {isEdit === true
                           ? EditCategory?.maincategoryImage?.name

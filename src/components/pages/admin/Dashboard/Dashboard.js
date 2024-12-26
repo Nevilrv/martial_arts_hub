@@ -200,14 +200,15 @@ const Dashboard = () => {
       setInstructor_Request_List(result.data);
       setLoading(false);
     } else {
-      if (
-        result?.message === "Invalid token, Please Log-Out and Log-In again"
-      ) {
-        navigate(Routing.AdminLogin);
-      } else {
         setLoading(false);
-        toast.error(result?.message);
-      }
+      // if (
+      //   result?.message === "Invalid token, Please Log-Out and Log-In again"
+      // ) {
+      //   navigate(Routing.AdminLogin);
+      // } else {
+      //   setLoading(false);
+      //   toast.error(result?.message);
+      // }
     }
   };
 

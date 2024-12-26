@@ -68,7 +68,7 @@ const ViewInstructors = () => {
       {Loading && <Spinner />}
       <div className="flex items-center justify-between flex-wrap">
         <AdminHeadding Headding={"View Instructors"} />
-        <div className="flex items-center gap-2 flex-wrap">
+        {/* <div className="flex items-center gap-2 flex-wrap">
           <select
             id="ID"
             name="ID"
@@ -90,7 +90,7 @@ const ViewInstructors = () => {
             <option>12/07/2024</option>
             <option>05/07/2024</option>
           </select>
-        </div>
+        </div> */}
       </div>
       <div className="mt-5">
         <div className="overflow-x-auto">

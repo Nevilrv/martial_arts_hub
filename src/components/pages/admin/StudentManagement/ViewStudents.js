@@ -78,7 +78,7 @@ const ViewStudents = () => {
       <div className="flex items-center justify-between flex-wrap">
         <AdminHeadding Headding={"View Students"} />
         <div className="flex items-center gap-2 flex-wrap">
-          <div className="relative z-[1]">
+          {/* <div className="relative z-[1]">
             <select
               id="ID"
               name="ID"
@@ -104,7 +104,7 @@ const ViewStudents = () => {
               <option>05/07/2024</option>
             </select>
             <MdKeyboardArrowDown className="absolute top-1/2 -translate-y-1/2 right-2 z-[-1]" />
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="mt-5">
