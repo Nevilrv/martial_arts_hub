@@ -66,7 +66,7 @@ const MessageRequestAccept = () => {
               <img
                 src={item.Student.profile_picture||User}
                 alt="Wrestling"
-                className="w-full h-full object-cover object-top grayscale"
+                className="w-full h-full object-cover object-top grayscale aspect-square"
               />
             </div>
             <div className="sm:ml-5">

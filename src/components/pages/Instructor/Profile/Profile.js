@@ -271,7 +271,7 @@ const Profile = () => {
               <span className="font-bold">martial arts hub</span> as an
               Instructor!
             </p>
-            <div className="mt-10 flex items-center gap-x-5 gap-y-9">
+            <div className="mt-10 flex items-center gap-x-5 gap-y-9 md:flex-nowrap flex-wrap">
               <div className="md:w-[50%] w-full">
                 <Inputfild
                   type={"text"}

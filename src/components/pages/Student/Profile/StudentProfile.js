@@ -264,7 +264,7 @@ const StudentProfile = ({ children }) => {
                       <span className="font-bold">martial arts hub</span> as an
                       Student!
                     </p>
-                    <div className="mt-10 flex items-center gap-x-5 gap-y-9">
+                    <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-9">
                       <div className="w-full">
                         <Inputfild
                           type={"text"}

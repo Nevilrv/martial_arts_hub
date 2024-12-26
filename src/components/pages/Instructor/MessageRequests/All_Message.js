@@ -105,7 +105,7 @@ const All_Message = () => {
                 <img
                   src={messageReques?.Student?.profile_picture || User}
                   alt="Wrestling"
-                  className="w-full h-full object-cover grayscale"
+                  className="w-full h-full object-cover grayscale aspect-square"
                 />
               </div>
               <div className="sm:ml-5">

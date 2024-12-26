@@ -50,8 +50,8 @@ const EarningsReport = () => {
       {loading && <Spinner />}
       <Tabs>
         <div className="mt-11 px-3 lg:px-8">
-          <div className="flex gap-5 items-center justify-between">
-            <div>
+          <div className="flex gap-5 items-center justify-between flex-wrap">
+            <div className="sm:w-auto w-full">
               <h1 className="text-black text-3xl font-semibold">
                 Earnings Report
               </h1>
@@ -59,7 +59,7 @@ const EarningsReport = () => {
                 Your earning history will be shown here
               </p>
             </div>
-            <div>
+            <div className="sm:w-auto w-full">
               <p className="text-black/70 text-base">Total earnings</p>
               <h1 className="text-red-200 text-3xl font-semibold">
                 ${Earnings?.totalEarnings}
@@ -76,18 +76,18 @@ const EarningsReport = () => {
               <select
                 value={filterOrder}
                 onChange={(e) => setFilterOrder(e.target.value)}
-                className="bg-transparent focus:outline-none px-3 pr-6 border border-black/25 py-3 rounded-full remove-icon"
+                className="bg-transparent focus:outline-none px-3 pr-6 border border-black/25 py-3 rounded-full remove-icon w-full"
               >
                 <option value="Low to high">Low to high</option>
                 <option value="High to Low">High to Low</option>
               </select>
               <MdKeyboardArrowDown className="absolute top-1/2 -translate-y-1/2 right-2 -z-10" />
             </div>
-            <div className="relative z-[1]">
+            <div className="relative z-[1] sm:col-span-2">
               <select
                 value={duration}
                 onChange={handleChange}
-                className="bg-transparent focus:outline-none px-3 pr-6 border border-black/25 py-3 rounded-full remove-icon"
+                className="bg-transparent focus:outline-none px-3 pr-6 border border-black/25 py-3 rounded-full remove-icon w-full"
               >
                 <option value="day">Day</option>
                 <option value="week">Week</option>
@@ -97,35 +97,34 @@ const EarningsReport = () => {
             </div>
           </div>
         </div>
-        <div className="w-full overflow-x-auto">
           {sortedData?.map((Earning) => (
             <div
-              className="px-3 lg:px-8 h-[143px] flex items-center justify-between border-b border-gay-400 min-w-[675px]"
+              className="px-3 lg:px-8 sm:py-0 py-4 flex items-center justify-between border-b border-gay-400 flex-wrap"
               key={Earning.id}
             >
-              <div className="flex items-center">
-                <div className="w-[60px] h-[60px] overflow-hidden rounded-full">
+              <div className="flex items-center flex-wrap">
+                <div className="sm:w-[60px] sm:h-[60px] overflow-hidden sm:rounded-full rounded-lg sm:mx-0 mx-auto sm:mb-0 mb-4 aspect-square">
                   <img
                     src={Earning.profile || User}
                     alt="Wrestling"
                     className="w-full h-full object-cover object-top grayscale scale-x-[-1]"
                   />
                 </div>
-                <div className="ml-5">
+                <div className="sm:ml-5">
                   <h2 className="text-black texrt-[20px] font-semibold">
                     {Earning.studentName}
                   </h2>
-                  <div className="flex items-center">
+                  <div className="sm:flex  items-center">
                     <p className="text-[13px] text-black/70  mt-0.5">
                       <span className="font-medium">Class Name: </span>{" "}
                       {Earning.className}
                     </p>
-                    <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
+                    <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1 sm:block hidden"></span>
                     <p className="text-[13px] text-black/70  mt-0.5">
                       <span className="font-medium">Class Date: </span>
                       {Earning.classDate}
                     </p>
-                    <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
+                    <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1 sm:block hidden"></span>
                     <p className="text-[13px] text-black/70  mt-0.5">
                       <span className="font-medium">Payment Date:</span>
                       {Earning.paymentDate}
@@ -138,7 +137,6 @@ const EarningsReport = () => {
               </h1>
             </div>
           ))}
-        </div>
       </Tabs>
     </>
   );

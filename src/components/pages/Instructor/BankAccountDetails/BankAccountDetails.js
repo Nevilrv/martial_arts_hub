@@ -112,16 +112,16 @@ const BankAccountDetails = () => {
       setLoading(false);
     } else {
       setLoading(false);
-    //   if (result.message === "Account not found") {
-    //     toast.error(
-    //       "Details of the instructor's bank account are not provided."
-    //     );
-    //   } else {
-    //     toast.error(result.message);
-    //   }
-    // }
+      //   if (result.message === "Account not found") {
+      //     toast.error(
+      //       "Details of the instructor's bank account are not provided."
+      //     );
+      //   } else {
+      //     toast.error(result.message);
+      //   }
+      // }
+    }
   };
-}
 
   useEffect(() => {
     GetAccount();
@@ -223,11 +223,16 @@ const BankAccountDetails = () => {
           <Inputfild
             type={"text"}
             Label={"Bank Account Last 4 Digits"}
-            value={`.......${
+            value={
               accountDetails?.external_accounts?.data[0]?.last4 === undefined
                 ? ""
-                : accountDetails?.external_accounts?.data[0]?.last4
-            }`}
+                : `.......${
+                    accountDetails?.external_accounts?.data[0]?.last4 ===
+                    undefined
+                      ? ""
+                      : accountDetails?.external_accounts?.data[0]?.last4
+                  }`
+            }
             Labelclass={"customradiusBlack mb-1.5 font-medium"}
             readOnly={true}
             className={"rounded-xl md:w-full h-[70px]"}
