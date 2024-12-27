@@ -44,7 +44,7 @@ const ClassRequestcard = ({ cardDetails, data }) => {
                 alt=""
               />
               <div className="w-full">
-                <div className="flex items-center justify-between w-full">
+                <div className="flex items-center justify-between w-full flex-wrap gap-y-2 xl:mb-0 mb-2">
                   <h2 className="text-black text-xl font-semibold">
                     {classdata.className}
                   </h2>
@@ -53,7 +53,7 @@ const ClassRequestcard = ({ cardDetails, data }) => {
                       "DD-MM-YYYY"
                     )}`}
                     className={
-                      "w-[160px] bg-gay-300/50 text-white border-none sm:text-[11px] text-xs sm:h-[28px]"
+                      " sm:w-[160px] w-full bg-gay-300/50 text-white border-none sm:text-[11px] text-xs sm:h-[28px]"
                     }
                     onClick={() =>
                       window.open(
@@ -65,7 +65,7 @@ const ClassRequestcard = ({ cardDetails, data }) => {
                   />
                 </div>
 
-                <div className="grid md:grid-cols-2 items-center">
+                <div className="grid lg:grid-cols-2 items-center">
                   <div className="mt-1">
                     <div className="flex items-center sm:justify-start justify-between">
                       <p className="text-black/50 text-[15px] font-semibold">
@@ -76,7 +76,7 @@ const ClassRequestcard = ({ cardDetails, data }) => {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center sm:justify-start justify-between">
+                  <div className="flex items-center sm:justify-start justify-between mt-1">
                     <p className="text-black/50 text-[15px] font-semibold">
                       Created on:{" "}
                     </p>

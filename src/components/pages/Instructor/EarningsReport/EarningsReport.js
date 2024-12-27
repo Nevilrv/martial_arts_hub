@@ -66,7 +66,7 @@ const EarningsReport = () => {
               </h1>
             </div>
           </div>
-          <div className="md:flex grid sm:grid-cols-2 grid-cols-1 items-center mt-5 gap-2">
+          <div className="md:flex grid sm:grid-cols-2 grid-cols-1 items-center mt-5 gap-2 mb-3">
             <OutlineBtn
               text={"All"}
               className={`${duration === ""?"bg-gay-300 text-white font-semibold":"bg-transparent"}  min-w-[75px]`}
@@ -99,7 +99,7 @@ const EarningsReport = () => {
         </div>
           {sortedData?.map((Earning) => (
             <div
-              className="px-3 lg:px-8 sm:py-0 py-4 flex items-center justify-between border-b border-gay-400 flex-wrap"
+              className="px-3 lg:px-8 sm:py-3 py-4 flex items-center justify-between border-b border-gay-400 flex-wrap"
               key={Earning.id}
             >
               <div className="flex items-center flex-wrap">

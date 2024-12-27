@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AdminHeadding from "../../common/AdminHeadding";
 import OutlineBtn from "../../common/OutlineBtn";
-import Instructor1 from "../../../../assets/images/Instructor-4.png";
-import Instructor2 from "../../../../assets/images/Instructor-1.png";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Routing } from "../../../shared/Routing";

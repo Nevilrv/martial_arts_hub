@@ -90,13 +90,13 @@ const Index = () => {
     <>
       {loading && <Spinner />}
       <Tabs>
-        <div className="mt-10 px-3 lg:px-8 grid lg:grid-cols-3 gap-5">
+        <div className="mt-10 px-3 lg:px-8 grid lg:grid-cols-4 gap-5">
           <ProfileCard ProfileDetals={Profile || ProfileDetals} />
-          <div className="lg:col-span-2 grid lg:grid-cols-2 gap-5">
-            <div className="2xl:col-span-1 lg:col-span-2 col-span-1 max-h-[375px] overflow-y-auto">
+          <div className="lg:col-span-3 grid lg:grid-cols-2 gap-5">
+            <div className="xl:col-span-1 lg:col-span-2 col-span-1 max-h-[375px] overflow-y-auto">
               <ClassRequestcard cardDetails={ClassCard} data={Class} />
             </div>
-            <div className="2xl:col-span-1 lg:col-span-2 col-span-1 max-h-[375px] overflow-y-auto">
+            <div className="xl:col-span-1 lg:col-span-2 col-span-1 max-h-[375px] overflow-y-auto">
               <DashboardCard cardDetails={EarningsCard} earnings={earning} />
             </div>
             <div className="lg:col-span-2 bg-gay-600 rounded-3xl w-full overflow-x-auto">
@@ -122,10 +122,10 @@ const Index = () => {
                 ) : (
                   MessagesRequest.map((Request) => (
                     <div
-                      className="md:h-[115px] md:py-0 py-3 flex items-center justify-between border-b border-gay-400 flex-wrap "
+                      className="md:h-[115px] md:py-0 py-3 flex items-center justify-between sm:border-none border-b border-gay-400 flex-wrap"
                       onClick={() => Navigate(Routing.InstructorMessageRequest)}
                     >
-                      <div className="flex items-center flex-wrap">
+                      <div className="flex items-center flex-wrap 2xl:w-[65%] w-full">
                         <div className="sm:w-[82px] w-1/2 sm:mx-0 mx-auto sm:h-[82px] overflow-hidden rounded-full aspect-square">
                           <img
                             src={Request.profile_picture || User}
@@ -133,7 +133,7 @@ const Index = () => {
                             className="w-full h-full object-cover object-top grayscale"
                           />
                         </div>
-                        <div className="sm:ml-5 ml-0">
+                        <div className="sm:ml-5 ml-0 lg:w-[80%] w-full">
                           <h2 className="text-black texrt-[20px] font-medium">
                             {Request.name}
                           </h2>
@@ -157,7 +157,7 @@ const Index = () => {
                           </p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 flex-wrap">
+                      <div className="flex items-center gap-3 flex-wrap sm:w-auto w-full">
                         <OutlineBtn
                           text={"See Profile"}
                           className={
