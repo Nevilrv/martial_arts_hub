@@ -49,6 +49,7 @@ export const Routing = {
   InstructorChat:"/instructor/chat",
   InstructorMessageRequest:"/instructor/message_request",
   InstructorCreateSlot:"/instructor/create_slot",
+  InstructorMy_slot:"/instructor/my_slot",
   InstructorAccountDetails:"/instructor/bank_account_details",
   InstructorGetAccountDetailssuccess:"/instructor/bank_account_details/success/:accountId/:instructorId",
   InstructorGetAccountDetailcancle:"/instructor/bank_account_details/cancle/:accountId/:instructorId",

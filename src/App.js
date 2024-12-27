@@ -121,6 +121,9 @@ const InstructorChat = lazy(() =>
 const InstructorCreateSlot = lazy(() =>
   import("./components/pages/Instructor/CreateSlot/CreateSlot")
 );
+const InstructorMy_slot = lazy(() =>
+  import("./components/pages/Instructor/InstructorMy_slot/InstructorMy_slot.js")
+);
 const InstructorAccountDetails = lazy(() =>
   import(
     "./components/pages/Instructor/BankAccountDetails/BankAccountDetails.js"
@@ -381,6 +384,11 @@ function App() {
     {
       path: Routing.InstructorCreateSlot,
       component: InstructorCreateSlot,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.InstructorMy_slot,
+      component: InstructorMy_slot,
       isPrivateRoute: true,
     },
     {

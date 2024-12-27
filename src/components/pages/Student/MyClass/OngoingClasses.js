@@ -18,11 +18,10 @@ const OngoingClasses = () => {
     const result = await Student_get_Upcoming_Classes();
     if (result?.success === true) {
       setUpcomingClass(result.data.ongoing);
-
       setLoading(false);
     } else {
       setLoading(false);
-      toast.error(result?.message);
+      // toast.error(result?.message);
     }
   };
   const Change_Status_Classes = async (classId) => {
@@ -32,7 +31,7 @@ const OngoingClasses = () => {
       setLoading(false);
     } else {
       setLoading(false);
-      toast.error(result?.message);
+      // toast.error(result?.message);
     }
   };
 
@@ -61,7 +60,7 @@ const OngoingClasses = () => {
       setLoading(false);
     } else {
       setLoading(false);
-      toast.error(result?.message);
+      // toast.error(result?.message);
     }
   };
 

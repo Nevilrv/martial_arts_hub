@@ -25,7 +25,7 @@ const EarningsReport = () => {
       setLoading(false);
     } else {
       setLoading(false);
-      toast.error(result?.message);
+      // toast.error(result?.message);
     }
   };
 

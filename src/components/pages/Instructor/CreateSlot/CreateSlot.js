@@ -12,7 +12,10 @@ import NormalBtn from "../../common/NormalBtn";
 import { useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
 import { toast } from "react-toastify";
-import { Instructor_Create_Slot, Instructor_Created_Slot } from "../../../services/Instructor/createClass/Index";
+import {
+  Instructor_Create_Slot,
+  Instructor_Created_Slot,
+} from "../../../services/Instructor/createClass/Index";
 import Select from "react-select";
 import Spinner from "../../../layouts/Spinner";
 import dayjs from "dayjs";
@@ -24,7 +27,7 @@ const CreateSlot = () => {
     let hourInt = parseInt(hour, 10);
     const period = hourInt >= 12 ? "PM" : "AM";
     hourInt = hourInt % 12 || 12;
-    const formattedHour = hourInt.toString().padStart(2, "0"); // Ensure 2 digits
+    const formattedHour = hourInt.toString().padStart(2, "0");
     return `${formattedHour}:${minute} ${period}`;
   }
 
@@ -55,6 +58,10 @@ const CreateSlot = () => {
         result?.message === "Invalid token, Please Log-Out and Log-In again"
       ) {
         toast.info("Token is Expired");
+        localStorage.clear();
+      } else if (result?.message === "Instructor timeslots not found") {
+        setOldSlot([]);
+        setLoading(false);
       } else {
         setLoading(false);
       }
@@ -72,8 +79,8 @@ const CreateSlot = () => {
     const currentHour = new Date().getHours();
     if (currentHour === 0) {
       TimeSlot.push({
-        value: "24:00 To 01:00",
-        label: `${formatTo12Hour("24:00")} To ${formatTo12Hour("01:00")}`,
+        value: "00:00 To 01:00",
+        label: `${formatTo12Hour("00:00")} To ${formatTo12Hour("01:00")}`,
       });
     }
     for (let hour = 0; hour < 23; hour++) {
@@ -93,13 +100,13 @@ const CreateSlot = () => {
     }
     if (23 >= currentHour) {
       TimeSlot.push({
-        value: "23:00 To 24:00",
-        label: `${formatTo12Hour("23:00")} To ${formatTo12Hour("24:00")}`,
+        value: "23:00 To 00:00",
+        label: `${formatTo12Hour("23:00")} To ${formatTo12Hour("00:00")}`,
       });
     }
   } else {
     TimeSlot.push({
-      value: "24:00 To 01:00",
+      value: "00:00 To 01:00",
       label: `${formatTo12Hour("24:00")} To ${formatTo12Hour("01:00")}`,
     });
     for (let hour = 1; hour < 23; hour++) {
@@ -114,15 +121,18 @@ const CreateSlot = () => {
       });
     }
     TimeSlot.push({
-      value: "23:00 To 24:00",
+      value: "23:00 To 00:00",
       label: `${formatTo12Hour("23:00")} To ${formatTo12Hour("24:00")}`,
     });
   }
 
   // Filter out already reserved slots
   const availableTimeSlots = TimeSlot.filter(
-    (slot) => !OldSlot.includes(slot.label)
-);
+    (slot) =>
+      !OldSlot.includes(slot.value) &&
+      !selectedTimeSlot.some((selected) => selected.value === slot.value)
+  );
+  console.log("🚀 ~ CreateSlot ~ OldSlot:", OldSlot);
 
   const handleChange = (e) => {
     setFormData({

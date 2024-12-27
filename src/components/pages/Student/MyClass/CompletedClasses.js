@@ -17,11 +17,10 @@ const CompletedClasses = () => {
     const result = await Student_get_Upcoming_Classes();
     if (result?.success === true) {
       setUpcomingClass(result.data.complete);
-       
       setLoading(false);
     } else {
       setLoading(false);
-      toast.error(result?.message);
+      // toast.error(result?.message);
     }
   };
 

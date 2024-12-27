@@ -26,6 +26,7 @@ const Chat = () => {
   const [showChat, setshowChat] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [StudentList, setStudentList] = useState([]);
+  const [AllStudentList, setAllStudentList] = useState([]);
   const StudentId = JSON.parse(localStorage.getItem("_id"));
   const navigate = useNavigate();
   let chatId;
@@ -44,6 +45,7 @@ const Chat = () => {
     if (result?.success === true) {
       setLoading(false);
       setStudentList(result.data.instructor);
+      setAllStudentList(result.data.instructor);
       setstudentId(result.data.instructor[0]);
     } else {
       setLoading(false);
@@ -91,9 +93,9 @@ const Chat = () => {
       setLoading(false);
       chatId = result.data.chatId; 
     } else {
-      if (result.message==="You have reached the maximum limit of 10 messages. Pay for extra chat.") {
-        toast.error("Send only 10 messages Before buy any class")
-      }
+      // if (result.message==="You have reached the maximum limit of 10 messages. Pay for extra chat.") {
+      //   toast.error("Send only 10 messages Before buy any class")
+      // }
       setLoading(false);
     }
   };
@@ -127,6 +129,20 @@ useEffect(() => {
     setshowChat(true);
   };
 
+
+  const heandleSearch = (event) => {
+    const search = event.target.value;
+    if (search === "") {
+      setStudentList(AllStudentList);
+    }
+    else{
+      const filterStudent = StudentList.filter((student) =>
+        student.name.toLowerCase().includes(search.toLowerCase())
+      );
+      setStudentList(filterStudent);
+    }
+  }
+
   return (
     <>
       {Loading && <Spinner />}
@@ -140,6 +156,7 @@ useEffect(() => {
                     type="text"
                     className="w-full h-[55px] border border-black/30 bg-transparent rounded-full placeholder:text-black/40 pl-[55px] focus:outline-none"
                     placeholder="Search person"
+                    onChange={heandleSearch}
                   />
                   <CiSearch className="absolute top-1/2 -translate-y-1/2 left-6 text-2xl" />
                 </div>
@@ -206,14 +223,14 @@ useEffect(() => {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
+                {/* <div className="flex items-center gap-4">
                   <div className="cursor-pointer">
                     <ShareIcon />
                   </div>
                   <div className="cursor-pointer">
                     <BsThreeDotsVertical className="text-2xl" />
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="max-w-[957px] bg-Green-100 h-[55px] text-green rounded-full mx-auto mt-8 flex items-center justify-center">
                 <p>
