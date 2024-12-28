@@ -51,10 +51,11 @@ const SignUp = () => {
         notificationType: "New_student",
         Time: new Date(),
       });
-      navigate(Routing.StudentDashboard);
+      navigate(Routing.StudentLogin);
+      toast.success("Account created successfully");
     } else {
       setLoading(false);
-      toast.error(result?.message);
+      // toast.error(result?.message);
     }
   };
 
