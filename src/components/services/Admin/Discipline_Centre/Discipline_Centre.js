@@ -86,7 +86,7 @@ export const Category_Sub_List = async () => {
   try {
     let response = await axios({
       method: "GET",
-      url: `${baseURL}/admin/home/category`,
+      url: `${baseURL}/admin/home/category/all`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

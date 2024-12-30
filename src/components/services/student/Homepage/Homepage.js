@@ -5,7 +5,7 @@ export const GetInstructors = async (maincategory) => {
   try {
     let response = await axios({
       method: "GET",
-      url: `${baseURL}/student/home/instructor/${maincategory}`,
+      url: `${baseURL}/student/home/instructor/${maincategory||"all"}`,
     });
     return response.data;
   } catch (error) {

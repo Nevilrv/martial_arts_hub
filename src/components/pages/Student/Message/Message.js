@@ -15,9 +15,8 @@ import {
 } from "../../../services/student/chatAPI/ChatApi";
 import Spinner from "../../../layouts/Spinner";
 import Socket from "../../common/Socket";
-import Users from "../../../../assets/images/userProfile.jpg"
+import Users from "../../../../assets/images/userProfile.jpg";
 import { toast } from "react-toastify";
-
 
 const Chat = () => {
   const [message, setMessage] = useState("");
@@ -26,7 +25,7 @@ const Chat = () => {
   const [showChat, setshowChat] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [StudentList, setStudentList] = useState([]);
-  console.log("🚀 ~ Chat ~ StudentList:", StudentList)
+  console.log("🚀 ~ Chat ~ StudentList:", StudentList);
   const [AllStudentList, setAllStudentList] = useState([]);
   const StudentId = JSON.parse(localStorage.getItem("_id"));
   const navigate = useNavigate();
@@ -36,7 +35,8 @@ const Chat = () => {
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
     }
   };
 
@@ -59,6 +59,11 @@ const Chat = () => {
     if (result?.success === true) {
       setLoading(false);
       setChatMessages(result.data);
+      Socket.emit("MessageRead", {
+        studentId: StudentId,
+        instructorId: studentId.instructorId,
+        sender: "student",
+      });
     } else {
       if (
         result?.message === "Invalid token, Please Log-Out and Log-In again"
@@ -80,19 +85,19 @@ const Chat = () => {
     };
     if (message.trim()) {
       const data = {
-        roomId:studentId?.roomId,
+        roomId: studentId?.roomId,
         sender: "student",
         message: message,
         updated_at: new Date(),
       };
       Socket.emit("loadchat", data);
       setMessage("");
-      scrollToBottom()
+      scrollToBottom();
     }
     const result = await Student_Send_Messages(body);
     if (result?.success === true) {
       setLoading(false);
-      chatId = result.data.chatId; 
+      chatId = result.data.chatId;
     } else {
       // if (result.message==="You have reached the maximum limit of 10 messages. Pay for extra chat.") {
       //   toast.error("Send only 10 messages Before buy any class")
@@ -106,10 +111,10 @@ const Chat = () => {
   }, []);
   useEffect(() => {
     Student_Chat_Messages();
-}, [studentId])
-useEffect(() => {
-  scrollToBottom();
-}, [chatMessages]);
+  }, [studentId]);
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatMessages]);
 
   useEffect(() => {
     // Join the room on mount
@@ -125,24 +130,22 @@ useEffect(() => {
   }, [studentId?.roomId]);
 
   const heandleChat = (studentData) => {
-    setstudentId({})
+    setstudentId({});
     setstudentId(studentData);
     setshowChat(true);
   };
-
 
   const heandleSearch = (event) => {
     const search = event.target.value;
     if (search === "") {
       setStudentList(AllStudentList);
-    }
-    else{
+    } else {
       const filterStudent = StudentList.filter((student) =>
         student.name.toLowerCase().includes(search.toLowerCase())
       );
       setStudentList(filterStudent);
     }
-  }
+  };
 
   return (
     <>
@@ -163,56 +166,61 @@ useEffect(() => {
                 </div>
               </div>
               <div>
-              {StudentList.map((studentData) => (
-                <div
-                  className="h-[95px] border-b border-[#6B6B6B4D] px-4 flex items-center cursor-pointer"
-                  onClick={() => setstudentId(studentData)}
-                >
-                  <div className="flex items-center w-full">
-                    <div className="relative">
-                      <div className="w-[57px] h-[57px] rounded-full overflow-hidden">
-                        <img
-                          src={studentData.profile || UserProfile}
-                          alt=""
-                          srcset=""
-                          className="grayscale h-full w-full object-cover"
-                        />
+                {StudentList.map((studentData) => (
+                  <div
+                    className="h-[95px] border-b border-[#6B6B6B4D] px-4 flex items-center cursor-pointer"
+                    onClick={() => setstudentId(studentData)}
+                  >
+                    <div className="flex items-center w-full">
+                      <div className="relative">
+                        <div className="w-[57px] h-[57px] rounded-full overflow-hidden">
+                          <img
+                            src={studentData.profile || UserProfile}
+                            alt=""
+                            srcset=""
+                            className="grayscale h-full w-full object-cover"
+                          />
+                        </div>
+                        <div className="h-4 w-4 bg-green rounded-full absolute bottom-0 right-0 border-[3px] border-primary"></div>
                       </div>
-                      <div className="h-4 w-4 bg-green rounded-full absolute bottom-0 right-0 border-[3px] border-primary"></div>
-                    </div>
-                    <div className="ml-3 w-full">
-                      <div className="flex items-center justify-between w-full">
-                        <h2 className="text-lg font-semibold">
-                          {studentData.name}
-                        </h2>
-                        <p className="text-black/50 text-[11px] font-semibold">
-                          09:27 AM
-                        </p>
-                      </div>
-                      <div className="flex items-center justify-between w-full">
-                        <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
-                          Yes, sure! Learning Brazilian jiu jitsu Yes, sure!
-                          Learning Brazilian jiu jitsu Yes, sure! Learning
-                          Brazilian jiu jitsu Yes, sure! Learning Brazilian jiu
-                          jitsu
-                        </p>
-                        <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
-                          1
+                      <div className="ml-3 w-full">
+                        <div className="flex items-center justify-between w-full">
+                          <h2 className="text-lg font-semibold">
+                            {studentData.name}
+                          </h2>
+                          <p className="text-black/50 text-[11px] font-semibold">
+                            09:27 AM
+                          </p>
+                        </div>
+                        <div className="flex items-center justify-between w-full">
+                          <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
+                            Yes, sure! Learning Brazilian jiu jitsu Yes, sure!
+                            Learning Brazilian jiu jitsu Yes, sure! Learning
+                            Brazilian jiu jitsu Yes, sure! Learning Brazilian
+                            jiu jitsu
+                          </p>
+                          <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
+                            {studentData.chatcount}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
               </div>
+            </div>
             <div className="md:col-span-3 px-5 relative lg:block hidden h-[calc(100vh-180px)] overflow-hidden">
               <div className="h-[95px] bg-primary_dark px-6 py-4 flex items-center justify-between">
                 {/* <div className="flex items-center gap-3" onClick={() => navigate(`student/instructor_profile/${studentId.instructorId}`)}> */}
-                <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.href=`/student/instructor_profile/${studentId.instructorId}`}>
+                <div
+                  className="flex items-center gap-3 cursor-pointer"
+                  onClick={() =>
+                    (window.location.href = `/student/instructor_profile/${studentId.instructorId}`)
+                  }
+                >
                   <div className="w-[62px] h-[62px] rounded-full overflow-hidden grayscale">
                     <img
-                      src={studentId.profile||Users}
+                      src={studentId.profile || Users}
                       alt=""
                       srcset=""
                       className="scale-x-[-1] h-full w-full object-cover"
@@ -240,8 +248,11 @@ useEffect(() => {
                   messages before joining your class.
                 </p>
               </div>
-              <div className="flex flex-col justify-end px-5 mt-auto h-[68%] overflow-y-auto pb-10"  >
-                <div className="flex justify-between flex-col overflow-y-auto" ref={chatContainerRef}>
+              <div className="flex flex-col justify-end px-5 mt-auto h-[68%] overflow-y-auto pb-10">
+                <div
+                  className="flex justify-between flex-col overflow-y-auto"
+                  ref={chatContainerRef}
+                >
                   {chatMessages?.map((chat) => (
                     <>
                       <div
@@ -368,7 +379,13 @@ useEffect(() => {
                           className="grayscale h-full w-full object-cover"
                         />
                       </div>
-                      <div className={`h-4 w-4 ${studentData.status==="true"?"bg-green":"bg-gay-300"}  rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
+                      <div
+                        className={`h-4 w-4 ${
+                          studentData.status === "true"
+                            ? "bg-green"
+                            : "bg-gay-300"
+                        }  rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}
+                      ></div>
                     </div>
                     <div className="ml-3 w-full">
                       <div className="flex items-center justify-between w-full">
@@ -407,7 +424,7 @@ useEffect(() => {
                   />
                   <div className="w-[62px] h-[62px] rounded-full overflow-hidden grayscale">
                     <img
-                      src={studentId.profile||Users}
+                      src={studentId.profile || Users}
                       alt=""
                       srcset=""
                       className="scale-x-[-1] h-full w-full object-cover"
@@ -459,7 +476,7 @@ useEffect(() => {
                                 ? JSON.parse(
                                     localStorage.getItem("profile_picture")
                                   )
-                                : studentId.profile||Users
+                                : studentId.profile || Users
                             }
                             alt=""
                             srcset=""

@@ -15,7 +15,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
 import Socket from "../../common/Socket";
-import User from "../../../../assets/images/userProfile.jpg"
+import User from "../../../../assets/images/userProfile.jpg";
 
 const Chat = () => {
   const InstructorId = JSON.parse(localStorage.getItem("_id"));
@@ -33,7 +33,8 @@ const Chat = () => {
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
     }
   };
 
@@ -56,15 +57,21 @@ const Chat = () => {
     if (result?.success === true) {
       setLoading(false);
       setChatMessages(result.data);
+      Socket.emit("MessageRead", {
+        studentId: studentId.studentId,
+        instructorId: InstructorId,
+        sender: "instructor",
+      });
+      console.log("==========>" );
+      
     } else {
       if (
         result?.message === "Invalid token, Please Log-Out and Log-In again"
       ) {
         localStorage.clear();
         navigate(Routing.AdminLogin);
-      }
-      else if(result?.message === "Chat not found"){
-        setChatMessages([])
+      } else if (result?.message === "Chat not found") {
+        setChatMessages([]);
       }
       setLoading(false);
     }
@@ -87,7 +94,7 @@ const Chat = () => {
       };
       Socket.emit("loadchat", data);
       setMessage("");
-      scrollToBottom()
+      scrollToBottom();
     }
     const result = await Send_Messages(body);
     if (result?.success === true) {
@@ -131,8 +138,6 @@ const Chat = () => {
     Socket.on("getchat", (data) => {
       setChatMessages((prev) => [...prev, data]);
     });
-   
-
     return () => {
       Socket.off("getchat");
     };
@@ -148,14 +153,13 @@ const Chat = () => {
     const search = event.target.value;
     if (search === "") {
       setStudentList(AllStudentList);
-    }
-    else{
+    } else {
       const filterStudent = StudentList.filter((student) =>
         student.name.toLowerCase().includes(search.toLowerCase())
       );
       setStudentList(filterStudent);
     }
-  }
+  };
 
   return (
     <>
@@ -170,7 +174,9 @@ const Chat = () => {
                     type="text"
                     className="w-full h-[55px] border border-black/30 bg-transparent rounded-full placeholder:text-black/40 pl-[55px] focus:outline-none"
                     placeholder="Search person"
-                    onChange={(event) => {heandleSearch(event)}}
+                    onChange={(event) => {
+                      heandleSearch(event);
+                    }}
                   />
                   <CiSearch className="absolute top-1/2 -translate-y-1/2 left-6 text-2xl" />
                 </div>
@@ -190,7 +196,13 @@ const Chat = () => {
                           className="grayscale h-full w-full object-cover"
                         />
                       </div>
-                      <div className={`h-4 w-4 ${studentData.status===true?"bg-green":"bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
+                      <div
+                        className={`h-4 w-4 ${
+                          studentData.status === true
+                            ? "bg-green"
+                            : "bg-gay-300"
+                        } rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}
+                      ></div>
                     </div>
                     <div className="ml-3 w-full">
                       <div className="flex items-center justify-between w-full">
@@ -208,9 +220,11 @@ const Chat = () => {
                           Brazilian jiu jitsu Yes, sure! Learning Brazilian jiu
                           jitsu
                         </p>
-                        <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
-                          1
-                        </div>
+                        {studentData.chatcount > 0 && (
+                          <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
+                            {studentData.chatcount}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -222,7 +236,7 @@ const Chat = () => {
                 <div className="flex items-center gap-3">
                   <div className="w-[62px] h-[62px] rounded-full overflow-hidden grayscale">
                     <img
-                      src={studentId.profile||User}
+                      src={studentId.profile || User}
                       alt=""
                       srcset=""
                       className="scale-x-[-1] h-full w-full object-cover"
@@ -243,7 +257,10 @@ const Chat = () => {
                 </p>
               </div>
               <div className="flex flex-col justify-end px-5 mt-auto h-[68%] overflow-y-auto pb-10">
-                <div className="flex justify-between flex-col overflow-y-auto" ref={chatContainerRef}>
+                <div
+                  className="flex justify-between flex-col overflow-y-auto"
+                  ref={chatContainerRef}
+                >
                   {chatMessages?.map((chat) => (
                     <>
                       <div
@@ -263,8 +280,9 @@ const Chat = () => {
                               JSON.parse(
                                 localStorage.getItem("Role")
                               ).toLocaleLowerCase()
-                                ? localStorage.getItem("profile_picture")||User
-                                : studentId.profile||User
+                                ? localStorage.getItem("profile_picture") ||
+                                  User
+                                : studentId.profile || User
                             }
                             alt=""
                             srcset=""
@@ -407,7 +425,7 @@ const Chat = () => {
                   />
                   <div className="w-[62px] h-[62px] rounded-full overflow-hidden grayscale">
                     <img
-                      src={studentId.profile||User}
+                      src={studentId.profile || User}
                       alt=""
                       srcset=""
                       className="scale-x-[-1] h-full w-full object-cover"
@@ -456,8 +474,9 @@ const Chat = () => {
                               JSON.parse(
                                 localStorage.getItem("Role")
                               ).toLocaleLowerCase()
-                                ? localStorage.getItem("profile_picture")||User
-                                : studentId.profile||User
+                                ? localStorage.getItem("profile_picture") ||
+                                  User
+                                : studentId.profile || User
                             }
                             alt=""
                             srcset=""
