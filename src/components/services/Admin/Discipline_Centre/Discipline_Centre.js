@@ -100,7 +100,7 @@ export const Sub_Category_List_For_Instructor = async (maincategory) => {
   try {
     let response = await axios({
       method: "GET",
-      url: `${baseURL}/admin/home/category?maincategory=${maincategory}`,
+      url: `${baseURL}/admin/home/category/${maincategory}`,
     });
     return response.data;
   } catch (error) {

@@ -10,6 +10,7 @@ import BigButton from "../../common/BigButton";
 import { toast } from "react-toastify";
 import { InstructorLogin } from "../../../services/Instructor/instructor_auth/auth";
 import User from "../../../../assets/images/userProfile.jpg";
+import Socket from "../../common/Socket";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -40,6 +41,9 @@ const Index = () => {
       localStorage.setItem("_id", JSON.stringify(result?.data?.instructorId));
       localStorage.setItem("token", result?.Token);
       localStorage.setItem("is_login", true);
+
+      Socket.emit("InstructorActive", {instructorId:result?.data?.instructorId, status:"login"});
+
       navigate(Routing.InstructorDashboard);
     } else {
       setLoading(false);
@@ -51,7 +55,6 @@ const Index = () => {
       handleLogin();
     }
   };
-
 
   return (
     <>
@@ -68,7 +71,8 @@ const Index = () => {
             </h2>
             <p className="text-black/70 text-[15px]">
               Please fill below details to join{" "}
-              <span className="font-bold">martial arts hub</span> as a Instructor!
+              <span className="font-bold">martial arts hub</span> as a
+              Instructor!
             </p>
             <div className="mt-[31px] flex flex-col gap-y-6">
               <Inputfild
@@ -104,7 +108,7 @@ const Index = () => {
               <BigButton
                 text={"Login to your account"}
                 bg_color={"black"}
-                onClick={()=>handleLogin()}
+                onClick={() => handleLogin()}
                 loading={loading}
               />
               <BigButton

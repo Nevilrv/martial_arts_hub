@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import Login_image from "../../../../assets/images/LoginImage.png";
 import { StudentLogin } from "../../../services/student/auth";
 import Spinner from "../../../layouts/Spinner";
+import Socket from "../../common/Socket";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -46,9 +47,9 @@ const Login = () => {
       localStorage.setItem("email", JSON.stringify(result?.data?.email));
       localStorage.setItem("profile_picture", JSON.stringify(result?.data?.profile_picture));
       localStorage.setItem("token", result?.Token);
+      Socket.emit("StudentActive", {studentId:result?.data?.studentId, status:"login"});
       localStorage.setItem("is_login", true);
       navigate(Routing.StudentDashboard);
-       
     } else {
       setLoading(false);
       toast.error(result?.message);

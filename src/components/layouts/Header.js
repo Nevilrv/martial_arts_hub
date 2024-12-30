@@ -15,12 +15,8 @@ import { FaBars } from "react-icons/fa6";
 import { Allert_Popup_Icon } from "../../assets/icon";
 import OutlineBtn from "../pages/common/OutlineBtn";
 import Popup from "../pages/common/Popup";
-import {
-  Link,
-  Events,
-  animateScroll as scroll,
-  scrollSpy,
-} from "react-scroll";
+import { Link, Events, animateScroll as scroll, scrollSpy } from "react-scroll";
+import { Socket } from "socket.io-client";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -76,6 +72,19 @@ const Header = () => {
     SetisOpen(false);
     setSelectedMailingLists("");
     navigate(Routing.Initial);
+
+    if (localStorage.getItem("Role") === "Instructor") {
+      Socket.emit("InstructorActive", {
+        instructorId: JSON.parse(localStorage.getItem("_id")),
+        status: "logout",
+      });
+    }
+    if (localStorage.getItem("Role") === "Student") {
+      Socket.emit("StudentActive", {
+        instructorId: JSON.parse(localStorage.getItem("_id")),
+        status: "logout",
+      });
+    }
   };
 
   useEffect(
@@ -119,7 +128,6 @@ const Header = () => {
       Events.scrollEvent.remove("end");
       window.removeEventListener("scroll", handleScroll);
     };
-    
   }, []);
 
   const headerClasses = `sticky top-0 left-0 z-[9] ${
@@ -201,7 +209,7 @@ const Header = () => {
                   : "text-black/70 font-normal"
               }`}
             >
-              Categories
+              Instructors
             </div>
           </div>
           {!loggedIn && (
@@ -342,7 +350,7 @@ const Header = () => {
                           className={`-mx-3 block rounded-lg px-3 py-2 text-sm leading-6 hover:text-black ${
                             scroll_event === item.href
                               ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-2 after:left-[13px]"
-                              : "text-black/50 font-normal"
+                              : "text-black/50 font-normal after:w-[20px]"
                           }`}
                         >
                           {item.name}
@@ -361,14 +369,25 @@ const Header = () => {
                           offset={50}
                           duration={500}
                           className={`-mx-3 block rounded-lg px-3 py-2 text-sm leading-6 hover:text-black ${
-                            item.href === item.href
+                            currentLocation === item.href
                               ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-2 after:left-[13px]"
-                              : "text-black/50 font-normal"
+                              : "text-black/50 font-normal after:w-[0px]"
                           }`}
                         >
                           {item.name}
                         </div>
                       ))}
+                  <div
+                    activeClass="active"
+                    onClick={() => navigate("/instructors/all")}
+                    className={`text-sm leading-6 hover:text-black cursor-pointer ${
+                      currentLocation === "/instructors/all"
+                        ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
+                        : "text-black/70 font-normal"
+                    }`}
+                  >
+                    Instructors
+                  </div>
                 </div>
 
                 <div className="py-6">

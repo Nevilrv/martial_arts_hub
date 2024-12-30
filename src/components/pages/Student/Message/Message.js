@@ -26,6 +26,7 @@ const Chat = () => {
   const [showChat, setshowChat] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [StudentList, setStudentList] = useState([]);
+  console.log("🚀 ~ Chat ~ StudentList:", StudentList)
   const [AllStudentList, setAllStudentList] = useState([]);
   const StudentId = JSON.parse(localStorage.getItem("_id"));
   const navigate = useNavigate();
@@ -207,7 +208,8 @@ useEffect(() => {
               </div>
             <div className="md:col-span-3 px-5 relative lg:block hidden h-[calc(100vh-180px)] overflow-hidden">
               <div className="h-[95px] bg-primary_dark px-6 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
+                {/* <div className="flex items-center gap-3" onClick={() => navigate(`student/instructor_profile/${studentId.instructorId}`)}> */}
+                <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.href=`/student/instructor_profile/${studentId.instructorId}`}>
                   <div className="w-[62px] h-[62px] rounded-full overflow-hidden grayscale">
                     <img
                       src={studentId.profile||Users}
@@ -366,7 +368,7 @@ useEffect(() => {
                           className="grayscale h-full w-full object-cover"
                         />
                       </div>
-                      <div className="h-4 w-4 bg-green rounded-full absolute bottom-0 right-0 border-[3px] border-primary"></div>
+                      <div className={`h-4 w-4 ${studentData.status==="true"?"bg-green":"bg-gay-300"}  rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
                     </div>
                     <div className="ml-3 w-full">
                       <div className="flex items-center justify-between w-full">

@@ -94,7 +94,7 @@ const DisputeDetails = () => {
     const body = {
       disputeId: disputeId,
       studentId: Disputes.studentId,
-      adminId: "cd7e3eab-a950-4b57-8702-cdb4abf505c6",
+      adminId: JSON.parse(localStorage.getItem("_id")),
       message: message,
       sender: "admin",
     };

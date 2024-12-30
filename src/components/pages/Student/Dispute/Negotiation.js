@@ -74,7 +74,7 @@ const Negotiation = () => {
     const body = {
       disputeId: disputeId,
       studentId: JSON.parse(localStorage.getItem("_id")),
-      adminId: "cd7e3eab-a950-4b57-8702-cdb4abf505c6",
+      adminId: "35951a9b-a21e-4936-98f0-78f6f4e8fb14",
       message: message,
       sender: JSON.parse(localStorage.getItem("Role")).toLocaleLowerCase(),
     };
@@ -168,13 +168,13 @@ const Negotiation = () => {
               {DisputeChats.map((chats) => (
                 <div
                   className={`flex ${
-                    chats.sender_type === "student" ? "flex-row-reverse" : null
+                    chats.sender === "student" ? "flex-row-reverse" : null
                   }  gap-3`}
                 >
                   <div className="h-[60px] w-[60px] overflow-hidden rounded-full grayscale">
                     <img
                       src={
-                        chats.sender_type === "student"
+                        chats.sender === "student"
                           ? JSON.parse(localStorage.getItem("profile_picture"))
                           : UserProfile
                       }
@@ -184,7 +184,7 @@ const Negotiation = () => {
                   <div>
                     <div
                       className={`${
-                        chats.sender_type === "student"
+                        chats.sender === "student"
                           ? "bg-Green-100 rounded-tr-none"
                           : "bg-red-100 rounded-tl-none"
                       } p-4 pr-[25px] rounded-xl `}
@@ -195,7 +195,7 @@ const Negotiation = () => {
                     </div>
                     <p
                       className={`${
-                        chats.sender_type === "student"
+                        chats.sender === "student"
                           ? "text-green text-right"
                           : "text-red-200"
                       }  mt-2 text-xs`}

@@ -37,6 +37,7 @@ const BookClass = () => {
     },
   ];
   const [selectedTimeSlot, setSelectedTimeSlot] = useState([]);
+  console.log("🚀 ~ BookClass ~ selectedTimeSlot:", selectedTimeSlot)
   const [selectedMailingLists, setSelectedMailingLists] = useState();
   const [ShowCalendar, setShowCalendar] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -93,15 +94,20 @@ const BookClass = () => {
     const result = await Get_time_slot(body);
     if (result?.success === true) {
       setLoading(false);
-      const formattedTimeSlots = result?.data[0]?.timeSlote?.map((slot) => ({
-        label: slot,
-        value: slot,
-      }));
+      const formattedTimeSlots = [].concat(
+        ...result?.data.map((items) =>
+          items?.timeSlote?.map((slot) => ({
+            label: slot,
+            value: slot,
+          }))
+        )
+      );
       setTimeSlot(formattedTimeSlots);
       setheandalChangeData((prevState) => ({
         ...prevState,
-        classRate: result?.data[0]?.classRate,
-        timeslotId: result?.data[0]?.timeslotId,
+        classRate: result?.data?.map((rate) => rate?.classRate) || [], // Ensure it's an array
+        timeslotId:
+          result?.data?.map((timeslotId) => timeslotId?.timeslotId) || null, // Ensure timeslotId is correctly assigned
       }));
     } else {
       setLoading(false);
@@ -385,7 +391,6 @@ const BookClass = () => {
               name="mobileNumber"
               value={heandalChangeData.mobileNumber}
               onChange={(e) => handleChange(e)}
-              
               // with the Limit of 10 digit Only
 
               //  onChange={(e) => {

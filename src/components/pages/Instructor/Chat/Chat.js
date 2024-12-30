@@ -63,6 +63,9 @@ const Chat = () => {
         localStorage.clear();
         navigate(Routing.AdminLogin);
       }
+      else if(result?.message === "Chat not found"){
+        setChatMessages([])
+      }
       setLoading(false);
     }
   };
@@ -187,7 +190,7 @@ const Chat = () => {
                           className="grayscale h-full w-full object-cover"
                         />
                       </div>
-                      <div className="h-4 w-4 bg-green rounded-full absolute bottom-0 right-0 border-[3px] border-primary"></div>
+                      <div className={`h-4 w-4 ${studentData.status===true?"bg-green":"bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
                     </div>
                     <div className="ml-3 w-full">
                       <div className="flex items-center justify-between w-full">
@@ -232,14 +235,6 @@ const Chat = () => {
                     </p>
                   </div>
                 </div>
-                {/* <div className="flex items-center gap-4">
-                  <div className="cursor-pointer">
-                    <ShareIcon />
-                  </div>
-                  <div className="cursor-pointer">
-                    <BsThreeDotsVertical className="text-2xl" />
-                  </div>
-                </div> */}
               </div>
               <div className="max-w-[957px] bg-Green-100 h-[55px] text-green rounded-full mx-auto mt-8 flex items-center justify-center">
                 <p>
