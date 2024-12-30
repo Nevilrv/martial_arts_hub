@@ -86,12 +86,15 @@ const Why_Join_Us = [
 ];
 
 const Index = () => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const isLogin = JSON.parse(localStorage.getItem("is_login"));
+  const Logintype = JSON.parse(localStorage.getItem("Role"));
   const [openId, setOpenId] = useState("");
   const [Who_we_are_Id, setWho_we_are_Id] = useState("");
   const [Why_Join_Us_Id, setWhy_Join_Us_Id] = useState("");
   const [searchInstructor, setSearchInstructor] = useState("");
   const [Loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const [discipline, setdiscipline] = useState({
     disciplineName: "",
     description: "",
@@ -102,9 +105,6 @@ const Index = () => {
   const [filteredInstructor, setFilteredInstructor] = useState([]);
   const [category_list, Set_Category_List] = useState([]);
   const [openModel, setOpenModel] = useState(true);
-  const { pathname } = useLocation();
-  const isLogin = JSON.parse(localStorage.getItem("is_login"));
-  const Logintype = JSON.parse(localStorage.getItem("Role"));
   const [Like, setLike] = useState(false);
 
   const getInstructors = async () => {

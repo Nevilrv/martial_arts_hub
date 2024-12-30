@@ -25,7 +25,6 @@ const Chat = () => {
   const [showChat, setshowChat] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [StudentList, setStudentList] = useState([]);
-  console.log("🚀 ~ Chat ~ StudentList:", StudentList);
   const [AllStudentList, setAllStudentList] = useState([]);
   const StudentId = JSON.parse(localStorage.getItem("_id"));
   const navigate = useNavigate();
@@ -199,9 +198,11 @@ const Chat = () => {
                             Brazilian jiu jitsu Yes, sure! Learning Brazilian
                             jiu jitsu
                           </p>
-                          <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
-                            {studentData.chatcount}
-                          </div>
+                          {studentData.chatcount < 0 && (
+                            <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
+                              {studentData.chatcount}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>

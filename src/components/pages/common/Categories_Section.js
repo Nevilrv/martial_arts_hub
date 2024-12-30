@@ -100,12 +100,11 @@ const CategoriesSection = () => {
       setFilteredCategories(filtered); // Show the filtered results
     }
   };
-  
+
   useEffect(() => {
     handleSearch(); // Call handleSearch whenever FindCategorie changes
     // eslint-disable-next-line
   }, [FindCategorie, category_list]); // Make sure to include category_list in dependencies if it can change
-  
 
   return (
     <>
@@ -137,7 +136,7 @@ const CategoriesSection = () => {
           </div>
           <Slider {...settings} className="mt-5 slider-1">
             {filteredCategories?.map((items, i) => (
-              <CategoriesCard data={items} key={i} />
+              <CategoriesCard data={items} key={i}  />
             ))}
           </Slider>
         </div>

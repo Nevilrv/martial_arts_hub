@@ -53,17 +53,17 @@ const Chat = () => {
 
   const Student_Chat_Messages = async () => {
     setLoading(true);
+    Socket.emit("MessageRead", {
+      studentId: studentId.studentId,
+      instructorId: InstructorId,
+      sender: "instructor",
+    });
+    
     const result = await Chat_Messages(InstructorId, studentId.studentId);
     if (result?.success === true) {
       setLoading(false);
       setChatMessages(result.data);
-      Socket.emit("MessageRead", {
-        studentId: studentId.studentId,
-        instructorId: InstructorId,
-        sender: "instructor",
-      });
-      console.log("==========>" );
-      
+      console.log("==========>");
     } else {
       if (
         result?.message === "Invalid token, Please Log-Out and Log-In again"
