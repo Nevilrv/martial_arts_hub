@@ -9,7 +9,7 @@ import {
 } from "../../../services/Instructor/MessageRequests/MessageRequests";
 import Spinner from "../../../layouts/Spinner";
 import { Confirm_Booking_status } from "../../../services/Instructor/Booking/Booking";
-const ActiveBookingRequests = ({ data,getBookingRequests }) => {
+const ActiveBookingRequests = ({ data, getBookingRequests }) => {
   const [StudentProfile, setStudentProfile] = useState(false);
   const [loading, setLoading] = useState(false);
   const [studentDetils, setStudentDetils] = useState({});
@@ -63,7 +63,7 @@ const ActiveBookingRequests = ({ data,getBookingRequests }) => {
           <div className="flex flex-wrap items-center gap-y-5">
             <div className="sm:w-[82px] sm:h-[82px] w-1/2 sm:mx-0 mx-auto overflow-hidden rounded-full aspect-square">
               <img
-                src={booking?.studentProfile||User}
+                src={booking?.studentProfile || User}
                 alt="Wrestling"
                 className="w-full h-full object-cover object-top grayscale"
               />
@@ -151,8 +151,8 @@ const ActiveBookingRequests = ({ data,getBookingRequests }) => {
                       ({studentDetils?.joinedAs})
                     </h2>
                   </div>
-                  <div className="w-[329px] h-[329px] rounded-full object-cover object-top grayscale scale-x-[-1] border-[5px] border-primary xl:absolute top-7 right-14 overflow-hidden">
-                    <img src={studentDetils?.profile||User} />
+                  <div className="w-[329px] h-[329px] rounded-full object-top grayscale scale-x-[-1] border-[5px] border-primary xl:absolute top-7 right-14 overflow-hidden">
+                    <img className="w-[100%] h-[100%] object-cover" src={studentDetils?.profile || User} />
                   </div>
                 </div>
                 <div className="py-14 bg-primary lg:px-14 px-6">

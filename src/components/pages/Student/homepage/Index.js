@@ -218,7 +218,7 @@ const Index = () => {
               <input
                 type="text"
                 className="w-full h-[60px] md:w-[450px] mx-auto border border-black/30 bg-transparent rounded-full placeholder:text-black/40 pl-[55px] pr-3 focus:outline-none"
-                placeholder="Search person"
+                placeholder="Search Instructor"
                 onChange={(e) => setSearchInstructor(e.target.value)}
               />
               <CiSearch className="absolute top-1/2 -translate-y-1/2 left-6 text-2xl" />

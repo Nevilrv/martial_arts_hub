@@ -105,9 +105,7 @@ const BookClass = () => {
       setTimeSlot(formattedTimeSlots);
       setheandalChangeData((prevState) => ({
         ...prevState,
-        classRate: result?.data?.map((rate) => rate?.classRate) || [], // Ensure it's an array
-        timeslotId:
-          result?.data?.map((timeslotId) => timeslotId?.timeslotId) || null, // Ensure timeslotId is correctly assigned
+        classRate: result?.data[0]?.classRate,
       }));
     } else {
       setLoading(false);
@@ -157,8 +155,7 @@ const BookClass = () => {
       attendType: selectedMailingLists,
       studentEmail: JSON.parse(localStorage.getItem("email")),
       mobileNumber: heandalChangeData.mobileNumber,
-      instructorId: instructorId,
-      timeslotId: heandalChangeData.timeslotId,
+      instructorId: instructorId
     };
     if (heandalChangeData.message === "" || null || undefined) {
       toast.error("Please Enter your message");

@@ -23,11 +23,22 @@ import {
   Sub_Category_List_For_Instructor,
 } from "../../../services/Admin/Discipline_Centre/Discipline_Centre";
 
+
 const Profile = () => {
   const navigate = useNavigate();
   const [category_list, Set_Category_List] = useState([]);
   const [Sub_category_list, SetSub_category_list] = useState([]);
   const [loading, setLoading] = useState(false);
+  const options = [
+    { value: "Online", label: "Online" },
+    { value: "FaceToFace", label: "Face-To-Face" },
+  ];
+
+  const optionsForYesNo = [
+    { value: "Yes", label: "Yes" },
+    { value: "No", label: "No" }
+  ];
+
   const [instructorDetails, setInstructorDetails] = useState({
     email: JSON.parse(localStorage.getItem("email")),
     name: "",
@@ -44,11 +55,12 @@ const Profile = () => {
     certifications: "",
     keywords: "",
     idProof: "",
-    firstFreeSessionHourlyRate: "",
-    classTypeFirstFreeSession: "",
+    firstFreeSessionHourlyRate: {},
+    classTypeFirstFreeSession: {},
     privateSessionOnlineHourlyRate: "",
     privateSessionFaceToFaceHourlyRate: "",
   });
+
   const getinstructorDetails = async () => {
     setLoading(true);
     if (token !== "undefined") {
@@ -61,8 +73,8 @@ const Profile = () => {
           country_code: result?.data?.country_code,
           mobileNo: result?.data?.mobileNo,
           profile_picture: result?.data?.profile_picture,
-          maincategory: JSON.parse(result?.data?.maincategory),
-          category: JSON.parse(result?.data?.category),
+          maincategory: result?.data?.maincategory === "" ? result?.data?.maincategory : JSON.parse(result?.data?.maincategory),
+          category: result?.data?.category === "" ? result?.data?.category : JSON.parse(result?.data?.category),
           availability: result?.data?.availability,
           bio: result?.data?.bio,
           tagline: result?.data?.tagline,
@@ -71,8 +83,8 @@ const Profile = () => {
           certifications: result?.data?.certifications,
           keywords: result?.data?.keywords,
           idProof: result?.data?.idProof,
-          firstFreeSessionHourlyRate: result?.data?.firstFreeSessionHourlyRate,
-          classTypeFirstFreeSession: result?.data?.classTypeFirstFreeSession,
+          firstFreeSessionHourlyRate: result?.data?.firstFreeSessionHourlyRate === "" ? result?.data?.firstFreeSessionHourlyRate : JSON.parse(result?.data?.firstFreeSessionHourlyRate),
+          classTypeFirstFreeSession: result?.data?.classTypeFirstFreeSession === "" ? result?.data?.classTypeFirstFreeSession : JSON.parse(result?.data?.classTypeFirstFreeSession),
           privateSessionOnlineHourlyRate:
             result?.data?.privateSessionOnlineHourlyRate,
           privateSessionFaceToFaceHourlyRate:
@@ -93,6 +105,21 @@ const Profile = () => {
       maincategory: selectedOptions,
     });
   };
+
+  const handleChangeClassType = (selected) => {
+    setInstructorDetails({
+      ...instructorDetails,
+      classTypeFirstFreeSession: selected
+    });
+  };
+
+  const handleChangefirstFree = (selected) => {
+    setInstructorDetails({
+      ...instructorDetails,
+      firstFreeSessionHourlyRate: selected
+    });
+  };
+
   // const handle_Class_Type = (selectedOptions) => {
   //   setInstructorDetails({
   //     ...instructorDetails,
@@ -143,11 +170,11 @@ const Profile = () => {
     formData.append("idProof", instructorDetails?.idProof);
     formData.append(
       "firstFreeSessionHourlyRate",
-      instructorDetails?.firstFreeSessionHourlyRate
+      JSON.stringify(instructorDetails?.firstFreeSessionHourlyRate)
     );
     formData.append(
       "classTypeFirstFreeSession",
-      instructorDetails?.classTypeFirstFreeSession
+      JSON.stringify(instructorDetails?.classTypeFirstFreeSession)
     );
     formData.append(
       "privateSessionOnlineHourlyRate",
@@ -303,7 +330,7 @@ const Profile = () => {
           </div>
           <div className="md:w-[245px] w-full h-[202px] rounded-xl overflow-hidden bg-[#DAD8D0] flex items-center justify-center relative">
             {instructorDetails?.profile_picture === null ||
-            instructorDetails?.profile_picture === "" ? (
+              instructorDetails?.profile_picture === "" ? (
               <div className="flex items-center justify-center flex-col absolute top-0 left-0 h-full w-full bg-[#DAD8D0]">
                 <IoCamera className="text-black/20 text-4xl" />
                 <p className="text-black/20 text-[13px] font-medium">
@@ -365,9 +392,8 @@ const Profile = () => {
               <Select
                 onChange={handleChangeCategory}
                 options={category_list}
-                // defaultValue={instructorDetails?.maincategory}
+                defaultValue={instructorDetails?.maincategory}
                 value={instructorDetails?.maincategory || ""}
-                onMenuOpen={() => {}}
                 style={{ with: "100%" }}
               />
             </div>
@@ -383,7 +409,7 @@ const Profile = () => {
                 isMulti
                 // defaultValue={instructorDetails?.category}
                 value={instructorDetails?.category || ""}
-                onMenuOpen={() => {}}
+                onMenuOpen={() => { }}
                 style={{ with: "100%" }}
               />
             </div>
@@ -468,7 +494,7 @@ const Profile = () => {
             </label>
             <div className="h-[200px] rounded-xl bg-[#DAD8D0] flex items-center justify-center relative mt-1">
               {instructorDetails?.idProof === null ||
-              instructorDetails?.idProof === "" ? (
+                instructorDetails?.idProof === "" ? (
                 <div className="flex items-center justify-center flex-col">
                   <MdCloudUpload className="text-black/20 text-4xl" />
                   <p className="text-black/20 text-[13px] font-medium text-center">
@@ -506,45 +532,34 @@ const Profile = () => {
             Hourly Rates
           </h2>
           <div>
-            <Inputfild
-              type={"text"}
-              placeholder={"Yes or No"}
-              Label={"Do you want to give first free session?"}
-              name={"firstFreeSessionHourlyRate"}
-              onChange={handleChange}
-              value={instructorDetails?.firstFreeSessionHourlyRate}
-              Labelclass={"text-Dark_black font-medium"}
-              className={"rounded-xl md:w-full h-[70px]"}
-            />
+            <label className="text-sm text-black/50 block">
+              Do you want to give first free session?
+            </label>
+            <div className="Profile">
+              <Select
+                onChange={handleChangefirstFree}
+                options={optionsForYesNo}
+                defaultValue={instructorDetails?.firstFreeSessionHourlyRate}
+                value={instructorDetails?.firstFreeSessionHourlyRate || ""}
+                style={{ width: "100%" }}
+                placeholder="Select Yes or No"
+              />
+            </div>
           </div>
           <div>
-            <Inputfild
-              type={"text"}
-              onChange={handleChange}
-              placeholder={"eg. Online"}
-              Label={"Class Type for first free session (Online/Face-to-Face)"}
-              name={"classTypeFirstFreeSession"}
-              value={instructorDetails?.classTypeFirstFreeSession}
-              Labelclass={"text-Dark_black font-medium"}
-              className={"rounded-xl md:w-full h-[70px]"}
-            />
-            {/* <div className="md:col-span-1 col-span-1">
-              <label className={`text-sm text-black/50 block`}>
+            <label className="text-sm text-black/50 block">
               Class Type for first free session (Online/Face-to-Face)
-              </label>
-              <div className="Profile">
-                <Select
-                  onChange={handle_Class_Type}
-                  options={[
-                    { label: "Online", value: "Online" },
-                    { label: "Face-to-Face", value: "Face-to-Face" },
-                  ]}
-                  value={instructorDetails?.classTypeFirstFreeSession || ""}
-                  onMenuOpen={() => {}}
-                  style={{ with: "100%" }}
-                />
-              </div>
-            </div> */}
+            </label>
+            <div className="Profile">
+              <Select
+                onChange={handleChangeClassType}
+                options={options}
+                defaultValue={instructorDetails?.classTypeFirstFreeSession}
+                value={instructorDetails?.classTypeFirstFreeSession || ""}
+                style={{ width: "100%" }}
+                placeholder="Select Class Type"
+              />
+            </div>
           </div>
           <div>
             <Inputfild

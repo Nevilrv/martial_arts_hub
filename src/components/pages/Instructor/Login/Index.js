@@ -41,8 +41,10 @@ const Index = () => {
       localStorage.setItem("_id", JSON.stringify(result?.data?.instructorId));
       localStorage.setItem("token", result?.Token);
       localStorage.setItem("is_login", true);
+      localStorage.setItem("OnlineRate", result?.data?.privateSessionOnlineHourlyRate)
+      localStorage.setItem("FaceToFace", result?.data?.privateSessionFaceToFaceHourlyRate)
 
-      Socket.emit("InstructorActive", {instructorId:result?.data?.instructorId, status:"login"});
+      Socket.emit("InstructorActive", { instructorId: result?.data?.instructorId, status: "login" });
 
       navigate(Routing.InstructorDashboard);
     } else {

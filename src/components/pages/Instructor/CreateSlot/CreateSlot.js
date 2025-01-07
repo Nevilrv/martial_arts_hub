@@ -21,7 +21,9 @@ import Spinner from "../../../layouts/Spinner";
 import dayjs from "dayjs";
 
 const CreateSlot = () => {
-  // Helper function to format time to 12-hour
+  const Online = localStorage.getItem("OnlineRate")
+  const FaceToFace = localStorage.getItem("FaceToFace")
+
   function formatTo12Hour(time) {
     const [hour, minute] = time.split(":");
     let hourInt = parseInt(hour, 10);
@@ -34,12 +36,20 @@ const CreateSlot = () => {
   // slot time
   const [selectedTimeSlot, setselectedTimeSlot] = useState([]);
   const [classType, setClassType] = useState("Online");
+  const [testclassRate, settestcalssRate] = useState()
   const [loading, setLoading] = useState(false);
   const [OldSlot, setOldSlot] = useState([]);
   const [FormData, setFormData] = useState({
     classdate: "",
     classRate: "",
   });
+  useEffect(() => {
+    if (classType === "Online") {
+      settestcalssRate(Online);
+    } else if (classType === "FaceToFace") {
+      settestcalssRate(FaceToFace);
+    }
+  }, [classType]);
   const navigate = useNavigate();
   const TimeSlot = [];
   const [minDate, setMinDate] = useState("");
@@ -147,8 +157,9 @@ const CreateSlot = () => {
     for (let i = 0; i < selectedTimeSlot?.length; i++) {
       TimeSlot.push(selectedTimeSlot[i].value);
     }
-    const rateWithpayment =
-      parseInt(FormData.classRate) + Math.ceil((FormData.classRate * 5) / 100);
+    const rateWithpayment = parseInt(testclassRate) + Math.ceil((testclassRate * 5) / 100);
+    // parseInt(FormData.classRate) + Math.ceil((FormData.classRate * 5) / 100);
+
     const body = {
       classdate: FormData.classdate,
       timeSlot: TimeSlot,
@@ -206,7 +217,7 @@ const CreateSlot = () => {
                     onChange={setselectedTimeSlot}
                     options={availableTimeSlots}
                     isMulti
-                    onMenuOpen={() => {}}
+                    onMenuOpen={() => { }}
                   />
                 </div>
               </div>
@@ -221,7 +232,7 @@ const CreateSlot = () => {
                     <span className="block truncate text-left">
                       {classType === "FaceToFace" ? "Face-To-Face" : classType}
                     </span>
-                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-5">
                       <TfiAngleDown
                         aria-hidden="true"
                         className="h-5 w-5 text-gray-400"
@@ -262,9 +273,12 @@ const CreateSlot = () => {
                   type="number"
                   name="classRate"
                   placeholder="eg. $5, $10"
-                  value={FormData.classRate}
+                  // value={FormData.classRate}
+                  value={testclassRate}
                   className="bg-[#DAD8D0] focus:outline-none placeholder:text-black/50 text-lg px-6 w-full h-[80px] rounded-2xl mt-1.5"
-                  onChange={(e) => handleChange(e)}
+                  disabled
+                  onChange={(e) => handleChange(e)
+                  }
                 />
               </div>
             </div>
