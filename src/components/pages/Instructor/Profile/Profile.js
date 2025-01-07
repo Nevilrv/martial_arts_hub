@@ -186,8 +186,11 @@ const Profile = () => {
     );
     setLoading(true);
     const result = await InstructorProfile(formData);
+    console.log(result, "=========>")
     if (result?.success === true) {
       setLoading(false);
+      localStorage.setItem("OnlineRate", result?.data?.privateSessionOnlineHourlyRate)
+      localStorage.setItem("FaceToFace", result?.data?.privateSessionFaceToFaceHourlyRate)
       if (result.data.status === "pending") {
         Socket.emit("Notification", {
           title: `${instructorDetails?.name} New_instructor`,
