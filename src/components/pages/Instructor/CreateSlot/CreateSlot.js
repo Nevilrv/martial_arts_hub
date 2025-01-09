@@ -157,13 +157,13 @@ const CreateSlot = () => {
     for (let i = 0; i < selectedTimeSlot?.length; i++) {
       TimeSlot.push(selectedTimeSlot[i].value);
     }
-    const rateWithpayment = parseInt(testclassRate) + Math.ceil((testclassRate * 5) / 100);
+    // const rateWithpayment = parseInt(testclassRate) + Math.ceil((testclassRate * 5) / 100);
     // parseInt(FormData.classRate) + Math.ceil((FormData.classRate * 5) / 100);
 
     const body = {
       classdate: FormData.classdate,
       timeSlot: TimeSlot,
-      classRate: rateWithpayment,
+      classRate: testclassRate,
       classType: classType,
       instructorId: JSON.parse(localStorage.getItem("_id")),
     };
