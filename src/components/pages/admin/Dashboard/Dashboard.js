@@ -35,7 +35,7 @@ const Dashboard = () => {
   function formatTimeDiff(createdAt) {
     const currentTime = dayjs();
     const diffInMinutes = currentTime.diff(dayjs.utc(createdAt), "minute");
-  
+
     if (diffInMinutes >= 1440) { // 1440 minutes = 1 day
       const days = Math.floor(diffInMinutes / 1440);
       return `${days} ${days === 1 ? "day" : "days"}`;
@@ -46,7 +46,7 @@ const Dashboard = () => {
       return `${diffInMinutes} ${diffInMinutes === 1 ? "min" : "mins"}`;
     }
   }
-  
+
   // Example Usage
   const createdAt = "2024-04-22T12:00:00Z"; // Replace with your `createdAt`
   const formattedTimeDiff = formatTimeDiff(createdAt);
@@ -198,7 +198,7 @@ const Dashboard = () => {
       setInstructor_Request_List(result.data);
       setLoading(false);
     } else {
-        setLoading(false);
+      setLoading(false);
       // if (
       //   result?.message === "Invalid token, Please Log-Out and Log-In again"
       // ) {
@@ -262,7 +262,7 @@ const Dashboard = () => {
           <div className="row-span-2 bg-primary rounded-xl p-6 shadow-BoxShadow">
             <div className="flex items-center justify-between">
               <p className="text-lg font-bold text-gay-300">Notifications</p>
-              <p className="text-red-200 underline font-medium">View All</p>
+              {/* <p className="text-red-200 underline font-medium">View All</p> */}
             </div>
             <div className="flex flex-col gap-5 max-h-[380px] overflow-y-auto">
               {admin_Notification.map((item) => (
@@ -281,7 +281,7 @@ const Dashboard = () => {
                       {item.title}
                     </p>
                     <p className="text-black/70 text-sm font-medium">
-                    {formatTimeDiff(item.createdAt)}
+                      {formatTimeDiff(item.createdAt)}
                     </p>
                   </div>
                 </div>
@@ -317,7 +317,7 @@ const Dashboard = () => {
                 <p className="text-lg font-bold text-gay-300">
                   Instructor Requests
                 </p>
-                <p className="text-red-200 underline font-medium">View All</p>
+                <p className="text-red-200 underline font-medium cursor-pointer" onClick={() => navigate(Routing.Admin_Instructor_Managementnew_Requests)}>View All</p>
               </div>
               {Instructor_Request_List?.map((Request_List) => (
                 <div className="flex flex-col gap-4 mt-5">

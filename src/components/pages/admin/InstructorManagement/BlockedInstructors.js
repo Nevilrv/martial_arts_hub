@@ -36,8 +36,12 @@ const BlockedInstructors = () => {
 
   const heandleBlock = async (instructorId) => {
     setLoading(true);
-    let InstructorId = instructorId;
-    const result = await Instructor_Block(InstructorId, "unblock");
+    const body = {
+      instructorId: instructorId,
+      status: "unblock",
+      Reason: ""
+    }
+    const result = await Instructor_Block(body);
     if (result?.success === true) {
       SetisOpen(true);
       setLoading(false);
@@ -46,7 +50,7 @@ const BlockedInstructors = () => {
     } else {
       setLoading(false);
       result?.message === "Instructor data not found" &&
-      setsetInstructors_List([]);
+        setsetInstructors_List([]);
       // toast.error(
       //   result?.message === "Instructor data not found"
       //     ? "There are no any Blocked Instructors."
@@ -67,7 +71,7 @@ const BlockedInstructors = () => {
             <div className="flex items-center justify-between border-b border-gay-400/25 py-5 h-[100px] min-w-[639px]">
               <div className="flex items-center gap-4">
                 <img
-                  src={BlockedList.profile_picture||User}
+                  src={BlockedList.profile_picture || User}
                   alt=""
                   className="w-[62px] h-[62px] object-cover rounded-full"
                 />

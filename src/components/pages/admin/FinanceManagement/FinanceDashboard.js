@@ -157,11 +157,10 @@ const FinanceDashboard = () => {
                 <HiMiniArrowTrendingDown className="text-red-200 text-lg" />
               )}
               <h4
-                className={`${
-                  Earningdata?.total_Funds?.total_Funds_Growth > 0
+                className={`${Earningdata?.total_Funds?.total_Funds_Growth > 0
                     ? "text-green"
                     : "text-red-200"
-                } font-semibold ml-2`}
+                  } font-semibold ml-2`}
               >
                 {Earningdata?.total_Funds?.total_Funds_Growth} %
               </h4>
@@ -185,11 +184,10 @@ const FinanceDashboard = () => {
                 <HiMiniArrowTrendingDown className="text-red-200 text-lg" />
               )}
               <h4
-                className={`${
-                  Earningdata?.Release_Funds?.Release_Funds_Growth > 0
+                className={`${Earningdata?.Release_Funds?.Release_Funds_Growth > 0
                     ? "text-green"
                     : "text-red-200"
-                } font-semibold ml-2`}
+                  } font-semibold ml-2`}
               >
                 {Earningdata?.Release_Funds?.Release_Funds_Growth} %
               </h4>
@@ -213,11 +211,10 @@ const FinanceDashboard = () => {
                 <HiMiniArrowTrendingDown className="text-red-200 text-lg" />
               )}
               <h4
-                className={`${
-                  Earningdata?.refund_Funds?.refund_Funds_Growth > 0
+                className={`${Earningdata?.refund_Funds?.refund_Funds_Growth > 0
                     ? "text-green"
                     : "text-red-200"
-                } font-semibold ml-2`}
+                  } font-semibold ml-2`}
               >
                 {Earningdata?.refund_Funds?.refund_Funds_Growth} %
               </h4>
@@ -241,11 +238,10 @@ const FinanceDashboard = () => {
                 <HiMiniArrowTrendingDown className="text-red-200 text-lg" />
               )}
               <h4
-                className={`${
-                  Earningdata?.Admin_Earnings?.Admin_Earnings_Growth > 0
+                className={`${Earningdata?.Admin_Earnings?.Admin_Earnings_Growth > 0
                     ? "text-green"
                     : "text-red-200"
-                } font-semibold ml-2`}
+                  } font-semibold ml-2`}
               >
                 {Earningdata?.Admin_Earnings?.Admin_Earnings_Growth} %
               </h4>
@@ -258,39 +254,6 @@ const FinanceDashboard = () => {
         </div>
         <div className="sm:grid xl:grid-cols-6 grid-cols-1 flex flex-col gap-4 mt-4">
           <div className="lg:col-span-4 bg-primary p-7 rounded-xl">
-            <div className="flex items-center justify-between flex-wrap gap-2">
-              <h2 className="text-xl text-gay-300 font-semibold">
-                Funds Overview
-              </h2>
-              <button className="text-primary font-medium text-xs bg-gay-300 p-2.5 px-3 rounded-full flex items-center gap-1">
-                <FaRegArrowAltCircleDown className="text-base" /> Download
-                Report
-              </button>
-            </div>
-            <div className="flex items-center gap-1.5 mt-2 flex-wrap">
-              <OutlineBtn
-                text={"All"}
-                className={
-                  "text-white bg-black border-none text-xs sm:w-auto w-full"
-                }
-              />
-              <OutlineBtn
-                text={"Total Funds"}
-                className={"bg-transparent border text-xs sm:w-auto w-full"}
-              />
-              <OutlineBtn
-                text={"Released Funds"}
-                className={"bg-transparent border text-xs sm:w-auto w-full"}
-              />
-              <OutlineBtn
-                text={"Refunded Funds"}
-                className={"bg-transparent border text-xs sm:w-auto w-full"}
-              />
-              <OutlineBtn
-                text={"Admin Earnings"}
-                className={"bg-transparent border text-xs sm:w-auto w-full"}
-              />
-            </div>
             <FinanceDashboardChart />
           </div>
           <div className="lg:col-span-2 bg-primary p-7 rounded-xl">
@@ -369,9 +332,8 @@ const FinanceDashboard = () => {
             </h2>
           </div>
           <div
-            className={`mt-6 w-full overflow-x-auto h-96 ${
-              Showall === true ? "overflow-y-auto" : "overflow-y-hidden"
-            } `}
+            className={`mt-6 w-full overflow-x-auto h-96 ${Showall === true ? "overflow-y-auto" : "overflow-y-hidden"
+              } `}
           >
             {Finance_transaction?.map((transaction) => (
               <div className="h-[90px] grid grid-cols-4 items-center justify-between min-w-[916px]">
@@ -418,25 +380,24 @@ const FinanceDashboard = () => {
                     ${transaction?.paidAmount}
                   </h3>
                   <p
-                    className={`${
-                      transaction?.transactionType === "received"
+                    className={`${transaction?.transactionType === "received"
                         ? "text-green"
                         : transaction?.transactionType === "refunded"
-                        ? "text-red-200"
-                        : "text-purple-500"
-                    } text-sm font-medium text-right`}
+                          ? "text-red-200"
+                          : "text-purple-500"
+                      } text-sm font-medium text-right`}
                   >
                     {transaction?.transactionType === "received"
                       ? "+"
                       : transaction?.transactionType === "refunded"
-                      ? "-"
-                      : null}
+                        ? "-"
+                        : null}
 
                     {transaction?.transactionType === "received"
                       ? "Received from Student"
                       : transaction?.transactionType === "refunded"
-                      ? "Refunded to Student"
-                      : "Sent to Instructor (Released)"}
+                        ? "Refunded to Student"
+                        : "Sent to Instructor (Released)"}
                   </p>
                 </div>
               </div>
@@ -495,11 +456,10 @@ const FinanceDashboard = () => {
                   {Lastcalculated?.total_funds?.funds}
                 </h2>
                 <div
-                  className={`${
-                    Lastcalculated?.total_funds?.TotalFundsGrowth >= 0
+                  className={`${Lastcalculated?.total_funds?.TotalFundsGrowth >= 0
                       ? "bg-green"
                       : "bg-red-200"
-                  }  px-2 py-1 rounded-full text-white flex items-center justify-center  text-sm font-medium`}
+                    }  px-2 py-1 rounded-full text-white flex items-center justify-center  text-sm font-medium`}
                 >
                   {Lastcalculated?.total_funds?.TotalFundsGrowth}%
                 </div>
@@ -518,11 +478,10 @@ const FinanceDashboard = () => {
                     : Lastcalculated?.total_releaseFund?.realseFund}
                 </h2>
                 <div
-                  className={`${
-                    Lastcalculated?.total_releaseFund?.Release_Funds_Growth > !0
+                  className={`${Lastcalculated?.total_releaseFund?.Release_Funds_Growth > !0
                       ? "bg-green"
                       : "bg-red-200"
-                  }  px-2 py-1 rounded-full text-white flex items-center justify-center  text-sm font-medium`}
+                    }  px-2 py-1 rounded-full text-white flex items-center justify-center  text-sm font-medium`}
                 >
                   {Lastcalculated?.total_releaseFund?.Release_Funds_Growth}%
                 </div>
@@ -543,12 +502,11 @@ const FinanceDashboard = () => {
               </div>
               <p className="text-sm font-medium text-gay-300 mt-5">
                 <span
-                  className={`${
-                    Lastcalculated?.pending_Funds
+                  className={`${Lastcalculated?.pending_Funds
                       ?.pendingPaymentLastPercentage > !0
                       ? "text-green"
                       : "text-red-200"
-                  } `}
+                    } `}
                 >
                   {Lastcalculated?.pending_Funds?.pendingPaymentLastPercentage}%
                 </span>{" "}

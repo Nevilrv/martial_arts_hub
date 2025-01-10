@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import AdminHeadding from "../../common/AdminHeadding";
-import { Link } from "react-router-dom";
+import { json, Link } from "react-router-dom";
 import Instructors1 from "../../../../assets/images/Instructor-4.png";
 import OutlineBtn from "../../common/OutlineBtn";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
-import { FaArrowLeft, FaStar } from "react-icons/fa";
+import { FaArrowLeft, FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { HiMiniSignal } from "react-icons/hi2";
-import { Confirm_Popup_Icon, Fullscreen } from "../../../../assets/icon";
+import { Confirm_Popup_Icon, Decline, Fullscreen } from "../../../../assets/icon";
 import { MdOutlineTranslate } from "react-icons/md";
 import { PiSealCheckFill } from "react-icons/pi";
 import Popup from "../../common/Popup";
@@ -22,12 +22,35 @@ import Spinner from "../../../layouts/Spinner";
 const NewRequests = () => {
   const [isOpen, SetisOpen] = useState(false);
   const [conformation, Setconformation] = useState(false);
+  const [declineconformation, Setdeclineconformation] = useState(false);
+  const [DeclineReason, setDeclineReason] = useState("")
   const [Loading, setLoading] = useState(false);
   const [getinstructor_Id, setgetinstructor_Id] = useState("");
   const [Instructor_Request_List, setInstructor_Request_List] = useState([]);
   const [Instructor_Request_detail, setInstructor_Request_detail] = useState(
     {}
   );
+
+  const getStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+    return (
+      <div className="flex items-center gap-0.5">
+        {[...Array(fullStars)].map((_, i) => (
+          <FaStar key={`full-${i}`} className="text-yellow-100 text-lg" />
+        ))}
+        {hasHalfStar && (
+          <FaStarHalfAlt className="text-yellow-100 text-lg" key="half" />
+        )}
+        {[...Array(emptyStars)].map((_, i) => (
+          <FaStar key={`empty-${i}`} className="text-gay-500 text-lg" />
+        ))}
+      </div>
+    );
+  };
+
   let getinstructorId = "";
 
   const Get_Instructor_Requests = async () => {
@@ -56,6 +79,8 @@ const NewRequests = () => {
       setInstructor_Request_detail((prev) => ({
         ...prev,
         category: JSON.parse(result.data.category),
+        firstFreeSessionHourlyRate: JSON.parse(result.data.firstFreeSessionHourlyRate),
+        classTypeFirstFreeSession: JSON.parse(result.data.classTypeFirstFreeSession)
       }));
       SetisOpen(true);
       setLoading(false);
@@ -65,9 +90,9 @@ const NewRequests = () => {
     }
   };
 
-  const Instructor_Requests_Accept = async (getinstructorId, status) => {
+  const Instructor_Requests_Accept = async (body) => {
     setLoading(true);
-    const result = await Requests_Accept(getinstructorId, status);
+    const result = await Requests_Accept(body);
     if (result?.success === true) {
       Get_Instructor_Requests();
       setLoading(false);
@@ -85,8 +110,25 @@ const NewRequests = () => {
 
   const heandle_Accept_Profile = (instructorId) => {
     getinstructorId = instructorId;
-    Instructor_Requests_Accept(getinstructorId, "accept");
+    const body = {
+      instructorId: getinstructorId,
+      status: "accept",
+      Reason: ""
+    }
+    Instructor_Requests_Accept(body);
     Get_Instructor_Requests()
+  };
+
+  const heandle_Decline_Profile = (instructorId, Reason) => {
+    getinstructorId = instructorId;
+    const body = {
+      instructorId: getinstructorId,
+      status: "decline",
+      Reason: Reason
+    }
+    Instructor_Requests_Accept(body);
+    Get_Instructor_Requests()
+    setDeclineReason("")
   };
 
   useEffect(() => {
@@ -132,7 +174,7 @@ const NewRequests = () => {
                 <OutlineBtn
                   className={"bg-green text-white border-none"}
                   text={"Accept"}
-                  onClick={() => {Setconformation(true);setgetinstructor_Id(List.instructorId)}}
+                  onClick={() => { Setconformation(true); setgetinstructor_Id(List.instructorId) }}
                 />
               </div>
             </div>
@@ -162,14 +204,14 @@ const NewRequests = () => {
                   </h2>
                 </div>
                 <div className="flex items-center gap-3">
-                  {/* <OutlineBtn
+                  <OutlineBtn
                     text={"Decline"}
                     className={"text-red-200 bg-transparent border-red-200"}
-                    onClick={() => Setconformation(true)}
-                  /> */}
+                    onClick={() => Setdeclineconformation(true)}
+                  />
                   <OutlineBtn
                     text={"Accept"}
-                    onClick={() => {Setconformation(true);Setconformation(true)}}
+                    onClick={() => { Setconformation(true); Setconformation(true); }}
                     className={
                       "bg-green text-white text-base font-semibold border-none"
                     }
@@ -193,21 +235,22 @@ const NewRequests = () => {
                       </span>
                     </h2>
                     <div className="flex items-baseline gap-0.5">
+                      {/* <FaStar className="text-gay-500" />
                       <FaStar className="text-gay-500" />
                       <FaStar className="text-gay-500" />
                       <FaStar className="text-gay-500" />
-                      <FaStar className="text-gay-500" />
-                      <FaStar className="text-gay-500" />
+                      <FaStar className="text-gay-500" /> */}
+                      {isOpen && getStars(Instructor_Request_detail?.reviews)}
                       <p className="text-black/50 text-xs ml-1">
-                        0.0 (0 Reviews)
+                        {Instructor_Request_detail?.reviews || 0} ({Instructor_Request_detail?.totalReviews} Reviews)
                       </p>
                     </div>
                   </div>
                   <div className="md:col-span-2">
                     <div className="flex items-center gap-2 flex-wrap">
-                      {/* {Instructor_Request_detail.category?.map((category) => (
+                      {Instructor_Request_detail.category?.map((category) => (
                         <OutlineBtn text={category.value} />
-                      ))} */}
+                      ))}
                     </div>
                     <h2 className="text-2xl text-Dark_black font-semibold mt-3 max-w-[690px]">
                       I’m here to support your fitness ambitions, cut fat, and
@@ -309,11 +352,26 @@ const NewRequests = () => {
                         </p>
                         <p className="text-black/70 text-[15px] font-medium">
                           {
-                            Instructor_Request_detail?.firstFreeSessionHourlyRate
+                            Instructor_Request_detail?.firstFreeSessionHourlyRate?.value
                           }
                         </p>
                       </div>
                     </div>
+
+                    <div className="flex items-start gap-2 flex-wrap">
+                      <PiSealCheckFill className="text-red-200 text-xl" />
+                      <div>
+                        <p className="text-red-200 text-[13px]">
+                          First Free Session Type
+                        </p>
+                        <p className="text-black/70 text-[15px] font-medium">
+                          {
+                            Instructor_Request_detail?.classTypeFirstFreeSession?.value
+                          }
+                        </p>
+                      </div>
+                    </div>
+
                     <div className="flex items-start gap-2 flex-wrap">
                       <PiSealCheckFill className="text-red-200 text-xl" />
                       <div>
@@ -334,7 +392,7 @@ const NewRequests = () => {
                       <PiSealCheckFill className="text-red-200 text-xl" />
                       <div>
                         <p className="text-red-200 text-[13px]">
-                          Advanced Techniques Session
+                          Online Session
                         </p>
                         <p className="text-black/70 text-[15px] font-medium">
                           ${" "}
@@ -378,6 +436,33 @@ const NewRequests = () => {
           SetisOpen(false);
           Setconformation(false);
           heandle_Accept_Profile(getinstructor_Id);
+        }}
+      />
+      <Popup
+        isOpen={declineconformation}
+        SetisOpen={Setdeclineconformation}
+        Icons={<Decline />}
+        Headding={"Are you sure?"}
+        BodyText={
+          <div>
+            <p>
+              You’ve declined instructor’s request to join! You can revisit and
+              remove the Instructor from the blocked section at any time.
+            </p>
+            <textarea
+              name="body"
+              value={DeclineReason}
+              onChange={(e) => { setDeclineReason(e.target.value) }}
+              className="p-4 h-[120px] bg-[#DAD8D0] w-full focus:outline-none rounded-xl mt-4"
+              placeholder="Decline reason ..."
+            />
+          </div>
+        }
+        BtnText={"Okay"}
+        onClick={() => {
+          SetisOpen(false);
+          Setdeclineconformation(false);
+          heandle_Decline_Profile(getinstructor_Id, DeclineReason); // Custom handler
         }}
       />
     </>

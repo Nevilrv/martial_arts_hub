@@ -93,11 +93,12 @@ export const Instructor_Request_Details = async (instructorId) => {
   }
 };
 
-export const Requests_Accept = async (instructorId,status) => {
+export const Requests_Accept = async (body) => {
   try {
     let response = await axios({
-      method: "POST",
-      url: `${baseURL}/admin/request/status?instructorId=${instructorId}&status=${status}`,
+      method: "PUT",
+      url: `${baseURL}/admin/request/status`,
+      data: body,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -138,11 +139,12 @@ export const Instructor_Block_List = async () => {
   }
 };
 
-export const Instructor_Block = async (InstructorId,status) => {
+export const Instructor_Block = async (body) => {
   try {
     let response = await axios({
-      method: "POST",
-      url: `${baseURL}/admin/block/unblock/instructor?instructorId=${InstructorId}&status=${status}`,
+      method: "PUT",
+      url: `${baseURL}/admin/block/unblock/instructor`,
+      data: body,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

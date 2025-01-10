@@ -3,7 +3,7 @@ import AdminHeadding from "../../common/AdminHeadding";
 import Instructor_1 from "../../../../assets/images/Instructor-1.png";
 import OutlineBtn from "../../common/OutlineBtn";
 import Popup from "../../common/Popup";
-import { Allert_Popup_Icon } from "../../../../assets/icon";
+import { Allert_Popup_Icon, Decline } from "../../../../assets/icon";
 import Instructor1 from "../../../../assets/images/Instructor-4.png";
 import {
   Instructor_Block,
@@ -17,7 +17,9 @@ import User from "../../../../assets/images/userProfile.jpg"
 
 const ViewInstructors = () => {
   const [isOpen, SetisOpen] = useState(false);
+  const [removeconformation, Setremoveconformation] = useState(false)
   const [Loading, setLoading] = useState(false);
+  const [blockReason, setblockReason] = useState("")
   const [InstructorId, setInstructorId] = useState();
   const [Instructors_List, setsetInstructors_List] = useState([]);
 
@@ -38,8 +40,14 @@ const ViewInstructors = () => {
 
   const heandleBlock = async () => {
     setLoading(true);
-    const result = await Instructor_Block(InstructorId, "block");
+    const body = {
+      instructorId: InstructorId,
+      status: "block",
+      Reason: blockReason
+    }
+    const result = await Instructor_Block(body);
     if (result?.success === true) {
+      setblockReason("")
       SetisOpen(false);
       setLoading(false);
       setsetInstructors_List([]);
@@ -50,9 +58,9 @@ const ViewInstructors = () => {
     }
   };
 
-  const heandleRemove = async (Instructorid) => {
+  const heandleRemove = async () => {
     setLoading(true);
-    const result = await Instructor_Remove(Instructorid);
+    const result = await Instructor_Remove(InstructorId);
     if (result?.success === true) {
       setLoading(false);
       setsetInstructors_List([]);
@@ -62,6 +70,8 @@ const ViewInstructors = () => {
       toast.error(result?.message);
     }
   };
+
+
 
   return (
     <>
@@ -117,12 +127,12 @@ const ViewInstructors = () => {
                     >
                       Instructor ID
                     </th>
-                    <th
+                    {/* <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900"
                     >
                       Class Name
-                    </th>
+                    </th> */}
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900"
@@ -143,7 +153,7 @@ const ViewInstructors = () => {
                       <tr key={person?.instructorId} className="group">
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                           <img
-                            src={person?.profile||User}
+                            src={person?.profile || User}
                             alt=""
                             className="w-[45px] h-[45px] rounded-full grayscale group-hover:grayscale-0 duration-150"
                             srcset=""
@@ -155,9 +165,9 @@ const ViewInstructors = () => {
                         <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
                           {person?.instructorId}
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
+                        {/* <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
                           {person?.className?.length<=0?"class is not found":person?.className[0]?.className?.slice(0, 20)}
-                        </td>
+                        </td> */}
                         <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
                           {person?.joindate}
                         </td>
@@ -166,9 +176,10 @@ const ViewInstructors = () => {
                             <OutlineBtn
                               text={"Remove"}
                               className={"text-black h-[45px]"}
-                              onClick={() =>
-                                heandleRemove(person?.instructorId)
-                              }
+                              onClick={() => {
+                                setInstructorId(person?.instructorId);
+                                Setremoveconformation(true);
+                              }}
                             />
                             <OutlineBtn
                               text={"Block"}
@@ -194,16 +205,44 @@ const ViewInstructors = () => {
       <Popup
         isOpen={isOpen}
         SetisOpen={SetisOpen}
-        Icons={<Allert_Popup_Icon />}
+        Icons={<Decline />}
         Headding={"Are You Sure To Block"}
         BodyText={
-          "Are you sure you want to block this Instructor? Once blocked, they will be unable to join your platform. You can unblock them later in the Blocked Instructor section."
+          <div>
+            <p>
+              Instructor successfully blocked. You can view the Instructor’s details in the Instructor Management section or unblock them again if needed.
+            </p>
+            <textarea
+              name="body"
+              value={blockReason}
+              onChange={(e) => { setblockReason(e.target.value) }}
+              className="p-4 h-[120px] bg-[#DAD8D0] w-full focus:outline-none rounded-xl mt-4"
+              placeholder="Block reason ..."
+            />
+          </div>
         }
         BtnText={"Yes, Block"}
         Btnclass={"text-red-200 border-red-200"}
         BtnText2={"No, Go Back"}
         BtnText2Click={() => SetisOpen(false)}
         onClick={() => heandleBlock()}
+      />
+
+      <Popup
+        isOpen={removeconformation}
+        SetisOpen={Setremoveconformation}
+        Icons={<Allert_Popup_Icon />}
+        Headding={"Are you sure?"}
+        BodyText={
+          <p>
+            You want to remove this Instructor? Once remove, they will be unable to join your platform. Also remove then that created session and income details are remove.
+          </p>
+        }
+        BtnText={"Okay"}
+        onClick={() => {
+          SetisOpen(false);
+          heandleRemove();
+        }}
       />
     </>
   );
