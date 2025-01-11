@@ -21,20 +21,27 @@ const ReleaseFunds = () => {
   const navigate = useNavigate();
   const [RefundList, setRefundList] = useState([]);
   const [RefundDetails, setRefundDetails] = useState({});
+  const [adminFee, setadminFee] = useState("")
   const [isOpen, SetisOpen] = useState(false);
   const [Loading, setLoading] = useState(false);
-  //
+  console.log(adminFee, "=====>adminFee")
+
   const [TotalPaid, SetTotalPaid] = useState({
     Instructor_TotalPaid: "",
     Admin_Recive_Amount: "",
     Final_Amout: "",
   });
-  const Platform_Fees = 5;
-  const GetPrivesMonth = dayjs(new Date()).format("MM");
+
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth() + 1;
+
+  const prevMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+  const prevYear = currentMonth === 1 ? currentYear - 1 : currentYear;
 
   const Get_Refund_List = async () => {
     setLoading(true);
-    const result = await funds(GetPrivesMonth - 1);
+    const result = await funds(prevYear, prevMonth);
     if (result?.success === true) {
       setRefundList(result.data);
       setLoading(false);
@@ -53,12 +60,12 @@ const ReleaseFunds = () => {
 
   const HeandleView = async (data) => {
     setLoading(true);
-    const result = await fundsDetails(data.instructorId, GetPrivesMonth - 1);
+    const result = await fundsDetails(data.instructorId, prevYear, prevMonth);
     if (result?.success === true) {
       setRefundDetails(result.data);
       const data = result.data;
       let amount = (data.prvMonthAmount - data.prvMonthReAmount).toFixed(2);
-      let Admin_Recive_Amount = ((amount * Platform_Fees) / 100).toFixed(2);
+      let Admin_Recive_Amount = ((amount * adminFee) / 100).toFixed(2);
       let Final_Amout_paid = (amount - Admin_Recive_Amount).toFixed(2);
       SetTotalPaid({
         Instructor_TotalPaid: amount,
@@ -87,7 +94,7 @@ const ReleaseFunds = () => {
       instructorId: data?.instructorId,
       accountId: data?.accountId?.AccountId,
       balance: data.balance,
-      month: GetPrivesMonth,
+      month: prevMonth,
       prvMonthAmount: data.prvMonthAmount,
       prvMonthReAmount: data.prvMonthReAmount,
       prvTotalpaid: TotalPaid.Instructor_TotalPaid,
@@ -169,13 +176,13 @@ const ReleaseFunds = () => {
                   scope="col"
                   className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900"
                 >
-                  current Month Total Funds
+                  Previous Month Total Funds
                 </th>
                 <th
                   scope="col"
                   className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900"
                 >
-                  current Month ReFunds
+                  Previous Month Total ReFunds
                 </th>
                 <th
                   scope="col"
@@ -303,14 +310,14 @@ const ReleaseFunds = () => {
                     </div>
                   </div>
                   <div className="w-full">
-                    <p className="text-gay-300 text-[13px]">Toal Payment</p>
+                    <p className="text-gay-300 text-[13px]">Account Balance</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
                       $ {RefundDetails.balance}
                     </div>
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">
-                      Current Month Total Funds
+                      Previous Month Total Funds
                     </p>
                     <div className="flex items-center gap-3">
                       <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
@@ -321,7 +328,7 @@ const ReleaseFunds = () => {
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">
-                      Current Month Total Re-Funds
+                      Previous Month Total Re-Funds
                     </p>
                     <div className="flex items-center gap-3">
                       <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
@@ -331,17 +338,17 @@ const ReleaseFunds = () => {
                     </div>
                   </div>
                   <div className="w-full">
-                    <p className="text-gay-300 text-[13px]">Total Paid Amout</p>
+                    <p className="text-gay-300 text-[13px]">Payble Amount</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
                       $ {TotalPaid.Instructor_TotalPaid}
                     </div>
                   </div>
                   <div className="w-full">
-                    <p className="text-gay-300 text-[13px]">Platform Fees</p>
+                    <p className="text-gay-300 text-[13px]">Admin Fees</p>
                     <div className="flex items-center gap-3">
                       <input
-                        readOnly
-                        value={`${Platform_Fees}%`}
+                        value={adminFee}
+                        onChange={(e) => { setadminFee(e.target.value) }}
                         className="bg-[#D8D6CF] px-5 py-4 md:w-[247px] w-full h-[55px] mt-1 rounded-lg text-lg font-medium focus:outline-none placeholder:text-sm placeholder:text-Dark_black/50"
                         placeholder="Enter your Fess percentage"
                       />
@@ -350,7 +357,7 @@ const ReleaseFunds = () => {
                   </div>
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">
-                      Admin Recive Amount
+                      Admin Earning Amount
                     </p>
                     <div className="flex items-center gap-3">
                       <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
@@ -372,7 +379,7 @@ const ReleaseFunds = () => {
                   <OutlineBtn
                     className={"text-white bg-red-200 border-none"}
                     text={"Release Amount"}
-                    onClick={()=>HeandleRelease(RefundDetails)}
+                    onClick={() => HeandleRelease(RefundDetails)}
                   />
                 </div>
               </div>

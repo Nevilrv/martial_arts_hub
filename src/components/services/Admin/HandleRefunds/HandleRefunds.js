@@ -1,11 +1,11 @@
 import axios from "axios";
 import { baseURL } from "../../URL";
 
-export const funds = async (month) => {
+export const funds = async (year, month) => {
   try {
     let response = await axios({
       method: "GET",
-      url: `${baseURL}/admin/release/funds?month=${month}`,
+      url: `${baseURL}/admin/release/funds?year=${year}&month=${month}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -16,11 +16,11 @@ export const funds = async (month) => {
   }
 };
 
-export const fundsDetails = async (instructorId,month) => {
+export const fundsDetails = async (instructorId, year, month) => {
   try {
     let response = await axios({
       method: "GET",
-      url: `${baseURL}/admin/release/fundsdetail?instructorId=${instructorId}&month=${month}`,
+      url: `${baseURL}/admin/release/fundsdetail?instructorId=${instructorId}&year=${year}&month=${month}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -39,7 +39,7 @@ export const fundsRelease = async (body) => {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      data:body
+      data: body
     });
     return response.data;
   } catch (error) {
