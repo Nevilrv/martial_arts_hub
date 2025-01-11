@@ -14,11 +14,13 @@ import User from "../../../../assets/images/userProfile.jpg";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { FaArrowLeft } from "react-icons/fa6";
+import dayjs from "dayjs";
 
 const ViewStudents = () => {
   const [isOpen, SetisOpen] = useState(false);
   const [Loading, setLoading] = useState(false);
   const [Student_Deatils_Popup, setStudent_Deatils_Popup] = useState(false);
+  const [DeclineReason, setDeclineReason] = useState("")
   const [Student_Deatils, setStudent_Deatils] = useState({});
   const [Student_List, setStudent_List] = useState([]);
   const [studentid, setstudentid] = useState();
@@ -54,8 +56,14 @@ const ViewStudents = () => {
 
   const heandleBlock = async () => {
     setLoading(true);
-    const result = await Students_Block(studentid, "block");
+    const body = {
+      studentId: studentid,
+      status: "block",
+      DeclineReason: DeclineReason
+    }
+    const result = await Students_Block(body);
     if (result?.success === true) {
+      setDeclineReason("")
       SetisOpen(false);
       setLoading(false);
       setStudent_Deatils_Popup(false);
@@ -136,19 +144,7 @@ const ViewStudents = () => {
                       scope="col"
                       className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900"
                     >
-                      Class Name
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900"
-                    >
                       Joined Date
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900"
-                    >
-                      Paid Amount
                     </th>
                     <th
                       scope="col"
@@ -163,7 +159,8 @@ const ViewStudents = () => {
                     <tr key={person.studentId}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                         <img
-                          src={person.profile || User}
+                          // src={person.profile || User}
+                          src={person.profile_picture || User}
                           alt=""
                           className="w-[45px] h-[45px] rounded-full"
                           srcset=""
@@ -176,20 +173,14 @@ const ViewStudents = () => {
                         {person.studentId}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                        {person.className?.slice(0, 20)}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                        {person.joindate}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                        {person.paidAmount}
+                        {dayjs(person.createdAt).format("DD/MM/YYYY")}
                       </td>
                       <td className="whitespace-nowrap px-3 pr-6 py-4 text-Dark_black font-medium w-[200px]">
                         <div className="flex items-center gap-2 justify-end">
                           <OutlineBtn
                             text={"View"}
                             className={"text-black h-[45px]"}
-                            onClick={() => {setStudent_Deatils_Popup(true);Get_Student_Details(person.studentId); setstudentid(person.studentId);}}
+                            onClick={() => { setStudent_Deatils_Popup(true); Get_Student_Details(person.studentId); setstudentid(person.studentId); }}
                           />
                           <OutlineBtn
                             text={"Block"}
@@ -230,7 +221,7 @@ const ViewStudents = () => {
               <div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <FaArrowLeft className="text-2xl" />
+                    <FaArrowLeft className="text-2xl cursor-pointer" onClick={() => setStudent_Deatils_Popup(false)} />
                     <h2 className="text-Dark_black text-2xl font-semibold ml-5">
                       Student’s Profile
                     </h2>
@@ -238,7 +229,11 @@ const ViewStudents = () => {
                   <OutlineBtn
                     text={"Block"}
                     className={"border border-red-200 text-red-200"}
-                    onClick={heandleBlock}
+                    onClick={() => {
+                      SetisOpen(true);
+                      // setstudentid(Student_Deatils?.studentId);
+                      console.log(Student_Deatils?.studentId)
+                    }}
                   />
                 </div>
                 <div className="mt-11">
@@ -253,7 +248,7 @@ const ViewStudents = () => {
                       </div>
                       <div className="">
                         <h2 className="mt-10 text-black text-2xl font-bold">
-                        {Student_Deatils?.name}
+                          {Student_Deatils?.name}
                         </h2>
                         <p className="text-black/70 text-sm mt-4">
                           Joined as: <span className="font-bold">{Student_Deatils?.joinedAs}</span>
@@ -292,7 +287,18 @@ const ViewStudents = () => {
         Icons={<Allert_Popup_Icon />}
         Headding={"Are You Sure To Block"}
         BodyText={
-          "Are you sure you want to block this Instructor? Once blocked, they will be unable to join your platform. You can unblock them later in the Blocked Instructor section."
+          <div>
+            <p>
+              Are you sure you want to block this student? Once blocked, they will be unable to join your class. You can unblock them later in the Blocked Students section.
+            </p>
+            <textarea
+              name="body"
+              value={DeclineReason}
+              onChange={(e) => { setDeclineReason(e.target.value) }}
+              className="p-4 h-[120px] bg-[#DAD8D0] w-full focus:outline-none rounded-xl mt-4"
+              placeholder="Block reason ..."
+            />
+          </div>
         }
         BtnText={"Yes, Block"}
         Btnclass={"text-red-200 border-red-200"}

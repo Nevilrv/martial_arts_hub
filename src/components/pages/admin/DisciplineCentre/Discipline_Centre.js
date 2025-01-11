@@ -40,7 +40,7 @@ const Discipline_Centre = () => {
     <>
       {Loading && <Spinner />}
       <div className="flex items-center justify-between">
-        <AdminHeadding Headding={"All Categories"} />
+        <AdminHeadding Headding={"All Category"} />
         <div className="flex items-center gap-2 flex-wrap">
           <select
             id="userType"

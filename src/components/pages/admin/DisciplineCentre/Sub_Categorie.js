@@ -44,13 +44,14 @@ const Sub_Categorie = () => {
 
   const Get_Sub_Category_List = async () => {
     setLoading(true);
-    const result = await Sub_Category_List(Paramsdata.categoryid);
+    const result = await Sub_Category_List(Paramsdata.name);
     if (result?.success === true) {
       setLoading(false);
       Set_Category_List(result.data);
     } else {
       setLoading(false);
-      toast.error(result?.message);
+      toast.error("No any subcategory created.")
+      // toast.error(result?.message);
     }
   };
 
@@ -172,10 +173,10 @@ const Sub_Categorie = () => {
     <>
       {Loading && <Spinner />}
       <div className="flex items-center justify-between mb-7 sm:flex-row flex-col gap-2">
-        <AdminHeadding Headding={"Sub Categories"} />
+        <AdminHeadding Headding={"Sub Category"} />
         <div className="flex items-center gap-4">
           <OutlineBtn
-            text="Add Sub Categories"
+            text="Add Sub Category"
             className={`border-black/30 w-[260px] font-medium text-lg bg-black text-white rounded-xl`}
             onClick={() => SetisOpen(true)}
           />
@@ -249,7 +250,7 @@ const Sub_Categorie = () => {
             >
               <div>
                 <h1 className=" mt-3 font-semibold text-2xl">
-                  {IsEdit === true ? "Edit Sub Categorie" : "Add Sub Categorie"}
+                  {IsEdit === true ? "Edit Sub Category" : "Add Sub Category"}
                 </h1>
                 <div className="mt-5 grid grid-cols-1 gap-3">
                   <Inputfild
@@ -260,15 +261,15 @@ const Sub_Categorie = () => {
                         : Sub_Categorie_Details.categoryName
                     }
                     name="categoryName"
-                    placeholder="Enter your Sub Categorie"
-                    Label={"Enter your Sub Categorie"}
+                    placeholder="Enter your Sub Category"
+                    Label={"Enter your Sub Category"}
                     onChange={handleChange}
                     className={"rounded-lg md:w-full"}
                     Labelclass={"mb-1 customradiusBlack text-base"}
                   />
                   <div>
                     <label className={`text-base block mb-1`}>
-                      Enter your Sub Categorie Details
+                      Enter your Sub Category Details
                     </label>
                     <textarea
                       name="categoryDescription"
@@ -319,13 +320,13 @@ const Sub_Categorie = () => {
                 <div className="flex sm:flex-row flex-col items-center gap-3 mt-14 justify-end">
                   {IsEdit === true ? (
                     <OutlineBtn
-                      text={"Edit Sub Categorie"}
+                      text={"Edit Sub Category"}
                       className={`border-black/30 w-[260px] font-medium text-lg bg-black text-white rounded-lg`}
                       onClick={Edit_Sub_Category}
                     />
                   ) : (
                     <OutlineBtn
-                      text={"Create Sub Categorie"}
+                      text={"Create Sub Category"}
                       className={`border-black/30 w-[260px] font-medium text-lg bg-black text-white rounded-lg`}
                       onClick={Add_Sub_Category}
                     />

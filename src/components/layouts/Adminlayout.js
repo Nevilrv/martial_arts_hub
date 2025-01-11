@@ -130,12 +130,12 @@ const SidbarNavigation = [
     Starticon: <DashboardDiscipline />,
     sub: [
       {
-        Navigate: "Categories Dashboard",
+        Navigate: "Categories Requests",
         icon: <BiChevronDown />,
         Path: Routing.Admin_Discipline_Centre,
       },
       {
-        Navigate: "Create_Categorie",
+        Navigate: "Manage Categories",
         icon: <BiChevronDown />,
         Path: Routing.Admin_Create_Categorie,
       },

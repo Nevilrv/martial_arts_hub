@@ -35,8 +35,12 @@ const BlockedStudents = () => {
   // UnBlock APi
   const heandleBlock = async (studentId) => {
     setLoading(true);
-    studentid = studentId;
-    const result = await Students_Block(studentid, "unblock");
+    const body = {
+      studentId: studentId,
+      status: "unblock",
+      DeclineReason: ""
+    }
+    const result = await Students_Block(body);
     if (result?.success === true) {
       SetisOpen(false);
       setLoading(false);

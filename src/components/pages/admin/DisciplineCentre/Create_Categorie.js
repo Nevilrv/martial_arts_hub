@@ -247,8 +247,8 @@ const Create_Categorie = () => {
               <div>
                 <h1 className=" mt-3 font-semibold text-2xl">
                   {isEdit === true
-                    ? "Edit Main Categorie"
-                    : "Add Main Categorie"}
+                    ? "Edit Main Category"
+                    : "Add Main Category"}
                 </h1>
                 <div className="mt-5 grid grid-cols-1 gap-3">
                   <Inputfild
@@ -260,14 +260,14 @@ const Create_Categorie = () => {
                         : Category.maincategory
                     }
                     onChange={handleChange}
-                    placeholder="Enter your main Categorie"
-                    Label={"Enter your main Categorie"}
+                    placeholder="Enter your main Category"
+                    Label={"Enter your main Category"}
                     className={"rounded-lg md:w-full"}
                     Labelclass={"mb-1 customradiusBlack text-base"}
                   />
                   <div>
                     <label className={`text-base block mb-1`}>
-                      Enter your main Categorie Details
+                      Enter your main Category Details
                     </label>
                     <textarea
                       onChange={handleChange}
@@ -328,13 +328,13 @@ const Create_Categorie = () => {
                 <div className="flex sm:flex-row flex-col items-center gap-3 mt-14 justify-end">
                   {isEdit === true ? (
                     <OutlineBtn
-                      text={"Edit Main Categorie"}
+                      text={"Edit Main Category"}
                       className={`border-black/30 w-[260px] font-medium text-lg bg-black text-white rounded-lg`}
                       onClick={Edit_Main_Category}
                     />
                   ) : (
                     <OutlineBtn
-                      text={"Create Main Categorie"}
+                      text={"Create Main Category"}
                       className={`border-black/30 w-[260px] font-medium text-lg bg-black text-white rounded-lg`}
                       onClick={Add_Main_Category}
                     />
@@ -349,7 +349,7 @@ const Create_Categorie = () => {
         isOpen={Delete}
         SetisOpen={SetDelete}
         Icons={<Allert_Popup_Icon />}
-        Headding={"Are you Sure to Delete Categorie"}
+        Headding={"Are you Sure to Delete Category"}
         BodyText={
           "The associated subcategory is likewise deleted if the main category is deleted. Should you still delete this category? "
         }

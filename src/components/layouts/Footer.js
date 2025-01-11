@@ -1,10 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaFacebookF, FaTwitter } from "react-icons/fa6";
 import { IoLogoInstagram } from "react-icons/io";
+import Spinner from "./Spinner";
+import { toast } from "react-toastify";
+import { Subscribe } from "../services/Admin/ContactUs/ContactUs";
+import { Routing } from "../shared/Routing";
+import { useNavigate } from "react-router-dom";
+
 
 const Footer = () => {
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate()
+
+  const handlesubcribe = async () => {
+    setLoading(true);
+    const body = {
+      fullName: "",
+      email: email,
+      message: ""
+    };
+    const result = await Subscribe(body)
+    if (result?.success === true) {
+      setLoading(false);
+      setEmail("")
+      // toast.success(result?.message);
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
   return (
     <>
+      {loading && <Spinner />}
       <footer className="px-3 lg:px-8 pt-16 pb-1" name="Contact_Us">
         <div className="flex items-start justify-between flex-wrap gap-y-10">
           <div>
@@ -22,29 +50,29 @@ const Footer = () => {
           </div>
           <div>
             <h2 className="text-black text-xl font-medium">About</h2>
-            <p className="text-[15px] text-black/50">Who we are</p>
-            <p className="text-[15px] text-black/50">Why choose us</p>
-            <p className="text-[15px] text-black/50">Our Categories</p>
+            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer">Who we are</p>
+            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer">Why choose us</p>
+            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer" onClick={() => navigate(`/instructors/all`)}>Instructors</p>
           </div>
           <div>
             <h2 className="text-black text-xl font-medium">Support</h2>
-            <p className="text-[15px] text-black/50">Contact Us</p>
-            <p className="text-[15px] text-black/50">Privacy Policy</p>
-            <p className="text-[15px] text-black/50">Terms & Conditions</p>
-            <p className="text-[15px] text-black/50">Frequently Asked Questions</p>
+            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer">Contact Us</p>
+            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer">Privacy Policy</p>
+            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer">Terms & Conditions</p>
+            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer">Frequently Asked Questions</p>
           </div>
           <div className="md:w-auto w-full">
             <h2 className="text-xl font-medium">Want to stay updated?</h2>
             <p className="text-[15px] text-black/50">Subscribe to our newsletter</p>
             <div className="relative">
-              <input type="email" className="md:w-[300px] w-full h-[50px] bg-white border border-[#54535680] pl-6 rounded-full focus:outline-none pr-[70px]" placeholder="Enter Email" />
-              <button className="h-[50px] w-[68px] bg-black rounded-full text-white absolute top-0 right-0">Join</button>
+              <input type="email" value={email} onChange={(e) => { setEmail(e.target.value) }} className="md:w-[300px] w-full h-[50px] bg-white border border-[#54535680] pl-6 rounded-full focus:outline-none pr-[70px]" placeholder="Enter Email" />
+              <button onClick={() => { handlesubcribe() }} className="h-[50px] w-[68px] bg-black rounded-full text-white absolute top-0 right-0">Join</button>
             </div>
           </div>
         </div>
         <div className="mt-[131px] mb-1">
           <p className="text-center text-sm">
-          © Copyright 2024 - <span className="font-bold">martial arts hub.</span>, All Rights Reserved.
+            © Copyright 2024 - <span className="font-bold">martial arts hub.</span>, All Rights Reserved.
           </p>
         </div>
       </footer>

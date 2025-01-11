@@ -46,11 +46,12 @@ export const Students_Block_List = async () => {
   }
 };
 
-export const Students_Block = async (studentId, status) => {
+export const Students_Block = async (body) => {
   try {
     let response = await axios({
-      method: "POST",
-      url: `${baseURL}/admin/block/unblock/student?studentId=${studentId}&status=${status}`,
+      method: "PUT",
+      url: `${baseURL}/admin/block/unblock/student`,
+      data: body,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

@@ -109,11 +109,11 @@ export const Sub_Category_List_For_Instructor = async (maincategory) => {
 };
 
 
-export const Sub_Category_List = async (maincategoryId) => {
+export const Sub_Category_List = async (maincategory) => {
   try {
     let response = await axios({
       method: "GET",
-      url: `${baseURL}/admin/get/category?maincategoryId=${maincategoryId}`,
+      url: `${baseURL}/admin/get/category/${maincategory}`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

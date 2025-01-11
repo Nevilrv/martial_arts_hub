@@ -270,10 +270,10 @@ const Index = () => {
           <div className="flex items-center justify-between flex-wrap gap-y-5">
             <div>
               <h2 className="text-white text-[32px] font-semibold">
-                Can't see your Categories?
+                Can't see your category?
               </h2>
               <p className="text-lg font-light text-white max-w-[429px] mt-3">
-                Can't find your martial art Categories in our list? Don't worry!
+                Can't find your martial art category in our list? Don't worry!
                 Simply notify us, and we'll make every effort to add it to our
                 offerings.
               </p>
@@ -285,7 +285,7 @@ const Index = () => {
                 value={discipline.disciplineName}
                 onChange={heandleChange}
                 className="border border-white/30 md:w-[485px] w-full h-[50px] rounded-full px-8 focus:outline-none bg-gay-100/10 placeholder:text-white/50 text-white"
-                placeholder="Enter Categorie’s name"
+                placeholder="Enter category’s name"
               />
               <textarea
                 className="border border-white/30 md:w-[485px] w-full h-[90px] rounded-2xl px-8 focus:outline-none bg-gay-100/10 placeholder:text-white/50 text-white pt-4"
@@ -307,7 +307,7 @@ const Index = () => {
         </div>
       </section>
       {/* we are section start */}
-      <section className="py-20 px-3 lg:px-8" name="about">
+      <section id="Whoweare" className="py-20 px-3 lg:px-8" name="about">
         <h2 className="Titile">martial arts hub.</h2>
         <div className="-mt-7">
           <h2 className="text-black text-[40px] font-medium leading-10 text-center">
@@ -348,9 +348,8 @@ const Index = () => {
                   >
                     <span>{question.title}</span>
                     <svg
-                      className={`w-3 h-3 mx-auto ${
-                        openId === index ? "" : "rotate-180"
-                      } shrink-0`}
+                      className={`w-3 h-3 mx-auto ${openId === index ? "" : "rotate-180"
+                        } shrink-0`}
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -379,12 +378,12 @@ const Index = () => {
               </div>
             ))}
           </div>
-          <div className="flex items-center justify-center">
+          {/* <div className="flex items-center justify-center">
             <button className="relative bg-transparent h-[50px] border border-black/50 text-white text-lg leading-8 px-4 py-4 rounded-full flex justify-center items-center after:absolute after:bg-black after:h-full after:w-full after:top-0 after:left-0 hover:after:h-0 after:transition-[2s] after:-z-20 hover:text-black overflow-hidden group mt-4">
               Learn more
               <IoIosArrowRoundForward className="text-white text-2xl group-hover:text-black  rotate-[-46deg]" />
             </button>
-          </div>
+          </div> */}
         </div>
       </section>
       {/* Ready to Learn section start */}
@@ -402,14 +401,14 @@ const Index = () => {
           or message our instructors for personalized guidance.
         </p>
         <div className="flex items-center justify-center mt-8 gap-4 flex-wrap">
-          <button className="px-6 py-3 text-black flex items-center bg-white rounded-full text-lg font-medium">
+          <button onClick={() => navigate(Routing.StudentSignup)} className="px-6 py-3 text-black flex items-center bg-white rounded-full text-lg font-medium">
             Start Today
             <IoIosArrowRoundForward className="text-black text-2xl group-hover:text-black  rotate-[-46deg]" />
           </button>
-          <button className="px-6 py-3 text-white flex items-center bg-transparent border border-white rounded-full text-lg font-medium">
+          {/* <button className="px-6 py-3 text-white flex items-center bg-transparent border border-white rounded-full text-lg font-medium">
             Learn more
             <IoIosArrowRoundForward className="text-white text-2xl rotate-[-46deg]" />
-          </button>
+          </button> */}
         </div>
       </section>
       {/* Join Us section start */}
@@ -595,14 +594,13 @@ const Index = () => {
                 <button
                   type="button"
                   className="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 dark:border-gray-700 dark:text-gray-400 gap-3 focus:outline-none"
-                 
+
                   aria-expanded={Why_Join_Us_Id === index}
                   aria-controls={`accordion-body-${index}`}
                 >
                   <svg
-                    className={`w-3 mx-auto h-3 ${
-                      Why_Join_Us_Id === index ? "" : "rotate-180"
-                    } shrink-0`}
+                    className={`w-3 mx-auto h-3 ${Why_Join_Us_Id === index ? "" : "rotate-180"
+                      } shrink-0`}
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -619,16 +617,16 @@ const Index = () => {
                 </button>
               </h2>
               {Why_Join_Us_Id === index && (
-                question.value.map((newdata,index)=>(
-                <div
-                  id={`accordion-body-${index}`}
-                  aria-labelledby={`accordion-heading-${index}`}
-                >
-                  <h2 className="font-medium text-xl rtl:text-right text-gray-500 dark:border-gray-700 dark:text-gray-400">{newdata.title}</h2>
-                  <div className="py-2 border-gray-200 dark:border-gray-700">
-                    <p className="mb-2 text-black/50">{newdata.body}</p>
+                question.value.map((newdata, index) => (
+                  <div
+                    id={`accordion-body-${index}`}
+                    aria-labelledby={`accordion-heading-${index}`}
+                  >
+                    <h2 className="font-medium text-xl rtl:text-right text-gray-500 dark:border-gray-700 dark:text-gray-400">{newdata.title}</h2>
+                    <div className="py-2 border-gray-200 dark:border-gray-700">
+                      <p className="mb-2 text-black/50">{newdata.body}</p>
+                    </div>
                   </div>
-                </div>
                 ))
               )}
             </div>
@@ -726,8 +724,8 @@ const Index = () => {
               and empower students with your knowledge. Enjoy the benefits of
               online teaching with a dedicated support system.
             </p>
-            <button className="px-6 py-5 text-black flex items-center bg-white rounded-full text-lg font-medium">
-              Lead the Way
+            <button onClick={() => navigate(Routing.InstructorSignup)} className="px-6 py-5 text-black flex items-center bg-white rounded-full text-lg font-medium">
+              Become an Instructor
               <IoIosArrowRoundForward className="text-black text-2xl group-hover:text-black  rotate-[-46deg]" />
             </button>
           </div>
@@ -760,9 +758,8 @@ const Index = () => {
                 >
                   <span>{question.title}</span>
                   <svg
-                    className={`w-3 h-3 ${
-                      Who_we_are_Id === index ? "" : "rotate-180"
-                    } shrink-0`}
+                    className={`w-3 h-3 ${Who_we_are_Id === index ? "" : "rotate-180"
+                      } shrink-0`}
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
