@@ -197,7 +197,7 @@ const HandleRefunds = () => {
                     $ {person.Amount}
                   </td>
                   <td className={`whitespace-nowrap px-3 py-4 font-semibold`}>
-                    {person.Reason}
+                    {person.Reason?.slice(0, 15)}...
                   </td>
                   <td className="whitespace-nowrap px-3 pr-6 py-4 text-Dark_black font-medium w-[200px]">
                     <div className="flex items-center gap-2 justify-end">

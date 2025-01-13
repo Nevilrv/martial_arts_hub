@@ -58,6 +58,25 @@ const ReleaseFunds = () => {
     }
   };
 
+  const HandleAdminFeeChange = (feePercentage) => {
+
+    const fee = parseFloat(feePercentage) || 0
+    setadminFee(feePercentage);
+
+    if (RefundDetails) {
+      let amount = (RefundDetails.prvMonthAmount - RefundDetails.prvMonthReAmount).toFixed(2);
+      let Admin_Recive_Amount = ((amount * fee) / 100).toFixed(2);
+      let Final_Amout_paid = (amount - Admin_Recive_Amount).toFixed(2);
+
+      SetTotalPaid({
+        Instructor_TotalPaid: amount,
+        Admin_Recive_Amount: Admin_Recive_Amount,
+        Final_Amout: Final_Amout_paid,
+      });
+    }
+  };
+
+
   const HeandleView = async (data) => {
     setLoading(true);
     const result = await fundsDetails(data.instructorId, prevYear, prevMonth);
@@ -95,6 +114,7 @@ const ReleaseFunds = () => {
       accountId: data?.accountId?.AccountId,
       balance: data.balance,
       month: prevMonth,
+      year: prevYear,
       prvMonthAmount: data.prvMonthAmount,
       prvMonthReAmount: data.prvMonthReAmount,
       prvTotalpaid: TotalPaid.Instructor_TotalPaid,
@@ -347,8 +367,11 @@ const ReleaseFunds = () => {
                     <p className="text-gay-300 text-[13px]">Admin Fees</p>
                     <div className="flex items-center gap-3">
                       <input
+                        type="number"
                         value={adminFee}
-                        onChange={(e) => { setadminFee(e.target.value) }}
+                        onChange={(e) => {
+                          HandleAdminFeeChange(e.target.value);
+                        }}
                         className="bg-[#D8D6CF] px-5 py-4 md:w-[247px] w-full h-[55px] mt-1 rounded-lg text-lg font-medium focus:outline-none placeholder:text-sm placeholder:text-Dark_black/50"
                         placeholder="Enter your Fess percentage"
                       />
@@ -360,7 +383,7 @@ const ReleaseFunds = () => {
                       Admin Earning Amount
                     </p>
                     <div className="flex items-center gap-3">
-                      <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
+                      <div id="TestAmount" className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
                         $ {TotalPaid.Admin_Recive_Amount}
                       </div>
                       <span className="lg:block hidden">=</span>
@@ -377,9 +400,9 @@ const ReleaseFunds = () => {
                 </div>
                 <div className="mt-11 flex justify-end">
                   <OutlineBtn
-                    className={"text-white bg-red-200 border-none"}
-                    text={"Release Amount"}
-                    onClick={() => HeandleRelease(RefundDetails)}
+                    className={`text-white ${TotalPaid.Final_Amout > 0 ? 'bg-Green-200' : 'bg-red-200'}  border-none`}
+                    text={TotalPaid.Final_Amout > 0 ? 'Release Amount' : 'Insufficient balance'}
+                    onClick={() => { TotalPaid.Final_Amout > 0 ? HeandleRelease(RefundDetails) : HeandleRelease() }}
                   />
                 </div>
               </div>
