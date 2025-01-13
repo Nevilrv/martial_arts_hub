@@ -357,7 +357,7 @@ const FinanceDashboard = () => {
                     </h2>
                     <p className="text-xs text-black/70">
                       <span className="font-semibold">
-                        {transaction?.role} • Class Name
+                        {transaction?.role} • Class Name.
                       </span>{" "}
                       {transaction?.className?.slice(0, 20) || "-"} • {" Funds Released "}
                       <span className="font-semibold">Class Date:</span>{" "}
