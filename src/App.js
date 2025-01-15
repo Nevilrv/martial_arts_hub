@@ -540,7 +540,7 @@ function App() {
                           to={Routing.Initial}
                           className="text-sm font-semibold leading-7 text-white"
                         >
-                          <span aria-hidden="true">&larr;</span> Back to home
+                          <span aria-hidden="true">&larr;</span> Back to home 
                         </Link>
                       </div>
                     </div>
