@@ -12,7 +12,6 @@ const Footer = () => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const navigate = useNavigate()
-
   const handlesubcribe = async () => {
     setLoading(true);
     const body = {
@@ -30,6 +29,13 @@ const Footer = () => {
       toast.error(result?.message);
     }
   };
+
+  const handleScroll = (elementIds) => {
+    const element = document.getElementById(elementIds)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" }); // Smoothly scroll to the section
+    }
+  };
   return (
     <>
       {loading && <Spinner />}
@@ -45,21 +51,23 @@ const Footer = () => {
             <div className="flex items-center gap-5 mt-4">
               <FaFacebookF />
               <FaTwitter />
-              <IoLogoInstagram />
+              <a href="https://www.instagram.com/martialartshub.co?igsh=MXAzdzRneDNldGU1OQ==" target="_blank" rel="noopener noreferrer">
+                <IoLogoInstagram />
+              </a>
             </div>
           </div>
           <div>
             <h2 className="text-black text-xl font-medium">About</h2>
-            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer">Who we are</p>
-            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer">Why choose us</p>
+            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer" onClick={() => { handleScroll('WhoWeAre') }}>Who we are</p>
+            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer" onClick={() => { handleScroll('WhyJoinUs') }}>Why Join Us</p>
             <p className="text-[15px] hover:text-black text-black/50 cursor-pointer" onClick={() => navigate(`/instructors/all`)}>Instructors</p>
           </div>
           <div>
             <h2 className="text-black text-xl font-medium">Support</h2>
-            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer">Contact Us</p>
+            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer" onClick={() => { handleScroll('gta') }}>Contact Us</p>
             <p className="text-[15px] hover:text-black text-black/50 cursor-pointer">Privacy Policy</p>
             <p className="text-[15px] hover:text-black text-black/50 cursor-pointer">Terms & Conditions</p>
-            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer">Frequently Asked Questions</p>
+            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer" onClick={() => { handleScroll('FAQ') }}>Frequently Asked Questions</p>
           </div>
           <div className="md:w-auto w-full">
             <h2 className="text-xl font-medium">Want to stay updated?</h2>

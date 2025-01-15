@@ -11,10 +11,14 @@ import Login_image from "../../../../assets/images/LoginImage.png";
 import { StudentLogin } from "../../../services/student/auth";
 import Spinner from "../../../layouts/Spinner";
 import Socket from "../../common/Socket";
+import Popup from "../../common/Popup";
+import { Decline } from "../../../../assets/icon";
 
 const Login = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
+  const [isOpen, SetisOpen] = useState(false);
+  const [block, setblock] = useState({});
   const [userdata, setUserdata] = useState({
     email: "",
     password: "",
@@ -40,16 +44,21 @@ const Login = () => {
       password: userdata.password,
     };
     const result = await StudentLogin(data);
-    if (result?.success === true) {
+    if (result?.success === true && result.code === 200) {
       setLoading(false);
       localStorage.setItem("_id", JSON.stringify(result?.data?.studentId));
       localStorage.setItem("Role", JSON.stringify(result?.data?.role));
       localStorage.setItem("email", JSON.stringify(result?.data?.email));
       localStorage.setItem("profile_picture", JSON.stringify(result?.data?.profile_picture));
       localStorage.setItem("token", result?.Token);
-      Socket.emit("StudentActive", {studentId:result?.data?.studentId, status:"login"});
+      Socket.emit("StudentActive", { studentId: result?.data?.studentId, status: "login" });
       localStorage.setItem("is_login", true);
       navigate(Routing.StudentDashboard);
+
+    } else if (result?.success === true && result.code === 401) {
+      setLoading(false);
+      setblock(result?.data || {});
+      SetisOpen(true);
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -119,6 +128,7 @@ const Login = () => {
                       <Inputfild
                         type={"email"}
                         name={"email"}
+                        value={userdata.email}
                         onChange={handleChange}
                         placeholder={"Email"}
                         Label={"Email"}
@@ -127,6 +137,7 @@ const Login = () => {
                       <Inputfild
                         type={"password"}
                         name={"password"}
+                        value={userdata.password}
                         onChange={handleChange}
                         placeholder={"Password"}
                         Label={"Password"}
@@ -162,6 +173,21 @@ const Login = () => {
           </div>
         </div>
       </Dialog>
+      <Popup
+        isOpen={isOpen}
+        SetisOpen={SetisOpen}
+        Icons={<Decline />}
+        Headding={`You have been ${block.ReasonStatus}`}
+        BodyText={block.Reason}
+        BtnText={"Okay"}
+        onClick={() => {
+          SetisOpen(false);
+          setUserdata({
+            email: "",
+            password: ""
+          })
+        }}
+      />;
     </>
   );
 };

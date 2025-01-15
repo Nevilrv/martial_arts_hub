@@ -307,7 +307,7 @@ const Index = () => {
         </div>
       </section>
       {/* we are section start */}
-      <section id="Whoweare" className="py-20 px-3 lg:px-8" name="about">
+      <section id="WhoWeAre" className="py-20 px-3 lg:px-8" name="about">
         <h2 className="Titile">martial arts hub.</h2>
         <div className="-mt-7">
           <h2 className="text-black text-[40px] font-medium leading-10 text-center">
@@ -412,7 +412,7 @@ const Index = () => {
         </div>
       </section>
       {/* Join Us section start */}
-      <section className="md:py-space py-20 px-3 lg:px-8">
+      <section id="WhyJoinUs" className="md:py-space py-20 px-3 lg:px-8">
         <h2 className="text-center text-[40px] font-medium">Why Join Us</h2>
         <div className="sm:block hidden">
           <div className="h-[420px] w-[420px] bg-gay-400/15 rounded-full mt-[188px] mx-auto  items-center justify-center relative lg:flex hidden">
@@ -732,7 +732,7 @@ const Index = () => {
         </div>
       </section>
       {/* Frequently Asked start */}
-      <section className="py-space px-3 lg:px-8">
+      <section id="FAQ" className="py-space px-3 lg:px-8">
         <h2 className="text-black text-[40px] text-center">
           Frequently Asked Questions
         </h2>

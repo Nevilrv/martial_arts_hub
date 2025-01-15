@@ -275,6 +275,7 @@ const StudentProfile = ({ children }) => {
                           value={Update_Profiledetail?.name}
                           Labelclass={"text-Dark_black font-medium"}
                           className={"rounded-xl md:w-full h-[70px]"}
+                          requried
                         />
                       </div>
                     </div>

@@ -158,8 +158,8 @@ const FinanceDashboard = () => {
               )}
               <h4
                 className={`${Earningdata?.total_Funds?.total_Funds_Growth > 0
-                    ? "text-green"
-                    : "text-red-200"
+                  ? "text-green"
+                  : "text-red-200"
                   } font-semibold ml-2`}
               >
                 {Earningdata?.total_Funds?.total_Funds_Growth} %
@@ -185,8 +185,8 @@ const FinanceDashboard = () => {
               )}
               <h4
                 className={`${Earningdata?.Release_Funds?.Release_Funds_Growth > 0
-                    ? "text-green"
-                    : "text-red-200"
+                  ? "text-green"
+                  : "text-red-200"
                   } font-semibold ml-2`}
               >
                 {Earningdata?.Release_Funds?.Release_Funds_Growth} %
@@ -212,8 +212,8 @@ const FinanceDashboard = () => {
               )}
               <h4
                 className={`${Earningdata?.refund_Funds?.refund_Funds_Growth > 0
-                    ? "text-green"
-                    : "text-red-200"
+                  ? "text-green"
+                  : "text-red-200"
                   } font-semibold ml-2`}
               >
                 {Earningdata?.refund_Funds?.refund_Funds_Growth} %
@@ -239,8 +239,8 @@ const FinanceDashboard = () => {
               )}
               <h4
                 className={`${Earningdata?.Admin_Earnings?.Admin_Earnings_Growth > 0
-                    ? "text-green"
-                    : "text-red-200"
+                  ? "text-green"
+                  : "text-red-200"
                   } font-semibold ml-2`}
               >
                 {Earningdata?.Admin_Earnings?.Admin_Earnings_Growth} %
@@ -357,11 +357,11 @@ const FinanceDashboard = () => {
                     </h2>
                     <p className="text-xs text-black/70">
                       <span className="font-semibold">
-                        {transaction?.role} • Class Name.
+                        {transaction?.role} • {transaction?.classdate ? 'Class Name.' : 'Funds Released.'}
                       </span>{" "}
-                      {transaction?.className?.slice(0, 20) || "-"} • {" Funds Released "}
-                      <span className="font-semibold">Class Date:</span>{" "}
-                      {dayjs(transaction?.classdate || "-").format(
+                      {transaction?.className?.slice(0, 20) || "Release Funds"} • {"  "}
+                      <span className="font-semibold">{transaction?.classdate ? 'Class Date' : 'Release Date'}:</span>{" "}
+                      {dayjs(transaction?.classdate || transaction?.paymentsDate).format(
                         "DD MMM, YYYY"
                       )}
                     </p>
@@ -381,10 +381,10 @@ const FinanceDashboard = () => {
                   </h3>
                   <p
                     className={`${transaction?.transactionType === "received"
-                        ? "text-green"
-                        : transaction?.transactionType === "refunded"
-                          ? "text-red-200"
-                          : "text-purple-500"
+                      ? "text-green"
+                      : transaction?.transactionType === "refunded"
+                        ? "text-red-200"
+                        : "text-purple-500"
                       } text-sm font-medium text-right`}
                   >
                     {transaction?.transactionType === "received"
@@ -457,8 +457,8 @@ const FinanceDashboard = () => {
                 </h2>
                 <div
                   className={`${Lastcalculated?.total_funds?.TotalFundsGrowth >= 0
-                      ? "bg-green"
-                      : "bg-red-200"
+                    ? "bg-green"
+                    : "bg-red-200"
                     }  px-2 py-1 rounded-full text-white flex items-center justify-center  text-sm font-medium`}
                 >
                   {Lastcalculated?.total_funds?.TotalFundsGrowth}%
@@ -479,8 +479,8 @@ const FinanceDashboard = () => {
                 </h2>
                 <div
                   className={`${Lastcalculated?.total_releaseFund?.Release_Funds_Growth > !0
-                      ? "bg-green"
-                      : "bg-red-200"
+                    ? "bg-green"
+                    : "bg-red-200"
                     }  px-2 py-1 rounded-full text-white flex items-center justify-center  text-sm font-medium`}
                 >
                   {Lastcalculated?.total_releaseFund?.Release_Funds_Growth}%
@@ -503,9 +503,9 @@ const FinanceDashboard = () => {
               <p className="text-sm font-medium text-gay-300 mt-5">
                 <span
                   className={`${Lastcalculated?.pending_Funds
-                      ?.pendingPaymentLastPercentage > !0
-                      ? "text-green"
-                      : "text-red-200"
+                    ?.pendingPaymentLastPercentage > !0
+                    ? "text-green"
+                    : "text-red-200"
                     } `}
                 >
                   {Lastcalculated?.pending_Funds?.pendingPaymentLastPercentage}%

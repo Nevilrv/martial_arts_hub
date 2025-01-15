@@ -494,3 +494,8 @@ input[type="number"] {
   border-radius: 50%;
   z-index: 99;
 } */
+
+
+.input-error {
+  color:#CB3530;
+}

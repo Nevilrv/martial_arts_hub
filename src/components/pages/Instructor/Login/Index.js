@@ -11,10 +11,14 @@ import { toast } from "react-toastify";
 import { InstructorLogin } from "../../../services/Instructor/instructor_auth/auth";
 import User from "../../../../assets/images/userProfile.jpg";
 import Socket from "../../common/Socket";
+import { Decline } from "../../../../assets/icon";
+import Popup from "../../common/Popup";
 
 const Index = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [isOpen, SetisOpen] = useState(false);
+  const [block, setblock] = useState({});
   const [userdata, setUserdata] = useState({
     email: "",
     password: "",
@@ -34,7 +38,7 @@ const Index = () => {
       password: userdata.password,
     };
     const result = await InstructorLogin(data);
-    if (result?.success === true) {
+    if (result?.success === true && result.code === 200) {
       setLoading(false);
       localStorage.setItem("Role", JSON.stringify(result?.data?.role));
       localStorage.setItem("email", JSON.stringify(result?.data?.email));
@@ -47,6 +51,10 @@ const Index = () => {
       Socket.emit("InstructorActive", { instructorId: result?.data?.instructorId, status: "login" });
 
       navigate(Routing.InstructorDashboard);
+    } else if (result?.success === true && result.code === 401) {
+      setLoading(false);
+      setblock(result?.data || {});
+      SetisOpen(true);
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -83,6 +91,7 @@ const Index = () => {
                 placeholder={"Email"}
                 Label={"Email"}
                 name={"email"}
+                value={userdata.email}
                 className={"md:w-full"}
                 onKeyPress={handleKeyPress}
               />
@@ -91,6 +100,7 @@ const Index = () => {
                 type={"password"}
                 placeholder={"Password"}
                 Label={"Password"}
+                value={userdata.password}
                 iconposition="right-4"
                 name={"password"}
                 className={"md:w-full"}
@@ -152,6 +162,21 @@ const Index = () => {
           </div>
         </div>
       </div>
+      <Popup
+        isOpen={isOpen}
+        SetisOpen={SetisOpen}
+        Icons={<Decline />}
+        Headding={block.ReasonStatus === 'pending' ? `Your instructor request ${block.ReasonStatus}` : `You have been ${block.ReasonStatus}`}
+        BodyText={block.ReasonStatus === 'pending' ? "Your instructor request is pending approval from the admin. Once approved, you will be notified via email." : block.Reason}
+        BtnText={"Okay"}
+        onClick={() => {
+          SetisOpen(false);
+          setUserdata({
+            email: "",
+            password: ""
+          })
+        }}
+      />;
     </>
   );
 };

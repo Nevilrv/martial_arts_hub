@@ -125,6 +125,7 @@ const ReleaseFunds = () => {
     if (result?.success === true) {
       SetisOpen(false);
       setLoading(false);
+      Get_Refund_List();
     } else {
       if (
         result?.message === "Invalid token, Please Log-Out and Log-In again"

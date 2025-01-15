@@ -23,7 +23,7 @@ const Inputfild = ({
         <label className={`text-sm text-black/50 block ${Labelclass} `}>{Label}</label>
         <div className="relative">
           <input
-          maxLength={maxLength}
+            maxLength={maxLength}
             onChange={onChange}
             type={show === true ? "text" : type}
             name={name}
@@ -32,9 +32,8 @@ const Inputfild = ({
             onKeyPress={onKeyPress}
             autoComplete="given-name"
             placeholder={placeholder}
-            className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 md:w-[450px] w-full h-[55px] rounded-full ${
-              type === "password" ? "pr-11" : null
-            } ${className}`}
+            className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 md:w-[450px] w-full h-[55px] rounded-full ${type === "password" ? "pr-11" : null
+              } ${className}`}
           />
           {type === "password" && (
             <VscEye

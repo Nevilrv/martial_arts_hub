@@ -28,6 +28,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const [category_list, Set_Category_List] = useState([]);
   const [Sub_category_list, SetSub_category_list] = useState([]);
+  const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
   const options = [
     { value: "Online", label: "Online" },
@@ -149,6 +150,23 @@ const Profile = () => {
   };
 
   const handleSaveProfile = async () => {
+    console.log("this is called===>")
+    const requiredFields = [
+      "email", "name", "country_code", "mobileNo", "profile_picture",
+      "maincategory", "category", "availability", "bio", "tagline",
+      "experience", "trainingHistory", "certifications", "keywords",
+      "idProof", "firstFreeSessionHourlyRate", "classTypeFirstFreeSession",
+      "privateSessionOnlineHourlyRate", "privateSessionFaceToFaceHourlyRate"
+    ];
+
+
+    const missingFields = requiredFields.filter(field => !instructorDetails?.[field]);
+
+    if (missingFields.length > 0) {
+      toast.error(`The following fields are required: ${missingFields.join(", ")}`);
+      setErrors(missingFields);
+      return;
+    }
     const formData = new FormData();
     formData.append("email", instructorDetails?.email);
     formData.append("name", instructorDetails?.name);
@@ -184,6 +202,7 @@ const Profile = () => {
       "privateSessionFaceToFaceHourlyRate",
       instructorDetails?.privateSessionFaceToFaceHourlyRate
     );
+
     setLoading(true);
     const result = await InstructorProfile(formData);
     console.log(result, "=========>")
@@ -197,9 +216,11 @@ const Profile = () => {
           notificationType: "Instructor_request",
           Time: new Date(),
         });
+        navigate(Routing.InstructorLogin);
+      } else {
+        navigate(Routing.InstructorDashboard);
       }
 
-      navigate(Routing.InstructorDashboard);
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -285,6 +306,11 @@ const Profile = () => {
     }
   };
 
+  const getFieldClass = (field) => {
+    return errors.includes(field) ? "input-error" : "";
+  };
+
+
   return (
     <>
       {loading && <Spinner />}
@@ -310,12 +336,12 @@ const Profile = () => {
                   onChange={handleChange}
                   name={"name"}
                   value={instructorDetails?.name}
-                  Labelclass={"text-Dark_black font-medium"}
-                  className={"rounded-xl md:w-full h-[70px]"}
+                  Labelclass={`${getFieldClass("name")} text-Dark_black font-medium`}
+                  className={`rounded-xl md:w-full h-[70px]`}
                 />
               </div>
               <div className="md:w-1/2 w-full">
-                <label className={`text-sm text-black/50 block`}>
+                <label className={`text-sm text-black/50 block ${getFieldClass("mobileNo")}`}>
                   Mobile No.
                 </label>
                 <PhoneInput
@@ -334,9 +360,9 @@ const Profile = () => {
           <div className="md:w-[245px] w-full h-[202px] rounded-xl overflow-hidden bg-[#DAD8D0] flex items-center justify-center relative">
             {instructorDetails?.profile_picture === null ||
               instructorDetails?.profile_picture === "" ? (
-              <div className="flex items-center justify-center flex-col absolute top-0 left-0 h-full w-full bg-[#DAD8D0]">
+              <div className={`flex items-center justify-center flex-col absolute top-0 left-0 h-full w-full bg-[#DAD8D0]`}>
                 <IoCamera className="text-black/20 text-4xl" />
-                <p className="text-black/20 text-[13px] font-medium">
+                <p className={`text-black/20 text-[13px] font-medium ${getFieldClass("profile_picture")}`}>
                   Add Profile Picture
                 </p>
               </div>
@@ -344,7 +370,7 @@ const Profile = () => {
               <img
                 src={instructorDetails?.profile_picture || User}
                 alt=""
-                className="h-full object-cover absolute top-0 left-0"
+                className={`h-full object-cover absolute top-0 left-0`}
               />
             )}
             <div className="flex items-center justify-center flex-col">
@@ -357,7 +383,7 @@ const Profile = () => {
               type="file"
               name="profile_picture"
               onChange={heandleImage}
-              className="h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer"
+              className={`h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer`}
             />
           </div>
         </div>
@@ -370,8 +396,8 @@ const Profile = () => {
               name={"email"}
               value={instructorDetails?.email}
               onChange={handleChange}
-              Labelclass={"text-Dark_black font-medium"}
-              className={"rounded-xl md:w-full h-[70px]"}
+              Labelclass={`text-Dark_black font-medium ${getFieldClass("email")}`}
+              className={`rounded-xl md:w-full h-[70px] `}
             />
           </div>
 
@@ -383,12 +409,12 @@ const Profile = () => {
               name={"availability"}
               onChange={handleChange}
               value={instructorDetails?.availability?.slice(0, 10)}
-              Labelclass={"text-Dark_black font-medium"}
-              className={"rounded-xl md:w-full h-[70px]"}
+              Labelclass={`text-Dark_black font-medium ${getFieldClass("availability")}`}
+              className={` rounded-xl md:w-full h-[70px]`}
             />
           </div>
           <div className="md:col-span-1 col-span-1">
-            <label className={`text-sm text-black/50 block`}>
+            <label className={`${getFieldClass("maincategory")} text-sm text-black/50 block`}>
               Select Your Main Category
             </label>
             <div className="Profile">
@@ -402,7 +428,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="md:col-span-1 col-span-1">
-            <label className={`text-sm text-black/50 block`}>
+            <label className={`${getFieldClass("category")} text-sm text-black/50 block`}>
               Select Your Sub Category
             </label>
             <div className="Profile">
@@ -418,7 +444,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="md:col-span-2 col-span-1">
-            <label className={`text-sm text-black block font-medium`}>
+            <label className={`${getFieldClass("bio")} text-sm text-black block font-medium`}>
               Add Bio
             </label>
             <textarea
@@ -436,13 +462,13 @@ const Profile = () => {
               Label={"Add tagline"}
               name={"tagline"}
               onChange={handleChange}
-              className={"rounded-xl md:w-full h-[70px]"}
-              Labelclass={"text-Dark_black font-medium"}
+              className={`rounded-xl md:w-full h-[70px]`}
+              Labelclass={`${getFieldClass("tagline")} text-Dark_black font-medium`}
               value={instructorDetails?.tagline}
             />
           </div>
           <div className="md:col-span-2 col-span-1">
-            <label className={`text-sm text-black block font-medium`}>
+            <label className={`${getFieldClass("tagline")} text-sm text-black block font-medium`}>
               Add your Experience
             </label>
             <textarea
@@ -454,7 +480,7 @@ const Profile = () => {
             />
           </div>
           <div>
-            <label className={`text-sm text-black block font-medium`}>
+            <label className={`${getFieldClass("trainingHistory")} text-sm text-black block font-medium`}>
               Add Training History
             </label>
             <textarea
@@ -466,7 +492,7 @@ const Profile = () => {
             />
           </div>
           <div>
-            <label className={`text-sm text-black block font-medium`}>
+            <label className={`${getFieldClass("certifications")} text-sm text-black block font-medium`}>
               Add your Certifications
             </label>
             <textarea
@@ -485,13 +511,13 @@ const Profile = () => {
               name={"keywords"}
               onChange={handleChange}
               value={instructorDetails?.keywords}
-              Labelclass={"text-Dark_black font-medium"}
-              className={"rounded-xl md:w-full h-[70px]"}
+              Labelclass={`${getFieldClass("keywords")} text-Dark_black font-medium`}
+              className={`rounded-xl md:w-full h-[70px]`}
             />
           </div>
 
           <div className="md:col-span-2 col-span-1">
-            <label className={`text-sm text-black block font-medium`}>
+            <label className={`${getFieldClass("idProof")} text-sm text-black block font-medium`}>
               Upload ID Proof (Aadhar Card/Driving License/Instructor
               Certificate)
             </label>
@@ -500,7 +526,7 @@ const Profile = () => {
                 instructorDetails?.idProof === "" ? (
                 <div className="flex items-center justify-center flex-col">
                   <MdCloudUpload className="text-black/20 text-4xl" />
-                  <p className="text-black/20 text-[13px] font-medium text-center">
+                  <p className={` text-black/20 text-[13px] font-medium text-center`}>
                     Upload ID Proof (Aadhar Card/Driving License/Instructor
                     Certificate) here
                   </p>
@@ -525,7 +551,7 @@ const Profile = () => {
                 name="idProof"
                 // value={instructorDetails.idProof}
                 onChange={heandleImage}
-                className="h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer"
+                className={`h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer`}
               />
             </div>
           </div>
@@ -535,7 +561,7 @@ const Profile = () => {
             Hourly Rates
           </h2>
           <div>
-            <label className="text-sm text-black/50 block">
+            <label className={`text-sm text-black/50 block ${getFieldClass("firstFreeSessionHourlyRate")}`}>
               Do you want to give first free session?
             </label>
             <div className="Profile">
@@ -550,7 +576,7 @@ const Profile = () => {
             </div>
           </div>
           <div>
-            <label className="text-sm text-black/50 block">
+            <label className={`${getFieldClass("classTypeFirstFreeSession")} text-sm text-black/50 block`}>
               Class Type for first free session (Online/Face-to-Face)
             </label>
             <div className="Profile">
@@ -572,8 +598,8 @@ const Profile = () => {
               Label={"Private Class Online Rate"}
               name={"privateSessionOnlineHourlyRate"}
               onChange={handleChange}
-              Labelclass={"text-Dark_black font-medium"}
-              className={"rounded-xl md:w-full h-[70px]"}
+              Labelclass={`text-Dark_black font-medium ${getFieldClass("privateSessionOnlineHourlyRate")}`}
+              className={`rounded-xl md:w-full h-[70px] `}
             />
           </div>
           <div>
@@ -584,8 +610,8 @@ const Profile = () => {
               name={"privateSessionFaceToFaceHourlyRate"}
               onChange={handleChange}
               value={instructorDetails?.privateSessionFaceToFaceHourlyRate}
-              Labelclass={"text-Dark_black font-medium"}
-              className={"rounded-xl md:w-full h-[70px]"}
+              Labelclass={`text-Dark_black font-medium ${getFieldClass("privateSessionFaceToFaceHourlyRate")}`}
+              className={`rounded-xl md:w-full h-[70px]`}
             />
           </div>
         </div>

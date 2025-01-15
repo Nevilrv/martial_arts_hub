@@ -43,7 +43,7 @@ const GetInTouch = () => {
   return (
     <>
       {loading && <Spinner />}
-      <section className="py-[40px] px-3 lg:px-8 bg-black">
+      <section id='gta' className="py-[40px] px-3 lg:px-8 bg-black">
         <div className="flex items-center justify-between flex-wrap">
           <div>
             <h2 className="text-[40px] text-white">
