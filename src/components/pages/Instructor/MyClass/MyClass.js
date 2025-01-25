@@ -31,11 +31,11 @@ const MyClass = () => {
             className={`${calssType === "Upcoming Classes"?"bg-gay-300 text-white font-semibold":null}`}
             onClick={() => setcalssType("Upcoming Classes")}
           />
-          <OutlineBtn
+          {/* <OutlineBtn
             text={"Ongoing Classes"}
             className={`${calssType === "Ongoing Classes"?"bg-gay-300 text-white font-semibold":null}`}
             onClick={() => setcalssType("Ongoing Classes")}
-          />
+          /> */}
           <OutlineBtn
             text={"Completed Classes"}
             className={`${calssType === "Completed Classes"?"bg-gay-300 text-white font-semibold":null}`}

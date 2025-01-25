@@ -29,7 +29,7 @@ const MyClass = () => {
               }`}
               onClick={() => setcalssType("Upcoming Classes")}
             />
-            <OutlineBtn
+            {/* <OutlineBtn
               text={"Ongoing Classes"}
               className={`${
                 calssType === "Ongoing Classes"
@@ -37,7 +37,7 @@ const MyClass = () => {
                   : null
               }`}
               onClick={() => setcalssType("Ongoing Classes")}
-            />
+            /> */}
             <OutlineBtn
               text={"Completed Classes"}
               className={`${

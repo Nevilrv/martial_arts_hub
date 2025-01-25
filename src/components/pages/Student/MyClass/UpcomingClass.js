@@ -4,7 +4,7 @@ import Wrestling from "../../../../assets/images/Wrestling.png";
 import OutlineBtn from "../../common/OutlineBtn";
 // import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Student_get_Upcoming_Classes, Student_Payment } from "../../../services/student/class";
+import { Change_class_status, Student_get_Upcoming_Classes, Student_Payment } from "../../../services/student/class";
 import Spinner from "../../../layouts/Spinner";
 
 const UpcomingClass = () => {
@@ -24,23 +24,34 @@ const UpcomingClass = () => {
     }
   };
 
+  const Change_Status_Classes = async (classId) => {
+    setLoading(true);
+    const result = await Change_class_status(classId);
+    if (result?.success === true) {
+      setLoading(false);
+    } else {
+      setLoading(false);
+      // toast.error(result?.message);
+    }
+  };
+
   useEffect(() => {
     Get_Upcoming_Classes();
   }, []);
 
 
-  const heandlePay = async(upcoming_class)=>{
+  const heandlePay = async (upcoming_class) => {
     setLoading(true);
     let detals = {
-      studentId:JSON.parse(localStorage.getItem("_id")),
-      classId:upcoming_class.classId,
-      bookingId:upcoming_class.bookingId,
-      instructorId:upcoming_class.instructorId
+      studentId: JSON.parse(localStorage.getItem("_id")),
+      classId: upcoming_class.classId,
+      bookingId: upcoming_class.bookingId,
+      instructorId: upcoming_class.instructorId
     }
-    const result = await Student_Payment(detals.studentId,detals.classId,detals.bookingId,detals.instructorId);
+    const result = await Student_Payment(detals.studentId, detals.classId, detals.bookingId, detals.instructorId);
     if (result?.success === true) {
-      localStorage.setItem("paymentDetails",JSON.stringify(result.data));
-       
+      localStorage.setItem("paymentDetails", JSON.stringify(result.data));
+
       window.open(result.data.PaymentUrl, '_blank', 'noopener,noreferrer')
       setLoading(false);
     } else {
@@ -48,6 +59,13 @@ const UpcomingClass = () => {
       // toast.error(result?.message);
     }
   }
+
+  const heandleJoin = (upcoming_class) => {
+    localStorage.setItem("InstructorId", upcoming_class?.instructorId);
+    window.location.href = upcoming_class.student_url;
+    Change_Status_Classes(upcoming_class?.classId);
+  };
+
 
   return (
     <>
@@ -69,7 +87,7 @@ const UpcomingClass = () => {
             <div className="px-3 lg:px-8 md:h-[143px] md:py-0 gap-y-5 py-3 flex flex-wrap items-center justify-between border-b border-gay-400">
               <div className="flex items-center flex-wrap gap-y-5 sm:w-auto">
                 <div className="sm:w-[125px] w-full sm:h-[85px] overflow-hidden rounded-lg">
-                  <img src={Wrestling} alt="Wrestling" className="w-full h-full object-cover" />
+                  <img src={upcoming_class?.profile || Wrestling} alt="Wrestling" className="w-full h-full object-cover" />
                 </div>
                 <div className="sm:ml-5">
                   <div className="flex items-center">
@@ -100,17 +118,20 @@ const UpcomingClass = () => {
                 <OutlineBtn
                   text={`Pay Now`}
                   className={"bg-black border-none text-white sm:w-auto w-full"}
-                  onClick={()=>heandlePay(upcoming_class)}
+                  onClick={() => heandlePay(upcoming_class)}
                 />
               ) : upcoming_class?.classType === "FaceToFace" ? (
                 <OutlineBtn
                   text={`Face to Face ${upcoming_class.startTimeLocal}`}
-                  className={"bg-gay-300/50 border-none text-white sm:w-auto w-full"}
+                  className={"bg-Green-100 border-green text-green sm:w-auto w-full"}
                 />
               ) : (
                 <OutlineBtn
                   text={`Join at ${upcoming_class.startTimeLocal}`}
-                  className={"bg-gay-300/50 border-none text-white sm:w-auto w-full"}
+                  onClick={() => {
+                    heandleJoin(upcoming_class);
+                  }}
+                  className={"bg-Green-100 border-green text-green sm:w-auto w-full"}
                 />
               )}
             </div>

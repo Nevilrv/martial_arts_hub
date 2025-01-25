@@ -21,7 +21,7 @@ const My_Profile = () => {
     if (result?.success === true) {
       setProfiledetails(result?.data);
       setLoading(false);
-       
+
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -66,7 +66,7 @@ const My_Profile = () => {
               <div className="flex items-center justify-between border-b border-black/40 pb-4 flex-wrap">
                 <div className="flex items-start gap-4 flex-wrap">
                   <img
-                    src={Wrestling}
+                    src={item.instructor.profile_picture || Wrestling}
                     alt=""
                     className="sm:w-auto w-full sm:h-[95px] object-cover rounded-md"
                   />
@@ -95,11 +95,10 @@ const My_Profile = () => {
                   </h2>
                   <OutlineBtn
                     text={`Payment ${item.paymentStatus}`}
-                    className={`${
-                      item.paymentStatus === "success"
+                    className={`${item.paymentStatus === "success"
                         ? "bg-green"
                         : "bg-red-200"
-                    } text-white border-none px-4 sm:h-[35px] h-10 mt-1 sm:w-auto w-full`}
+                      } text-white border-none px-4 sm:h-[35px] h-10 mt-1 sm:w-auto w-full`}
                     endicon={
                       <IoIosArrowRoundForward className="text-2xl ml-1 -rotate-45" />
                     }

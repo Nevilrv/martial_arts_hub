@@ -6,9 +6,12 @@ import OutlineBtn from "../../common/OutlineBtn";
 import Spinner from "../../../layouts/Spinner";
 import { toast } from "react-toastify";
 import { resetpassword } from "../../../services/student/auth";
+import { useNavigate } from "react-router-dom";
+import { Routing } from "../../../shared/Routing";
 
 const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [Resetpassword, setResetpassword] = useState({
     currentPassword: "",
     newPassword: "",
@@ -27,12 +30,15 @@ const ResetPassword = () => {
     const result = await resetpassword(Resetpassword);
     if (result?.success === true) {
       setLoading(false);
-       
+
       setResetpassword({
         currentPassword: "",
         newPassword: "",
         confirm_password: "",
       });
+
+      localStorage.clear()
+      navigate(Routing.StudentLogin)
     } else {
       setLoading(false);
       toast.error(result?.message);

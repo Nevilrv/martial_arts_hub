@@ -6,6 +6,7 @@ import ConfirmedBookingRequests from "./ConfirmedBookingRequests";
 import Tabs from "../index";
 import Spinner from "../../../layouts/Spinner";
 import { Instructor_Booking_Requests } from "../../../services/Instructor/Booking/Booking";
+import Socket from "../../common/Socket";
 
 const Index = () => {
   const [calssType, setcalssType] = useState("Active Booking Requests");
@@ -43,20 +44,18 @@ const Index = () => {
           <div className="md:flex grid sm:grid-cols-2 grid-cols-1 items-center mt-6 gap-2">
             <OutlineBtn
               text={"Received/Active Booking Requests"}
-              className={`${
-                calssType === "Active Booking Requests"
-                  ? "bg-gay-300 text-white font-semibold"
-                  : null
-              } h-[45px] text-[15px] `}
+              className={`${calssType === "Active Booking Requests"
+                ? "bg-gay-300 text-white font-semibold"
+                : null
+                } h-[45px] text-[15px] `}
               onClick={() => setcalssType("Active Booking Requests")}
             />
             <OutlineBtn
               text={"Confirmed Booking Requests"}
-              className={`${
-                calssType === "Confirmed Booking Requests"
-                  ? "bg-gay-300 text-white font-semibold"
-                  : null
-              } h-[45px] text-[15px] `}
+              className={`${calssType === "Confirmed Booking Requests"
+                ? "bg-gay-300 text-white font-semibold"
+                : null
+                } h-[45px] text-[15px] `}
               onClick={() => setcalssType("Confirmed Booking Requests")}
             />
           </div>

@@ -10,9 +10,12 @@ import BigButton from "../../common/BigButton";
 import { toast } from "react-toastify";
 import { InstructorSignUp } from "../../../services/Instructor/instructor_auth/auth";
 import User from "../../../../assets/images/userProfile.jpg";
+import { Allert_Popup_Icon } from "../../../../assets/icon";
+import Popup from "../../common/Popup";
 
 const Index = () => {
   const navigate = useNavigate();
+  const [isOpen, SetisOpen] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [userdata, setUserdata] = useState({

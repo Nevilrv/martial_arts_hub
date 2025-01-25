@@ -8,9 +8,12 @@ import { useEffect } from "react";
 import { GetLikesChek, InstructorLike } from "../../../services/student/Homepage/Homepage";
 import { toast } from "react-toastify";
 import Spinner from "../../../layouts/Spinner";
+import { Routing } from "../../../shared/Routing";
+import { useNavigate } from "react-router-dom";
 
 const FavoriteInstructor = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
   const [Like, setLike] = useState(false);
   const [data, setData] = useState([]);
 
@@ -25,25 +28,25 @@ const FavoriteInstructor = () => {
     }
   };
 
-   const HeandleLike = async (id) => {
-     setLoading(true);
-     const result = await InstructorLike(
-       id,
-       JSON.parse(localStorage.getItem("_id"))
-     );
-     if (result?.success === true) {
-       setLoading(false);
-       setLike(!Like);
-       Getdata()
-     } else {
-       if (
-         result?.message === "Invalid token, Please Log-Out and Log-In again"
-       ) {
-         toast.error("Please Login");
-       }
-       setLoading(false);
-     }
-   };
+  const HeandleLike = async (id) => {
+    setLoading(true);
+    const result = await InstructorLike(
+      id,
+      JSON.parse(localStorage.getItem("_id"))
+    );
+    if (result?.success === true) {
+      setLoading(false);
+      setLike(!Like);
+      Getdata()
+    } else {
+      if (
+        result?.message === "Invalid token, Please Log-Out and Log-In again"
+      ) {
+        toast.error("Please Login");
+      }
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     Getdata();
@@ -51,7 +54,7 @@ const FavoriteInstructor = () => {
 
   return (
     <>
-    {loading&&<Spinner/>}
+      {loading && <Spinner />}
       <StudentProfile>
         {data?.length <= 0 && (
           <div className="border border-[#71717194] py-space px-6 rounded-lg min-h-[212px] mt-14">
@@ -68,6 +71,7 @@ const FavoriteInstructor = () => {
                 <OutlineBtn
                   text={"Search Instructor"}
                   className={"bg-black text-white mt-12 md:w-[250px] h-[60px]"}
+                  onClick={() => { navigate('/instructors/all') }}
                 />
               </div>
             </div>
@@ -87,8 +91,8 @@ const FavoriteInstructor = () => {
             </div>
           </div>
           <div className="mt-7 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-y-7">
-            {data.map((data,i) => (
-              <InstructorsCard data={data} HeandleLike={()=>HeandleLike(data.instructorId)} key={i} />
+            {data.map((data, i) => (
+              <InstructorsCard data={data} HeandleLike={() => HeandleLike(data.instructorId)} key={i} />
             ))}
           </div>
         </div>

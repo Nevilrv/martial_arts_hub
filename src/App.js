@@ -172,6 +172,9 @@ const Admin_Release_Funds = lazy(() =>
 const Admin_Refunds = lazy(() =>
   import("./components/pages/admin/FinanceManagement/HandleRefunds.js")
 );
+const Admin_Commission_Charges = lazy(() =>
+  import("./components/pages/admin/FinanceManagement/CommissionCharges.js")
+);
 const Admin_Dispute_Requests = lazy(() =>
   import("./components/pages/admin/DisputeCenter/DisputeRequests.js")
 );
@@ -455,6 +458,11 @@ function App() {
     {
       path: Routing.Admin_Release_Funds,
       component: Admin_Release_Funds,
+      isPrivateRoute: true,
+    },
+    {
+      path: Routing.Admin_Commission_Charges,
+      component: Admin_Commission_Charges,
       isPrivateRoute: true,
     },
     {

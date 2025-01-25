@@ -17,6 +17,7 @@ const CompletedClasses = () => {
   const Get_Upcoming_Classes = async () => {
     setLoading(true);
     const result = await Instructor_get_Upcoming_Classes(id);
+    console.log(result, "==========>result")
     if (result?.success === true) {
       setLoading(false);
       setUpcomingClass(result.data.complete);
@@ -31,7 +32,7 @@ const CompletedClasses = () => {
   }, []);
   return (
     <>
-    {loading && <Spinner />}
+      {loading && <Spinner />}
       {upcomingClass?.length <= 0 ? (
         <div className="flex items-center justify-center flex-col h-[calc(100vh-409px)]">
           <WorkOut height={"110"} width={"110"} />
@@ -49,10 +50,10 @@ const CompletedClasses = () => {
             <div className="px-3 lg:px-8 md:h-[143px] md:py-0 gap-y-5 py-3 flex flex-wrap items-center sm:justify-between border-b border-gay-400">
               <div className="flex items-center flex-wrap gap-y-5">
                 <div className="sm:w-[125px] sm:h-[85px] w-full overflow-hidden rounded-lg">
-                  <img src={Wrestling} alt="Wrestling" className="w-full h-full object-cover object-top grayscale" />
+                  <img src={upcoming_class?.profile || Wrestling} alt="Wrestling" className="w-full h-full object-cover  grayscale" />
                 </div>
                 <div className="sm:ml-5">
-                <div className="flex items-center cursor-pointer">
+                  <div className="flex items-center cursor-pointer">
                     <h3 className="text-xl font-medium">
                       {upcoming_class?.className}
                     </h3>

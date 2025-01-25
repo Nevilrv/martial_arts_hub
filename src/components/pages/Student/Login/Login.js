@@ -49,6 +49,7 @@ const Login = () => {
       localStorage.setItem("_id", JSON.stringify(result?.data?.studentId));
       localStorage.setItem("Role", JSON.stringify(result?.data?.role));
       localStorage.setItem("email", JSON.stringify(result?.data?.email));
+      localStorage.setItem("name",JSON.stringify(result?.data?.name))
       localStorage.setItem("profile_picture", JSON.stringify(result?.data?.profile_picture));
       localStorage.setItem("token", result?.Token);
       Socket.emit("StudentActive", { studentId: result?.data?.studentId, status: "login" });

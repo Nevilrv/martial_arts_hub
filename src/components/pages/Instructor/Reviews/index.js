@@ -3,6 +3,7 @@ import { StartWithSquare } from "../../../../assets/icon";
 import Tabs from "../";
 import { Get_Reviews_List } from "../../../services/Instructor/Reviews";
 import Spinner from "../../../layouts/Spinner";
+import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 
 const Index = () => {
   const [reviewsList, setReviewsList] = useState([]);
@@ -22,6 +23,27 @@ const Index = () => {
   useEffect(() => {
     Get_Reviews();
   }, []);
+
+
+  const getStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+    return (
+      <div className="flex items-center gap-0.5">
+        {[...Array(fullStars)].map((_, i) => (
+          <FaStar key={`full-${i}`} className="text-yellow-100 text-lg" />
+        ))}
+        {hasHalfStar && (
+          <FaStarHalfAlt className="text-yellow-100 text-lg" key="half" />
+        )}
+        {[...Array(emptyStars)].map((_, i) => (
+          <FaStar key={`empty-${i}`} className="text-gay-500 text-lg" />
+        ))}
+      </div>
+    );
+  };
 
   return (
     <>
@@ -47,14 +69,18 @@ const Index = () => {
             </div>
           )}
           <div className="mt-8 flex flex-col gap-4">
-            {reviewsList.map((review,i) => (
-              <div className="bg-primary_dark p-6 rounded-lg">
-                <p className="text-base">
-                  {i+1}. {review?.feedback}
-                </p>
-                <h2 className="text-base text-black font-bold mt-1">
-                  - {review?.studentName}
-                </h2>
+            {reviewsList.map((review, i) => (
+              <div className="bg-primary_dark flex gap-4 p-6 rounded-lg">
+                <img
+                  src={review?.studentProfile}
+                  alt=""
+                  className="w-[46px] h-[46px] rounded-full object-cover"
+                />
+                <div className="flex flex-col">
+                  <span>{review?.studentName}</span>
+                  <span className="text-gay-300">{review?.feedback}</span>
+                  <div>{getStars(review?.rating)}</div>
+                </div>
               </div>
             ))}
           </div>

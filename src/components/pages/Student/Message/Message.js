@@ -9,9 +9,7 @@ import { Routing } from "../../../shared/Routing";
 import UserProfile from "../../../../assets/images/userProfile.jpg";
 import { FaArrowLeft } from "react-icons/fa";
 import {
-  ChatOnly,
   Instructor_List_Message,
-  Student_Send_Messages,
 } from "../../../services/student/chatAPI/ChatApi";
 import Spinner from "../../../layouts/Spinner";
 import Socket from "../../common/Socket";
@@ -23,6 +21,7 @@ const Chat = () => {
   const [studentId, setstudentId] = useState({});
   const [Loading, setLoading] = useState(false);
   const [showChat, setshowChat] = useState(false);
+  const [count, setcount] = useState(false)
   const [chatMessages, setChatMessages] = useState([]);
   const [StudentList, setStudentList] = useState([]);
   const [AllStudentList, setAllStudentList] = useState([]);
@@ -40,91 +39,94 @@ const Chat = () => {
   };
 
   const Instructor_List = async () => {
-    setLoading(true);
-    const result = await Instructor_List_Message(StudentId);
-    if (result?.success === true) {
-      setLoading(false);
-      setStudentList(result.data.instructor);
-      setAllStudentList(result.data.instructor);
-      setstudentId(result.data.instructor[0]);
-    } else {
-      setLoading(false);
-    }
+    Socket.emit('listWithchatStudent', { studentId: StudentId })
+
+    // setLoading(true);
+    // const result = await Instructor_List_Message(StudentId);
+    // if (result?.success === true) {
+    //   setLoading(false);
+    //   setStudentList(result.data.instructor);
+    //   setAllStudentList(result.data.instructor);
+    //   setstudentId(result.data.instructor[0]);
+    // } else {
+    //   setLoading(false);
+    // }
   };
 
   const Student_Chat_Messages = async () => {
     setLoading(true);
-    const result = await ChatOnly(studentId.instructorId, StudentId);
-    if (result?.success === true) {
-      setLoading(false);
-      setChatMessages(result.data);
-      Socket.emit("MessageRead", {
-        studentId: StudentId,
-        instructorId: studentId.instructorId,
-        sender: "student",
-      });
-    } else {
-      if (
-        result?.message === "Invalid token, Please Log-Out and Log-In again"
-      ) {
-        localStorage.clear();
-        navigate(Routing.AdminLogin);
-      }
-      setLoading(false);
-    }
+    Socket.emit("isRead", { sender: 'instructor', studentId: StudentId, instructorId: studentId.instructorId })
+    Socket.emit('RealtimeChatData', { roomId: studentId?.roomId, sender: 'instructor', studentId: StudentId, instructorId: studentId.instructorId })
+    setLoading(false);
+
   };
 
   const sendMessage = async () => {
     // setLoading(true);
-    const body = {
-      studentId: StudentId,
-      instructorId: studentId.instructorId,
-      message: message,
-      sender: JSON.parse(localStorage.getItem("Role"))?.toLocaleLowerCase(),
-    };
+
     if (message.trim()) {
-      const data = {
-        roomId: studentId?.roomId,
-        sender: "student",
-        message: message,
-        updated_at: new Date(),
-      };
-      Socket.emit("loadchat", data);
+      Socket.emit("loadchat", { roomId: studentId?.roomId, sender: "student", chatType: "msg", messages: message, updated_at: new Date(), isRead: false, studentId: StudentId, instructorId: studentId.instructorId, disputeId: "" });
       setMessage("");
       scrollToBottom();
     }
-    const result = await Student_Send_Messages(body);
-    if (result?.success === true) {
-      setLoading(false);
-      chatId = result.data.chatId;
-    } else {
-      // if (result.message==="You have reached the maximum limit of 10 messages. Pay for extra chat.") {
-      //   toast.error("Send only 10 messages Before buy any class")
-      // }
-      setLoading(false);
-    }
+
   };
 
   useEffect(() => {
     Instructor_List();
+
+    Socket.on('getlistchatStudent', (data) => {
+      console.log(data, '=================>')
+      setStudentList(data.instructor);
+      setAllStudentList(data.instructor);
+      // setstudentId(data.instructor[0])
+    })
+
+    return () => {
+      Socket.off('getlistchatStudent');
+    };
+
   }, []);
+
   useEffect(() => {
     Student_Chat_Messages();
+
+    Socket.on('loadRealtimeChat', (data) => {
+      console.log(data, "=========>update see chats")
+      if (data.length === 0) {
+        setChatMessages([]);
+      } else {
+        setChatMessages(data);
+      }
+    })
+
+    return () => {
+      Socket.off("loadRealtimeChat");
+    };
   }, [studentId]);
+
   useEffect(() => {
     scrollToBottom();
   }, [chatMessages]);
 
   useEffect(() => {
-    // Join the room on mount
+
     Socket.emit("joinRoom", studentId?.roomId);
-    // Listen for incoming messages
+
     Socket.on("getchat", (data) => {
       setChatMessages((prev) => [...prev, data]);
     });
 
+    Socket.on('updatedListStudent', (data) => {
+      console.log(data, '=================>')
+      setStudentList(data.instructor);
+      setAllStudentList(data.instructor);
+    })
+
+
     return () => {
       Socket.off("getchat");
+      Socket.off('updatedListStudent');
     };
   }, [studentId?.roomId]);
 
@@ -168,7 +170,10 @@ const Chat = () => {
                 {StudentList.map((studentData) => (
                   <div
                     className="h-[95px] border-b border-[#6B6B6B4D] px-4 flex items-center cursor-pointer"
-                    onClick={() => setstudentId(studentData)}
+                    onClick={() => {
+                      setstudentId(studentData);
+                      setcount(true);
+                    }}
                   >
                     <div className="flex items-center w-full">
                       <div className="relative">
@@ -180,7 +185,13 @@ const Chat = () => {
                             className="grayscale h-full w-full object-cover"
                           />
                         </div>
-                        <div className="h-4 w-4 bg-green rounded-full absolute bottom-0 right-0 border-[3px] border-primary"></div>
+                        <div
+                          className={`h-4 w-4 ${studentData.status === true
+                            ? "bg-green"
+                            : "bg-gay-300"
+                            } rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}
+                        ></div>
+                        {/* <div className="h-4 w-4 bg-green rounded-full absolute bottom-0 right-0 border-[3px] border-primary"></div> */}
                       </div>
                       <div className="ml-3 w-full">
                         <div className="flex items-center justify-between w-full">
@@ -188,21 +199,26 @@ const Chat = () => {
                             {studentData.name}
                           </h2>
                           <p className="text-black/50 text-[11px] font-semibold">
-                            09:27 AM
+                            {
+                              studentData.chatdata.findLast((msg) => msg.sender === "instructor")
+                                ? new Date(studentData.chatdata.findLast((msg) => msg.sender === "instructor")?.updated_at).toLocaleTimeString(
+                                  [],
+                                  {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  }
+                                )
+                                : "0:00"
+                            }
                           </p>
                         </div>
                         <div className="flex items-center justify-between w-full">
                           <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
-                            Yes, sure! Learning Brazilian jiu jitsu Yes, sure!
-                            Learning Brazilian jiu jitsu Yes, sure! Learning
-                            Brazilian jiu jitsu Yes, sure! Learning Brazilian
-                            jiu jitsu
+                            {studentData.chatdata.findLast((msg) => msg.sender === "instructor")?.messages}
                           </p>
-                          {studentData.chatcount < 0 && (
-                            <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
-                              {studentData.chatcount}
-                            </div>
-                          )}
+                          <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
+                            {studentData.chatCount > 0 ? (count === true ? 0 : studentData.chatCount) : 0}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -257,25 +273,24 @@ const Chat = () => {
                   {chatMessages?.map((chat) => (
                     <>
                       <div
-                        className={`flex items-start gap-3 ${
-                          chat.sender ===
+                        className={`flex items-start gap-3 ${chat.sender ===
                           JSON.parse(
                             localStorage.getItem("Role")
                           )?.toLocaleLowerCase()
-                            ? "flex-row-reverse"
-                            : null
-                        }`}
+                          ? "flex-row-reverse"
+                          : null
+                          }`}
                       >
                         <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
                           <img
                             src={
                               chat.sender ===
-                              JSON.parse(
-                                localStorage.getItem("Role")
-                              )?.toLocaleLowerCase()
+                                JSON.parse(
+                                  localStorage.getItem("Role")
+                                )?.toLocaleLowerCase()
                                 ? JSON.parse(
-                                    localStorage.getItem("profile_picture")
-                                  ) || UserProfile
+                                  localStorage.getItem("profile_picture")
+                                ) || UserProfile
                                 : studentId.profile || UserProfile
                             }
                             alt=""
@@ -285,26 +300,24 @@ const Chat = () => {
                         </div>
                         <div>
                           <div
-                            className={` ${
-                              chat.sender ===
+                            className={` ${chat.sender ===
                               JSON.parse(
                                 localStorage.getItem("Role")
                               )?.toLocaleLowerCase()
-                                ? "max-w-[380px] bg-black px-[18px] py-3 font-medium rounded-xl rounded-tr-none"
-                                : "max-w-[335px] bg-white px-[18px] py-3 font-medium rounded-xl rounded-tl-none"
-                            } `}
+                              ? "max-w-[380px] bg-black px-[18px] py-3 font-medium rounded-xl rounded-tr-none"
+                              : "max-w-[335px] bg-white px-[18px] py-3 font-medium rounded-xl rounded-tl-none"
+                              } `}
                           >
                             <p
-                              className={`text-[15px]  ${
-                                chat.sender ===
+                              className={`text-[15px]  ${chat.sender ===
                                 JSON.parse(
                                   localStorage.getItem("Role")
                                 )?.toLocaleLowerCase()
-                                  ? "text-[15px] text-white text-right"
-                                  : null
-                              }`}
+                                ? "text-[15px] text-white text-right"
+                                : null
+                                }`}
                             >
-                              {chat.message}
+                              {chat.messages}
                             </p>
                           </div>
                           <div className="flex items-center gap-2 mt-1 ml-1">
@@ -317,7 +330,7 @@ const Chat = () => {
                                 }
                               )}
                             </p>
-                            <RiCheckDoubleFill className="text-green" />
+                            <RiCheckDoubleFill className={`${chat.isRead ? 'text-green' : 'text-gay-300'}`} />
                           </div>
                         </div>
                       </div>
@@ -381,11 +394,10 @@ const Chat = () => {
                         />
                       </div>
                       <div
-                        className={`h-4 w-4 ${
-                          studentData.status === "true"
-                            ? "bg-green"
-                            : "bg-gay-300"
-                        }  rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}
+                        className={`h-4 w-4 ${studentData.status === true
+                          ? "bg-green"
+                          : "bg-gay-300"
+                          }  rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}
                       ></div>
                     </div>
                     <div className="ml-3 w-full">
@@ -394,18 +406,25 @@ const Chat = () => {
                           {studentData.name}
                         </h2>
                         <p className="text-black/50 text-[11px] font-semibold">
-                          09:27 AM
+                          {
+                            studentData.chatdata.findLast((msg) => msg.sender === "instructor")
+                              ? new Date(studentData.chatdata.findLast((msg) => msg.sender === "instructor")?.updated_at).toLocaleTimeString(
+                                [],
+                                {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                }
+                              )
+                              : "0:00"
+                          }
                         </p>
                       </div>
                       <div className="flex items-center justify-between w-full">
                         <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
-                          Yes, sure! Learning Brazilian jiu jitsu Yes, sure!
-                          Learning Brazilian jiu jitsu Yes, sure! Learning
-                          Brazilian jiu jitsu Yes, sure! Learning Brazilian jiu
-                          jitsu
+                          {studentData.chatdata.findLast((msg) => msg.sender === "instructor")?.messages}
                         </p>
                         <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
-                          1
+                          {studentData.chatCount > 0 ? (count === true ? 0 : studentData.chatCount) : 0}
                         </div>
                       </div>
                     </div>
@@ -458,25 +477,24 @@ const Chat = () => {
                   {chatMessages?.map((chat) => (
                     <>
                       <div
-                        className={`flex items-start gap-3 ${
-                          chat.sender ===
+                        className={`flex items-start gap-3 ${chat.sender ===
                           JSON.parse(
                             localStorage.getItem("Role")
                           )?.toLocaleLowerCase()
-                            ? "flex-row-reverse"
-                            : null
-                        }`}
+                          ? "flex-row-reverse"
+                          : null
+                          }`}
                       >
                         <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
                           <img
                             src={
                               chat.sender ===
-                              JSON.parse(
-                                localStorage.getItem("Role")
-                              )?.toLocaleLowerCase()
+                                JSON.parse(
+                                  localStorage.getItem("Role")
+                                )?.toLocaleLowerCase()
                                 ? JSON.parse(
-                                    localStorage.getItem("profile_picture")
-                                  )
+                                  localStorage.getItem("profile_picture")
+                                )
                                 : studentId.profile || Users
                             }
                             alt=""
@@ -486,24 +504,22 @@ const Chat = () => {
                         </div>
                         <div>
                           <div
-                            className={` ${
-                              chat.sender ===
+                            className={` ${chat.sender ===
                               JSON.parse(
                                 localStorage.getItem("Role")
                               )?.toLocaleLowerCase()
-                                ? "max-w-[380px] bg-black px-[18px] py-3 font-medium rounded-xl rounded-tr-none"
-                                : "max-w-[335px] bg-white px-[18px] py-3 font-medium rounded-xl rounded-tl-none"
-                            } `}
+                              ? "max-w-[380px] bg-black px-[18px] py-3 font-medium rounded-xl rounded-tr-none"
+                              : "max-w-[335px] bg-white px-[18px] py-3 font-medium rounded-xl rounded-tl-none"
+                              } `}
                           >
                             <p
-                              className={`text-[15px]  ${
-                                chat.sender ===
+                              className={`text-[15px]  ${chat.sender ===
                                 JSON.parse(
                                   localStorage.getItem("Role")
                                 )?.toLocaleLowerCase()
-                                  ? "text-[15px] text-white text-right"
-                                  : null
-                              }`}
+                                ? "text-[15px] text-white text-right"
+                                : null
+                                }`}
                             >
                               {chat.message}
                             </p>
@@ -518,7 +534,8 @@ const Chat = () => {
                                 }
                               )}
                             </p>
-                            <RiCheckDoubleFill className="text-green" />
+                            <RiCheckDoubleFill className={`${chat.isRead ? 'text-green' : 'text-gay-300'}`} />
+
                           </div>
                         </div>
                       </div>

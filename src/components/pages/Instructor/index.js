@@ -13,7 +13,7 @@ const Tabs = ({ children }) => {
     { name: "Reviews", href: Routing.InstructorReviews },
     // { name: "Create Class", href: Routing.InstructorCreateClass},
     { name: "Create Slot", href: Routing.InstructorCreateSlot },
-    { name: "My Slot", href: Routing.InstructorMy_slot },
+    { name: "My Slots", href: Routing.InstructorMy_slot },
     { name: "Bank Account Details", href: Routing.InstructorAccountDetails },
   ];
   return (

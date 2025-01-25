@@ -4,7 +4,7 @@ import Wrestling from "../../../../assets/images/Wrestling.png";
 import OutlineBtn from "../../common/OutlineBtn";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Instructor_get_Upcoming_Classes } from "../../../services/Instructor/createClass/Index";
+import { Instructor_change_class_status, Instructor_get_Upcoming_Classes } from "../../../services/Instructor/createClass/Index";
 import Spinner from "../../../layouts/Spinner";
 
 const UpcomingClass = () => {
@@ -28,6 +28,22 @@ const UpcomingClass = () => {
     // eslint-disable-next-line
   }, []);
 
+    const Change_Status_Classes = async (upcoming_class) => {
+      setLoading(true);
+      const result = await Instructor_change_class_status(
+        upcoming_class?.classId
+      );
+      if (result?.success === true) {
+        localStorage.setItem("classId", upcoming_class?.classId);
+        localStorage.setItem("studentId", upcoming_class?.studentId);
+  
+        window.location.replace(upcoming_class?.instructor_url);
+        setLoading(false);
+      } else {
+        setLoading(false);
+      }
+    };
+
   return (
     <>
       {loading && <Spinner />}
@@ -48,7 +64,7 @@ const UpcomingClass = () => {
             <div className="px-3 lg:px-8 md:h-[143px] md:py-0 gap-y-5 py-3 flex flex-wrap items-center sm:justify-between border-b border-gay-400">
               <div className="flex items-center flex-wrap gap-y-5">
                 <div className="sm:w-[125px] sm:h-[85px] w-full overflow-hidden rounded-lg">
-                  <img src={Wrestling} alt="Wrestling" className="w-full h-full object-cover object-top grayscale" />
+                  <img src={upcoming_class?.profile || Wrestling} alt="Wrestling" className="w-full h-full object-cover object-top grayscale" />
                 </div>
                 <div className="sm:ml-5">
                   <div className="flex items-center cursor-pointer">
@@ -101,7 +117,10 @@ const UpcomingClass = () => {
               ) : (
                 <OutlineBtn
                   text={"Starts on 29 July at 12:30 PM"}
-                  className={"bg-gay-300/50 border-none text-white sm:w-auto w-full"}
+                  onClick={() => {
+                    Change_Status_Classes(upcoming_class);
+                  }}
+                  className={"bg-Green-100 border-green text-green sm:w-auto w-full"}
                 />
               )}
             </div>

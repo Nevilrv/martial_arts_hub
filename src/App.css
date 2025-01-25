@@ -252,7 +252,6 @@ body {
   background-color: #717171;
   clip-path: polygon(0% 0%, 75% 0%, 80% 50%, 75% 100%, 0% 100%);
   position: absolute;
-  z-index: 9999;
   top: 28px;
   display: flex;
   align-items: center;
@@ -498,4 +497,8 @@ input[type="number"] {
 
 .input-error {
   color:#CB3530;
+}
+
+#exprince::first-letter{
+  text-transform: capitalize;
 }

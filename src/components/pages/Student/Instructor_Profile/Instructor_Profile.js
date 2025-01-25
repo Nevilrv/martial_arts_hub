@@ -241,7 +241,7 @@ const InstructorProfile = () => {
               </div>
               <div className="mt-8 bg-gay-200 rounded-[20px] px-9 py-7">
                 <h2 className="text-[26px] font-semibold">Instructor</h2>
-                <p className="text-black/70 text-lg">{Instructor?.bio}</p>
+                <p className="text-black/70 text-lg lowercase">{Instructor?.bio}</p>
               </div>
               <div className="mt-20">
                 <h2 className="text-[22px] font-semibold text-black">
@@ -249,17 +249,16 @@ const InstructorProfile = () => {
                 </h2>
                 <p className="text-black/70 text-lg text-justify my-4">
                   Hi, I'm {Instructor?.name}! I started my martial arts journey{" "}
-                  {Instructor?.experience}.
                 </p>
-                <p className="text-black/70 text-lg text-justify">
-                  {Instructor?.certifications}
-                </p>
+                {/* <p className="text-black/70 text-lg text-justify">
+                  {Instructor?.experience}
+                </p> */}
               </div>
               <div className="mt-14">
                 <h2 className="text-[22px] font-semibold text-black">
                   About the Class
                 </h2>
-                <div className="flex items-center gap-3 my-5">
+                {/* <div className="flex items-center gap-3 my-5">
                   <OutlineBtn
                     text={"Online"}
                     className={"font-medium"}
@@ -274,7 +273,7 @@ const InstructorProfile = () => {
                       <HiMiniSignal className="text-gay-300 text-2xl mr-2" />
                     }
                   />
-                </div>
+                </div> */}
                 <p className="text-black/70 text-lg text-justify">
                   “This hour of martial arts training is a powerful gift to your
                   body and mind, fostering inner strength and outer resilience.
@@ -291,13 +290,13 @@ const InstructorProfile = () => {
                   Experience
                 </h2>
                 <div className="flex gap-2 my-5 flex-col">
-                  <p className="flex items-center gap-2 text-black/70 text-lg">
-                    <BsPatchCheckFill className="text-gay-400" />
-                    Over {Instructor?.experience}
-                  </p>
+                  <div className="text-black/70 text-lg flex gap-2">
+                    <BsPatchCheckFill className="text-gay-400 text-2xl" /> 
+                    <p id="exprince" className="lowercase">{Instructor?.experience}</p>
+                  </div>
                 </div>
               </div>
-              <div className="mt-14">
+              {/* <div className="mt-14">
                 <h2 className="text-[22px] font-semibold text-black">
                   Certifications
                 </h2>
@@ -307,7 +306,7 @@ const InstructorProfile = () => {
                     {Instructor?.certifications}
                   </p>
                 </div>
-              </div>
+              </div> */}
               <div className="mt-14">
                 <h2 className="text-[22px] font-semibold text-black">
                   Hourly Rates
@@ -319,7 +318,7 @@ const InstructorProfile = () => {
                       Online Lesson
                     </p>
                     <p className="text-black text-lg pl-5">
-                      {Instructor?.privateSessionOnlineHourlyRate}
+                      ${Instructor?.privateSessionOnlineHourlyRate} per hour
                     </p>
                   </div>
                   <div>
@@ -449,13 +448,13 @@ const InstructorProfile = () => {
                     "sm:w-[375px] w-full h-[60px] bg-transparent text-black font-medium"
                   }
                 />
-                <OutlineBtn
+                {/* <OutlineBtn
                   text={"Share Instructor’s Profile"}
                   icon={<IoMdShare className="text-black text-xl mr-3" />}
                   className={
                     "sm:w-[375px] w-full h-[60px] bg-transparent text-black font-medium"
                   }
-                />
+                /> */}
               </div>
             </div>
           </div>

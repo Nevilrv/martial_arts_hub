@@ -1,11 +1,11 @@
 import axios from "axios";
 import { baseURL } from "../../URL";
 
-export const Student_Review = async (body,studentId,instructorId) => {
+export const Student_Review = async (body) => {
     try {
       let response = await axios({
         method: "POST",
-        url: `${baseURL}/student/review/instructor/${studentId}/${instructorId}`,
+        url: `${baseURL}/student/review/instructor`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -17,11 +17,11 @@ export const Student_Review = async (body,studentId,instructorId) => {
     }
   };
 
-  export const Instructor_Review = async (body,studentId,instructorId) => {
+  export const Instructor_Review = async (body) => {
     try {
       let response = await axios({
         method: "POST",
-        url: `${baseURL}/instructor/review/student/${studentId}/${instructorId}`,
+        url: `${baseURL}/instructor/review/student`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

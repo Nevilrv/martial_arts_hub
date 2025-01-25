@@ -4,7 +4,7 @@ import Wrestling from "../../../../assets/images/Wrestling.png";
 import OutlineBtn from "../../common/OutlineBtn";
 import { toast } from "react-toastify";
 import {
-  Instructor_change_class_status, 
+  Instructor_change_class_status,
   Instructor_get_Upcoming_Classes,
 } from "../../../services/Instructor/createClass/Index";
 import Spinner from "../../../layouts/Spinner";
@@ -69,7 +69,7 @@ const OngoingClasses = (props) => {
               <div className="flex items-center flex-wrap gap-y-5">
                 <div className="sm:w-[125px] sm:h-[85px] w-full overflow-hidden rounded-lg">
                   <img
-                    src={Wrestling}
+                    src={upcoming_class?.profile || Wrestling}
                     alt="Wrestling"
                     className="w-full h-full object-cover object-top grayscale"
                   />

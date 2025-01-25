@@ -66,9 +66,9 @@ const Videocall = () => {
       toast.error(error.response?.data?.message || "Failed to join the room");
       if (
         error.response?.data?.message ===
-          "Please log in to access this resource" ||
+        "Please log in to access this resource" ||
         error.response?.data?.message ===
-          "Invalid token, Please Log-Out and Log-In again"
+        "Invalid token, Please Log-Out and Log-In again"
       ) {
         navigate(
           userRole === "Student"
@@ -96,15 +96,19 @@ const Videocall = () => {
   }, [channelName, role, videoCall]);
 
   const handleStudentReview = async () => {
+    const studentId = JSON.parse(localStorage.getItem("_id"));
+    const instructorId = localStorage.getItem("InstructorId");
+
     const body = {
       rating,
       feedback: reviewMessage,
       userType: JSON.parse(localStorage.getItem("Role")).toLocaleLowerCase(),
+      studentId: studentId,
+      instructorId: instructorId
     };
-    const studentId = JSON.parse(localStorage.getItem("_id"));
-    const instructorId = localStorage.getItem("InstructorId");
+
     setLoading(true);
-    const result = await Student_Review(body, studentId, instructorId);
+    const result = await Student_Review(body);
     if (result?.success) {
       SetisOpen(false);
       setLoading(false);
@@ -117,15 +121,19 @@ const Videocall = () => {
   };
 
   const handleInstructorReview = async () => {
+    const instructorId = JSON.parse(localStorage.getItem("_id"));
+    const studentId = localStorage.getItem("studentId");
+
     const body = {
       rating,
       feedback: reviewMessage,
       userType: JSON.parse(localStorage.getItem("Role")).toLocaleLowerCase(),
+      studentId: studentId,
+      instructorId: instructorId
     };
-    const instructorId = JSON.parse(localStorage.getItem("_id"));
-    const studentId = localStorage.getItem("studentId");
+
     setLoading(true);
-    const result = await Instructor_Review(body, studentId, instructorId);
+    const result = await Instructor_Review(body);
     if (result?.success) {
       Socket.emit("calldisconnect", { disconnect: true });
       SetisOpen(false);
@@ -262,7 +270,7 @@ const Videocall = () => {
         )}
       </div>
       <Popup
-      // eslint-disable-next-line
+        // eslint-disable-next-line
         Icons={<Allert_Popup_Icon />}
         Headding={"Are you sure?"}
         BodyText={"Are you sure you want to End Your Class?"}

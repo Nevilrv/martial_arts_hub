@@ -11,7 +11,6 @@ import {
   Close_Dispute,
   Dispute_Details,
   GetDisputeChat,
-  Send_Dispute_message,
 } from "../../../services/Admin/Dispute/Dispute";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
@@ -91,30 +90,18 @@ const DisputeDetails = () => {
 
   // send chat
   const heandleChat = async () => {
-    const body = {
-      disputeId: disputeId,
-      studentId: Disputes.studentId,
-      adminId: JSON.parse(localStorage.getItem("_id")),
-      message: message,
-      sender: "admin",
-    };
+
     if (message.trim()) {
-      const data = {
-        roomId: disputeId,
-        sender: "admin",
-        message: message,
-        updated_at: new Date(),
-      };
-      Socket.emit("loadchat", data);
+      Socket.emit("loadchat", { roomId: disputeId, sender: "admin", chatType: "dispute", messages: message, updated_at: new Date(), isRead: false, studentId: Disputes.studentId, disputeId: disputeId });
       setMessage("");
       scrollToBottom();
     }
-    const result = await Send_Dispute_message(body);
+
   };
   useEffect(() => {
-    // Join the room on mount
+
     Socket.emit("joinRoom", disputeId);
-    // Listen for incoming messages
+
     Socket.on("getchat", (data) => {
       console.log("Student received chat:", data);
       setDisputeChats((prev) => [...prev, data]);
@@ -176,15 +163,13 @@ const DisputeDetails = () => {
           <div className="flex items-center gap-1 flex-wrap">
             <h3 className="text-gay-300 font-medium">Dispute Status:</h3>
             <p
-              className={`${
-                Disputes?.status === "active" ? "text-green" : "text-red-200"
-              } font-[450]`}
+              className={`${Disputes?.status === "active" ? "text-green" : "text-red-200"
+                } font-[450]`}
             >
               {" "}
               <span
-                className={`h-2 w-2 rounded-full ${
-                  Disputes?.status === "active" ? "bg-green" : "bg-red-200"
-                } inline-block mr-0.5`}
+                className={`h-2 w-2 rounded-full ${Disputes?.status === "active" ? "bg-green" : "bg-red-200"
+                  } inline-block mr-0.5`}
               ></span>{" "}
               {Disputes?.status}
             </p>
@@ -241,35 +226,33 @@ const DisputeDetails = () => {
             {/*chats*/}
             {DisputeChats?.map((chat) => (
               <div
-                className={`${
-                  chat?.sender !== "student" ? "justify-end" : null
-                } flex items-start gap-4`}
+                className={`${chat?.sender !== "student" ? "justify-end" : null
+                  } flex items-start gap-4`}
               >
                 <div
-                  className={`h-14 w-14 rounded-full overflow-hidden ${
-                    chat?.sender !== "student" ? "order-2" : null
-                  }`}
+                  className={`h-14 w-14 rounded-full overflow-hidden ${chat?.sender !== "student" ? "order-2" : null
+                    }`}
                 >
                   <img
-                    src={Instructor1 || User}
+                    src={chat.sender === "student"
+                      ? Disputes?.studenProfile
+                      : User}
                     alt=""
                     className="w-full h-full"
                   />
                 </div>
                 <div className="max-w-[75%]">
                   <div
-                    className={`w-full p-4 ${
-                      chat?.sender === "student"
-                        ? "bg-red-100 text-gay-400 rounded-tl-none"
-                        : "bg-black text-white rounded-tr-none"
-                    } rounded-xl  text-sm  border border-red-200/15`}
+                    className={`w-full p-4 ${chat?.sender === "student"
+                      ? "bg-red-100 text-gay-400 rounded-tl-none"
+                      : "bg-black text-white rounded-tr-none"
+                      } rounded-xl  text-sm  border border-red-200/15`}
                   >
-                    {chat?.message}
+                    {chat?.messages}
                   </div>
                   <p
-                    className={`${
-                      chat?.sender === "student" ? "text-red-200" : "text-black"
-                    }  text-xs mt-2`}
+                    className={`${chat?.sender === "student" ? "text-red-200" : "text-black"
+                      }  text-xs mt-2`}
                   >
                     {chat?.updated_at}
                   </p>

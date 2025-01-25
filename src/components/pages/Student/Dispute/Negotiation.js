@@ -5,7 +5,6 @@ import Tabs from "../Tabs";
 import {
   GetDisputeChat,
   GetDisputeDetails,
-  Send_Dispute_message,
 } from "../../../services/student/Dispute/Dispute";
 import UserProfile from "../../../../assets/images/userProfile.jpg";
 import { toast } from "react-toastify";
@@ -33,7 +32,7 @@ const Negotiation = () => {
     if (result?.success === true) {
       setLoading(false);
       setDisputeDetails(result.data);
-       
+
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -57,11 +56,22 @@ const Negotiation = () => {
     GetgetInstructorClass();
   }, []);
 
+  const heandleChat = async () => {
+
+    if (message.trim()) {
+      Socket.emit("loadchat", { roomId: disputeId, sender: "student", chatType: "dispute", messages: message, updated_at: new Date(), isRead: false, studentId: JSON.parse(localStorage.getItem("_id")), disputeId: disputeId });
+      setMessage("");
+      scrollToBottom()
+    }
+
+  };
+
+
   useEffect(() => {
-    // Join the room on mount
     Socket.emit("joinRoom", disputeId);
-    // Listen for incoming messages
+
     Socket.on("getchat", (data) => {
+      console.log(data, "==========>")
       setDisputeChats((prev) => [...prev, data]);
     });
 
@@ -70,27 +80,7 @@ const Negotiation = () => {
     };
   }, [disputeId]);
 
-  const heandleChat = async () => {
-    const body = {
-      disputeId: disputeId,
-      studentId: JSON.parse(localStorage.getItem("_id")),
-      adminId: "35951a9b-a21e-4936-98f0-78f6f4e8fb14",
-      message: message,
-      sender: JSON.parse(localStorage.getItem("Role")).toLocaleLowerCase(),
-    };
-    if (message.trim()) {
-      const data = {
-        roomId:disputeId,
-        sender: "student",
-        message: message,
-        updated_at: new Date(),
-      };
-      Socket.emit("loadchat", data);
-      setMessage("");
-      scrollToBottom()
-    }
-    const result = await Send_Dispute_message(body);
-  };
+
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
@@ -167,9 +157,8 @@ const Negotiation = () => {
             >
               {DisputeChats.map((chats) => (
                 <div
-                  className={`flex ${
-                    chats.sender === "student" ? "flex-row-reverse" : null
-                  }  gap-3`}
+                  className={`flex ${chats.sender === "student" ? "flex-row-reverse" : null
+                    }  gap-3`}
                 >
                   <div className="h-[60px] w-[60px] overflow-hidden rounded-full grayscale">
                     <img
@@ -179,26 +168,25 @@ const Negotiation = () => {
                           : UserProfile
                       }
                       alt=""
+                      className="w-full h-full"
                     />
                   </div>
                   <div>
                     <div
-                      className={`${
-                        chats.sender === "student"
-                          ? "bg-Green-100 rounded-tr-none"
-                          : "bg-red-100 rounded-tl-none"
-                      } p-4 pr-[25px] rounded-xl `}
+                      className={`${chats.sender === "student"
+                        ? "bg-Green-100 rounded-tr-none"
+                        : "bg-red-100 rounded-tl-none"
+                        } p-4 pr-[25px] rounded-xl `}
                     >
                       <p className="text-gay-400 max-w-[480px] font-light">
-                        {chats.message}
+                        {chats.messages}
                       </p>
                     </div>
                     <p
-                      className={`${
-                        chats.sender === "student"
-                          ? "text-green text-right"
-                          : "text-red-200"
-                      }  mt-2 text-xs`}
+                      className={`${chats.sender === "student"
+                        ? "text-green text-right"
+                        : "text-red-200"
+                        }  mt-2 text-xs`}
                     >
                       {dayjs(chats.updated_at).format("MMM,DD,YYYY")}
                     </p>

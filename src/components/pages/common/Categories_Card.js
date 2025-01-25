@@ -14,7 +14,7 @@ const CategoriesCard = ({ data }) => {
     <>
       <div className="group flex flex-col sm:mr-6 justify-between min-h-[249px]">
         <img
-          src={data.categoryImage || Wrestling}
+          src={data.categoryImage || data.profile}
           alt="card_image"
           className="grayscale group-hover:grayscale-0 h-[258px] w-full object-cover"
         />
@@ -27,7 +27,7 @@ const CategoriesCard = ({ data }) => {
           </p>
         </div>
         <button
-          onClick={() => {setDeatils_sub_category(data);setopen(true)}}
+          onClick={() => { setDeatils_sub_category(data); setopen(true) }}
           className="relative bg-transparent h-[31px] border border-black/50 text-black text-xs leading-8 px-3 py-4 rounded-full flex justify-center items-center after:absolute after:bg-black after:h-0 after:w-full after:top-0 after:left-0 hover:after:h-full after:transition-[2s] after:-z-20 hover:text-white overflow-hidden group mt-4"
         >
           {data.classdate || "Read More"}
@@ -50,11 +50,11 @@ const CategoriesCard = ({ data }) => {
               className="relative transform overflow-hidden rounded-lg bg-primary px-6 pb-6 pt-6 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full md:max-w-[775px]  data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
             >
               <div>
-              <img
-                        src={Deatils_sub_category.categoryImage}
-                        alt=""
-                        className="h-full w-full  py-3"
-                      />
+                <img
+                  src={Deatils_sub_category.categoryImage}
+                  alt=""
+                  className="h-full w-full  py-3"
+                />
                 <div className="mt-5 grid grid-cols-1 gap-3">
                   <Inputfild
                     type={"text"}
@@ -72,7 +72,7 @@ const CategoriesCard = ({ data }) => {
                       placeholder="Enter your Details"
                     />
                   </div>
-                      
+
                 </div>
               </div>
             </DialogPanel>

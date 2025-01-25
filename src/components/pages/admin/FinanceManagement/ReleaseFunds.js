@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AdminHeadding from "../../common/AdminHeadding";
-import Instructor1 from "../../../../assets/images/Instructor-4.png";
+//import Instructor1 from "../../../../assets/images/Instructor-4.png";
 import OutlineBtn from "../../common/OutlineBtn";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { FaArrowLeft } from "react-icons/fa";
@@ -13,9 +13,9 @@ import {
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { Routing } from "../../../shared/Routing";
-import { useEffect } from "react";
 import Spinner from "../../../layouts/Spinner";
-import dayjs from "dayjs";
+import { Fetch_Charges } from "../../../services/Admin/FinanceSection/Finance";
+//import dayjs from "dayjs";
 
 const ReleaseFunds = () => {
   const navigate = useNavigate();
@@ -39,6 +39,19 @@ const ReleaseFunds = () => {
   const prevMonth = currentMonth === 1 ? 12 : currentMonth - 1;
   const prevYear = currentMonth === 1 ? currentYear - 1 : currentYear;
 
+  const handleFetchCharges = async () => {
+    setLoading(true);
+    const result = await Fetch_Charges();
+    if (result?.success === true) {
+      setLoading(false);
+      console.log(result, "============>")
+      setadminFee(result.data.InstructorCommission)
+    } else {
+      setLoading(false);
+      toast.error(result?.message);
+    }
+  };
+
   const Get_Refund_List = async () => {
     setLoading(true);
     const result = await funds(prevYear, prevMonth);
@@ -58,23 +71,23 @@ const ReleaseFunds = () => {
     }
   };
 
-  const HandleAdminFeeChange = (feePercentage) => {
+  // const HandleAdminFeeChange = (feePercentage) => {
 
-    const fee = parseFloat(feePercentage) || 0
-    setadminFee(feePercentage);
+  //   const fee = parseFloat(feePercentage) || 0
+  //   setadminFee(feePercentage);
 
-    if (RefundDetails) {
-      let amount = (RefundDetails.prvMonthAmount - RefundDetails.prvMonthReAmount).toFixed(2);
-      let Admin_Recive_Amount = ((amount * fee) / 100).toFixed(2);
-      let Final_Amout_paid = (amount - Admin_Recive_Amount).toFixed(2);
+  //   if (RefundDetails) {
+  //     let amount = (RefundDetails.prvMonthAmount - RefundDetails.prvMonthReAmount).toFixed(2);
+  //     let Admin_Recive_Amount = ((amount * fee) / 100).toFixed(2);
+  //     let Final_Amout_paid = (amount - Admin_Recive_Amount).toFixed(2);
 
-      SetTotalPaid({
-        Instructor_TotalPaid: amount,
-        Admin_Recive_Amount: Admin_Recive_Amount,
-        Final_Amout: Final_Amout_paid,
-      });
-    }
-  };
+  //     SetTotalPaid({
+  //       Instructor_TotalPaid: amount,
+  //       Admin_Recive_Amount: Admin_Recive_Amount,
+  //       Final_Amout: Final_Amout_paid,
+  //     });
+  //   }
+  // };
 
 
   const HeandleView = async (data) => {
@@ -142,7 +155,8 @@ const ReleaseFunds = () => {
 
   useEffect(() => {
     Get_Refund_List();
-  }, []);
+    handleFetchCharges();
+  },[]);
 
   return (
     <>
@@ -365,16 +379,17 @@ const ReleaseFunds = () => {
                     </div>
                   </div>
                   <div className="w-full">
-                    <p className="text-gay-300 text-[13px]">Admin Fees</p>
+                    <p className="text-gay-300 text-[13px]">Admin Fees %</p>
                     <div className="flex items-center gap-3">
                       <input
                         type="number"
                         value={adminFee}
-                        onChange={(e) => {
-                          HandleAdminFeeChange(e.target.value);
-                        }}
+                        // onChange={(e) => {
+                        //   HandleAdminFeeChange(e.target.value);
+                        // }}
+                        readOnly
                         className="bg-[#D8D6CF] px-5 py-4 md:w-[247px] w-full h-[55px] mt-1 rounded-lg text-lg font-medium focus:outline-none placeholder:text-sm placeholder:text-Dark_black/50"
-                        placeholder="Enter your Fess percentage"
+                        placeholder="Enter your Fess percentage %"
                       />
                       <span className="lg:block hidden">-</span>
                     </div>

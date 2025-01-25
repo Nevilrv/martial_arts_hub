@@ -61,18 +61,3 @@ export const GetDisputeChat = async (disputeId) => {
   }
 };
 
-export const Send_Dispute_message = async (body) => {
-  try {
-    let response = await axios({
-      method: "POST",
-      url: `${baseURL}/admin/chat/student/send-msg`,
-      data: body,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return error?.response?.data;
-  }
-};

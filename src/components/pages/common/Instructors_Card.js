@@ -56,7 +56,7 @@ const InstructorsCard = ({ data,HeandleLike }) => {
             </span>
           </div>
           <h2 className="text-black text-xl font-medium">{data.name}</h2>
-          <p className="text-black/50 text-sm line-clamp-2 h-[40px]">{data.experience}</p>
+          <p id="exprince" className="text-black/50 text-sm line-clamp-2 h-[40px] lowercase">{data.experience}</p>
           <div className="flex items-center mt-4">
             <button
               className="bg-black text-white text-xs text-center py-3 px-20 rounded-full"

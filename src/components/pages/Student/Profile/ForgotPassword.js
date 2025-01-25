@@ -17,8 +17,11 @@ import Popup from "../../common/Popup";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { PiPencilSimpleLineLight } from "react-icons/pi";
 import StudentProfile from "./StudentProfile";
+import { useNavigate } from "react-router-dom";
+import { Routing } from "../../../shared/Routing";
 
 const ForgotPassword = () => {
+  const navigate = useNavigate();
   const [userEmail, setuserEmail] = useState("demo@gmail.com");
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -42,7 +45,6 @@ const ForgotPassword = () => {
     if (result?.success === true) {
       setIsOpen(true);
       setLoading(false);
-       
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -61,6 +63,8 @@ const ForgotPassword = () => {
       inputValues.substring(index + 1);
     setInputValues(newValue);
   };
+
+  
   const heandleOtpSubmit = async () => {
     setLoading(true);
     const body = {
@@ -71,7 +75,7 @@ const ForgotPassword = () => {
       setLoading(false);
       setNewpasswordModel(true);
       setOtpModel(false);
-       
+
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -97,7 +101,10 @@ const ForgotPassword = () => {
     if (result?.success === true) {
       setLoading(false);
       setNewpasswordModel(false);
-       
+      
+      localStorage.clear();
+      navigate(Routing.StudentLogin)
+
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -108,37 +115,37 @@ const ForgotPassword = () => {
     <>
       {loading && <Spinner />}
       <StudentProfile>
-      <div className="border border-[#71717194] py-7 px-6 rounded-lg min-h-[212px] mt-14">
-        <div className="flex flex-col justify-center items-center">
-          <ForgotPasswordIcon />
-          <h2 className="text-black text-[22px] mt-4 font-semibold">
-            Forgot Your Password?
-          </h2>
-          <p className="max-w-[582px] mx-auto text-center text-black/50 mt1">
-            Do Not worry! We will help you in logging in back to your Martial
-            Arts Hub account safely! Enter Your Email address and proceed
-            further!
-          </p>
-          <div className="mt-5">
-            <Inputfild
-              type={"email"}
-              className={"bg-transparent border"}
-              placeholder={"Email ID"}
-              onChange={(event) => setuserEmail(event.target.value)}
-            />
+        <div className="border border-[#71717194] py-7 px-6 rounded-lg min-h-[212px] mt-14">
+          <div className="flex flex-col justify-center items-center">
+            <ForgotPasswordIcon />
+            <h2 className="text-black text-[22px] mt-4 font-semibold">
+              Forgot Your Password?
+            </h2>
+            <p className="max-w-[582px] mx-auto text-center text-black/50 mt1">
+              Do Not worry! We will help you in logging in back to your Martial
+              Arts Hub account safely! Enter Your Email address and proceed
+              further!
+            </p>
+            <div className="mt-5">
+              <Inputfild
+                type={"email"}
+                className={"bg-transparent border"}
+                placeholder={"Email"}
+                onChange={(event) => setuserEmail(event.target.value)}
+              />
+            </div>
+            <div>
+              <OutlineBtn
+                text={"Get OTP"}
+                className={"bg-black text-white mt-12 md:w-[450px] h-[60px]"}
+                onClick={handleSend}
+              />
+            </div>
+            <p className="text-black/50 mt-2">
+              Didn’t receive OTP? <b className="text-black underline">Resend</b>
+            </p>
           </div>
-          <div>
-            <OutlineBtn
-              text={"Get OTP"}
-              className={"bg-black text-white mt-12 md:w-[450px] h-[60px]"}
-              onClick={handleSend}
-            />
-          </div>
-          <p className="text-black/50 mt-2">
-            Didn’t receive OTP? <b className="text-black underline">Resend</b>
-          </p>
         </div>
-      </div>
       </StudentProfile>
       <Popup
         isOpen={isOpen}

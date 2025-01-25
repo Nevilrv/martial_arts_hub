@@ -31,7 +31,7 @@ export const ForgetpasswordOtp = async (body) => {
   try {
     let response = await axios({
       method: "POST",
-      url: `${baseURL}/student/forgetpassword/otp`,
+      url: body.type === 'student' ? `${baseURL}/student/forgetpassword/otp` : `${baseURL}/instructor/forgetpassword/otp`,
       data: body,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -47,12 +47,13 @@ export const ResetPassword = async (body) => {
   try {
     let response = await axios({
       method: "POST",
-      url: `${baseURL}/student/forgetpassword/resetpassword`,
+      url: body.type === 'instructor' ? `${baseURL}/instructor/forgetpassword/resetpassword` : `${baseURL}/student/forgetpassword/resetpassword`,
       data: body,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
+
     return response.data;
   } catch (error) {
     return error?.response?.data;
@@ -63,12 +64,14 @@ export const Change_Password = async (body) => {
   try {
     let response = await axios({
       method: "POST",
-      url: `${baseURL}/student/change/password`,
+      url: body.role === 'instructor' ? `${baseURL}/instructor/change/password` : `${baseURL}/student/change/password`,
       data: body,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
+
+    //
     return response.data;
   } catch (error) {
     return error?.response?.data;

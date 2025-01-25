@@ -27,6 +27,8 @@ import {
 const Profile = () => {
   const navigate = useNavigate();
   const [category_list, Set_Category_List] = useState([]);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [previewidUrl, setPreviewidUrl] = useState(null);
   const [Sub_category_list, SetSub_category_list] = useState([]);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -142,23 +144,48 @@ const Profile = () => {
     });
   };
 
-  const heandleImage = (e) => {
-    setInstructorDetails({
-      ...instructorDetails,
-      [e.target.name]: e.currentTarget.files[0],
-    });
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setPreviewUrl(URL.createObjectURL(file));
+      setInstructorDetails({
+        ...instructorDetails,
+        [e.target.name]: file,
+      });
+    } else {
+      setInstructorDetails({
+        ...instructorDetails,
+        [e.target.name]: file,
+      });
+    }
   };
 
+  const handleIdProofImage = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setPreviewidUrl(URL.createObjectURL(file));
+      setInstructorDetails({
+        ...instructorDetails,
+        [e.target.name]: file,
+      });
+    } else {
+      setInstructorDetails({
+        ...instructorDetails,
+        [e.target.name]: file,
+      });
+    }
+  };
   const handleSaveProfile = async () => {
     console.log("this is called===>")
     const requiredFields = [
       "email", "name", "country_code", "mobileNo", "profile_picture",
-      "maincategory", "category", "availability", "bio", "tagline",
-      "experience", "trainingHistory", "certifications", "keywords",
+      "maincategory", "category", "bio",
+      "experience",
       "idProof", "firstFreeSessionHourlyRate", "classTypeFirstFreeSession",
       "privateSessionOnlineHourlyRate", "privateSessionFaceToFaceHourlyRate"
     ];
 
+    //, "tagline", "trainingHistory", "certifications", "keywords" ,"availability",
 
     const missingFields = requiredFields.filter(field => !instructorDetails?.[field]);
 
@@ -178,13 +205,13 @@ const Profile = () => {
       JSON.stringify(instructorDetails?.maincategory)
     );
     formData.append("category", JSON.stringify(instructorDetails?.category));
-    formData.append("availability", instructorDetails?.availability);
+    formData.append("availability", instructorDetails?.availability || new Date());
     formData.append("bio", instructorDetails?.bio);
-    formData.append("tagline", instructorDetails?.tagline);
+    formData.append("tagline", instructorDetails?.tagline || "");
     formData.append("experience", instructorDetails?.experience);
-    formData.append("trainingHistory", instructorDetails?.trainingHistory);
-    formData.append("certifications", instructorDetails?.certifications);
-    formData.append("keywords", instructorDetails?.keywords);
+    formData.append("trainingHistory", instructorDetails?.trainingHistory || "");
+    formData.append("certifications", instructorDetails?.certifications || "");
+    formData.append("keywords", instructorDetails?.keywords || "");
     formData.append("idProof", instructorDetails?.idProof);
     formData.append(
       "firstFreeSessionHourlyRate",
@@ -328,7 +355,7 @@ const Profile = () => {
               Instructor!
             </p>
             <div className="mt-10 flex items-center gap-x-5 gap-y-9 md:flex-nowrap flex-wrap">
-              <div className="md:w-[50%] w-full">
+              <div className="md:w-[100%] w-full">
                 <Inputfild
                   type={"text"}
                   placeholder={"Name"}
@@ -340,7 +367,7 @@ const Profile = () => {
                   className={`rounded-xl md:w-full h-[70px]`}
                 />
               </div>
-              <div className="md:w-1/2 w-full">
+              {/* <div className="md:w-1/2 w-full">
                 <label className={`text-sm text-black/50 block ${getFieldClass("mobileNo")}`}>
                   Mobile No.
                 </label>
@@ -354,7 +381,7 @@ const Profile = () => {
                   onChange={handlePhoneNumberChange}
                   enableSearch={true}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="md:w-[245px] w-full h-[202px] rounded-xl overflow-hidden bg-[#DAD8D0] flex items-center justify-center relative">
@@ -376,13 +403,17 @@ const Profile = () => {
             <div className="flex items-center justify-center flex-col">
               <IoCamera className="text-black/20 text-4xl" />
               <p className="text-black text-[13px] font-medium">
-                {instructorDetails?.profile_picture?.name}
+                <img
+                  src={previewUrl}
+                  alt=""
+                  className={`h-full object-cover absolute top-0 left-0`}
+                />
               </p>
             </div>
             <input
               type="file"
               name="profile_picture"
-              onChange={heandleImage}
+              onChange={handleImage}
               className={`h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer`}
             />
           </div>
@@ -401,7 +432,7 @@ const Profile = () => {
             />
           </div>
 
-          <div className="md:col-span-1 col-span-1">
+          {/* <div className="md:col-span-1 col-span-1">
             <Inputfild
               type={"date"}
               placeholder={"Add Availability"}
@@ -411,6 +442,21 @@ const Profile = () => {
               value={instructorDetails?.availability?.slice(0, 10)}
               Labelclass={`text-Dark_black font-medium ${getFieldClass("availability")}`}
               className={` rounded-xl md:w-full h-[70px]`}
+            />
+          </div> */}
+          <div>
+            <label className={`text-sm text-black/50 block ${getFieldClass("mobileNo")}`}>
+              Mobile No.
+            </label>
+            <PhoneInput
+              placeholder="Enter phone number"
+              value={
+                instructorDetails?.mobileNo
+                  ? `+${instructorDetails?.country_code}${instructorDetails?.mobileNo}`
+                  : ""
+              }
+              onChange={handlePhoneNumberChange}
+              enableSearch={true}
             />
           </div>
           <div className="md:col-span-1 col-span-1">
@@ -455,7 +501,7 @@ const Profile = () => {
               className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[150px] rounded-xl p-6`}
             />
           </div>
-          <div className="md:col-span-2 col-span-1">
+          {/* <div className="md:col-span-2 col-span-1">
             <Inputfild
               type={"text"}
               placeholder={"Add tagline"}
@@ -466,9 +512,9 @@ const Profile = () => {
               Labelclass={`${getFieldClass("tagline")} text-Dark_black font-medium`}
               value={instructorDetails?.tagline}
             />
-          </div>
+          </div> */}
           <div className="md:col-span-2 col-span-1">
-            <label className={`${getFieldClass("tagline")} text-sm text-black block font-medium`}>
+            <label className={`${getFieldClass("experience")} text-sm text-black block font-medium`}>
               Add your Experience
             </label>
             <textarea
@@ -479,7 +525,7 @@ const Profile = () => {
               className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[150px] rounded-xl p-6`}
             />
           </div>
-          <div>
+          {/* <div>
             <label className={`${getFieldClass("trainingHistory")} text-sm text-black block font-medium`}>
               Add Training History
             </label>
@@ -514,7 +560,7 @@ const Profile = () => {
               Labelclass={`${getFieldClass("keywords")} text-Dark_black font-medium`}
               className={`rounded-xl md:w-full h-[70px]`}
             />
-          </div>
+          </div> */}
 
           <div className="md:col-span-2 col-span-1">
             <label className={`${getFieldClass("idProof")} text-sm text-black block font-medium`}>
@@ -533,16 +579,18 @@ const Profile = () => {
                 </div>
               ) : (
                 <img
-                  src={instructorDetails?.idProof || User}
-                  alt=""
+                  src={instructorDetails?.idProof || previewidUrl}
                   className="h-full text-center object-cover absolute top-0 left-1/2 -translate-x-1/2"
                 />
               )}
-              {instructorDetails?.idProof.name && (
+              {instructorDetails?.idProof && (
                 <div className="flex items-center justify-center flex-col">
                   <MdCloudUpload className="text-black/20 text-4xl" />
                   <p className="text-black text-[13px] font-medium text-center">
-                    {instructorDetails?.idProof.name}
+                    <img
+                      src={previewidUrl}
+                      className="h-full text-center object-cover absolute top-0 left-1/2 -translate-x-1/2"
+                    />
                   </p>
                 </div>
               )}
@@ -550,7 +598,7 @@ const Profile = () => {
                 type="file"
                 name="idProof"
                 // value={instructorDetails.idProof}
-                onChange={heandleImage}
+                onChange={handleIdProofImage}
                 className={`h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer`}
               />
             </div>
@@ -617,7 +665,7 @@ const Profile = () => {
         </div>
         <div className="mt-16 flex justify-end">
           <NormalBtn
-            text={"Save Info & Create Profile"}
+            text={"Next"}
             onClick={handleSaveProfile}
             loading={loading}
           />

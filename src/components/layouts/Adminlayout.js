@@ -98,6 +98,11 @@ const SidbarNavigation = [
         icon: <BiChevronDown />,
         Path: Routing.Admin_Refunds,
       },
+      {
+        Navigate: "Commission And Charges",
+        icon: <BiChevronDown />,
+        Path: Routing.Admin_Commission_Charges,
+      },
     ],
   },
   {
@@ -121,6 +126,11 @@ const SidbarNavigation = [
         Navigate: "Generate Reports",
         icon: <BiChevronDown />,
         Path: Routing.Admin_Generate_Reports,
+      },
+      {
+        Navigate: "FeedBack Report",
+        icon: <BiChevronDown />,
+        Path: Routing.Admin_FeedBack_Reports,
       },
     ],
   },

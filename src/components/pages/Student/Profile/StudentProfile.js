@@ -213,13 +213,13 @@ const StudentProfile = ({ children }) => {
                 }
                 icon={<BiPencil className="text-gay-300 text-2xl" />}
               />
-              <OutlineBtn
+              {/* <OutlineBtn
                 text={"Share"}
                 className={
                   "text-white font-semibold bg-red-200 border-none sm:w-auto w-1/2"
                 }
                 icon={<ShareIcon color={"#fff"} />}
-              />
+              /> */}
             </div>
           </div>
           <div className="sm:w-[120px] w-full h-[27px] bg-gay-250 rounded-full mt-2 overflow-hidden">

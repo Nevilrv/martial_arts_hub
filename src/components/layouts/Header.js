@@ -16,7 +16,7 @@ import { Allert_Popup_Icon } from "../../assets/icon";
 import OutlineBtn from "../pages/common/OutlineBtn";
 import Popup from "../pages/common/Popup";
 import { Link, Events, animateScroll as scroll, scrollSpy } from "react-scroll";
-import { Socket } from "socket.io-client";
+import Socket from "../pages/common/Socket";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -68,23 +68,24 @@ const Header = () => {
   const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
 
   const heandleLogOut = () => {
-    localStorage.clear();
-    SetisOpen(false);
-    setSelectedMailingLists("");
-    navigate(Routing.Initial);
-
-    if (localStorage.getItem("Role") === "Instructor") {
+    if (JSON.parse(localStorage.getItem("Role")) === "Instructor") {
       Socket.emit("InstructorActive", {
         instructorId: JSON.parse(localStorage.getItem("_id")),
         status: "logout",
       });
     }
-    if (localStorage.getItem("Role") === "Student") {
+    
+    if (JSON.parse(localStorage.getItem("Role")) === "Student") {
       Socket.emit("StudentActive", {
-        instructorId: JSON.parse(localStorage.getItem("_id")),
+        studentId: JSON.parse(localStorage.getItem("_id")),
         status: "logout",
       });
     }
+
+    localStorage.clear();
+    SetisOpen(false);
+    setSelectedMailingLists("");
+    navigate(Routing.Initial);
   };
 
   useEffect(

@@ -19,7 +19,7 @@ const LogInDetails = () => {
               Label={"Email ID"}
               value={JSON.parse(localStorage.getItem("email"))}
             />
-            <Inputfild className={"md:w-full"} Label={"Name"} value={"jay"} />
+            <Inputfild className={"md:w-full"} Label={"Name"} value={JSON.parse(localStorage.getItem("name"))} />
           </div>
           {/* <div className="flex justify-end">
             <OutlineBtn

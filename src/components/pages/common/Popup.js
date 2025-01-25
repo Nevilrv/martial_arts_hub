@@ -1,6 +1,7 @@
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import React from "react";
 import OutlineBtn from "./OutlineBtn";
+import PopuSpinner from "./PopuSpinner";
 
 const Popup = ({
   isOpen,
@@ -13,7 +14,8 @@ const Popup = ({
   Headding,
   BodyText,
   Btnclass,
-  BodyTextClass
+  BodyTextClass,
+  loading
 }) => {
   return (
     <>
@@ -37,11 +39,15 @@ const Popup = ({
                   {BodyText}
                 </p>
                 <div className="flex sm:flex-row flex-col items-center gap-3 mt-14 justify-center">
-                  <OutlineBtn
-                    text={BtnText}
-                    className={`border-black/30 w-[260px] font-medium text-xl ${Btnclass} `}
-                    onClick={onClick}
-                  />
+                  {loading ?
+                    <PopuSpinner />
+                    : <OutlineBtn
+                      text={BtnText}
+                      className={`border-black/30 w-[260px] font-medium text-xl ${Btnclass} `}
+                      onClick={onClick}
+                    />
+
+                  }
                   {BtnText2 && (
                     <OutlineBtn
                       text={BtnText2}

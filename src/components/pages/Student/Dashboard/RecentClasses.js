@@ -21,45 +21,44 @@ const RecentClasses = ({ cardDetails, data }) => {
             </div>
           ) : null}
         </div>
-          {data?.length === 0 && (
-            <div className="flex items-center justify-center flex-col my-6">
-              {cardDetails.CardIcon}
-              <h3 className="text-black font-semibold text-lg">
-                {cardDetails.CardHeadding}
-              </h3>
-              <p
-                className={`text-gay-300 text-[13px] text-center mx-auto ${
-                  cardDetails.CardDetailsclassName || "max-w-[346px]"
+        {data?.length === 0 && (
+          <div className="flex items-center justify-center flex-col my-6">
+            {cardDetails.CardIcon}
+            <h3 className="text-black font-semibold text-lg">
+              {cardDetails.CardHeadding}
+            </h3>
+            <p
+              className={`text-gay-300 text-[13px] text-center mx-auto ${cardDetails.CardDetailsclassName || "max-w-[346px]"
                 }`}
-              >
-                {cardDetails.CardDetails}
-              </p>
-            </div>
-          )}
-          {data?.map((recentClass) => (
-              <div className="flex items-center justify-between mt-7 gap-y-3 flex-wrap">
-                <div className="flex items-start gap-5 flex-wrap">
-                  <img
-                    src={Wrestling}
-                    alt=""
-                    className="grayscale hover:grayscale-0 sm:w-[125px] sm:h-[85px] w-full  h-full rounded-lg object-cover"
-                  />
-                  <div>
-                    <h2 className="text-black text-xl font-semibold">
-                      {recentClass.className}
-                    </h2>
-                    <p className="text-black/70 max-w-[390px]">
-                      {recentClass.className}
-                    </p>
-                  </div>
-                </div>
-                <OutlineBtn
-                  text={`started on ${dayjs(recentClass.classdate).format("DD MMM")}`}
-                  className={"sm:w-auto w-full"}
-                  onClick={() => navigate(Routing.StudentMyClass)}
-                />
+            >
+              {cardDetails.CardDetails}
+            </p>
+          </div>
+        )}
+        {data?.map((recentClass) => (
+          <div className="flex items-center justify-between mt-7 gap-y-3 flex-wrap">
+            <div className="flex items-start gap-5 flex-wrap">
+              <img
+                src={recentClass.profile || Wrestling}
+                alt=""
+                className="grayscale hover:grayscale-0 sm:w-[125px] sm:h-[85px] w-full  h-full rounded-lg object-cover"
+              />
+              <div>
+                <h2 className="text-black text-xl font-semibold">
+                  {recentClass.className}
+                </h2>
+                <p className="text-black/70 max-w-[390px]">
+                  {recentClass.className}
+                </p>
               </div>
-          ))}
+            </div>
+            <OutlineBtn
+              text={`started on ${dayjs(recentClass.classdate).format("DD MMM")}`}
+              className={"sm:w-auto w-full"}
+              onClick={() => navigate(Routing.StudentMyClass)}
+            />
+          </div>
+        ))}
       </div>
     </>
   );
