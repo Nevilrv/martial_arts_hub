@@ -148,6 +148,11 @@ const Chat = () => {
     }
   };
 
+
+  const handleLive = () => {
+    setcount(true);
+  }
+
   return (
     <>
       {Loading && <Spinner />}
@@ -172,7 +177,7 @@ const Chat = () => {
                     className="h-[95px] border-b border-[#6B6B6B4D] px-4 flex items-center cursor-pointer"
                     onClick={() => {
                       setstudentId(studentData);
-                      setcount(true);
+                      handleLive(studentData.roomId);
                     }}
                   >
                     <div className="flex items-center w-full">
@@ -216,9 +221,13 @@ const Chat = () => {
                           <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
                             {studentData.chatdata.findLast((msg) => msg.sender === "instructor")?.messages}
                           </p>
-                          <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
-                            {studentData.chatCount > 0 ? (count === true ? 0 : studentData.chatCount) : 0}
-                          </div>
+                          {
+                            studentData.chatCount === 0 ? null : (
+                              <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
+                                {studentData.chatCount > 0 ? (count === true ? 0 : studentData.chatCount) : 0}
+                              </div>
+                            )
+                          }
                         </div>
                       </div>
                     </div>
@@ -330,7 +339,8 @@ const Chat = () => {
                                 }
                               )}
                             </p>
-                            <RiCheckDoubleFill className={`${chat.isRead ? 'text-green' : 'text-gay-300'}`} />
+                            {localStorage.getItem('studRoomId') === studentId?.roomId ? <RiCheckDoubleFill className='text-green' />
+                              : <RiCheckDoubleFill className={`${chat.isRead ? 'text-green' : 'text-gay-300'}`} />}
                           </div>
                         </div>
                       </div>
@@ -423,9 +433,13 @@ const Chat = () => {
                         <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
                           {studentData.chatdata.findLast((msg) => msg.sender === "instructor")?.messages}
                         </p>
-                        <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
-                          {studentData.chatCount > 0 ? (count === true ? 0 : studentData.chatCount) : 0}
-                        </div>
+                        {
+                          studentData.chatCount === 0 ? null : (
+                            <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
+                              {studentData.chatCount > 0 ? (count === true ? 0 : studentData.chatCount) : 0}
+                            </div>
+                          )
+                        }
                       </div>
                     </div>
                   </div>
@@ -535,7 +549,6 @@ const Chat = () => {
                               )}
                             </p>
                             <RiCheckDoubleFill className={`${chat.isRead ? 'text-green' : 'text-gay-300'}`} />
-
                           </div>
                         </div>
                       </div>
