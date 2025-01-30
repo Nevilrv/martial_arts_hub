@@ -1,30 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import Tabs from "../index";
 import { CiSearch } from "react-icons/ci";
-import Spinner from "../../../layouts/Spinner";
 import { ShareIcon } from "../../../../assets/icon";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { RiCheckDoubleFill } from "react-icons/ri";
-import {
-  Student_List_Message,
-} from "../../../services/Instructor/chat/ChatApi";
 import UserProfile from "../../../../assets/images/userProfile.jpg";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import { Routing } from "../../../shared/Routing";
 import Socket from "../../common/Socket";
 import User from "../../../../assets/images/userProfile.jpg";
 
 const Chat = () => {
   const InstructorId = JSON.parse(localStorage.getItem("_id"));
-  const navigate = useNavigate();
-  let chatId;
   const [message, setMessage] = useState(null);
-  const [lastChat, setLastChat] = useState({})
   const chatContainerRef = useRef(null);
+  const [studentStaus, setstudentStatus] = useState("")
+  const [live, setLive] = useState("")
   const [count, setcount] = useState(false)
   const [studentId, setstudentId] = useState({});
-  const [Loading, setLoading] = useState(false);
   const [showChat, setshowChat] = useState(false);
   const [ChatLimit, setChatLimit] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
@@ -39,32 +31,15 @@ const Chat = () => {
   };
 
   const Student_List = async () => {
-    // setLoading(true);
+    if (localStorage.getItem('prvRoomId') && localStorage.getItem('prvStudentId')) {
+      Socket.emit('StatusOffline', { sender: 'student', roomId: localStorage.getItem('prvRoomId'), studentId: localStorage.getItem('prvStudentId'), instructorId: InstructorId })
+    }
     Socket.emit('listWithchat', { instructorId: InstructorId })
-
-    // const result = await Student_List_Message(InstructorId);
-    // if (result?.success === true) {
-    //   setLoading(false);
-    //   setStudentList(result.data.student);
-    //   setAllStudentList(result.data.student);
-    //   setstudentId(result.data.student[0]);
-    // } else {
-    //   setLoading(false);
-    // }
-  };
-
-  const Student_Chat_Messages = async () => {
-    setLoading(true);
-    Socket.emit("isRead", { sender: 'student', studentId: studentId.studentId, instructorId: InstructorId })
-    Socket.emit('RealtimeChatData', { roomId: studentId?.roomId, sender: 'student', studentId: studentId.studentId, instructorId: InstructorId })
-    setLoading(false);
-
   };
 
   const sendMessage = async () => {
-
     if (message.trim()) {
-      Socket.emit("loadchat", { roomId: studentId?.roomId, sender: "instructor", chatType: "msg", messages: message, updated_at: new Date(), isRead: false, studentId: studentId.studentId, instructorId: InstructorId, disputeId: "" });
+      Socket.emit("loadchat", { roomId: studentId?.roomId, sender: "instructor", chatType: "msg", messages: message, updated_at: new Date(), isRead: studentId?.roomId === live, studentId: studentId?.studentId, instructorId: InstructorId, disputeId: "" });
       setMessage("");
       scrollToBottom();
     }
@@ -86,11 +61,9 @@ const Chat = () => {
     Student_List();
 
     Socket.on('getlistchat', (data) => {
-      console.log(data, 'StudentData=================>')
-
+      console.log(data, "============>")
       setStudentList(data.student);
       setAllStudentList(data.student);
-      // setstudentId(data.student[0]);
     })
 
     return () => {
@@ -99,22 +72,6 @@ const Chat = () => {
 
   }, []);
 
-  useEffect(() => {
-    Student_Chat_Messages();
-
-    Socket.on('loadRealtimeChat', (data) => {
-      if (data.length === 0) {
-        setChatMessages([]);
-      } else {
-        setChatMessages(data);
-      }
-    })
-
-    return () => {
-      Socket.off("loadRealtimeChat");
-    };
-
-  }, [studentId]);
 
   useEffect(() => {
     scrollToBottom();
@@ -124,18 +81,28 @@ const Chat = () => {
     Socket.emit("joinRoom", studentId?.roomId);
 
     Socket.on("getchat", (data) => {
+      console.log(data, '=================>getcht')
       setChatMessages((prev) => [...prev, data]);
     });
 
-    Socket.on('updatedList', (data) => {
-      console.log(data, '=================>')
-      setStudentList(data.student);
-      setAllStudentList(data.student);
+    Socket.on('loadRealtimeChat', (data) => {
+      console.log(data, '=================>Loadchat')
+      if (data.length === 0) {
+        setChatMessages([]);
+      } else {
+        setChatMessages(data);
+      }
     })
+
+    Socket.on('inslive', (data) => {
+      setLive(data.roomId)
+    })
+
 
     return () => {
       Socket.off("getchat");
-      Socket.off('updatedList');
+      Socket.off("loadRealtimeChat");
+      Socket.off("inslive")
     };
   }, [studentId?.roomId]);
 
@@ -158,14 +125,30 @@ const Chat = () => {
   };
 
 
-  const handleLive = () => {
+  const handleLive = (roomId, studentId) => {
     setcount(true);
+
+    setstudentStatus((prev) => [...prev, { roomId, studentId }])
+
+    const prevRoomId = localStorage.setItem('prvRoomId', studentStaus[studentStaus.length - 1]?.roomId)
+    const prvstudentId = localStorage.setItem('prvStudentId', studentStaus[studentStaus.length - 1]?.studentId)
+
+    if (!prevRoomId && !prvstudentId) {
+      localStorage.setItem('prvRoomId', roomId);
+      localStorage.setItem('prvStudentId', studentId);
+    } else {
+      localStorage.setItem('prvRoomId', prevRoomId);
+      localStorage.setItem('prvStudentId', prvstudentId);
+    }
+
+    Socket.emit('StatusOffline', { sender: 'student', roomId: localStorage.getItem('prvRoomId'), studentId: localStorage.getItem('prvStudentId'), instructorId: InstructorId })
+    Socket.emit('RealtimeChatData', { sender: 'student', roomId: roomId, studentId: studentId, instructorId: InstructorId })
+    Socket.emit('ChnageStatus', { sender: 'student', studentId: studentId, instructorId: InstructorId, roomId: roomId })
   }
 
 
   return (
     <>
-      {Loading && <Spinner />}
       <Tabs>
         <div className="grid lg:grid-cols-4 grid-cols-1 h-[calc(100vh-180px)] overflow-y-auto">
           <div className="py-7 border-r border-[#6b6b6b63] lg:block hidden">
@@ -187,7 +170,7 @@ const Chat = () => {
                 className="h-[95px] border-b border-[#6B6B6B4D] px-4 flex items-center cursor-pointer"
                 onClick={() => {
                   setstudentId(studentData);
-                  handleLive(studentData.roomId);
+                  handleLive(studentData.roomId, studentData.studentId);
                 }}
               >
                 <div className="flex items-center w-full">
@@ -201,9 +184,13 @@ const Chat = () => {
                       />
                     </div>
                     <div
-                      className={`h-4 w-4 ${studentData.status === true
-                        ? "bg-green"
-                        : "bg-gay-300"
+                      className={`h-4 w-4 ${live
+                        ? studentData.roomId === live
+                          ? "bg-green"
+                          : "bg-gay-300"
+                        : studentData.status === true
+                          ? "bg-green"
+                          : "bg-gay-300"
                         } rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}
                     ></div>
                   </div>
@@ -230,13 +217,9 @@ const Chat = () => {
                       <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
                         {studentData.chatdata.findLast((msg) => msg.sender === "student")?.messages}
                       </p>
-                      {
-                        studentData.chatCount === 0 ? null : (
-                          <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
-                            {studentData.chatCount > 0 ? (count === true ? 0 : studentData.chatCount) : 0}
-                          </div>
-                        )
-                      }
+                      <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
+                        {studentData.chatdata.filter(item => !item.isRead && item.sender === 'student').length || 0}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -333,8 +316,7 @@ const Chat = () => {
                               }
                             )}
                           </p>
-                          {localStorage.getItem('InsRoomId') === studentId?.roomId? <RiCheckDoubleFill className='text-green' />
-                            : <RiCheckDoubleFill className={`${chat.isRead ? 'text-green' : 'text-gay-300'}`} />}
+                          <RiCheckDoubleFill className={`${chat.isRead === true ? "text-green" : "text-gay-300"}`} />
                         </div>
                       </div>
                     </div>
@@ -384,6 +366,7 @@ const Chat = () => {
                   className="h-[95px] border-b border-[#6B6B6B4D] px-4 flex items-center cursor-pointer"
                   onClick={() => {
                     heandleChat(studentData);
+                    handleLive(studentData.roomId, studentData.studentId);
                   }}
                 >
                   <div className="flex items-center w-full">
@@ -396,7 +379,16 @@ const Chat = () => {
                           className="grayscale h-full w-full object-cover"
                         />
                       </div>
-                      <div className="h-4 w-4 bg-green rounded-full absolute bottom-0 right-0 border-[3px] border-primary"></div>
+                      <div
+                        className={`h-4 w-4 ${live
+                          ? studentData.roomId === live
+                            ? "bg-green"
+                            : "bg-gay-300"
+                          : studentData.status === true
+                            ? "bg-green"
+                            : "bg-gay-300"
+                          } rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}
+                      ></div>
                     </div>
                     <div className="ml-3 w-full">
                       <div className="flex items-center justify-between w-full">
@@ -420,13 +412,16 @@ const Chat = () => {
                         <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
                           {studentData.chatdata.findLast((msg) => msg.sender === "student")?.messages}
                         </p>
-                        {
+                        {/* {
                           studentData.chatCount === 0 ? null : (
                             <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
                               {studentData.chatCount > 0 ? (count === true ? 0 : studentData.chatCount) : 0}
                             </div>
                           )
-                        }
+                        } */}
+                        <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
+                          {studentData.chatCount || 0}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -521,7 +516,7 @@ const Chat = () => {
                                 : null
                                 }`}
                             >
-                              {chat?.message}
+                              {chat?.messages}
                             </p>
                           </div>
                           <div className="flex items-center gap-2 mt-1 ml-1">
@@ -534,7 +529,14 @@ const Chat = () => {
                                 }
                               )}
                             </p>
-                            <RiCheckDoubleFill className="text-green" />
+                            <RiCheckDoubleFill className={`${live
+                              ? chat.roomId === live
+                                ? "text-green"
+                                : "text-gay-300"
+                              : chat.isRead === true
+                                ? "text-green"
+                                : "text-gay-300"
+                              }`} />
                           </div>
                         </div>
                       </div>

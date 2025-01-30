@@ -263,10 +263,10 @@ const All_Message = () => {
                       (Student)
                     </h2>
                   </div>
-                  <div className="sm:w-[329px] sm:h-[329px] rounded-full object-cover object-top grayscale scale-x-[-1] border-[5px] border-primary xl:absolute top-7 right-14 overflow-hidden">
+                  <div className="sm:w-96 sm:h-96 rounded-full object-cover object-top grayscale scale-x-[-1] border-[5px] border-primary xl:absolute top-7 right-14 overflow-hidden">
                     <img
                       src={StudentData.profile || User}
-                      className="h-full w-full object-cover"
+                      className="h-52 w-52 object-cover object-top"
                     />
                   </div>
                 </div>

@@ -135,7 +135,7 @@ const BankAccountDetails = () => {
         <div className="flex flex-wrap w-full items-end justify-center gap-3">
           <div className="md:w-1/2 w-full">
             <p className="mb-2">
-              Note 1 : During KYC, please do not refresh the page or click the return link
+              Note : During KYC, please do not refresh the page or click the return link
             </p>
             {/* <p className="mb-3">
               Note 2 : On the final review and submit page, click the 'Edit' button to upload the document if the option is shown; 
@@ -195,7 +195,7 @@ const BankAccountDetails = () => {
             className={"rounded-xl md:w-full h-[70px]"}
           />
           <div className="md:col-span-2 mt-10">
-            <h2 className="font-semibold text-3xl">Bank Accout Details</h2>
+            <h2 className="font-semibold text-3xl">Accout</h2>
           </div>
           <Inputfild
             type={"text"}
