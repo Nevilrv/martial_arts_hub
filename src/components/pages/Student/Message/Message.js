@@ -5,7 +5,8 @@ import { ShareIcon } from "../../../../assets/icon";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { RiCheckDoubleFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import UserProfile from "../../../../assets/images/userProfile.jpg";
+import UserProfile from "../../../../assets/images/userProfile.jpg"
+import { Instructor_List_Message } from "../../../services/student/chatAPI/ChatApi"
 import { FaArrowLeft } from "react-icons/fa";
 import Socket from "../../common/Socket";
 import Users from "../../../../assets/images/userProfile.jpg";
@@ -37,6 +38,13 @@ const Chat = () => {
       Socket.emit('StatusOffline', { sender: 'instructor', roomId: localStorage.getItem('prvRoomId'), studentId: StudentId, instructorId: localStorage.getItem('prvInstructorId') })
     }
     Socket.emit('listWithchatStudent', { studentId: StudentId })
+
+    const result = await Instructor_List_Message(StudentId)
+
+    setStudentList(result.data.instructor);
+    setAllStudentList(result.data.student);
+    console.log(result,"============>Insturtcor List")
+
   };
 
 
@@ -51,17 +59,7 @@ const Chat = () => {
 
   useEffect(() => {
     Instructor_List();
-
-    Socket.on('getlistchatStudent', (data) => {
-      setStudentList(data.instructor);
-      setAllStudentList(data.instructor);
-    })
-
-    return () => {
-      Socket.off('getlistchatStudent');
-    };
-
-  }, []);
+  }, [StudentId]);
 
 
   useEffect(() => {
@@ -69,15 +67,16 @@ const Chat = () => {
   }, [chatMessages]);
 
   useEffect(() => {
-
     Socket.emit("joinRoom", studentId?.roomId);
 
     Socket.on("getchat", (data) => {
       console.log(data, '=================>getcht')
-      setChatMessages((prev) => [...prev, data]);
+      if (data.roomId === studentId.roomId) {
+        setChatMessages((prev) => [...prev, data]);
+      }
     });
 
-    Socket.on('loadRealtimeChat', (data) => {
+    Socket.on('loadInsChat', (data) => {
       console.log(data, '=================>Loadchat')
       if (data.length === 0) {
         setChatMessages([]);
@@ -86,15 +85,23 @@ const Chat = () => {
       }
     })
 
-
     Socket.on('studentlive', (data) => {
       setLive(data.roomId)
     })
 
+    // Socket.on('Refresh', (data) => {
+    //   console.log(data.status, "========>redh")
+    //   if (data.status) {
+    //     Instructor_List();
+    //   }
+    // })
+
+
     return () => {
       Socket.off("getchat");
-      Socket.off("loadRealtimeChat");
-      Socket.off("studentlive")
+      Socket.off("loadInsChat");
+      Socket.off("studentlive");
+      Socket.off("Refresh");
     };
   }, [studentId?.roomId]);
 
@@ -139,6 +146,7 @@ const Chat = () => {
     Socket.emit('ChnageStatus', { sender: 'instructor', studentId: StudentId, instructorId: instructorId, roomId: roomId })
 
   }
+
 
   return (
     <>
@@ -208,7 +216,7 @@ const Chat = () => {
                         </div>
                         <div className="flex items-center justify-between w-full">
                           <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
-                            {studentData.chatdata.findLast((msg) => msg.sender === "instructor")?.messages}
+                            {studentData.LastChat}
                           </p>
                           <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
                             {studentData.chatdata.filter(item => !item.isRead && item.sender === 'instructor').length || 0}
@@ -244,14 +252,6 @@ const Chat = () => {
                     </p>
                   </div>
                 </div>
-                {/* <div className="flex items-center gap-4">
-                  <div className="cursor-pointer">
-                    <ShareIcon />
-                  </div>
-                  <div className="cursor-pointer">
-                    <BsThreeDotsVertical className="text-2xl" />
-                  </div>
-                </div> */}
               </div>
               <div className="max-w-[957px] bg-Green-100 h-[55px] text-green rounded-full mx-auto mt-8 flex items-center justify-center">
                 <p>

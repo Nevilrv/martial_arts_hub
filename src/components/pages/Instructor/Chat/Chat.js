@@ -7,6 +7,7 @@ import { RiCheckDoubleFill } from "react-icons/ri";
 import UserProfile from "../../../../assets/images/userProfile.jpg";
 import { FaArrowLeft } from "react-icons/fa";
 import Socket from "../../common/Socket";
+import { Student_List_Message } from "../../../services/Instructor/chat/ChatApi"
 import User from "../../../../assets/images/userProfile.jpg";
 
 const Chat = () => {
@@ -18,7 +19,6 @@ const Chat = () => {
   const [count, setcount] = useState(false)
   const [studentId, setstudentId] = useState({});
   const [showChat, setshowChat] = useState(false);
-  const [ChatLimit, setChatLimit] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [StudentList, setStudentList] = useState([]);
   const [AllStudentList, setAllStudentList] = useState([]);
@@ -35,6 +35,12 @@ const Chat = () => {
       Socket.emit('StatusOffline', { sender: 'student', roomId: localStorage.getItem('prvRoomId'), studentId: localStorage.getItem('prvStudentId'), instructorId: InstructorId })
     }
     Socket.emit('listWithchat', { instructorId: InstructorId })
+    const result = await Student_List_Message(InstructorId)
+
+    setStudentList(result.data.student);
+    setAllStudentList(result.data.instructor);
+    console.log(result,"============>Student List")
+
   };
 
   const sendMessage = async () => {
@@ -45,32 +51,11 @@ const Chat = () => {
     }
   };
 
-  useEffect(() => {
-    const instructorMessages = chatMessages.filter(
-      (message) => message.sender === "instructor"
-    );
-
-    if (instructorMessages.length > 9) {
-      setChatLimit(true);
-    } else {
-      setChatLimit(false);
-    }
-  }, [chatMessages]);
 
   useEffect(() => {
     Student_List();
 
-    Socket.on('getlistchat', (data) => {
-      console.log(data, "============>")
-      setStudentList(data.student);
-      setAllStudentList(data.student);
-    })
-
-    return () => {
-      Socket.off('getlistchat');
-    };
-
-  }, []);
+  }, [InstructorId]);
 
 
   useEffect(() => {
@@ -81,12 +66,12 @@ const Chat = () => {
     Socket.emit("joinRoom", studentId?.roomId);
 
     Socket.on("getchat", (data) => {
-      console.log(data, '=================>getcht')
-      setChatMessages((prev) => [...prev, data]);
+      if (data.roomId === studentId.roomId) {
+        setChatMessages((prev) => [...prev, data]);
+      }
     });
 
-    Socket.on('loadRealtimeChat', (data) => {
-      console.log(data, '=================>Loadchat')
+    Socket.on('loadStdChat', (data) => {
       if (data.length === 0) {
         setChatMessages([]);
       } else {
@@ -98,11 +83,18 @@ const Chat = () => {
       setLive(data.roomId)
     })
 
+    // Socket.on('Refresh',(data) => {
+    //   console.log(data.status,"========>redh")
+    //   if (data.status) {
+    //     Student_List();
+    //   }
+    // })
 
     return () => {
       Socket.off("getchat");
-      Socket.off("loadRealtimeChat");
-      Socket.off("inslive")
+      Socket.off("loadStdChat");
+      Socket.off("inslive");
+      Socket.off("Refresh");
     };
   }, [studentId?.roomId]);
 
@@ -126,6 +118,7 @@ const Chat = () => {
 
 
   const handleLive = (roomId, studentId) => {
+
     setcount(true);
 
     setstudentStatus((prev) => [...prev, { roomId, studentId }])
@@ -145,6 +138,7 @@ const Chat = () => {
     Socket.emit('RealtimeChatData', { sender: 'student', roomId: roomId, studentId: studentId, instructorId: InstructorId })
     Socket.emit('ChnageStatus', { sender: 'student', studentId: studentId, instructorId: InstructorId, roomId: roomId })
   }
+
 
 
   return (
@@ -215,7 +209,7 @@ const Chat = () => {
                     </div>
                     <div className="flex items-center justify-between w-full">
                       <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
-                        {studentData.chatdata.findLast((msg) => msg.sender === "student")?.messages}
+                        {studentData.LastChat}
                       </p>
                       <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
                         {studentData.chatdata.filter(item => !item.isRead && item.sender === 'student').length || 0}

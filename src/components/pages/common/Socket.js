@@ -6,10 +6,7 @@ const Socket = io("https://martialartshub.co", {
     secure: true, 
 });
 
-// const Socket = io("http://localhost:4000", {
-    // transports: ["websocket", "polling"],
-    // secure: true, 
-// }); 
+// const Socket = io("http://localhost:4000"); 
 
 console.log(Socket, "=============>")
 
