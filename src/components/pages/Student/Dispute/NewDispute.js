@@ -35,8 +35,8 @@ const NewDispute = () => {
     description: "",
     evidenceScreenShort: [],
     totalAmount: "",
-    classId:"",
-    bookingId:"",
+    classId: "",
+    bookingId: "",
   });
   const [selectClass, setSelectClass] = useState();
   const studentId = JSON.parse(localStorage.getItem("_id"));
@@ -49,7 +49,7 @@ const NewDispute = () => {
     if (result?.success === true) {
       setLoading(false);
       setGetInstructors(result.data);
-       
+
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -61,7 +61,7 @@ const NewDispute = () => {
     if (result?.success === true) {
       setLoading(false);
       setgetClass(result.data);
-       
+
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -124,7 +124,7 @@ const NewDispute = () => {
       setLoading(false);
       toast.error(result?.message);
     }
-   
+
   };
 
   return (
@@ -240,22 +240,22 @@ const NewDispute = () => {
                   transition
                   className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg"
                 >
-                  {getInstructors.map((Instructors, i) => (
-                    <ListboxOption
-                      key={i}
-                      value={Instructors.name}
-                      className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900"
-                    >
-                      <span
-                        className="block truncate font-normal group-data-[selected]:font-semibold cursor-pointer"
-                        onClick={() =>
-                          setinstructorid(Instructors.instructorId)
-                        }
+                  {[...new Map(getInstructors.map((inst) => [inst.name, inst])).values()].map(
+                    (Instructors, i) => (
+                      <ListboxOption
+                        key={i}
+                        value={Instructors.name}
+                        className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900"
                       >
-                        {Instructors.name}
-                      </span>
-                    </ListboxOption>
-                  ))}
+                        <span
+                          className="block truncate font-normal group-data-[selected]:font-semibold cursor-pointer"
+                          onClick={() => setinstructorid(Instructors.instructorId)}
+                        >
+                          {Instructors.name}
+                        </span>
+                      </ListboxOption>
+                    )
+                  )}
                 </ListboxOptions>
               </div>
             </Listbox>
@@ -335,10 +335,10 @@ const NewDispute = () => {
                   {Dispute.evidenceScreenShort?.length <= 0
                     ? "Upload screenshots, documents, receipts"
                     : Dispute?.evidenceScreenShort?.map((filename) => (
-                        <span>
-                          {filename?.name},<br />
-                        </span>
-                      ))}
+                      <span>
+                        {filename?.name},<br />
+                      </span>
+                    ))}
                 </p>
               </div>
               <input

@@ -188,18 +188,12 @@ const Videocall = () => {
 
   //
   useEffect(() => {
-    Socket.on("getcalldisconnect", (data) => {
-      if (data.disconnect === true) {
-        setVideoCall(false);
-        userRole === "Student"
-          ? navigate(Routing.StudentMyClass, { replace: true })
-          : navigate(Routing.InstructorMyClass, { replace: true });
-      }
-    });
-    return () => {
-      Socket.off("getcalldisconnect");
-    };
-    // eslint-disable-next-line
+
+    setVideoCall(false);
+    userRole === "Student"
+      ? navigate(Routing.StudentMyClass, { replace: true })
+      : navigate(Routing.InstructorMyClass, { replace: true });
+
   }, [videoCall]);
 
   return !videoCall ? (

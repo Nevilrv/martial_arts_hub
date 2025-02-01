@@ -31,15 +31,11 @@ const Chat = () => {
   };
 
   const Student_List = async () => {
-    if (localStorage.getItem('prvRoomId') && localStorage.getItem('prvStudentId')) {
-      Socket.emit('StatusOffline', { sender: 'student', roomId: localStorage.getItem('prvRoomId'), studentId: localStorage.getItem('prvStudentId'), instructorId: InstructorId })
-    }
-    Socket.emit('listWithchat', { instructorId: InstructorId })
     const result = await Student_List_Message(InstructorId)
 
     setStudentList(result.data.student);
     setAllStudentList(result.data.instructor);
-    console.log(result,"============>Student List")
+    console.log(result, "============>Student List")
 
   };
 
@@ -54,8 +50,23 @@ const Chat = () => {
 
   useEffect(() => {
     Student_List();
-
   }, [InstructorId]);
+
+
+  useEffect(() => {
+    const handleStdListUpdate = (data) => {
+      console.log(data, "=========>");
+      if (data.status) {
+        Student_List();
+      }
+    };
+
+    Socket.on("InsListUpadte", handleStdListUpdate);
+
+    return () => {
+      Socket.off("InsListUpadte", handleStdListUpdate);
+    };
+  }, []);
 
 
   useEffect(() => {
@@ -83,18 +94,11 @@ const Chat = () => {
       setLive(data.roomId)
     })
 
-    // Socket.on('Refresh',(data) => {
-    //   console.log(data.status,"========>redh")
-    //   if (data.status) {
-    //     Student_List();
-    //   }
-    // })
 
     return () => {
       Socket.off("getchat");
       Socket.off("loadStdChat");
       Socket.off("inslive");
-      Socket.off("Refresh");
     };
   }, [studentId?.roomId]);
 
@@ -136,7 +140,6 @@ const Chat = () => {
 
     Socket.emit('StatusOffline', { sender: 'student', roomId: localStorage.getItem('prvRoomId'), studentId: localStorage.getItem('prvStudentId'), instructorId: InstructorId })
     Socket.emit('RealtimeChatData', { sender: 'student', roomId: roomId, studentId: studentId, instructorId: InstructorId })
-    Socket.emit('ChnageStatus', { sender: 'student', studentId: studentId, instructorId: InstructorId, roomId: roomId })
   }
 
 
@@ -177,16 +180,7 @@ const Chat = () => {
                         className="grayscale h-full w-full object-cover"
                       />
                     </div>
-                    <div
-                      className={`h-4 w-4 ${live
-                        ? studentData.roomId === live
-                          ? "bg-green"
-                          : "bg-gay-300"
-                        : studentData.status === true
-                          ? "bg-green"
-                          : "bg-gay-300"
-                        } rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}
-                    ></div>
+                    <div className={`h-4 w-4 ${studentData.status === true ? "bg-green" : "bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
                   </div>
                   <div className="ml-3 w-full">
                     <div className="flex items-center justify-between w-full">
@@ -211,9 +205,11 @@ const Chat = () => {
                       <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
                         {studentData.LastChat}
                       </p>
-                      <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
-                        {studentData.chatdata.filter(item => !item.isRead && item.sender === 'student').length || 0}
-                      </div>
+                      {studentData.chatdata.filter(item => !item.isRead && item.sender === 'student').length > 0 && (
+                        <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
+                          {studentData.chatdata.filter(item => !item.isRead && item.sender === 'student').length}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -373,16 +369,7 @@ const Chat = () => {
                           className="grayscale h-full w-full object-cover"
                         />
                       </div>
-                      <div
-                        className={`h-4 w-4 ${live
-                          ? studentData.roomId === live
-                            ? "bg-green"
-                            : "bg-gay-300"
-                          : studentData.status === true
-                            ? "bg-green"
-                            : "bg-gay-300"
-                          } rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}
-                      ></div>
+                      <div className={`h-4 w-4 ${studentData.status === true ? "bg-green" : "bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
                     </div>
                     <div className="ml-3 w-full">
                       <div className="flex items-center justify-between w-full">
@@ -406,16 +393,11 @@ const Chat = () => {
                         <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
                           {studentData.chatdata.findLast((msg) => msg.sender === "student")?.messages}
                         </p>
-                        {/* {
-                          studentData.chatCount === 0 ? null : (
-                            <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
-                              {studentData.chatCount > 0 ? (count === true ? 0 : studentData.chatCount) : 0}
-                            </div>
-                          )
-                        } */}
-                        <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
-                          {studentData.chatCount || 0}
-                        </div>
+                        {studentData.chatdata.filter(item => !item.isRead && item.sender === 'student').length > 0 && (
+                          <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
+                            {studentData.chatdata.filter(item => !item.isRead && item.sender === 'student').length}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

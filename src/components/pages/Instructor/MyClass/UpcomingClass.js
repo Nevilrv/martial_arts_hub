@@ -74,12 +74,12 @@ const UpcomingClass = () => {
                   </div>
                   <div className="flex flex-wrap items-center">
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
-                      <span className="font-medium">Class Date:</span>{" "}
+                      <span className="font-medium">Class Date: </span>{" "}
                       {upcoming_class?.classdate}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
-                      <span className="font-medium"> Created on:</span>
+                      <span className="font-medium">Created on: </span>
                       {upcoming_class?.createdOn}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
@@ -90,18 +90,18 @@ const UpcomingClass = () => {
                   </div>
                   <div className="flex items-center flex-wrap">
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
-                      <span className="font-medium">Class Time:</span>
+                      <span className="font-medium">Class Time: </span>
                       {upcoming_class?.classTime}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
-                      <span className="font-medium">Class Duration:</span>
+                      <span className="font-medium">Class Duration: </span>
                       {upcoming_class?.classduration}hr
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] mt-0.5 text-red-200 font-medium">
                       <span className="font-medium text-black/70 ">
-                        Class Rate:
+                        Class Rate: 
                       </span>
                       ${parseInt(upcoming_class?.classRate).toFixed(2)}
                     </p>
@@ -116,7 +116,7 @@ const UpcomingClass = () => {
                 />
               ) : (
                 <OutlineBtn
-                  text={"Starts on 29 July at 12:30 PM"}
+                  text={`Join at ${upcoming_class.classTime}`}
                   onClick={() => {
                     Change_Status_Classes(upcoming_class);
                   }}

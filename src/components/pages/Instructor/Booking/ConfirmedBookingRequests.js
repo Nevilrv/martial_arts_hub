@@ -66,7 +66,7 @@ const ConfirmedBookingRequests = ({ data }) => {
                   <span className="font-medium text-black/70 ">
                     Class Rate:
                   </span>
-                  $ {confirm?.classRate}
+                  ${confirm?.classRate}
                 </p>
               </div>
             </div>
