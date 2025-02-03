@@ -406,7 +406,7 @@ const Chat = () => {
                       </div>
                       <div className="flex items-center justify-between w-full">
                         <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
-                          {studentData.chatdata.findLast((msg) => msg.sender === "instructor")?.messages}
+                          {studentData.LastChat}
                         </p>
                         {studentData.chatdata.filter(item => !item.isRead && item.sender === 'instructor').length > 0 && (
                           <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
