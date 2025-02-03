@@ -189,8 +189,8 @@ const Chat = () => {
                       </h2>
                       <p className="text-black/50 text-[11px] font-semibold">
                         {
-                          studentData.chatdata.findLast((msg) => msg.sender === "student")
-                            ? new Date(studentData.chatdata.findLast((msg) => msg.sender === "student")?.updated_at).toLocaleTimeString(
+                          studentData.LastChatTime
+                            ? new Date(studentData.LastChatTime).toLocaleTimeString(
                               [],
                               {
                                 hour: "2-digit",
@@ -205,9 +205,9 @@ const Chat = () => {
                       <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
                         {studentData.LastChat}
                       </p>
-                      {studentData.chatdata.filter(item => !item.isRead && item.sender === 'student').length > 0 && (
+                      {studentData.chatdata.filter(item => !item.isRead && item.sender === 'student' && item.roomId === studentData.roomId).length > 0 && (
                         <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
-                          {studentData.chatdata.filter(item => !item.isRead && item.sender === 'student').length}
+                          {studentData.chatdata.filter(item => !item.isRead && item.sender === 'student' && item.roomId === studentData.roomId).length}
                         </div>
                       )}
                     </div>
@@ -377,8 +377,8 @@ const Chat = () => {
                           {studentData.name}
                         </h2>
                         <p className="text-black/50 text-[11px] font-semibold">
-                          {studentData.chatdata.findLast((msg) => msg.sender === "student")
-                            ? new Date(studentData.chatdata.findLast((msg) => msg.sender === "student")?.updated_at).toLocaleTimeString(
+                          {studentData.LastChatTime
+                            ? new Date(studentData.LastChatTime).toLocaleTimeString(
                               [],
                               {
                                 hour: "2-digit",
@@ -393,9 +393,9 @@ const Chat = () => {
                         <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
                           {studentData.LastChat}
                         </p>
-                        {studentData.chatdata.filter(item => !item.isRead && item.sender === 'student').length > 0 && (
+                        {studentData.chatdata.filter(item => !item.isRead && item.sender === 'student' && item.roomId === studentData.roomId).length > 0 && (
                           <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
-                            {studentData.chatdata.filter(item => !item.isRead && item.sender === 'student').length}
+                            {studentData.chatdata.filter(item => !item.isRead && item.sender === 'student' && item.roomId === studentData.roomId).length}
                           </div>
                         )}
                       </div>
@@ -505,14 +505,7 @@ const Chat = () => {
                                 }
                               )}
                             </p>
-                            <RiCheckDoubleFill className={`${live
-                              ? chat.roomId === live
-                                ? "text-green"
-                                : "text-gay-300"
-                              : chat.isRead === true
-                                ? "text-green"
-                                : "text-gay-300"
-                              }`} />
+                            <RiCheckDoubleFill className={`${chat.isRead === true ? "text-green" : "text-gay-300"}`} />
                           </div>
                         </div>
                       </div>
