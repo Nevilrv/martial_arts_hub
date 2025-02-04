@@ -306,7 +306,14 @@ const Chat = () => {
                               }
                             )}
                           </p>
-                          <RiCheckDoubleFill className={`${chat.isRead === true ? "text-green" : "text-gay-300"}`} />
+                          <RiCheckDoubleFill className={`${live
+                            ? chat.roomId === live
+                              ? "text-green"
+                              : "text-gay-300"
+                            : chat.isRead === true
+                              ? "text-green"
+                              : "text-gay-300"
+                            }`} />
                         </div>
                       </div>
                     </div>
@@ -505,7 +512,14 @@ const Chat = () => {
                                 }
                               )}
                             </p>
-                            <RiCheckDoubleFill className={`${chat.isRead === true ? "text-green" : "text-gay-300"}`} />
+                            <RiCheckDoubleFill className={`${live
+                              ? chat.roomId === live
+                                ? "text-green"
+                                : "text-gay-300"
+                              : chat.isRead === true
+                                ? "text-green"
+                                : "text-gay-300"
+                              }`} />
                           </div>
                         </div>
                       </div>

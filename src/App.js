@@ -17,7 +17,10 @@ const PaymentSuccessful = lazy(() =>
 const PaymentFailed = lazy(() =>
   import("./components/pages/common/Paymentfailed.js")
 );
-const Video = lazy(() => import("./components/pages/common/Videocall.js"));
+const Video = lazy(() =>
+  import("./components/pages/common/Videocall.js")
+);
+
 const InstructorsPage = lazy(() =>
   import("./components/pages/common/InstructorsPage.js")
 );
@@ -183,6 +186,9 @@ const Admin_Dispute_Details = lazy(() =>
 );
 const Admin_Generate_Reports = lazy(() =>
   import("./components/pages/admin/Reporting_&_Feedback/GenerateReports.js")
+);
+const Admin_Feedback_Reports = lazy(() =>
+  import("./components/pages/admin/Reporting_&_Feedback/Feedback.js")
 );
 const Admin_Discipline_Centre = lazy(() =>
   import("./components/pages/admin/DisciplineCentre/Discipline_Centre.js")
@@ -481,6 +487,11 @@ function App() {
       isPrivateRoute: true,
     },
     {
+      path: Routing.Admin_FeedBack_Reports,
+      component: Admin_Feedback_Reports,
+      isPrivateRoute: true,
+    },
+    {
       path: Routing.Admin_Dispute_Details,
       component: Admin_Dispute_Details,
       isPrivateRoute: true,
@@ -548,7 +559,7 @@ function App() {
                           to={Routing.Initial}
                           className="text-sm font-semibold leading-7 text-white"
                         >
-                          <span aria-hidden="true">&larr;</span> Back to home 
+                          <span aria-hidden="true">&larr;</span> Back to home
                         </Link>
                       </div>
                     </div>

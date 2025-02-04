@@ -65,8 +65,7 @@ const Index = () => {
       localStorage.setItem("is_login", true);
       localStorage.setItem("OnlineRate", result?.data?.privateSessionOnlineHourlyRate)
       localStorage.setItem("FaceToFace", result?.data?.privateSessionFaceToFaceHourlyRate)
-
-      Socket.emit("InstructorActive", { instructorId: result?.data?.instructorId, status: "login" });
+      localStorage.setItem("Insplatfrom", result?.data?.platformReview)
 
       navigate(Routing.InstructorDashboard);
     } else if (result?.success === true && result.code === 401) {

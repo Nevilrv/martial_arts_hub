@@ -92,7 +92,7 @@ const DisputeDetails = () => {
   const heandleChat = async () => {
 
     if (message.trim()) {
-      Socket.emit("loadchat", { roomId: disputeId, sender: "admin", chatType: "dispute", messages: message, updated_at: new Date(), isRead: false, studentId: Disputes.studentId, disputeId: disputeId });
+      Socket.emit("Disputeloadchat", { roomId: disputeId, sender: "admin", chatType: "dispute", messages: message, updated_at: new Date(), isRead: false, studentId: Disputes.studentId, disputeId: disputeId });
       setMessage("");
       scrollToBottom();
     }
@@ -102,13 +102,13 @@ const DisputeDetails = () => {
 
     Socket.emit("joinRoom", disputeId);
 
-    Socket.on("getchat", (data) => {
+    Socket.on("Disputegetchat", (data) => {
       console.log("Student received chat:", data);
       setDisputeChats((prev) => [...prev, data]);
     });
 
     return () => {
-      Socket.off("getchat");
+      Socket.off("Disputegetchat");
     };
   }, [disputeId]);
   return (

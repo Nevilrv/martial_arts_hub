@@ -59,7 +59,7 @@ const Negotiation = () => {
   const heandleChat = async () => {
 
     if (message.trim()) {
-      Socket.emit("loadchat", { roomId: disputeId, sender: "student", chatType: "dispute", messages: message, updated_at: new Date(), isRead: false, studentId: JSON.parse(localStorage.getItem("_id")), disputeId: disputeId });
+      Socket.emit("Disputeloadchat", { roomId: disputeId, sender: "student", chatType: "dispute", messages: message, updated_at: new Date(), isRead: false, studentId: JSON.parse(localStorage.getItem("_id")), disputeId: disputeId });
       setMessage("");
       scrollToBottom()
     }
@@ -70,13 +70,13 @@ const Negotiation = () => {
   useEffect(() => {
     Socket.emit("joinRoom", disputeId);
 
-    Socket.on("getchat", (data) => {
+    Socket.on("Disputegetchat", (data) => {
       console.log(data, "==========>")
       setDisputeChats((prev) => [...prev, data]);
     });
 
     return () => {
-      Socket.off("getchat");
+      Socket.off("Disputegetchat");
     };
   }, [disputeId]);
 

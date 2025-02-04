@@ -11,10 +11,11 @@ import Spinner from "../../layouts/Spinner";
 import { Allert_Popup_Icon, Reviewsvg } from "../../../assets/icon";
 import RataingPopup from "./RataingPopup";
 import {
+  Instructor_PlatfromReview,
   Instructor_Review,
+  Student_PlatfromReview,
   Student_Review,
 } from "../../services/student/Review/Review";
-import Socket from "./Socket";
 import Popup from "./Popup";
 
 const Videocall = () => {
@@ -22,6 +23,7 @@ const Videocall = () => {
   const [rtcProps, setRtcProps] = useState(null);
   const [videoCall, setVideoCall] = useState(true);
   const [isOpen, SetisOpen] = useState(false);
+  const [isPlatfrom, SetisPlatfrom] = useState(false);
   const [EndClassPopup, SetEndClassPopup] = useState(false);
   const [loading, setLoading] = useState(false);
   const [rating, setRating] = useState(0);
@@ -92,12 +94,12 @@ const Videocall = () => {
 
   useEffect(() => {
     initAgora();
-    // eslint-disable-next-line
   }, [channelName, role, videoCall]);
 
   const handleStudentReview = async () => {
     const studentId = JSON.parse(localStorage.getItem("_id"));
     const instructorId = localStorage.getItem("InstructorId");
+    const isRevied = localStorage.getItem("Stdplatfrom")
 
     const body = {
       rating,
@@ -111,10 +113,16 @@ const Videocall = () => {
     const result = await Student_Review(body);
     if (result?.success) {
       SetisOpen(false);
+      setRating(0)
+      setReviewMessage("")
       setLoading(false);
-      setVideoCall(false);
-      navigate(Routing.StudentMyClass, { replace: true });
-      toast.success("Thank you for your feedback!");
+      if (isRevied === false) {
+        SetisPlatfrom(true)
+      } else {
+        setVideoCall(false);
+        navigate(Routing.StudentMyClass, { replace: true });
+        toast.success("Thank you for your feedback!");
+      }
     } else {
       toast.error(result?.message);
     }
@@ -123,6 +131,7 @@ const Videocall = () => {
   const handleInstructorReview = async () => {
     const instructorId = JSON.parse(localStorage.getItem("_id"));
     const studentId = localStorage.getItem("studentId");
+    const isRevied = localStorage.getItem("Insplatfrom")
 
     const body = {
       rating,
@@ -135,17 +144,101 @@ const Videocall = () => {
     setLoading(true);
     const result = await Instructor_Review(body);
     if (result?.success) {
-      Socket.emit("calldisconnect", { disconnect: true });
       SetisOpen(false);
+      setRating(0)
+      setReviewMessage("")
       setLoading(false);
-      setVideoCall(false);
       localStorage.removeItem("classId");
-      toast.success("Thank you for your feedback!");
-      navigate(Routing.InstructorMyClass, { replace: true });
+      if (isRevied === false) {
+        SetisPlatfrom(true)
+      } else {
+        setVideoCall(false);
+        toast.success("Thank you for your feedback!");
+        navigate(Routing.InstructorMyClass, { replace: true });
+      }
+
     } else {
       toast.error(result?.message);
     }
   };
+
+  const handleReview = async (reviewType) => {
+    try {
+      const role = JSON.parse(localStorage.getItem("Role")).toLowerCase();
+
+      const body = { rating, feedback: reviewMessage, userType: role };
+      let result;
+
+      setLoading(true);
+
+      if (reviewType === "student") {
+        result = await Student_PlatfromReview(body, _id);
+        localStorage.setItem("Stdplatfrom", true)
+      } else if (reviewType === "instructor") {
+        result = await Instructor_PlatfromReview(body, _id);
+        localStorage.setItem("Insplatfrom", true)
+      }
+
+
+      if (result?.success) {
+        SetisOpen(false);
+        setVideoCall(false);
+        navigate(role === "student" ? Routing.StudentMyClass : Routing.InstructorMyClass, { replace: true });
+        toast.success("Thank you for your feedback!");
+      } else {
+        toast.error(result?.message);
+      }
+    } catch (error) {
+      toast.error(error?.message);
+    }
+  };
+
+
+  // const handleStudentPlatformReview = async () => {
+  //   try {
+
+  //     const body = {
+  //       rating,
+  //       feedback: reviewMessage,
+  //       userType: JSON.parse(localStorage.getItem("Role")).toLocaleLowerCase()
+  //     };
+
+  //     setLoading(true);
+  //     const result = await Student_PlatfromReview(body, _id);
+  //     if (result?.success) {
+  //       setVideoCall(false);
+  //       navigate(Routing.StudentMyClass, { replace: true });
+  //       toast.success("Thank you for your feedback!");
+  //     } else {
+  //       toast.error(result?.message);
+  //     }
+  //   } catch (error) {
+  //     toast.error(error?.message)
+  //   }
+  // }
+
+  // const handleInstructorPlatformReview = async () => {
+  //   try {
+
+  //     const body = {
+  //       rating,
+  //       feedback: reviewMessage,
+  //       userType: JSON.parse(localStorage.getItem("Role")).toLocaleLowerCase()
+  //     };
+
+  //     setLoading(true);
+  //     const result = await Instructor_PlatfromReview(body, _id);
+  //     if (result?.success) {
+  //       setVideoCall(false);
+  //       navigate(Routing.InstructorMyClass, { replace: true });
+  //       toast.success("Thank you for your feedback!");
+  //     } else {
+  //       toast.error(result?.message);
+  //     }
+  //   } catch (error) {
+  //     toast.error(error?.message)
+  //   }
+  // }
 
   const callbacks = {
     EndCall: () => {
@@ -186,15 +279,15 @@ const Videocall = () => {
       : navigate(Routing.InstructorMyClass, { replace: true });
   };
 
-  //
-  useEffect(() => {
 
-    setVideoCall(false);
-    userRole === "Student"
-      ? navigate(Routing.StudentMyClass, { replace: true })
-      : navigate(Routing.InstructorMyClass, { replace: true });
+  // useEffect(() => {
 
-  }, [videoCall]);
+  //   setVideoCall(false);
+  //   userRole === "Student"
+  //     ? navigate(Routing.StudentMyClass, { replace: true })
+  //     : navigate(Routing.InstructorMyClass, { replace: true });
+
+  // }, [videoCall]);
 
   return !videoCall ? (
     <div style={{ textAlign: "center", marginTop: "20px" }}>
@@ -274,6 +367,23 @@ const Videocall = () => {
         BtnText={"EndClass"}
         BtnText2={"Back To Class"}
         BtnText2Click={() => SetEndClassPopup(false)}
+      />
+      <RataingPopup
+        isOpen={isPlatfrom}
+        SetisOpen={SetisPlatfrom}
+        HeandleSkipReview={HeandleSkipReview}
+        Icons={<Reviewsvg />}
+        Headding={"Rate platform!"}
+        rating={rating}
+        setRating={setRating}
+        setReviewMessage={setReviewMessage}
+        ReviewMessage={reviewMessage}
+        handleStarClick={handleStarClick}
+        onClick={() => { userRole === "Student" ? handleReview("student") : handleReview("instructor") }}
+        BodyText={
+          "We'd love to hear your thoughts about our platform! Share your experience to help us enhance our services and provide a better learning environment."
+        }
+        BtnText={"Submit"}
       />
     </>
   );
