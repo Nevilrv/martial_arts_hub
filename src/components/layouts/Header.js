@@ -69,17 +69,11 @@ const Header = () => {
 
   const heandleLogOut = () => {
     if (JSON.parse(localStorage.getItem("Role")) === "Instructor") {
-      Socket.emit("InstructorActive", {
-        instructorId: JSON.parse(localStorage.getItem("_id")),
-        status: "logout",
-      });
+      Socket.emit('StatusOffline', { sender: 'student', roomId: localStorage.getItem('prvRoomId'), studentId: localStorage.getItem('prvStudentId'), instructorId: InstructorId })
     }
-    
+
     if (JSON.parse(localStorage.getItem("Role")) === "Student") {
-      Socket.emit("StudentActive", {
-        studentId: JSON.parse(localStorage.getItem("_id")),
-        status: "logout",
-      });
+      Socket.emit('StatusOffline', { sender: 'instructor', roomId: localStorage.getItem('prvRoomId'), studentId: StudentId, instructorId: localStorage.getItem('prvInstructorId') })
     }
 
     localStorage.clear();
@@ -131,11 +125,10 @@ const Header = () => {
     };
   }, []);
 
-  const headerClasses = `sticky top-0 left-0 z-[9] ${
-    scrollPosition.y >= 50
+  const headerClasses = `sticky top-0 left-0 z-[9] ${scrollPosition.y >= 50
       ? "bg-primary/60 backdrop-filter backdrop-blur-lg"
       : "bg-transparent"
-  }`;
+    }`;
 
   return (
     <>
@@ -166,49 +159,46 @@ const Header = () => {
           <div className="hidden lg:flex lg:gap-x-12">
             {currentLocation === "/"
               ? navigation.map((item, i) => (
-                  <Link
-                    key={i}
-                    activeClass="active"
-                    to={item.href}
-                    spy={true}
-                    smooth={true}
-                    offset={0}
-                    duration={500}
-                    className={`text-sm leading-6 hover:text-black cursor-pointer ${
-                      scroll_event === item.href
-                        ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
-                        : "text-black/70 font-normal"
+                <Link
+                  key={i}
+                  activeClass="active"
+                  to={item.href}
+                  spy={true}
+                  smooth={true}
+                  offset={0}
+                  duration={500}
+                  className={`text-sm leading-6 hover:text-black cursor-pointer ${scroll_event === item.href
+                      ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
+                      : "text-black/70 font-normal"
                     }`}
-                  >
-                    {item.name}
-                  </Link>
-                ))
+                >
+                  {item.name}
+                </Link>
+              ))
               : navigation.map((item, i) => (
-                  <div
-                    key={i}
-                    activeClass="active"
-                    onClick={() => navigate(Routing.Initial)}
-                    spy={true}
-                    smooth={true}
-                    offset={50}
-                    duration={500}
-                    className={`text-sm leading-6 hover:text-black cursor-pointer ${
-                      currentLocation === item.href
-                        ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
-                        : "text-black/70 font-normal"
+                <div
+                  key={i}
+                  activeClass="active"
+                  onClick={() => navigate(Routing.Initial)}
+                  spy={true}
+                  smooth={true}
+                  offset={50}
+                  duration={500}
+                  className={`text-sm leading-6 hover:text-black cursor-pointer ${currentLocation === item.href
+                      ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
+                      : "text-black/70 font-normal"
                     }`}
-                  >
-                    {item.name}
-                  </div>
-                ))}
+                >
+                  {item.name}
+                </div>
+              ))}
             <div
               activeClass="active"
               onClick={() => navigate("/instructors/all")}
-              className={`text-sm leading-6 hover:text-black cursor-pointer ${
-                currentLocation === "/instructors/all"
+              className={`text-sm leading-6 hover:text-black cursor-pointer ${currentLocation === "/instructors/all"
                   ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
                   : "text-black/70 font-normal"
-              }`}
+                }`}
             >
               Instructors
             </div>
@@ -251,11 +241,10 @@ const Header = () => {
                       <div
                         key={i}
                         onClick={() => navigate(item.href)}
-                        className={`block px-4 py-2 text-lg text-black cursor-pointer ${
-                          currentLocation === item.href
+                        className={`block px-4 py-2 text-lg text-black cursor-pointer ${currentLocation === item.href
                             ? "font-semibold underline"
                             : ""
-                        }`}
+                          }`}
                       >
                         {item.name}
                       </div>
@@ -267,11 +256,10 @@ const Header = () => {
                       <div
                         key={i}
                         onClick={() => navigate(item.href)}
-                        className={`block px-4 py-2 text-lg text-black cursor-pointer ${
-                          currentLocation === item.href
+                        className={`block px-4 py-2 text-lg text-black cursor-pointer ${currentLocation === item.href
                             ? "font-semibold underline"
                             : ""
-                        }`}
+                          }`}
                       >
                         {item.name}
                       </div>
@@ -286,11 +274,10 @@ const Header = () => {
                         <div
                           key={i}
                           onClick={() => navigate(item.href)}
-                          className={`block px-4 py-2 text-lg text-black cursor-pointer ${
-                            currentLocation === item.href
+                          className={`block px-4 py-2 text-lg text-black cursor-pointer ${currentLocation === item.href
                               ? "font-semibold underline"
                               : ""
-                          }`}
+                            }`}
                         >
                           {item.name}
                         </div>
@@ -339,53 +326,50 @@ const Header = () => {
                 <div className="space-y-2 py-6">
                   {currentLocation === "/"
                     ? navigation.map((item, i) => (
-                        <Link
-                          key={i}
-                          activeClass="active"
-                          spy={true}
-                          smooth={true}
-                          to={item.href}
-                          offset={0}
-                          duration={500}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className={`-mx-3 block rounded-lg px-3 py-2 text-sm leading-6 hover:text-black ${
-                            scroll_event === item.href
-                              ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-2 after:left-[13px]"
-                              : "text-black/50 font-normal after:w-[20px]"
+                      <Link
+                        key={i}
+                        activeClass="active"
+                        spy={true}
+                        smooth={true}
+                        to={item.href}
+                        offset={0}
+                        duration={500}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`-mx-3 block rounded-lg px-3 py-2 text-sm leading-6 hover:text-black ${scroll_event === item.href
+                            ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-2 after:left-[13px]"
+                            : "text-black/50 font-normal after:w-[20px]"
                           }`}
-                        >
-                          {item.name}
-                        </Link>
-                      ))
+                      >
+                        {item.name}
+                      </Link>
+                    ))
                     : navigation.map((item, i) => (
-                        <div
-                          key={i}
-                          activeClass="active"
-                          onClick={() => {
-                            setMobileMenuOpen(false);
-                            navigate(Routing.Initial);
-                          }}
-                          spy={true}
-                          smooth={true}
-                          offset={50}
-                          duration={500}
-                          className={`-mx-3 block rounded-lg px-3 py-2 text-sm leading-6 hover:text-black ${
-                            currentLocation === item.href
-                              ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-2 after:left-[13px]"
-                              : "text-black/50 font-normal after:w-[0px]"
+                      <div
+                        key={i}
+                        activeClass="active"
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          navigate(Routing.Initial);
+                        }}
+                        spy={true}
+                        smooth={true}
+                        offset={50}
+                        duration={500}
+                        className={`-mx-3 block rounded-lg px-3 py-2 text-sm leading-6 hover:text-black ${currentLocation === item.href
+                            ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-2 after:left-[13px]"
+                            : "text-black/50 font-normal after:w-[0px]"
                           }`}
-                        >
-                          {item.name}
-                        </div>
-                      ))}
+                      >
+                        {item.name}
+                      </div>
+                    ))}
                   <div
                     activeClass="active"
                     onClick={() => navigate("/instructors/all")}
-                    className={`text-sm leading-6 hover:text-black cursor-pointer ${
-                      currentLocation === "/instructors/all"
+                    className={`text-sm leading-6 hover:text-black cursor-pointer ${currentLocation === "/instructors/all"
                         ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
                         : "text-black/70 font-normal"
-                    }`}
+                      }`}
                   >
                     Instructors
                   </div>

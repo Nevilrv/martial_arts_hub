@@ -665,7 +665,7 @@ const Profile = () => {
         </div>
         <div className="mt-16 flex justify-end">
           <NormalBtn
-            text={"Next"}
+            text={"Save Info & Create Profile"}
             onClick={handleSaveProfile}
             loading={loading}
           />
