@@ -69,11 +69,11 @@ const Header = () => {
 
   const heandleLogOut = () => {
     if (JSON.parse(localStorage.getItem("Role")) === "Instructor") {
-      Socket.emit('StatusOffline', { sender: 'student', roomId: localStorage.getItem('prvRoomId'), studentId: localStorage.getItem('prvStudentId'), instructorId: InstructorId })
+      Socket.emit('StatusOffline', { sender: 'student', roomId: localStorage.getItem('prvRoomId'), studentId: localStorage.getItem('prvStudentId'), instructorId: JSON.parse(localStorage.getItem("_id")) })
     }
 
     if (JSON.parse(localStorage.getItem("Role")) === "Student") {
-      Socket.emit('StatusOffline', { sender: 'instructor', roomId: localStorage.getItem('prvRoomId'), studentId: StudentId, instructorId: localStorage.getItem('prvInstructorId') })
+      Socket.emit('StatusOffline', { sender: 'instructor', roomId: localStorage.getItem('prvRoomId'), studentId: JSON.parse(localStorage.getItem("_id")), instructorId: localStorage.getItem('prvInstructorId') })
     }
 
     localStorage.clear();
