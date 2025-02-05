@@ -26,6 +26,7 @@ import {
 } from "../../assets/icon";
 import { LuLogOut } from "react-icons/lu";
 import Popup from "../pages/common/Popup";
+import Socket from "../pages/common/Socket";
 
 const SidbarNavigation = [
   {
@@ -159,6 +160,7 @@ const Adminlayout = ({ children }) => {
   }
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isOpen, SetisOpen] = useState(false);
+  const [notify, setnotify] = useState(false);
 
   const [expandedItem, setExpandedItem] = useState(null);
   const navigate = useNavigate();
@@ -203,6 +205,18 @@ const Adminlayout = ({ children }) => {
     { name: "Categories Centre", href: Routing.Admin_Discipline_Centre },
   ];
   const userName = JSON.parse(localStorage.getItem("email"))?.charAt(0);
+
+  useEffect(() => {
+    Socket.on("getNotification", (data) => {
+      if (data) {
+        setnotify(true)
+      }
+    });
+    return () => {
+      Socket.off("getNotification");
+    };
+  }, []);
+
 
   return (
     <>
@@ -265,22 +279,20 @@ const Adminlayout = ({ children }) => {
                               >
                                 <span className="flex items-center gap-3">
                                   <span
-                                    className={`text-gay-300 group-hover:text-white ${
-                                      item.Path === pathname
-                                        ? "text-white"
-                                        : expandedItem === index
+                                    className={`text-gay-300 group-hover:text-white ${item.Path === pathname
+                                      ? "text-white"
+                                      : expandedItem === index
                                         ? "text-white"
                                         : null
-                                    }`}
+                                      }`}
                                   >
                                     {item.Starticon}
                                   </span>
                                   <span
-                                    className={`text-[15px] ${
-                                      item.Path === pathname
-                                        ? "text-white"
-                                        : null
-                                    }`}
+                                    className={`text-[15px] ${item.Path === pathname
+                                      ? "text-white"
+                                      : null
+                                      }`}
                                   >
                                     {item.Navigate}
                                   </span>
@@ -368,20 +380,18 @@ const Adminlayout = ({ children }) => {
                           >
                             <span className="flex items-center gap-3">
                               <span
-                                className={`text-gay-300 group-hover:text-white ${
-                                  item.Path === pathname
-                                    ? "text-white"
-                                    : expandedItem === index
+                                className={`text-gay-300 group-hover:text-white ${item.Path === pathname
+                                  ? "text-white"
+                                  : expandedItem === index
                                     ? "text-white"
                                     : null
-                                }`}
+                                  }`}
                               >
                                 {item.Starticon}
                               </span>
                               <span
-                                className={`text-[15px] ${
-                                  item.Path === pathname ? "text-white" : null
-                                }`}
+                                className={`text-[15px] ${item.Path === pathname ? "text-white" : null
+                                  }`}
                               >
                                 {item.Navigate}
                               </span>
@@ -468,11 +478,20 @@ const Adminlayout = ({ children }) => {
                 <div className="flex items-center gap-x-4 lg:gap-x-6 ml-auto">
                   <button
                     type="button"
-                    className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                    className="relative -m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                    onClick={() => { setnotify(false) }}
                   >
-                    <span className="sr-only">View notifications</span>
+
                     <BsBell aria-hidden="true" className="h-6 w-6" />
+                    {notify ?
+                      <div>
+                        <span className="absolute top-0 right-0 h-3 w-3 rounded-full bg-green animate-ping"></span>
+                        <span className="absolute top-0 right-0 h-3 w-3 rounded-full bg-Green-200">
+                        </span>
+                      </div> : ""
+                    }
                   </button>
+
                   <div
                     aria-hidden="true"
                     className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
@@ -505,11 +524,10 @@ const Adminlayout = ({ children }) => {
                           <Link
                             key={i}
                             to={item.href}
-                            className={`block px-4 py-2 text-lg text-black ${
-                              currentLocation === item.href
-                                ? "font-semibold underline"
-                                : ""
-                            }`}
+                            className={`block px-4 py-2 text-lg text-black ${currentLocation === item.href
+                              ? "font-semibold underline"
+                              : ""
+                              }`}
                           >
                             {item.name}
                           </Link>

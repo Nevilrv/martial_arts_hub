@@ -68,8 +68,10 @@ const FinanceDashboard = () => {
   const [Earningdata, setEarningdata] = useState({});
   const [Lastcalculated, setLastcalculated] = useState({});
   const [Finance_transaction, setFinance_transactions] = useState([]);
+  const [activeTab, setActiveTab] = useState("month");
   const [isOpen, SetisOpen] = useState(false);
   const [Showall, SetShowall] = useState(false);
+  console.log(activeTab)
 
   const [Loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -95,7 +97,7 @@ const FinanceDashboard = () => {
 
   const Get_Finance_transactions = async () => {
     setLoading(true);
-    const result = await Finance_transactions("month");
+    const result = await Finance_transactions(activeTab);
     if (result?.success === true) {
       setFinance_transactions(result.data);
       setLoading(false);
@@ -133,9 +135,20 @@ const FinanceDashboard = () => {
 
   useEffect(() => {
     Get_funds();
-    Get_Finance_transactions();
+    // Get_Finance_transactions();
     Get_Finance_lastcalculated();
   }, []);
+
+  useEffect(() => {
+    Get_Finance_transactions();
+  }, [activeTab]);
+
+  const tabLabels = {
+    month: "Monthly",
+    week: "Weekly",
+    day: "Today",
+  };
+
 
   return (
     <>
@@ -330,6 +343,32 @@ const FinanceDashboard = () => {
             <h2 className="text-xl text-gay-300 font-semibold">
               Previous Transactions
             </h2>
+            <div className="hidden md:flex items-center gap-5 w-fit">
+              {Object.keys(tabLabels).map((key) => (
+                <button
+                  key={key}
+                  onClick={() => setActiveTab(key)}
+                  className={`relative text-[16px] font-semibold pb-2 ${activeTab === key ? "text-black" : "text-gay-300"
+                    }`}
+                >
+                  {tabLabels[key]}
+                  {activeTab === key && (
+                    <div className="absolute left-0 bottom-0 w-full h-[2px] bg-black"></div>
+                  )}
+                </button>
+              ))}
+            </div>
+            <div className="md:hidden">
+              <select
+                defaultValue="month"
+                className="bg-transparent focus:outline-none px-3 border border-black/25 h-[35px] rounded-full"
+                onChange={(e) => setActiveTab(e.target.value)}
+              >
+                <option value='month'>Monthly</option>
+                <option value='week'>Weekly</option>
+                <option value='day'>Today</option>
+              </select>
+            </div>
           </div>
           <div
             className={`mt-6 w-full overflow-x-auto h-96 ${Showall === true ? "overflow-y-auto" : "overflow-y-hidden"
@@ -421,16 +460,21 @@ const FinanceDashboard = () => {
                 <h2 className="text-black font-semibold text-[34px]">
                   {Lastcalculated?.total_transction?.currentMonthTransaction}
                 </h2>
-                <h2 className="text-green text-sm font-medium text-right">
-                  {Lastcalculated?.total_transction?.TransactionsGrowth >= 0 ? (
+                {Lastcalculated?.total_transction?.TransactionsGrowth >= 0 ? (
+                  <h2 className="text-green text-sm font-medium text-right">
                     <FaSortUp className="text-green text-base mx-auto" />
-                  ) : (
+                    <span>
+                      {Lastcalculated?.total_transction?.TransactionsGrowth}%
+                    </span>
+                  </h2>
+                ) : (
+                  <h2 className="text-red-200 text-sm font-medium text-right">
                     <FaSortDown className="text-red-200 text-base mx-auto" />
-                  )}
-                  <span>
-                    {Lastcalculated?.total_transction?.TransactionsGrowth}%
-                  </span>
-                </h2>
+                    <span>
+                      {Lastcalculated?.total_transction?.TransactionsGrowth}%
+                    </span>
+                  </h2>
+                )}
               </div>
             </div>
             <div className="flex items-center gap-3">

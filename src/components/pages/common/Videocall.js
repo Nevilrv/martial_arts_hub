@@ -34,6 +34,8 @@ const Videocall = () => {
   const userRole = JSON.parse(localStorage.getItem("Role"));
   const isMobile = window.innerWidth <= 768;
 
+  console.log(localStorage.getItem("Insplatfrom"))
+
   const handleStarClick = (star) => {
     setRating(star);
   };
@@ -116,12 +118,12 @@ const Videocall = () => {
       setRating(0)
       setReviewMessage("")
       setLoading(false);
-      if (isRevied === false) {
-        SetisPlatfrom(true)
-      } else {
+      if (isRevied === true) {
         setVideoCall(false);
         navigate(Routing.StudentMyClass, { replace: true });
         toast.success("Thank you for your feedback!");
+      } else {
+        SetisPlatfrom(true)
       }
     } else {
       toast.error(result?.message);
@@ -149,14 +151,13 @@ const Videocall = () => {
       setReviewMessage("")
       setLoading(false);
       localStorage.removeItem("classId");
-      if (isRevied === false) {
-        SetisPlatfrom(true)
-      } else {
+      if (isRevied === true) {
         setVideoCall(false);
         toast.success("Thank you for your feedback!");
         navigate(Routing.InstructorMyClass, { replace: true });
+      } else {
+        SetisPlatfrom(true)
       }
-
     } else {
       toast.error(result?.message);
     }
@@ -193,52 +194,6 @@ const Videocall = () => {
     }
   };
 
-
-  // const handleStudentPlatformReview = async () => {
-  //   try {
-
-  //     const body = {
-  //       rating,
-  //       feedback: reviewMessage,
-  //       userType: JSON.parse(localStorage.getItem("Role")).toLocaleLowerCase()
-  //     };
-
-  //     setLoading(true);
-  //     const result = await Student_PlatfromReview(body, _id);
-  //     if (result?.success) {
-  //       setVideoCall(false);
-  //       navigate(Routing.StudentMyClass, { replace: true });
-  //       toast.success("Thank you for your feedback!");
-  //     } else {
-  //       toast.error(result?.message);
-  //     }
-  //   } catch (error) {
-  //     toast.error(error?.message)
-  //   }
-  // }
-
-  // const handleInstructorPlatformReview = async () => {
-  //   try {
-
-  //     const body = {
-  //       rating,
-  //       feedback: reviewMessage,
-  //       userType: JSON.parse(localStorage.getItem("Role")).toLocaleLowerCase()
-  //     };
-
-  //     setLoading(true);
-  //     const result = await Instructor_PlatfromReview(body, _id);
-  //     if (result?.success) {
-  //       setVideoCall(false);
-  //       navigate(Routing.InstructorMyClass, { replace: true });
-  //       toast.success("Thank you for your feedback!");
-  //     } else {
-  //       toast.error(result?.message);
-  //     }
-  //   } catch (error) {
-  //     toast.error(error?.message)
-  //   }
-  // }
 
   const callbacks = {
     EndCall: () => {

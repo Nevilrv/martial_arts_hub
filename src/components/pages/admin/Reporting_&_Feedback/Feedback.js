@@ -64,7 +64,7 @@ const Feedback = () => {
             {Loading && <Spinner />}
             <div className="flex items-center justify-between">
                 <AdminHeadding Headding={"Platform Reviews"} />
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-2">
                     <select
                         id="userType"
                         name="userType"
