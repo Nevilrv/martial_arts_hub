@@ -42,7 +42,7 @@ const RataingPopup = ({
                 <button
                   type="button"
                   onClick={() => HeandleSkipReview()}
-                  className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className="rounded-md bg-transparent text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   <span className="sr-only">Close</span>
                   <RxCross2 aria-hidden="true" className="size-6" />

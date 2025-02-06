@@ -135,6 +135,8 @@ const Videocall = () => {
     const studentId = localStorage.getItem("studentId");
     const isRevied = localStorage.getItem("Insplatfrom")
 
+    console.log(isRevied)
+
     const body = {
       rating,
       feedback: reviewMessage,
