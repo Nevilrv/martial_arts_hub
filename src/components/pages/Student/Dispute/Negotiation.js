@@ -188,7 +188,7 @@ const Negotiation = () => {
                         : "text-red-200"
                         }  mt-2 text-xs`}
                     >
-                      {dayjs(chats.updated_at).format("MMM,DD,YYYY")}
+                      {dayjs(chats.updated_at).format("MMM DD,YYYY")} at {dayjs(chats.updated_at).format("hh:mm A")}
                     </p>
                   </div>
                 </div>

@@ -8,8 +8,11 @@ import Spinner from "../../../layouts/Spinner";
 import { RaisedHand } from "../../../../assets/icon";
 
 const DisputeRequests = () => {
+  const navigate = useNavigate();
   const [Disputes_List, setDisputes_List] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState('All');
   const [Loading, setLoading] = useState(false);
+
   const Get_Dispute_list = async () => {
     setLoading(true);
     const result = await Dispute_List();
@@ -18,19 +21,20 @@ const DisputeRequests = () => {
       setLoading(false);
     } else {
       setLoading(false);
-      // if (result?.message === "Blocked students not found") {
-      //   toast.warning("There are no any stiudent Blocked")
-      // }
-      // else{
-      // toast.error(result?.message);
-      // }
     }
   };
   useEffect(() => {
     Get_Dispute_list();
   }, []);
 
-  const navigate = useNavigate();
+
+  const filteredDisputes = Disputes_List.filter(person => {
+    if(selectedStatus === 'All'){
+      return person
+    }
+    return person.status.toLowerCase() === selectedStatus.toLowerCase();
+  });
+
 
   return (
     <>
@@ -38,36 +42,14 @@ const DisputeRequests = () => {
       <div className="flex items-center justify-between">
         <AdminHeadding Headding={"All Dispute Requests"} />
         <div className="flex items-center gap-2 flex-wrap">
-          {/* <select
-            id="ID"
-            name="ID"
-            defaultValue="ID"
-            className="bg-transparent focus:outline-none px-3 border border-black/25 h-[35px] rounded-full"
-          >
-            <option>ID</option>
-            <option>#23352</option>
-            <option>#23352</option>
-          </select>
-          <select
-            id="Class Date"
-            name="Class Date"
-            defaultValue="Class Date"
-            className="bg-transparent focus:outline-none px-3 border border-black/25 h-[35px] rounded-full"
-          >
-            <option>Class Date</option>
-            <option>06/06/2024</option>
-            <option>12/07/2024</option>
-            <option>05/07/2024</option>
-          </select> */}
           <select
             id="Status"
-            name="Status"
-            defaultValue="Status"
             className="bg-transparent focus:outline-none px-3 border border-black/25 h-[35px] rounded-full"
+            onChange={(e) => { setSelectedStatus(e.target.value) }}
           >
-            <option>Status</option>
-            <option>Active</option>
-            <option>Closed</option>
+            <option value='All'>All</option>
+            <option value='active'>Active</option>
+            <option value='close'>Closed</option>
           </select>
         </div>
       </div>
@@ -118,7 +100,7 @@ const DisputeRequests = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#C6C6C6] bg-primary">
-              {Disputes_List?.length <= 0 && (
+              {filteredDisputes?.length <= 0 && (
                 <tr>
                   <td colSpan={7}>
                     <div className="h-80 border border-gay-350 border-t-0 flex items-center justify-center">
@@ -136,7 +118,7 @@ const DisputeRequests = () => {
                   </td>
                 </tr>
               )}
-              {Disputes_List.map((person) => (
+              {filteredDisputes.map((person) => (
                 <tr key={person.id}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-lg text-Dark_black font-medium sm:pl-6">
                     {person.disputeId}
@@ -156,9 +138,8 @@ const DisputeRequests = () => {
                   <td className={`whitespace-nowrap px-3 py-4 font-semibold`}>
                     <div className="flex items-center gap-2">
                       <div
-                        className={`h-3 w-3 rounded-full ${
-                          person.status === "active" ? "bg-green" : "bg-red-200"
-                        }`}
+                        className={`h-3 w-3 rounded-full ${person.status === "active" ? "bg-green" : "bg-red-200"
+                          }`}
                       ></div>
                       {person.status.toUpperCase()}
                     </div>

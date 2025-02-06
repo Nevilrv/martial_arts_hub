@@ -254,7 +254,7 @@ const DisputeDetails = () => {
                     className={`${chat?.sender === "student" ? "text-red-200" : "text-black"
                       }  text-xs mt-2`}
                   >
-                    {chat?.updated_at}
+                     {dayjs(chat?.updated_at).format("MMM DD,YYYY")} at {dayjs(chat?.updated_at).format("hh:mm A")}
                   </p>
                 </div>
               </div>
