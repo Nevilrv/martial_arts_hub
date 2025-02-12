@@ -35,7 +35,7 @@ const InstructorsCard = ({ data,HeandleLike }) => {
           <img
             src={data.profile_picture||User}
             alt={data.image}
-            className="grayscale hover:grayscale-0 w-full h-[355px] object-cover rounded-lg"
+            className="grayscale w-full h-[355px] object-cover rounded-lg"
           />
           <div
             className="h-[34px] w-[34px] bg-white rounded-full absolute top-4 right-3 flex items-center justify-center cursor-pointer"
@@ -59,7 +59,7 @@ const InstructorsCard = ({ data,HeandleLike }) => {
           <p id="exprince" className="text-black/50 text-sm line-clamp-2 h-[40px] lowercase">{data.experience}</p>
           <div className="flex items-center mt-4">
             <button
-              className="bg-black text-white text-xs text-center py-3 px-20 rounded-full"
+              className="bg-black text-white text-xs text-center w-full sm:w-auto py-3 px-20 rounded-full"
               onClick={() =>
                 navigate(`/student/instructor_profile/${data.instructorId}`)
               }

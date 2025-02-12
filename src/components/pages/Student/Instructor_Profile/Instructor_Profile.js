@@ -385,7 +385,7 @@ const InstructorProfile = () => {
                 <img
                   src={Instructor?.profile_picture || User}
                   alt={Instructor4}
-                  className="w-full h-[613px] grayscale hover:grayscale-0 object-cover"
+                  className="w-full h-[613px] grayscale object-cover"
                 />
                 {Like === false ? (
                   <div
