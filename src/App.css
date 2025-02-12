@@ -137,7 +137,8 @@ body {
   transform: translate(0, 0) !important;
 }
 .slider-1 .slick-prev,
-.slider-1 .slick-prev:hover {
+.slider-1 .slick-prev:hover,
+.slider-1 .slick-prev:focus {
   right: 20px !important;
   left: inherit;
   height: 36px !important;
@@ -154,7 +155,8 @@ body {
   content: "" !important;
 }
 .slider-1 .slick-next,
-.slider-1 .slick-next:hover {
+.slider-1 .slick-next:hover,
+.slider-1 .slick-next:focus {
   left: inherit;
   height: 36px !important;
   width: 36px !important;

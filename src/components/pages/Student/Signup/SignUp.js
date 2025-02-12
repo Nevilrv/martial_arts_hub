@@ -41,11 +41,6 @@ const SignUp = () => {
     const result = await StudentSignUp(data);
     if (result?.success === true) {
       setLoading(false);
-      localStorage.setItem("_id", JSON.stringify(result?.data?.studentId));
-      localStorage.setItem("email", JSON.stringify(result?.data?.email));
-      localStorage.setItem("Role", JSON.stringify(result?.data?.role));
-      localStorage.setItem("token", JSON.stringify(result?.Token));
-      localStorage.setItem("is_login", true);
       Socket.emit("Notification", {
         title: `${userdata.name} New_student`,
         notificationType: "New_student",

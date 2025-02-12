@@ -204,12 +204,13 @@ const InstructorProfile = () => {
   }, [id]);
 
   const HeandleBooking = () => {
-    if (JSON.parse(localStorage.getItem("is_login"))) {
-      navigate(`/student/bookclass/${id}`);
+    if (JSON.parse(localStorage.getItem("is_login")) && localStorage.getItem("StripeVerify") === 'true') {
+      setMessageSend(true)
     } else {
-      navigate(Routing.StudentLogin);
+      toast.error('Please complete your Stripe identity verification in the Profile section')
     }
-  };
+  }
+
   if (Instructor?.category === undefined) {
     category = [];
   } else {
@@ -217,6 +218,14 @@ const InstructorProfile = () => {
       category = Instructor?.category;
     } else {
       category = JSON.parse(Instructor?.category);
+    }
+  }
+
+  const handleCheck = () => {
+    if (JSON.parse(localStorage.getItem("is_login")) && localStorage.getItem("StripeVerify") === 'true') {
+      navigate(`/student/bookclass/${id}`);
+    } else {
+      toast.error('Please complete your Stripe identity verification in the Profile section')
     }
   }
 
@@ -291,7 +300,7 @@ const InstructorProfile = () => {
                 </h2>
                 <div className="flex gap-2 my-5 flex-col">
                   <div className="text-black/70 text-lg flex gap-2">
-                    <BsPatchCheckFill className="text-gay-400 text-2xl" /> 
+                    <BsPatchCheckFill className="text-gay-400 text-2xl" />
                     <p id="exprince" className="lowercase">{Instructor?.experience}</p>
                   </div>
                 </div>
@@ -440,7 +449,7 @@ const InstructorProfile = () => {
                 />
                 <OutlineBtn
                   text={"Send a message"}
-                  onClick={() => setMessageSend(true)}
+                  onClick={() => HeandleBooking()}
                   icon={
                     <AiOutlineMessage className="text-black text-2xl mr-3" />
                   }
@@ -580,13 +589,13 @@ const InstructorProfile = () => {
               transition
               className="relative transform overflow-hidden rounded-lg bg-primary md:px-11 px-3 py-12 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:w-[95%] md:max-w-5xl data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95 overflow-x-auto"
             >
-              <div className="flex items-center">
+              <div className="flex items-start">
                 <FaArrowLeft
-                  className="text-2xl text-black cursor-pointer"
+                  className="text-3xl text-black cursor-pointer"
                   onClick={() => setMessageSend(false)}
                 />
                 <div>
-                  <h2 className="font-semibold text-lg ml-4 ">
+                  <h2 className="font-semibold text-3xl ml-4 mb-5">
                     Send a Message
                   </h2>
                   <p className="text-black/50 ml-4">
@@ -596,18 +605,19 @@ const InstructorProfile = () => {
                   </p>
                 </div>
               </div>
-              <div className="mt-10">
+              <div className="mt-2">
                 <div className="mt-6 py-6 md:px-5 ">
                   <Inputfild
                     Label={"Title"}
                     name={"title"}
                     Labelclass={"customradiusBlack text-[22px]"}
                     className={"customradius md:w-full"}
-                    placeholder={"Boxing"}
+                    placeholder={"Title"}
                     onChange={(e) => heandalChange(e)}
                   />
                 </div>
-                <div className="mt-6 py-6 md:px-5">
+                <div className="mt-1 py-6 md:px-5">
+                  <label>Message</label>
                   <textarea
                     name="body"
                     onChange={(e) => heandalChange(e)}

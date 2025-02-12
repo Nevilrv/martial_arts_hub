@@ -77,3 +77,19 @@ export const Student_Booking_History = async (studentId) => {
     return error?.response?.data;
   }
 };
+
+
+export const ProccedStripeIdentity = async (studentId) => {
+  try {
+    let response = await axios({
+      method: "PUT",
+      url: `${baseURL}/student/procced/identity/${studentId}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+}

@@ -62,3 +62,69 @@ export const InstructorProfile = async (formData) => {
     return error?.response?.data;
   }
 };
+
+export const InstructorPicProfile = async (formData) => {
+  try {
+    let response = await axios({
+      method: "PUT",
+      url: `${baseURL}/instructor/add/profilepic/${JSON.parse(
+        localStorage.getItem("_id")
+      )}`,
+      data: formData,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};
+
+export const ProccedStripeIdentity = async () => {
+  try {
+    let response = await axios({
+      method: "PUT",
+      url: `${baseURL}/instructor/procced/identity/${JSON.parse(
+        localStorage.getItem("_id")
+      )}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+}
+
+export const VerifyStripeIdentity = async (instructorId) => {
+  try {
+    let response = await axios({
+      method: "PUT",
+      url: `${baseURL}/instructor/identity/verify/${instructorId}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+}
+
+export const VerifyStudentStripeIdentity = async (studentId) => {
+  try {
+    let response = await axios({
+      method: "PUT",
+      url: `${baseURL}/student/identity/verify/${studentId}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+}

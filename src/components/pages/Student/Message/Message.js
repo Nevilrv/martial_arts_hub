@@ -211,11 +211,9 @@ const Chat = () => {
                           <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
                             {studentData.LastChat}
                           </p>
-                          {studentData.chatdata.filter(item => !item.isRead && item.sender === 'instructor' && item.roomId === studentData.roomId).length > 0 && (
-                            <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
-                              {studentData.chatdata.filter(item => !item.isRead && item.sender === 'instructor' && item.roomId === studentData.roomId).length}
-                            </div>
-                          )}
+                          <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
+                            {studentData.chatdata.filter(item => !item.isRead && item.sender === 'instructor').length}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -319,11 +317,7 @@ const Chat = () => {
                                 }
                               )}
                             </p>
-                            <RiCheckDoubleFill className={`${live
-                              ? chat.roomId === live
-                                ? "text-green"
-                                : "text-gay-300"
-                              : chat.isRead === true
+                            <RiCheckDoubleFill className={`${chat.isRead === true
                                 ? "text-green"
                                 : "text-gay-300"
                               }`} />
@@ -415,11 +409,9 @@ const Chat = () => {
                         <p className="text-ellipsis xl:max-w-[171px] lg:max-w-[130px] max-w-[171px] overflow-hidden text-nowrap text-sm text-black/50">
                           {studentData.LastChat}
                         </p>
-                        {studentData.chatdata.filter(item => !item.isRead && item.sender === 'instructor' && item.roomId === studentData.roomId).length > 0 && (
-                          <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
-                            {studentData.chatdata.filter(item => !item.isRead && item.sender === 'instructor' && item.roomId === studentData.roomId).length}
-                          </div>
-                        )}
+                        <div className="w-[25px] h-[18px] bg-green flex items-center justify-center rounded-full text-white text-[11px]">
+                          {studentData.chatdata.filter(item => !item.isRead && item.sender === 'instructor').length}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -528,14 +520,7 @@ const Chat = () => {
                                 }
                               )}
                             </p>
-                            <RiCheckDoubleFill className={`${live
-                              ? chat.roomId === live
-                                ? "text-green"
-                                : "text-gay-300"
-                              : chat.isRead === true
-                                ? "text-green"
-                                : "text-gay-300"
-                              }`} />
+                            <RiCheckDoubleFill className={`${chat.isRead === true ? "text-green" : "text-gay-300"}`} />
                           </div>
                         </div>
                       </div>

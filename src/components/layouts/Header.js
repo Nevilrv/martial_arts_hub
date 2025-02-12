@@ -70,13 +70,14 @@ const Header = () => {
   const heandleLogOut = () => {
     if (JSON.parse(localStorage.getItem("Role")) === "Instructor") {
       Socket.emit('StatusOffline', { sender: 'student', roomId: localStorage.getItem('prvRoomId'), studentId: localStorage.getItem('prvStudentId'), instructorId: JSON.parse(localStorage.getItem("_id")) })
+      localStorage.clear();
     }
 
     if (JSON.parse(localStorage.getItem("Role")) === "Student") {
       Socket.emit('StatusOffline', { sender: 'instructor', roomId: localStorage.getItem('prvRoomId'), studentId: JSON.parse(localStorage.getItem("_id")), instructorId: localStorage.getItem('prvInstructorId') })
+      localStorage.clear();
     }
 
-    localStorage.clear();
     SetisOpen(false);
     setSelectedMailingLists("");
     navigate(Routing.Initial);
@@ -126,8 +127,8 @@ const Header = () => {
   }, []);
 
   const headerClasses = `sticky top-0 left-0 z-[9] ${scrollPosition.y >= 50
-      ? "bg-primary/60 backdrop-filter backdrop-blur-lg"
-      : "bg-transparent"
+    ? "bg-primary/60 backdrop-filter backdrop-blur-lg"
+    : "bg-transparent"
     }`;
 
   return (
@@ -168,8 +169,8 @@ const Header = () => {
                   offset={0}
                   duration={500}
                   className={`text-sm leading-6 hover:text-black cursor-pointer ${scroll_event === item.href
-                      ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
-                      : "text-black/70 font-normal"
+                    ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
+                    : "text-black/70 font-normal"
                     }`}
                 >
                   {item.name}
@@ -185,8 +186,8 @@ const Header = () => {
                   offset={50}
                   duration={500}
                   className={`text-sm leading-6 hover:text-black cursor-pointer ${currentLocation === item.href
-                      ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
-                      : "text-black/70 font-normal"
+                    ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
+                    : "text-black/70 font-normal"
                     }`}
                 >
                   {item.name}
@@ -196,8 +197,8 @@ const Header = () => {
               activeClass="active"
               onClick={() => navigate("/instructors/all")}
               className={`text-sm leading-6 hover:text-black cursor-pointer ${currentLocation === "/instructors/all"
-                  ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
-                  : "text-black/70 font-normal"
+                ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
+                : "text-black/70 font-normal"
                 }`}
             >
               Instructors
@@ -242,8 +243,8 @@ const Header = () => {
                         key={i}
                         onClick={() => navigate(item.href)}
                         className={`block px-4 py-2 text-lg text-black cursor-pointer ${currentLocation === item.href
-                            ? "font-semibold underline"
-                            : ""
+                          ? "font-semibold underline"
+                          : ""
                           }`}
                       >
                         {item.name}
@@ -257,8 +258,8 @@ const Header = () => {
                         key={i}
                         onClick={() => navigate(item.href)}
                         className={`block px-4 py-2 text-lg text-black cursor-pointer ${currentLocation === item.href
-                            ? "font-semibold underline"
-                            : ""
+                          ? "font-semibold underline"
+                          : ""
                           }`}
                       >
                         {item.name}
@@ -275,8 +276,8 @@ const Header = () => {
                           key={i}
                           onClick={() => navigate(item.href)}
                           className={`block px-4 py-2 text-lg text-black cursor-pointer ${currentLocation === item.href
-                              ? "font-semibold underline"
-                              : ""
+                            ? "font-semibold underline"
+                            : ""
                             }`}
                         >
                           {item.name}
@@ -336,8 +337,8 @@ const Header = () => {
                         duration={500}
                         onClick={() => setMobileMenuOpen(false)}
                         className={`-mx-3 block rounded-lg px-3 py-2 text-sm leading-6 hover:text-black ${scroll_event === item.href
-                            ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-2 after:left-[13px]"
-                            : "text-black/50 font-normal after:w-[20px]"
+                          ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-2 after:left-[13px]"
+                          : "text-black/50 font-normal after:w-[20px]"
                           }`}
                       >
                         {item.name}
@@ -356,8 +357,8 @@ const Header = () => {
                         offset={50}
                         duration={500}
                         className={`-mx-3 block rounded-lg px-3 py-2 text-sm leading-6 hover:text-black ${currentLocation === item.href
-                            ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-2 after:left-[13px]"
-                            : "text-black/50 font-normal after:w-[0px]"
+                          ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-2 after:left-[13px]"
+                          : "text-black/50 font-normal after:w-[0px]"
                           }`}
                       >
                         {item.name}
@@ -367,8 +368,8 @@ const Header = () => {
                     activeClass="active"
                     onClick={() => navigate("/instructors/all")}
                     className={`text-sm leading-6 hover:text-black cursor-pointer ${currentLocation === "/instructors/all"
-                        ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
-                        : "text-black/70 font-normal"
+                      ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
+                      : "text-black/70 font-normal"
                       }`}
                   >
                     Instructors

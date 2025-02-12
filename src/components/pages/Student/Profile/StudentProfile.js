@@ -7,6 +7,7 @@ import { ShareIcon } from "../../../../assets/icon";
 import OutlineBtn from "../../common/OutlineBtn";
 import { Routing } from "../../../shared/Routing";
 import {
+  ProccedStripeIdentity,
   Student_Profile_Data,
   Student_Profile_Details,
   Student_Profile_Update_Data,
@@ -17,6 +18,9 @@ import User from "../../../../assets/images/userProfile.jpg";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { IoCamera } from "react-icons/io5";
 import Inputfild from "../../common/Inputfild";
+import { PiSealCheckFill } from "react-icons/pi";
+import { MdCancel } from "react-icons/md";
+import axios from "axios";
 
 const StudentProfile = ({ children }) => {
   const ProfileTeab = [
@@ -127,6 +131,18 @@ const StudentProfile = ({ children }) => {
     }
   };
 
+  const handleUploadDocument = async (studentId) => {
+
+    const result = await ProccedStripeIdentity(studentId)
+
+    if (result?.success === true) {
+      window.location.href = result.data
+    } else {
+      toast.error(result?.message);
+    }
+  }
+
+
   // const tabs = [
   //   {
   //     name: "My Profile",
@@ -183,11 +199,10 @@ const StudentProfile = ({ children }) => {
               <div className="pb-6 border-b border-black/30">
                 <Link
                   to={items.pathname}
-                  className={`${
-                    pathname === items.pathname
-                      ? "underline text-black font-bold text-xl"
-                      : "text-black/70 text-xl"
-                  }`}
+                  className={`${pathname === items.pathname
+                    ? "underline text-black font-bold text-xl"
+                    : "text-black/70 text-xl"
+                    }`}
                 >
                   {items.name}
                 </Link>
@@ -198,12 +213,26 @@ const StudentProfile = ({ children }) => {
 
         <div className="w-full xl:col-span-3 col-span-1 pt-10 md:pr-12 pb-12 sm:px-[52px] px-3">
           <div className="flex items-center justify-between flex-wrap gap-y-3">
-            <h2 className="text-Dark_black text-[40px] font-bold">
-              {Profiledetails?.profile?.studentName}
-              <span className="text-Dark_black/50 text-2xl font-normal">
-                (Student)
-              </span>
-            </h2>
+            <div className="flex items-baseline gap-5">
+              <h2 className="text-Dark_black text-[40px] font-bold">
+                {Profiledetails?.profile?.studentName}
+                <span className="text-Dark_black/50 text-2xl font-normal">
+                  (Student)
+                </span>
+              </h2>
+              <div className="flex gap-1">
+                {Profiledetails?.profile?.StripeVerfiy
+                  ? <PiSealCheckFill className="text-green text-xl" />
+                  : <MdCancel className="text-red-200 text-xl" />
+                }
+
+                {Profiledetails?.profile?.StripeVerfiy
+                  ? <span className="text-Dark_black">Stripe Identity Verified</span>
+                  : <span className="text-red-200 underline cursor-pointer" onClick={() => handleUploadDocument(Profiledetails?.profile?.studentId)}>Stripe Identity Verified</span>
+                }
+
+              </div>
+            </div>
             <div className="flex items-center gap-2 sm:w-auto w-full">
               <OutlineBtn
                 text={"Edit"}
@@ -234,11 +263,11 @@ const StudentProfile = ({ children }) => {
           </div>
           <p className="text-black/50 mt-1">
             Your profile is incomplete.{" "}
-            <span className="text-red-200 underline cursor-pointer" onClick={()=>setOpen(true)}>Complete Now</span>
+            <span className="text-red-200 underline cursor-pointer" onClick={() => handleUploadDocument(Profiledetails?.profile?.studentId)}>Complete Now</span>
           </p>
           {children}
         </div>
-      </div>
+      </div >
       <GetInTouch />
 
       <Dialog open={open} onClose={setOpen} className="relative z-10">
@@ -282,7 +311,7 @@ const StudentProfile = ({ children }) => {
                   </div>
                   <div className="md:w-[245px] w-full h-[202px] rounded-xl overflow-hidden bg-[#DAD8D0] flex items-center justify-center relative">
                     {Update_Profiledetail?.profile === null ||
-                    Update_Profiledetail?.profile === "" ? (
+                      Update_Profiledetail?.profile === "" ? (
                       <div className="flex items-center justify-center flex-col absolute top-0 left-0 h-full w-full bg-[#DAD8D0]">
                         <IoCamera className="text-black/20 text-4xl" />
                         <p className="text-black/20 text-[13px] font-medium">

@@ -6,6 +6,11 @@ export const Routing = {
   PaymentFailed:"/paymentfailed",
   instructor_Videocall:"/instructor/room/:channelName/:role",
   student_Videocall:"/student/room/:channelName/:role",
+  instructor_identity_success:"/instructor/indetity/success/:instructorId",
+  instructor_identity_cancel:"/instructor/indetity/cancel/:instructorId",
+  student_identity_success:"/student/indetity/success/:studentId",
+  student_identity_cancel:"/student/indetity/cancel/:studentId",
+
 
 
 

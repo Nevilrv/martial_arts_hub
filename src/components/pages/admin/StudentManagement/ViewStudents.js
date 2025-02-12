@@ -11,10 +11,11 @@ import {
 } from "../../../services/Admin/StudentManagement/StudentManagement";
 import Spinner from "../../../layouts/Spinner";
 import User from "../../../../assets/images/userProfile.jpg";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import { MdCancel, MdKeyboardArrowDown } from "react-icons/md";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { FaArrowLeft } from "react-icons/fa6";
 import dayjs from "dayjs";
+import { PiSealCheckFill } from "react-icons/pi";
 
 const ViewStudents = () => {
   const [isOpen, SetisOpen] = useState(false);
@@ -71,49 +72,16 @@ const ViewStudents = () => {
       Get_Student_list();
     } else {
       setLoading(false);
-      // result?.message === "Student data not found" && Get_Student_list([]);
-      // toast.error(
-      //   result?.message === "Student data not found"
-      //     ? "There are no any studentid."
-      //     : result?.message
-      // );
     }
   };
+
+  
 
   return (
     <>
       {Loading && <Spinner />}
       <div className="flex items-center justify-between flex-wrap">
         <AdminHeadding Headding={"View Students"} />
-        <div className="flex items-center gap-2 flex-wrap">
-          {/* <div className="relative z-[1]">
-            <select
-              id="ID"
-              name="ID"
-              defaultValue="ID"
-              className="bg-transparent focus:outline-none px-3 pr-6 border border-black/25 h-[35px] rounded-full remove-icon"
-            >
-              <option>ID</option>
-              <option>#23352</option>
-              <option>#23352</option>
-            </select>
-            <MdKeyboardArrowDown className="absolute top-1/2 -translate-y-1/2 right-2 -z-10" />
-          </div>
-          <div className="relative z-[1]">
-            <select
-              id="Date"
-              name="Date"
-              defaultValue="Date"
-              className="bg-transparent focus:outline-none px-3 border border-black/25 h-[35px] rounded-full remove-icon relative pr-6"
-            >
-              <option>Date</option>
-              <option>06/06/2024</option>
-              <option>12/07/2024</option>
-              <option>05/07/2024</option>
-            </select>
-            <MdKeyboardArrowDown className="absolute top-1/2 -translate-y-1/2 right-2 z-[-1]" />
-          </div> */}
-        </div>
       </div>
       <div className="mt-5">
         <div className="overflow-x-auto">
@@ -159,7 +127,6 @@ const ViewStudents = () => {
                     <tr key={person.studentId}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                         <img
-                          // src={person.profile || User}
                           src={person.profile_picture || User}
                           alt=""
                           className="w-[45px] h-[45px] rounded-full"
@@ -231,7 +198,6 @@ const ViewStudents = () => {
                     className={"border border-red-200 text-red-200"}
                     onClick={() => {
                       SetisOpen(true);
-                      // setstudentid(Student_Deatils?.studentId);
                       console.log(Student_Deatils?.studentId)
                     }}
                   />
@@ -247,7 +213,14 @@ const ViewStudents = () => {
                         />
                       </div>
                       <div className="">
-                        <h2 className="mt-10 text-black text-2xl font-bold">
+                        <div className="flex gap-1 my-5">
+                          {Student_Deatils?.StripeVerfiy
+                            ? <PiSealCheckFill className="text-green text-xl" />
+                            : <MdCancel className="text-red-200 text-xl" />
+                          }
+                          Stripe Identity Verified
+                        </div>
+                        <h2 className="text-black text-2xl font-bold">
                           {Student_Deatils?.name}
                         </h2>
                         <p className="text-black/70 text-sm mt-4">

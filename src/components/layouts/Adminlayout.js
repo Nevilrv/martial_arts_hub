@@ -356,7 +356,7 @@ const Adminlayout = ({ children }) => {
             {/* Sidebar component, swap this element with another sidebar if you like */}
             <div className="flex grow flex-col overflow-y-auto overflow-x-hidden px-0 pb-0">
               <div className="flex shrink-0 items-center bg-primary px-2 h-[90px] justify-center">
-                <h2 className="font-extrabold text-xl leading-[21.6px] tracking-[-1px]">
+                <h2 className="font-extrabold text-xl leading-[21.6px] tracking-[-1px] cursor-pointer" onClick={() => navigate('/')}>
                   martial arts hub.
                 </h2>
               </div>

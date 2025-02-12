@@ -119,7 +119,7 @@ const CategoriesSection = () => {
               <input
                 type="text"
                 className="md:w-[315px] w-full h-[50px] border border-black/80 rounded-full bg-transparent placeholder:text-[15px] placeholder:text-black/40 pl-[44px] pr-[52px]"
-                placeholder="Search Category"
+                placeholder="Search Categories"
                 value={FindCategorie}
                 onChange={(e) => {
                   SetFindCategorie(e.target.value);

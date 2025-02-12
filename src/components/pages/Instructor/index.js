@@ -11,7 +11,6 @@ const Tabs = ({ children }) => {
     { name: "Booking Overview", href: Routing.InstructorBooking },
     { name: "Earnings Report", href: Routing.InstructorEarnings },
     { name: "Reviews", href: Routing.InstructorReviews },
-    // { name: "Create Class", href: Routing.InstructorCreateClass},
     { name: "Create Slot", href: Routing.InstructorCreateSlot },
     { name: "My Slots", href: Routing.InstructorMy_slot },
     { name: "Bank Account Details", href: Routing.InstructorAccountDetails },

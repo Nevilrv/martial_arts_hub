@@ -8,6 +8,7 @@ import { FaArrowLeft, FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { HiMiniSignal } from "react-icons/hi2";
 import { Confirm_Popup_Icon, Decline, Fullscreen } from "../../../../assets/icon";
 import { MdOutlineTranslate } from "react-icons/md";
+import { MdCancel } from "react-icons/md";
 import { PiSealCheckFill } from "react-icons/pi";
 import Popup from "../../common/Popup";
 import User from "../../../../assets/images/userProfile.jpg";
@@ -61,13 +62,6 @@ const NewRequests = () => {
       setLoading(false);
     } else {
       setLoading(false);
-      // result?.message === "Instructor data not found" &&
-      //   setInstructor_Request_List([]);
-      // toast.error(
-      //   result?.message === "Instructor data not found"
-      //     ? "There are no any new requests."
-      //     : result?.message
-      // );
     }
   };
 
@@ -228,18 +222,24 @@ const NewRequests = () => {
                         className="w-full h-full object-cover object-center"
                       />
                     </div>
-                    <h2 className="text-black font-bold text-3xl">
-                      {Instructor_Request_detail?.name}
-                      <span className="text-black/50 text-sm">
-                        (Instructor)
-                      </span>
-                    </h2>
+                    <div className="flex justify-center items-end flex-wrap gap-5">
+                      <div className="flex items-center">
+                        <h2 className="text-black font-bold text-3xl">
+                          {Instructor_Request_detail?.name}
+                          <span className="text-black/50 text-sm">
+                            (Instructor)
+                          </span>
+                        </h2>
+                      </div>
+                      <div className="flex gap-1">
+                        {Instructor_Request_detail?.StripeVerfiy
+                          ? <PiSealCheckFill className="text-green text-xl" />
+                          : <MdCancel className="text-red-200 text-xl" />
+                        }
+                        Stripe Identity Verified
+                      </div>
+                    </div>
                     <div className="flex items-baseline gap-0.5">
-                      {/* <FaStar className="text-gay-500" />
-                      <FaStar className="text-gay-500" />
-                      <FaStar className="text-gay-500" />
-                      <FaStar className="text-gay-500" />
-                      <FaStar className="text-gay-500" /> */}
                       {isOpen && getStars(Instructor_Request_detail?.reviews)}
                       <p className="text-black/50 text-xs ml-1">
                         {Instructor_Request_detail?.reviews || 0} ({Instructor_Request_detail?.totalReviews} Reviews)
@@ -253,8 +253,7 @@ const NewRequests = () => {
                       ))}
                     </div>
                     <h2 className="text-2xl text-Dark_black font-semibold mt-3 max-w-[690px]">
-                      I’m here to support your fitness ambitions, cut fat, and
-                      develop strong, flexible muscles.
+                      {Instructor_Request_detail?.tagline}
                     </h2>
                     <div className="mt-8 border border-gay-400/20 p-6 rounded-lg">
                       <h2 className="font-semibold text-Dark_black text-lg">
@@ -326,7 +325,7 @@ const NewRequests = () => {
                     </div>
                   </div>
                 </div>
-                <div className="border border-gay-400/20 px-5 py-6 rounded-lg mt-4">
+                {/* <div className="border border-gay-400/20 px-5 py-6 rounded-lg mt-4">
                   <h2 className="font-semibold text-Dark_black text-lg">
                     Certifications
                   </h2>
@@ -338,7 +337,7 @@ const NewRequests = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 <div className="border border-gay-400/20 px-5 py-6 rounded-lg mt-4">
                   <h2 className="font-semibold text-Dark_black text-lg">
                     Hourly Rates
@@ -405,7 +404,7 @@ const NewRequests = () => {
                     </div>
                   </div>
                 </div>
-                <div className="border border-gay-400/20 px-5 py-6 rounded-lg mt-4">
+                {/* <div className="border border-gay-400/20 px-5 py-6 rounded-lg mt-4">
                   <h2 className="font-semibold text-Dark_black text-lg">
                     Training History
                   </h2>
@@ -417,7 +416,7 @@ const NewRequests = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </DialogPanel>
           </div>

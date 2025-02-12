@@ -18,6 +18,8 @@ import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { PiPencilSimpleLineLight } from "react-icons/pi";
 import OutlineBtn from "../../common/OutlineBtn";
 import PopuSpinner from "../../common/PopuSpinner";
+// import { auth, provider } from "../../../services/GoogleAuth/firebaseConfig";
+// import { signInWithPopup } from "firebase/auth";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -67,7 +69,12 @@ const Index = () => {
       localStorage.setItem("FaceToFace", result?.data?.privateSessionFaceToFaceHourlyRate)
       localStorage.setItem("Insplatfrom", result?.data?.platformReview)
 
-      navigate(Routing.InstructorDashboard);
+      if (result?.data?.StripeVerfiy) {
+        navigate(Routing.InstructorDashboard);
+      } else {
+        navigate(Routing.InstructorProfile);
+      }
+
     } else if (result?.success === true && result.code === 401) {
       setLoading(false);
       setblock(result?.data || {});
@@ -163,7 +170,16 @@ const Index = () => {
     }
   };
 
-
+  // const handleGoogleSignIn = async () => {
+  //   try {
+  //     const result = await signInWithPopup(auth, provider);
+  //     const user = result.user;
+  //     console.log("User Info:", user);
+  //     alert(`Welcome, ${user.displayName}!`);
+  //   } catch (error) {
+  //     console.error("Error during sign-in:", error);
+  //   }
+  // };
 
   return (
     <>
@@ -262,7 +278,7 @@ const Index = () => {
           </div>
         </div>
       </div>
-      {/* <Popup
+      <Popup
         isOpen={isOpen}
         SetisOpen={SetisOpen}
         Icons={<Decline />}
@@ -276,7 +292,7 @@ const Index = () => {
             password: ""
           })
         }}
-      />; */}
+      />;
       <Popup
         isOpen={enterEmail}
         SetisOpen={SetenterEmail}

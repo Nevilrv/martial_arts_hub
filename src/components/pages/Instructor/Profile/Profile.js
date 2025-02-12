@@ -9,7 +9,9 @@ import NormalBtn from "../../common/NormalBtn";
 import { toast } from "react-toastify";
 import {
   Get_Instructor_Details,
+  InstructorPicProfile,
   InstructorProfile,
+  ProccedStripeIdentity,
 } from "../../../services/Instructor/instructor_auth/auth";
 import Spinner from "../../../layouts/Spinner";
 import User from "../../../../assets/images/userProfile.jpg";
@@ -22,16 +24,18 @@ import {
   Category_List,
   Sub_Category_List_For_Instructor,
 } from "../../../services/Admin/Discipline_Centre/Discipline_Centre";
+import { Confirm_Popup_Icon } from "../../../../assets/icon";
 
 
 const Profile = () => {
   const navigate = useNavigate();
   const [category_list, Set_Category_List] = useState([]);
   const [previewUrl, setPreviewUrl] = useState(null);
-  const [previewidUrl, setPreviewidUrl] = useState(null);
+  // const [previewidUrl, setPreviewidUrl] = useState(null);
   const [Sub_category_list, SetSub_category_list] = useState([]);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const options = [
     { value: "Online", label: "Online" },
     { value: "FaceToFace", label: "Face-To-Face" },
@@ -47,7 +51,7 @@ const Profile = () => {
     name: "",
     country_code: "",
     mobileNo: "",
-    profile_picture: "",
+    // profile_picture: "",
     maincategory: {},
     category: {},
     availability: "",
@@ -62,7 +66,9 @@ const Profile = () => {
     classTypeFirstFreeSession: {},
     privateSessionOnlineHourlyRate: "",
     privateSessionFaceToFaceHourlyRate: "",
+    StripeVerfiy: ""
   });
+
 
   const getinstructorDetails = async () => {
     setLoading(true);
@@ -92,6 +98,7 @@ const Profile = () => {
             result?.data?.privateSessionOnlineHourlyRate,
           privateSessionFaceToFaceHourlyRate:
             result?.data?.privateSessionFaceToFaceHourlyRate,
+          StripeVerfiy: result?.data?.StripeVerfiy
         });
       } else {
         setLoading(false);
@@ -123,12 +130,6 @@ const Profile = () => {
     });
   };
 
-  // const handle_Class_Type = (selectedOptions) => {
-  //   setInstructorDetails({
-  //     ...instructorDetails,
-  //     maincategory: selectedOptions,
-  //   });
-  // };
 
   const handleChangeSubCategory = (selectedOptions) => {
     setInstructorDetails({
@@ -144,48 +145,51 @@ const Profile = () => {
     });
   };
 
-  const handleImage = (e) => {
+  const handleImage = async (e) => {
     const file = e.target.files[0];
+
     if (file) {
       setPreviewUrl(URL.createObjectURL(file));
-      setInstructorDetails({
-        ...instructorDetails,
+
+
+      setInstructorDetails((prevDetails) => ({
+        ...prevDetails,
         [e.target.name]: file,
-      });
+      }));
+
+
+      const formData = new FormData();
+      formData.append("profile_picture", file);
+
+      const result = await InstructorPicProfile(formData);
+      console.log(result, "===============>Result");
+
+      if (!result?.success) {
+
+        console.error("Image upload failed");
+      }
     } else {
-      setInstructorDetails({
-        ...instructorDetails,
-        [e.target.name]: file,
-      });
+      console.error("No file selected");
     }
   };
 
-  const handleIdProofImage = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPreviewidUrl(URL.createObjectURL(file));
-      setInstructorDetails({
-        ...instructorDetails,
-        [e.target.name]: file,
-      });
-    } else {
-      setInstructorDetails({
-        ...instructorDetails,
-        [e.target.name]: file,
-      });
-    }
-  };
   const handleSaveProfile = async () => {
-    console.log("this is called===>")
+
     const requiredFields = [
       "email", "name", "country_code", "mobileNo", "profile_picture",
-      "maincategory", "category", "bio",
-      "experience",
-      "idProof", "firstFreeSessionHourlyRate", "classTypeFirstFreeSession",
+      "maincategory", "category", "bio", "tagline",
+      "experience", "firstFreeSessionHourlyRate", "classTypeFirstFreeSession",
       "privateSessionOnlineHourlyRate", "privateSessionFaceToFaceHourlyRate"
     ];
 
-    //, "tagline", "trainingHistory", "certifications", "keywords" ,"availability",
+    if (localStorage.getItem('verified') === 'true' || instructorDetails?.StripeVerfiy === true) {
+      const hello = localStorage.getItem('verified')
+      console.log("This is condition is true", typeof hello)
+    } else {
+      console.log("This is condition is false", typeof hello)
+
+      requiredFields.push("StripeVerfiy")
+    }
 
     const missingFields = requiredFields.filter(field => !instructorDetails?.[field]);
 
@@ -194,12 +198,12 @@ const Profile = () => {
       setErrors(missingFields);
       return;
     }
+
     const formData = new FormData();
     formData.append("email", instructorDetails?.email);
     formData.append("name", instructorDetails?.name);
     formData.append("country_code", instructorDetails?.country_code);
     formData.append("mobileNo", instructorDetails?.mobileNo);
-    formData.append("profile_picture", instructorDetails?.profile_picture);
     formData.append(
       "maincategory",
       JSON.stringify(instructorDetails?.maincategory)
@@ -212,7 +216,6 @@ const Profile = () => {
     formData.append("trainingHistory", instructorDetails?.trainingHistory || "");
     formData.append("certifications", instructorDetails?.certifications || "");
     formData.append("keywords", instructorDetails?.keywords || "");
-    formData.append("idProof", instructorDetails?.idProof);
     formData.append(
       "firstFreeSessionHourlyRate",
       JSON.stringify(instructorDetails?.firstFreeSessionHourlyRate)
@@ -232,18 +235,19 @@ const Profile = () => {
 
     setLoading(true);
     const result = await InstructorProfile(formData);
-    console.log(result, "=========>")
     if (result?.success === true) {
       setLoading(false);
       localStorage.setItem("OnlineRate", result?.data?.privateSessionOnlineHourlyRate)
       localStorage.setItem("FaceToFace", result?.data?.privateSessionFaceToFaceHourlyRate)
-      if (result.data.status === "pending") {
+      if (result?.data?.status === "pending") {
         Socket.emit("Notification", {
           title: `${instructorDetails?.name} New_instructor`,
           notificationType: "Instructor_request",
           Time: new Date(),
         });
+
         navigate(Routing.InstructorLogin);
+        localStorage.clear();
       } else {
         navigate(Routing.InstructorDashboard);
       }
@@ -292,10 +296,17 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    getinstructorDetails();
+    const InstructorData = localStorage.getItem('InstructorData')
+
+    if (InstructorData) {
+      setInstructorDetails(JSON.parse(InstructorData))
+    } else {
+      getinstructorDetails();
+    }
+
     Get_Category_List();
-    // eslint-disable-next-line
   }, []);
+
   useEffect(() => {
     if (instructorDetails.maincategory.value) {
       Get_Sub_Category_List();
@@ -337,6 +348,19 @@ const Profile = () => {
     return errors.includes(field) ? "input-error" : "";
   };
 
+  const handleUploadDocument = async () => {
+
+    localStorage.setItem('InstructorData', JSON.stringify(instructorDetails))
+    const result = await ProccedStripeIdentity()
+
+    console.log(result.data, "=========>")
+
+    if (result?.success === true) {
+      window.location.href = result.data
+    } else {
+      toast.error(result?.message);
+    }
+  }
 
   return (
     <>
@@ -501,7 +525,7 @@ const Profile = () => {
               className={`bg-[#DAD8D0] focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[150px] rounded-xl p-6`}
             />
           </div>
-          {/* <div className="md:col-span-2 col-span-1">
+          <div className="md:col-span-2 col-span-1">
             <Inputfild
               type={"text"}
               placeholder={"Add tagline"}
@@ -512,7 +536,7 @@ const Profile = () => {
               Labelclass={`${getFieldClass("tagline")} text-Dark_black font-medium`}
               value={instructorDetails?.tagline}
             />
-          </div> */}
+          </div>
           <div className="md:col-span-2 col-span-1">
             <label className={`${getFieldClass("experience")} text-sm text-black block font-medium`}>
               Add your Experience
@@ -563,9 +587,26 @@ const Profile = () => {
           </div> */}
 
           <div className="md:col-span-2 col-span-1">
+            <label className={`${getFieldClass("StripeVerfiy")} text-sm text-black block font-medium`}>
+              Upload ID Proof (Driving License/Passport)
+            </label>
+            <div className="h-[200px] rounded-xl bg-[#DAD8D0] flex items-center justify-center relative mt-1">
+              {(localStorage.getItem('verified') === 'true' || instructorDetails?.StripeVerfiy === true) ?
+                <Confirm_Popup_Icon />
+                :
+                <div className="flex items-center justify-center flex-col">
+                  <MdCloudUpload onClick={() => handleUploadDocument()} className="text-black/20 text-4xl cursor-pointer" />
+                  <p className={` text-black/20 text-[13px] font-medium text-center`}>
+                    Upload ID Proof (Driving License/Passport)
+                  </p>
+                </div>
+              }
+            </div>
+          </div>
+
+          {/* <div className="md:col-span-2 col-span-1">
             <label className={`${getFieldClass("idProof")} text-sm text-black block font-medium`}>
-              Upload ID Proof (Aadhar Card/Driving License/Instructor
-              Certificate)
+              Upload ID Proof (Driving License/Passport)
             </label>
             <div className="h-[200px] rounded-xl bg-[#DAD8D0] flex items-center justify-center relative mt-1">
               {instructorDetails?.idProof === null ||
@@ -573,8 +614,7 @@ const Profile = () => {
                 <div className="flex items-center justify-center flex-col">
                   <MdCloudUpload className="text-black/20 text-4xl" />
                   <p className={` text-black/20 text-[13px] font-medium text-center`}>
-                    Upload ID Proof (Aadhar Card/Driving License/Instructor
-                    Certificate) here
+                    Upload ID Proof (Driving License/Passport) here
                   </p>
                 </div>
               ) : (
@@ -602,7 +642,7 @@ const Profile = () => {
                 className={`h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer`}
               />
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 gap-y-9 mt-[75px]">
           <h2 className="md:col-span-2 col-span-1 text-2xl text-black font-semibold">

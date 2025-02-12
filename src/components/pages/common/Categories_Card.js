@@ -6,17 +6,13 @@ import Inputfild from "./Inputfild";
 const CategoriesCard = ({ data }) => {
   const [Deatils_sub_category, setDeatils_sub_category] = useState({});
   const [isOpen, setopen] = useState(false);
-  console.log(
-    "🚀 ~ CategoriesCard ~ Deatils_sub_category:",
-    Deatils_sub_category
-  );
   return (
     <>
       <div className="group flex flex-col sm:mr-6 justify-between min-h-[249px]">
         <img
           src={data.categoryImage || data.profile}
           alt="card_image"
-          className="grayscale group-hover:grayscale-0 h-[258px] w-full object-cover"
+          className="grayscale h-[258px] w-full object-cover"
         />
         <div>
           <h2 className="font-semibold text-[22px] text-black mt-6 max-w-[315px]">

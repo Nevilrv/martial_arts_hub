@@ -41,12 +41,7 @@ const Index = () => {
     const result = await InstructorSignUp(data);
     if (result?.success === true) {
       setLoading(false);
-      localStorage.setItem("Role", JSON.stringify(result?.data?.role));
-      localStorage.setItem("email", JSON.stringify(result?.data?.email));
-      localStorage.setItem("_id", JSON.stringify(result?.data?.instructorId));
-      localStorage.setItem("token", result?.Token);
-      localStorage.setItem("is_login", true);
-      navigate(Routing.InstructorProfile);
+      navigate(Routing.InstructorLogin);
     } else {
       setLoading(false);
       toast.error(result?.message);

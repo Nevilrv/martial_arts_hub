@@ -208,6 +208,26 @@ function App() {
       isPrivateRoute: false,
     },
     {
+      path: Routing.instructor_identity_success,
+      component: PaymentSuccessful,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.instructor_identity_cancel,
+      component: PaymentFailed,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.student_identity_success,
+      component: PaymentSuccessful,
+      isPrivateRoute: false,
+    },
+    {
+      path: Routing.student_identity_cancel,
+      component: PaymentFailed,
+      isPrivateRoute: false,
+    },
+    {
       path: Routing.InstructorsPage,
       component: InstructorsPage,
       isPrivateRoute: false,

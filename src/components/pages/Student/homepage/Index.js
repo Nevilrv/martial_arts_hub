@@ -27,23 +27,23 @@ import { Category_List } from "../../../services/Admin/Discipline_Centre/Discipl
 const AskedQuestions = [
   {
     title: "What age groups can participate in martial arts classes?",
-    body: "For now our classes are designed for adults only.",
+    body: "Martial arts classes are available for all ages, from young children (3+) to seniors. Classes are typically grouped by age: kids, teens, adults, and specialized sessions for older adults. Many schools also offer family classes for all ages to train together.",
   },
   {
     title: "Do I need any prior experience to join?",
-    body: "For now our classes are designed for adults only.",
+    body: "No experience? No problem! Our martial arts classes welcome beginners of all ages, with expert instructors ready to guide you every step of the way. You'll learn new skills, build confidence, and have fun from day one!",
   },
   {
     title: "What should I wear to my first class?",
-    body: "For now our classes are designed for adults only.",
+    body: "For your first class, just wear comfortable workout clothes like a t-shirt and athletic pants. Once you join, we'll guide you on the proper martial arts uniform, but for now, just come ready to move and have fun!",
   },
   {
     title: "How often should I attend classes to see progress?",
-    body: "For now our classes are designed for adults only.",
+    body: "Attending classes is a great way to see steady progress. With consistent practice, you'll build skills, confidence, and fitness while having fun along the journey!",
   },
   {
     title: "Is martial arts training safe?",
-    body: "For now our classes are designed for adults only.",
+    body: "Yes, martial arts training is very safe! Our classes are led by experienced instructors who prioritize proper technique, safety, and supervision. You'll learn in a controlled, supportive environment designed to keep you safe while having fun and building confidence.",
   },
 ];
 

@@ -13,6 +13,8 @@ import Spinner from "../../../layouts/Spinner";
 import Socket from "../../common/Socket";
 import Popup from "../../common/Popup";
 import { Decline } from "../../../../assets/icon";
+// import { auth, provider } from "../../../services/GoogleAuth/firebaseConfig";
+// import { signInWithPopup } from "firebase/auth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -44,14 +46,16 @@ const Login = () => {
       password: userdata.password,
     };
     const result = await StudentLogin(data);
+    console.log(result)
     if (result?.success === true && result.code === 200) {
       setLoading(false);
       localStorage.setItem("_id", JSON.stringify(result?.data?.studentId));
       localStorage.setItem("Role", JSON.stringify(result?.data?.role));
       localStorage.setItem("email", JSON.stringify(result?.data?.email));
-      localStorage.setItem("name",JSON.stringify(result?.data?.name))
+      localStorage.setItem("name", JSON.stringify(result?.data?.name))
       localStorage.setItem("Stdplatfrom", result?.data?.platformReview)
       localStorage.setItem("profile_picture", JSON.stringify(result?.data?.profile_picture));
+      localStorage.setItem("StripeVerify", result?.data?.StripeVerfiy);
       localStorage.setItem("token", result?.Token);
       localStorage.setItem("is_login", true);
       navigate(Routing.StudentDashboard);
@@ -70,6 +74,17 @@ const Login = () => {
       handleLogin();
     }
   };
+
+  // const handleGoogleSignIn = async () => {
+  //   try {
+  //     const result = await signInWithPopup(auth, provider);
+  //     const user = result.user;
+  //     console.log("User Info:", user);
+  //     alert(`Welcome, ${user.displayName}!`);
+  //   } catch (error) {
+  //     console.error("Error during sign-in:", error);
+  //   }
+  // };
 
   return (
     <>
@@ -156,6 +171,7 @@ const Login = () => {
                         text={`Log In with Google`}
                         icon={<FaGoogle />}
                         bg_color={"gay-300"}
+                        // onClick={handleGoogleSignIn}
                       />
                     </div>
                     <p className="text-sm text-black/50 text-center mt-10">
