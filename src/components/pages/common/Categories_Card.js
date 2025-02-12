@@ -49,7 +49,7 @@ const CategoriesCard = ({ data }) => {
                 <img
                   src={Deatils_sub_category.categoryImage}
                   alt=""
-                  className="h-full w-full  py-3"
+                  className="grayscale h-full w-full  py-3"
                 />
                 <div className="mt-5 grid grid-cols-1 gap-3">
                   <Inputfild
