@@ -441,7 +441,7 @@ const InstructorProfile = () => {
 
               <div className="mt-10 flex flex-col justify-center items-center gap-4">
                 <OutlineBtn
-                  onClick={HeandleBooking}
+                  onClick={handleCheck}
                   text={"Book Now"}
                   className={
                     "sm:w-[375px] w-full h-[60px] bg-black text-white font-medium border-none"

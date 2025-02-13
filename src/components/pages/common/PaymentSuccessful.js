@@ -49,7 +49,7 @@ const PaymentSuccessful = () => {
     console.log(result?.data)
 
     if (result?.success === true && result?.data === 'verified') {
-
+      localStorage.setItem('StripeVerify', true)
     } else {
       toast.error(result?.message)
     }
