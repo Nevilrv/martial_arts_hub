@@ -58,12 +58,18 @@ const Login = () => {
       localStorage.setItem("StripeVerify", result?.data?.StripeVerfiy);
       localStorage.setItem("token", result?.Token);
       localStorage.setItem("is_login", true);
-      navigate(Routing.StudentDashboard);
+      
+      if(result?.data?.StripeVerfiy){
+        navigate(Routing.StudentDashboard);
+      } else {
+        navigate(Routing.StudentProfile);
+      }
 
     } else if (result?.success === true && result.code === 401) {
       setLoading(false);
       setblock(result?.data || {});
       SetisOpen(true);
+      toast.error(result?.message);
     } else {
       setLoading(false);
       toast.error(result?.message);

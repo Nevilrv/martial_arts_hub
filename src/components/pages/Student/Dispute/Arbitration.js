@@ -136,13 +136,13 @@ const Arbitration = () => {
               {DisputeChats.map((chats) => (
                 <div
                   className={`flex ${
-                    chats.sender_type === "student" ? "flex-row-reverse" : null
+                    chats.sender === "student" ? "flex-row-reverse" : null
                   }  gap-3`}
                 >
                   <div className="h-[60px] w-[60px] overflow-hidden rounded-full grayscale">
                     <img
                       src={
-                        chats.sender_type === "student"
+                        chats.sender === "student"
                           ? JSON.parse(localStorage.getItem("profile_picture"))
                           : UserProfile
                       }
@@ -152,23 +152,23 @@ const Arbitration = () => {
                   <div>
                     <div
                       className={`${
-                        chats.sender_type === "student"
+                        chats.sender === "student"
                           ? "bg-Green-100 rounded-tr-none"
                           : "bg-red-100 rounded-tl-none"
                       } p-4 pr-[25px] rounded-xl `}
                     >
                       <p className="text-gay-400 max-w-[480px] font-light">
-                        {chats.message}
+                        {chats.messages}
                       </p>
                     </div>
                     <p
                       className={`${
-                        chats.sender_type === "student"
+                        chats.sender === "student"
                           ? "text-green text-right"
                           : "text-red-200"
                       }  mt-2 text-xs`}
                     >
-                      {dayjs(chats.updated_at).format("MMM,DD,YYYY")}
+                      {dayjs(chats.updated_at).format("MMM DD,YYYY")} at {dayjs(chats.updated_at).format("hh:mm A")}
                     </p>
                   </div>
                 </div>

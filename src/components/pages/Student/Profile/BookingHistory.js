@@ -19,7 +19,7 @@ const BookingHistory = () => {
     if (result?.success === true) {
       setLoading(false);
       setStudent_Booking(result?.data);
-       
+
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -42,7 +42,7 @@ const BookingHistory = () => {
             <div className="flex items-center justify-between border-b mt-8 border-black/40 pb-4">
               <div className="flex items-start gap-4">
                 <img
-                  src={Boxing}
+                  src={Booking.instructor.profile_picture || Boxing}
                   alt=""
                   className=" h-[95px] object-cover rounded-md"
                 />
@@ -65,14 +65,13 @@ const BookingHistory = () => {
                 </div>
               </div>
               <div>
-                <h2 className="text-2xl font-semibold text-right">$10.99</h2>
+                <h2 className="text-2xl font-semibold text-right">{Booking.paidAmount}</h2>
                 <OutlineBtn
                   text={Booking.paymentStatus}
-                  className={`${
-                    Booking.paymentStatus === "success"
+                  className={`${Booking.paymentStatus === "success"
                       ? "bg-green"
                       : "bg-red-200"
-                  } text-white border-none px-4 h-[35px] mt-1`}
+                    } text-white border-none px-4 h-[35px] mt-1`}
                   endicon={
                     <IoIosArrowRoundForward className="text-2xl ml-1 -rotate-45" />
                   }

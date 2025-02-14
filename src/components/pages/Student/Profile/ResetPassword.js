@@ -70,7 +70,7 @@ const ResetPassword = () => {
                 value={Resetpassword.currentPassword}
                 onChange={(e) => handleChangepassword(e)}
               />
-              <p className="text-black/50 text-right mt-1.5">
+              <p className="text-black/50 text-right mt-1.5 cursor-pointer" onClick={() => {navigate(Routing.Student_Forgot_Password)}}>
                 Didn’t remember? <b className="text-black">Forgot Password</b>
               </p>
 

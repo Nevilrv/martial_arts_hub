@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import Wrestling from "../../../assets/images/Wrestling.png";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import Inputfild from "./Inputfild";
+import { useNavigate } from "react-router-dom";
+import { Routing } from "../../shared/Routing";
 
 const CategoriesCard = ({ data }) => {
   const [Deatils_sub_category, setDeatils_sub_category] = useState({});
   const [isOpen, setopen] = useState(false);
+  const navigate = useNavigate();
   return (
     <>
       <div className="group flex flex-col sm:mr-6 justify-between min-h-[249px]">
@@ -22,12 +25,21 @@ const CategoriesCard = ({ data }) => {
             {data?.categoryDescription || data.className}
           </p>
         </div>
-        <button
-          onClick={() => { setDeatils_sub_category(data); setopen(true) }}
-          className="relative bg-transparent h-[31px] border border-black/50 text-black text-xs leading-8 px-3 py-4 rounded-full flex justify-center items-center after:absolute after:bg-black after:h-0 after:w-full after:top-0 after:left-0 hover:after:h-full after:transition-[2s] after:-z-20 hover:text-white overflow-hidden group mt-4"
-        >
-          {data.classdate || "Read More"}
-        </button>
+        {data.classdate ?
+          <button
+            onClick={() => { navigate(Routing.StudentMyClass) }}
+            className="relative bg-transparent h-[31px] border border-black/50 text-black text-xs leading-8 px-3 py-4 rounded-full flex justify-center items-center after:absolute after:bg-black after:h-0 after:w-full after:top-0 after:left-0 hover:after:h-full after:transition-[2s] after:-z-20 hover:text-white overflow-hidden group mt-4"
+          >
+            {data.classdate}
+          </button>
+          :
+          <button
+            onClick={() => { setDeatils_sub_category(data); setopen(true) }}
+            className="relative bg-transparent h-[31px] border border-black/50 text-black text-xs leading-8 px-3 py-4 rounded-full flex justify-center items-center after:absolute after:bg-black after:h-0 after:w-full after:top-0 after:left-0 hover:after:h-full after:transition-[2s] after:-z-20 hover:text-white overflow-hidden group mt-4"
+          >
+            Read More
+          </button>
+        }
       </div>
 
       <Dialog
