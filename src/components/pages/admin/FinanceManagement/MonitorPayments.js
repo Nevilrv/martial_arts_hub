@@ -344,7 +344,7 @@ const MonitorPayments = () => {
                   <div className="w-full">
                     <p className="text-gay-300">Student’s ID</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 sm:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      # {StudentPaymentDetails.studentId?.slice(0, 19)}...
+                      # {StudentPaymentDetails.studentId?.slice(0, 17)}...
                     </div>
                   </div>
                   <div className="w-full">

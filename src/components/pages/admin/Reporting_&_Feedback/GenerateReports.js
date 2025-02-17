@@ -9,7 +9,7 @@ const GenerateReports = () => {
   const [Loading, setLoading] = useState(false);
   const currentMonthIndex = new Date().getMonth();
   const [selectedMonth, setSelectedMonth] = useState(currentMonthIndex + 1);
-  const [amountFilter, setAmountFilter] = useState("high to Lower");
+  const [amountFilter, setAmountFilter] = useState("Lower to high");
   const [selectedStatus, setSelectedStatus] = useState("All");
 
   const Get_Report = async () => {

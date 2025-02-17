@@ -191,7 +191,7 @@ const Sub_Categorie = () => {
                   class="w-full"
                   src={category.categoryImage}
                   alt="Sunset in the mountains"
-                  className="sm:w-[370px] w-full h-[225px] object-cover object-center"
+                  className="grayscale sm:w-[370px] w-full h-[225px] object-cover object-center"
                 />
               </div>
               <div class="px-6 py-4">
