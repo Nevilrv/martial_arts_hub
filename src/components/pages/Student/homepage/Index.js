@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IoIosArrowRoundForward } from "react-icons/io";
+import { IoIosArrowRoundForward, IoIosArrowUp } from "react-icons/io";
 import {
   ArtsJourney,
   HeandWithDots,
@@ -50,9 +50,30 @@ const AskedQuestions = [
 const Who_we_are = [
   {
     title: "",
-    body: "Welcome to Martial Arts Hub, the global online platform for martial artists of all levels. We connect practitioners who want to learn and improve themselves with top-notch instructors who are passionate about sharing their knowledge and helping others. Our personalized guidance is tailored to fit your unique needs, whether you prefer the convenience of online sessions or the hands-on experience of face-to-face training. But we don't stop there. At Martial Arts Hub, we believe in holistic improvement. That's why we also offer access to nutritionists, strength and conditioning coaches, physiotherapists, and sports psychologists. Our diverse network of experts ensures you have the comprehensive support you need to excel in every aspect of your martial arts journey. Wherever you are based in the world, you can join us at Martial Arts Hub and unlock your full potential. Your path to excellence starts here.",
+    body: [
+      <>
+        Welcome to Martial Arts Hub, the global online platform for martial artists of all levels. We{" "}
+        <span className="font-semibold">connect practitioners</span> who want to learn and improve themselves with top-notch{" "}
+        <span className="font-semibold">instructors</span> who are passionate about sharing their knowledge and helping others.
+      </>,
+      <>
+        Our <span className="font-semibold">personalized guidance</span> is tailored to fit your unique needs, whether you prefer
+        the convenience of online sessions or the hands-on experience of face-to-face training.
+      </>,
+      <>
+        But we don't stop there. At Martial Arts Hub, we believe in <span className="font-semibold">holistic improvement.</span>{" "}
+        That's why we also offer access to nutritionists, strength and conditioning coaches, physiotherapists, and sports psychologists.
+      </>,
+      <>
+        Our diverse network of experts ensures you have the <span className="font-semibold">comprehensive support</span> you need
+        to excel in every aspect of your martial arts journey. Wherever you are based in the world, you can join us at Martial Arts Hub
+        and unlock your full potential. Your path to excellence starts here.
+      </>,
+    ],
   },
 ];
+
+
 
 const Why_Join_Us = [
   {
@@ -106,6 +127,8 @@ const Index = () => {
   const [category_list, Set_Category_List] = useState([]);
   const [openModel, setOpenModel] = useState(true);
   const [Like, setLike] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
 
   const getInstructors = async () => {
     setLoading(true);
@@ -184,6 +207,21 @@ const Index = () => {
     Get_Category_List();
   }, []);
 
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 80) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
   return (
     <>
       {Loading && <Spinner />}
@@ -192,12 +230,13 @@ const Index = () => {
         <h1 className="sm:text-[70px] text-[47px] text-center font-extrabold">
           martial arts hub.
         </h1>
-        <p className="text-[22px] text-center max-w-[669px] mx-auto leading-[31.9px] px-2">
-          The place to begin or elevate your martial arts journey. Created by
-          martial artists for martial artists.
+        <p className="text-[18px] text-center max-w-[669px] mx-auto leading-[26px] px-2">
+          The place to begin or elevate your martial arts journey. <br />
+          Created by martial artists for martial artists.
         </p>
+
         {!isLogin && (
-          <div className="flex justify-center items-center mt-9 flex-wrap gap-y-3">
+          <div className="flex justify-center items-center mt-6 flex-wrap gap-y-2">
             <button
               onClick={() => navigate(Routing.StudentSignup)}
               className="bg-transparent h-[60px] text-white hover:text-black text-xl leading-8 px-7 py-4 rounded-full flex justify-center items-center relative after:absolute after:bg-black after:h-full after:w-full after:bottom-0 after:left-0 hover:after:h-0 after:transition-[2s] after:-z-20 overflow-hidden border border-black"
@@ -315,19 +354,19 @@ const Index = () => {
           </h2>
           <p className="text-center max-w-[1052px] text-lg text-black/50 mx-auto mt-4 sm:block hidden">
             Welcome to Martial Arts Hub, the global online platform for martial
-            artists of all levels. We connect practitioners who want to learn
-            and improve themselves with top-notch instructors who are passionate
-            about sharing their knowledge and helping others. Our personalized
-            guidance is tailored to fit your unique needs, whether you prefer
+            artists of all levels. We <span className="font-semibold">connect practitioners</span> who want to learn
+            and improve themselves with top-notch <span className="font-semibold">instructors</span> who are passionate
+            about sharing their knowledge and helping others. Our <span className="font-semibold">personalized
+              guidance</span> is tailored to fit your unique needs, whether you prefer
             the convenience of online sessions or the hands-on experience of
             face-to-face training.
           </p>
           <p className="text-center max-w-[991px] text-lg text-black/50 mx-auto mt-4 sm:block hidden">
-            But we don't stop there. At Martial Arts Hub, we believe in holistic
-            improvement. That's why we also offer access to nutritionists,
+            But we don't stop there. At Martial Arts Hub, we believe in <span className="font-semibold">holistic
+              improvement.</span> That's why we also offer access to nutritionists,
             strength and conditioning coaches, physiotherapists, and sports
             psychologists. Our diverse network of experts ensures you have the
-            comprehensive support you need to excel in every aspect of your
+            <span className="font-semibold"> comprehensive support</span> you need to excel in every aspect of your
             martial arts journey. Wherever you are based in the world, you can
             join us at Martial Arts Hub and unlock your full potential. Your
             path to excellence starts here.
@@ -365,7 +404,7 @@ const Index = () => {
                     </svg>
                   </button>
                 </h2>
-                {openId === index && (
+                {/* {openId === index && (
                   <div
                     id={`accordion-body-${index}`}
                     aria-labelledby={`accordion-heading-${index}`}
@@ -374,7 +413,18 @@ const Index = () => {
                       <p className="mb-2 text-black/50">{question.body}</p>
                     </div>
                   </div>
+                )} */}
+
+                {openId === index && (
+                  <div id={`accordion-body-${index}`} aria-labelledby={`accordion-heading-${index}`}>
+                    <div className="py-2 border-gray-200 dark:border-gray-700">
+                      {question.body.map((paragraph, i) => (
+                        <p key={i} className="mb-4 text-justify text-black/50">{paragraph}</p>
+                      ))}
+                    </div>
+                  </div>
                 )}
+
               </div>
             ))}
           </div>
@@ -396,7 +446,7 @@ const Index = () => {
           we've got you covered.
         </p>
         <p className="text-xl text-center text-white/50 mt-5 max-w-screen-lg mx-auto">
-          Join Us online classes and learn from world-class martial arts
+          Join our online classes and learn from world-class martial arts
           instructors. Train at your own pace and master the art of self-defense
           or message our instructors for personalized guidance.
         </p>
@@ -795,6 +845,16 @@ const Index = () => {
       ) : pathname === "login" ? (
         <Login open={openModel} onClose={setOpenModel} />
       ) : null}
+      {isVisible && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-10 right-10 bg-black text-white px-4 py-4 rounded-full shadow-lg hover:bg-gray-800 transition-all"
+        >
+          <IoIosArrowUp />
+        </button>
+      )}
+
+
     </>
   );
 };

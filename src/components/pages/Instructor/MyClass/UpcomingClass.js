@@ -111,7 +111,7 @@ const UpcomingClass = () => {
 
               {upcoming_class.payment !== "success" ? (
                 <OutlineBtn
-                  text={`payment is Pending`}
+                  text={`Payment is Pending`}
                   className={"bg-black border-none text-white sm:w-auto w-full"}
                 />
               ) : (

@@ -140,7 +140,7 @@ const Header = () => {
         >
           <div className="flex flex-1">
             <div
-              onClick={() => navigate(Routing.Initial)}
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               className="font-extrabold text-lg leading-[21.6px] tracking-[-1px] cursor-pointer"
             >
               martial arts hub.

@@ -120,7 +120,7 @@ const OngoingClasses = (props) => {
               <div className="flex items-center gap-3 flex-wrap sm:w-auto w-full">
                 {upcoming_class.payment !== "success" ? (
                   <OutlineBtn
-                    text={`payment is Pending`}
+                    text={`Payment is Pending`}
                     className={
                       "bg-black border-none text-white sm:w-auto w-full"
                     }

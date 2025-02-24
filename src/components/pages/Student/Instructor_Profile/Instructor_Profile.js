@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import OutlineBtn from "../../common/OutlineBtn";
 import { HiMiniSignal } from "react-icons/hi2";
 import { BsPatchCheckFill, BsQuote } from "react-icons/bs";
+import { GoCheckCircleFill } from "react-icons/go";
 import { IoMdShare } from "react-icons/io";
 import Instructors from "../../common/Instructors";
 import Slider from "react-slick";
@@ -250,7 +251,7 @@ const InstructorProfile = () => {
               </div>
               <div className="mt-8 bg-gay-200 rounded-[20px] px-9 py-7">
                 <h2 className="text-[26px] font-semibold">Instructor</h2>
-                <p className="text-black/70 text-lg lowercase">{Instructor?.bio}</p>
+                <p className="text-black/70 text-lg">{Instructor?.bio}</p>
               </div>
               <div className="mt-20">
                 <h2 className="text-[22px] font-semibold text-black">
@@ -300,7 +301,7 @@ const InstructorProfile = () => {
                 </h2>
                 <div className="flex gap-2 my-5 flex-col">
                   <div className="text-black/70 text-lg flex gap-2">
-                    <BsPatchCheckFill className="text-gay-400 text-2xl" />
+                    <GoCheckCircleFill className="text-gay-400 text-2xl" />
                     <p id="exprince" className="lowercase">{Instructor?.experience}</p>
                   </div>
                 </div>
@@ -320,10 +321,10 @@ const InstructorProfile = () => {
                 <h2 className="text-[22px] font-semibold text-black">
                   Hourly Rates
                 </h2>
-                <div className="grid grid-cols-2 gap-2 my-5 justify-between">
+                <div className="grid xl:grid-cols-2 grid-cols-1 gap-5 my-5 justify-between">
                   <div>
                     <p className="flex items-center gap-2 text-red text-base text-red-200">
-                      <BsPatchCheckFill className="" />
+                      <GoCheckCircleFill className="" />
                       Online Lesson
                     </p>
                     <p className="text-black text-lg pl-5">
@@ -332,7 +333,7 @@ const InstructorProfile = () => {
                   </div>
                   <div>
                     <p className="flex items-center gap-2 text-red text-base text-red-200">
-                      <BsPatchCheckFill className="" />
+                      <GoCheckCircleFill className="" />
                       Private Lesson (1-on-1)
                     </p>
                     <p className="text-black text-lg pl-5">
@@ -347,15 +348,15 @@ const InstructorProfile = () => {
                 </h2>
                 <div className="flex flex-col gap-2 my-5">
                   <p className="flex items-center gap-2 text-black/70 text-lg">
-                    <BsPatchCheckFill className="text-gay-400" />
+                    <GoCheckCircleFill className="text-gay-400" />
                     Karate Fundamentals
                   </p>
                   <p className="flex items-center gap-2 text-black/70 text-lg">
-                    <BsPatchCheckFill className="text-gay-400" />
+                    <GoCheckCircleFill className="text-gay-400" />
                     Advanced Techniques
                   </p>
                   <p className="flex items-center gap-2 text-black/70 text-lg">
-                    <BsPatchCheckFill className="text-gay-400" />
+                    <GoCheckCircleFill className="text-gay-400" />
                     Competition Analysis
                   </p>
                 </div>
@@ -366,15 +367,15 @@ const InstructorProfile = () => {
                 </h2>
                 <div className="flex flex-col gap-2 my-5">
                   <p className="flex items-center gap-2 text-black/70 text-lg">
-                    <BsPatchCheckFill className="text-gay-400" />
+                    <GoCheckCircleFill className="text-gay-400" />
                     Karate Fundamentals
                   </p>
                   <p className="flex items-center gap-2 text-black/70 text-lg">
-                    <BsPatchCheckFill className="text-gay-400" />
+                    <GoCheckCircleFill className="text-gay-400" />
                     Advanced Techniques
                   </p>
                   <p className="flex items-center gap-2 text-black/70 text-lg">
-                    <BsPatchCheckFill className="text-gay-400" />
+                    <GoCheckCircleFill className="text-gay-400" />
                     Competition Analysis
                   </p>
                 </div>

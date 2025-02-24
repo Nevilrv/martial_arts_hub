@@ -230,7 +230,6 @@ const StudentProfile = ({ children }) => {
                   ? <span className="text-Dark_black">Stripe Identity Verified</span>
                   : <span className="text-red-200 underline cursor-pointer" onClick={() => handleUploadDocument(Profiledetails?.profile?.studentId)}>Stripe Identity Verified</span>
                 }
-
               </div>
             </div>
             <div className="flex items-center gap-2 sm:w-auto w-full">
@@ -242,13 +241,6 @@ const StudentProfile = ({ children }) => {
                 }
                 icon={<BiPencil className="text-gay-300 text-2xl" />}
               />
-              {/* <OutlineBtn
-                text={"Share"}
-                className={
-                  "text-white font-semibold bg-red-200 border-none sm:w-auto w-1/2"
-                }
-                icon={<ShareIcon color={"#fff"} />}
-              /> */}
             </div>
           </div>
           <div className="sm:w-[120px] w-full h-[27px] bg-gay-250 rounded-full mt-2 overflow-hidden">
@@ -334,6 +326,7 @@ const StudentProfile = ({ children }) => {
                     <input
                       type="file"
                       name="profile"
+                      accept="image/*"
                       onChange={heandleImage}
                       className="h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer"
                     />

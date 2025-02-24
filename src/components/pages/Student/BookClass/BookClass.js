@@ -209,7 +209,7 @@ const BookClass = () => {
         <div className="md:col-span-3">
           <h3 className="text-black font-semibold text-[40px]">Book Class!</h3>
           <p className="text-black/50 text-xl">
-            Your first free class with Kiya!
+            Your first free class with {instructorData.name}!
           </p>
         </div>
 
