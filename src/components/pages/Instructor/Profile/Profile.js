@@ -146,9 +146,17 @@ const Profile = () => {
   };
 
   const handleImage = async (e) => {
+    setLoading(true);
     const file = e.target.files[0];
 
     if (file) {
+      const maxSize = 10 * 1024 * 1024; // 5MB in bytes
+
+      if (file.size > maxSize) {
+        toast.info("File size must be less than 10MB.");
+        return;
+      }
+
       setPreviewUrl(URL.createObjectURL(file));
 
 
@@ -162,11 +170,11 @@ const Profile = () => {
       formData.append("profile_picture", file);
 
       const result = await InstructorPicProfile(formData);
-      console.log(result, "===============>Result");
 
-      if (!result?.success) {
-
-        console.error("Image upload failed");
+      if (result?.success) {
+        setLoading(false);
+      } else {
+        toast.error("Image upload failed");
       }
     } else {
       console.error("No file selected");

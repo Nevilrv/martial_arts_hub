@@ -99,10 +99,21 @@ const StudentProfile = ({ children }) => {
   };
 
   const heandleImage = (e) => {
-    setUpdate_Profiledetail({
-      ...Update_Profiledetail,
-      [e.target.name]: e.currentTarget.files[0],
-    });
+    const file = e.currentTarget.files[0];
+
+    if (file) {
+      const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+
+      if (file.size > maxSize) {
+        toast.info("File size must be less than 10MB.");
+        return;
+      }
+
+      setUpdate_Profiledetail({
+        ...Update_Profiledetail,
+        [e.target.name]: file,
+      });
+    }
   };
 
   const heandleUpdate = async () => {

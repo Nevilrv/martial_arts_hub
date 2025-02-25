@@ -61,7 +61,7 @@ const Index = () => {
           </div>
         </div>
         <div className="mt-6 w-full overflow-x-auto">
-          {calssType === "Active Booking Requests" ? (
+          {calssType === "Pending Booking Requests" ? (
             <ActiveBookingRequests data={bookingdata.Active} getBookingRequests={getBookingRequests} />
           ) : calssType === "Confirmed Booking Requests" ? (
             <ConfirmedBookingRequests data={bookingdata.Confirm} />
