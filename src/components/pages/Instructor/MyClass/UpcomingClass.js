@@ -34,8 +34,9 @@ const UpcomingClass = () => {
         upcoming_class?.classId
       );
       if (result?.success === true) {
-        localStorage.setItem("classId", upcoming_class?.classId);
         localStorage.setItem("studentId", upcoming_class?.studentId);
+        localStorage.setItem("classId", upcoming_class?.classId);
+
   
         window.location.replace(upcoming_class?.instructor_url);
         setLoading(false);
