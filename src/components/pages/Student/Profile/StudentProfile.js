@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaQuoteRight } from "react-icons/fa6";
-import GetInTouch from "../../common/Get_In_Touch";
 import { Link, useLocation } from "react-router-dom";
-import { BiPencil } from "react-icons/bi";
-import { ShareIcon } from "../../../../assets/icon";
 import OutlineBtn from "../../common/OutlineBtn";
 import { Routing } from "../../../shared/Routing";
 import {
@@ -16,11 +13,9 @@ import { toast } from "react-toastify";
 import Spinner from "../../../layouts/Spinner";
 import User from "../../../../assets/images/userProfile.jpg";
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
-import { IoCamera, IoMenu } from "react-icons/io5";
+import { IoCamera } from "react-icons/io5";
 import Inputfild from "../../common/Inputfild";
-import { PiSealCheckFill } from "react-icons/pi";
-import { MdCancel } from "react-icons/md";
-import axios from "axios";
+import StudentProfileView from "./StudentProfileView";
 
 const StudentProfile = ({ children }) => {
   const ProfileTeab = [
@@ -154,34 +149,6 @@ const StudentProfile = ({ children }) => {
     }
   }
 
-
-  // const tabs = [
-  //   {
-  //     name: "My Profile",
-  //     href: Routing.StudentProfile,
-  //   },
-  //   {
-  //     name: "Log In Details",
-  //     href: Routing.StudentLogInDetails,
-  //   },
-  //   {
-  //     name: "Forgot Password",
-  //     href: Routing.Student_Forgot_Password,
-  //   },
-  //   {
-  //     name: "Reset Password",
-  //     href: Routing.Student_Reset_Password,
-  //   },
-  //   {
-  //     name: "Favorite Instructors",
-  //     href: Routing.Student_Favorite_Instructors,
-  //   },
-  //   {
-  //     name: "Booking History",
-  //     href: Routing.Student_Booking_History,
-  //   },
-  // ];
-
   return (
     <>
       {loading && <Spinner />}
@@ -198,11 +165,12 @@ const StudentProfile = ({ children }) => {
           </div>
         </div>
       </div>
-      <div className="grid xl:grid-cols-4 grid-cols-1 gap-11 ">
-        <div className={`w-full pl-10 pt-10 xl:block hidden sm:px-[52px] px-3`}>
+      <div className="grid xl:grid-cols-4 grid-cols-1 gap-11">
+        <div className={`w-full pl-10 pt-10 xl:block hidden sm:px-[40px] px-3`}>
           <img
             src={Profiledetails?.profile?.profile_picture || User}
             alt=""
+            id="studentmyprofile"
             className="w-[274px] h-[274px] rounded-full object-cover grayscale object-top"
           />
 
@@ -222,76 +190,9 @@ const StudentProfile = ({ children }) => {
             ))}
           </div>
         </div>
-        {/* {isOpen ?
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-transform duration-300 ease-in-out" onClick={() => setisOpen(false)}></div>
-          : ""} */}
-        <div className={`w-[300px] ${isOpen ? 'block' : 'hidden'} bg-primary_dark z-40 absolute right-5 top-[450px] transition-transform duration-300 ease-in-out shadow-2xl rounded-md`}>
-          <div className="flex flex-col gap-4 px-4 py-4">
-            {ProfileTeab.map((items) => (
-              <div className="">
-                <Link
-                  to={items.pathname}
-                  className={`${pathname === items.pathname
-                    ? "text-black font-bold"
-                    : "text-black/70"
-                    }`}
-                >
-                  {items.name}
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
 
         <div className="w-full xl:col-span-3 col-span-1 pt-0 xl:pt-10 md:pr-12 pb-12 sm:px-[52px] px-3">
-          <div className="w-full flex xl:hidden justify-end px-3 py-4">
-            <IoMenu className="text-3xl" onClick={() => setisOpen(!isOpen)} />
-          </div>
-          <div className="flex items-center justify-between flex-wrap gap-y-3">
-            <div className="flex items-baseline gap-5">
-              <h2 className="text-Dark_black text-[40px] font-bold">
-                {Profiledetails?.profile?.studentName}
-                <span className="text-Dark_black/50 text-2xl font-normal">
-                  (Student)
-                </span>
-              </h2>
-              <div className="flex gap-1">
-                {Profiledetails?.profile?.StripeVerfiy
-                  ? <PiSealCheckFill className="text-green text-xl" />
-                  : <MdCancel className="text-red-200 text-xl" />
-                }
-
-                {Profiledetails?.profile?.StripeVerfiy
-                  ? <span className="text-Dark_black">Stripe Identity Verified</span>
-                  : <span className="text-red-200 underline cursor-pointer" onClick={() => handleUploadDocument(Profiledetails?.profile?.studentId)}>Stripe Identity Verified</span>
-                }
-              </div>
-            </div>
-            <div className="flex items-center gap-2 sm:w-auto w-full">
-              <OutlineBtn
-                text={"Edit"}
-                onClick={() => setOpen(true)}
-                className={
-                  "text-black font-semibold border-[#71717194] sm:w-auto w-full h-[40px]"
-                }
-                icon={<BiPencil className="text-gay-300 text-2xl" />}
-              />
-            </div>
-          </div>
-          <div className="sm:w-[120px] w-full h-[40px] sm:h-[27px] bg-gay-250 rounded-full mt-2 overflow-hidden">
-            <div
-              style={{
-                width: `${Profiledetails?.profile?.profile_completion}%`,
-              }}
-              className={`h-full bg-green rounded-full flex items-center justify-center text-white`}
-            >
-              {Profiledetails?.profile?.profile_completion}%
-            </div>
-          </div>
-          <p className="text-black/50 mt-1">
-            Your profile is incomplete.{" "}
-            <span className="text-red-200 underline cursor-pointer" onClick={() => handleUploadDocument(Profiledetails?.profile?.studentId)}>Complete Now</span>
-          </p>
+          <StudentProfileView Profiledetails={Profiledetails} handleUploadDocument={() => handleUploadDocument(Profiledetails?.profile?.studentId)} setOpen={setOpen} />
           {children}
         </div>
       </div >

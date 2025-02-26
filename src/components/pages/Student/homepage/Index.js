@@ -845,6 +845,10 @@ const Index = () => {
       ) : pathname === "login" ? (
         <Login open={openModel} onClose={setOpenModel} />
       ) : null}
+
+
+
+      
       {isVisible && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}

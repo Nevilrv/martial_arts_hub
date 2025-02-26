@@ -14,14 +14,14 @@ const Chat = () => {
   const InstructorId = JSON.parse(localStorage.getItem("_id"));
   const [message, setMessage] = useState(null);
   const chatContainerRef = useRef(null);
-  const [studentStaus, setstudentStatus] = useState("")
   const [live, setLive] = useState("")
-  const [count, setcount] = useState(false)
   const [studentId, setstudentId] = useState({});
   const [showChat, setshowChat] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [StudentList, setStudentList] = useState([]);
   const [AllStudentList, setAllStudentList] = useState([]);
+
+  console.log(live, "========= studentdata")
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
@@ -33,10 +33,10 @@ const Chat = () => {
   const Student_List = async () => {
     const result = await Student_List_Message(InstructorId)
 
+    console.log(result, "=========instructro")
+
     setStudentList(result.data.student);
     setAllStudentList(result.data.instructor);
-    console.log(result, "============>Student List")
-
   };
 
   const sendMessage = async () => {
@@ -55,7 +55,6 @@ const Chat = () => {
 
   useEffect(() => {
     const handleStdListUpdate = (data) => {
-      console.log(data, "=========>");
       if (data.status) {
         Student_List();
       }
@@ -90,15 +89,15 @@ const Chat = () => {
       }
     })
 
-    Socket.on('inslive', (data) => {
-      setLive(data.roomId)
+    Socket.on('insLive', (data) => {
+      setLive(data)
     })
 
 
     return () => {
       Socket.off("getchat");
+      Socket.off("insLive");
       Socket.off("loadStdChat");
-      Socket.off("inslive");
     };
   }, [studentId?.roomId]);
 
@@ -123,22 +122,8 @@ const Chat = () => {
 
   const handleLive = (roomId, studentId) => {
 
-    setcount(true);
+    Socket.emit('IsLive', { roomId, role: 'instructor' })
 
-    setstudentStatus((prev) => [...prev, { roomId, studentId }])
-
-    const prevRoomId = localStorage.setItem('prvRoomId', studentStaus[studentStaus.length - 1]?.roomId)
-    const prvstudentId = localStorage.setItem('prvStudentId', studentStaus[studentStaus.length - 1]?.studentId)
-
-    if (!prevRoomId && !prvstudentId) {
-      localStorage.setItem('prvRoomId', roomId);
-      localStorage.setItem('prvStudentId', studentId);
-    } else {
-      localStorage.setItem('prvRoomId', prevRoomId);
-      localStorage.setItem('prvStudentId', prvstudentId);
-    }
-
-    Socket.emit('StatusOffline', { sender: 'student', roomId: localStorage.getItem('prvRoomId'), studentId: localStorage.getItem('prvStudentId'), instructorId: InstructorId })
     Socket.emit('RealtimeChatData', { sender: 'student', roomId: roomId, studentId: studentId, instructorId: InstructorId })
   }
 
@@ -178,7 +163,7 @@ const Chat = () => {
                         className="grayscale h-full w-full object-cover"
                       />
                     </div>
-                    <div className={`h-4 w-4 ${studentData.status === true ? "bg-green" : "bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
+                    <div className={`h-4 w-4 ${studentData.roomId === live ? "bg-green" : "bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
                   </div>
                   <div className="ml-3 w-full">
                     <div className="flex items-center justify-between w-full">
@@ -302,7 +287,14 @@ const Chat = () => {
                               }
                             )}
                           </p>
-                          <RiCheckDoubleFill className={`${chat.isRead === true ? "text-green" : "text-gay-300"}`} />
+                          {chat.sender === JSON.parse(localStorage.getItem("Role"))?.toLocaleLowerCase() && (
+                            <RiCheckDoubleFill className={`${chat.roomId === live
+                              ? "text-green"
+                              : chat.isRead === true
+                                ? "text-green"
+                                : "text-gay-300"
+                              }`} />
+                          )}
                         </div>
                       </div>
                     </div>
@@ -314,7 +306,7 @@ const Chat = () => {
               <div className="relative w-full h-full">
                 <input
                   type="text"
-                  className="w-full bg-transparent border border-black/30 h-[60px] rounded-full  px-4 placeholder:text-black/40 pr-[70px] focus:outline-none"
+                  className="w-full bg-primary border border-black/30 h-[60px] rounded-full  px-4 placeholder:text-black/40 pr-[70px] focus:outline-none"
                   placeholder="Write your message here"
                   value={message}
                   onChange={(event) => setMessage(event.target.value)}
@@ -365,7 +357,7 @@ const Chat = () => {
                           className="grayscale h-full w-full object-cover"
                         />
                       </div>
-                      <div className={`h-4 w-4 ${studentData.status === true ? "bg-green" : "bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
+                      <div className={`h-4 w-4 ${studentData.roomId === live ? "bg-green" : "bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
                     </div>
                     <div className="ml-3 w-full">
                       <div className="flex items-center justify-between w-full">
@@ -439,7 +431,7 @@ const Chat = () => {
                 </p>
               </div>
               <div className="flex flex-col justify-end lg:py-0 py-5 px-5 mt-auto h-[87%] overflow-y-auto pb-10">
-                <div className="flex justify-between flex-col">
+                <div className="flex justify-between flex-col overflow-auto">
                   {chatMessages?.map((chat) => (
                     <>
                       <div
@@ -499,7 +491,14 @@ const Chat = () => {
                                 }
                               )}
                             </p>
-                            <RiCheckDoubleFill className={`${chat.isRead === true ? "text-green" : "text-gay-300"}`} />
+                            {chat.sender === JSON.parse(localStorage.getItem("Role"))?.toLocaleLowerCase() && (
+                              <RiCheckDoubleFill className={`${chat.roomId === live
+                                ? "text-green"
+                                : chat.isRead === true
+                                  ? "text-green"
+                                  : "text-gay-300"
+                                }`} />
+                            )}
                           </div>
                         </div>
                       </div>
@@ -511,7 +510,7 @@ const Chat = () => {
                 <div className="relative w-full h-full">
                   <input
                     type="text"
-                    className="w-full bg-transparent border border-black/30 h-[60px] rounded-full  px-4 placeholder:text-black/40 pr-[70px] focus:outline-none"
+                    className="w-full bg-primary border border-black/30 h-[60px] rounded-full  px-4 placeholder:text-black/40 pr-[70px] focus:outline-none"
                     placeholder="Write your message here"
                     value={message}
                     onChange={(event) => setMessage(event.target.value)}

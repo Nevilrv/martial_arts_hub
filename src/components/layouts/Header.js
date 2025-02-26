@@ -29,6 +29,11 @@ const Header = () => {
     { name: "Dashboard", href: Routing.StudentDashboard },
     { name: "My Profile", href: Routing.StudentProfile },
     { name: "Messages", href: Routing.StudentMessages },
+    { name: "Log In Details", href: Routing.StudentLogInDetails },
+    { name: "Forgot Password", href: Routing.Student_Forgot_Password },
+    { name: "Reset Password", href: Routing.Student_Reset_Password },
+    { name: "Favorite Instructors", href: Routing.Student_Favorite_Instructors },
+    { name: "Booking History", href: Routing.Student_Booking_History },
   ];
 
   const Instructornavigation = [
