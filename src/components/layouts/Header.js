@@ -57,11 +57,6 @@ const Header = () => {
     { name: "Discipline Centre", href: Routing.Admin_Discipline_Centre },
   ];
 
-  const mailingLists = [
-    { id: 1, title: "Login as Student" },
-    { id: 2, title: "Login as Instructor" },
-  ];
-
   const location = useLocation();
   const currentLocation = location.pathname;
   const loggedIn = localStorage.getItem("token");

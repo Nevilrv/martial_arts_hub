@@ -127,7 +127,7 @@ const Index = () => {
   const [category_list, Set_Category_List] = useState([]);
   const [openModel, setOpenModel] = useState(true);
   const [Like, setLike] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [showButton, setShowButton] = useState(false);
 
 
   const getInstructors = async () => {
@@ -210,11 +210,7 @@ const Index = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 80) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+      setShowButton(window.scrollY > 100);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -222,11 +218,12 @@ const Index = () => {
   }, []);
 
 
+
   return (
     <>
       {Loading && <Spinner />}
       {/* Hero section start */}
-      <section className="md:py-space pb-10" name="home">
+      <section className="md:py-space pb-10" id="home">
         <h1 className="sm:text-[70px] text-[47px] text-center font-extrabold">
           martial arts hub.
         </h1>
@@ -272,8 +269,8 @@ const Index = () => {
         )}
         {searchInstructor !== "" ? (
           <div className="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-x-6 grid-cols-1 mt-10 gap-y-10 lg:px-8">
-            {filteredInstructor.map((items, i) => (
-              <InstructorsCard data={items} HeandleLike={HeandleLike} key={i} />
+            {filteredInstructor.map((items, index) => (
+              <InstructorsCard data={items} HeandleLike={HeandleLike} key={index} />
             ))}
           </div>
         ) : null}
@@ -839,26 +836,20 @@ const Index = () => {
           ))}
         </div>
       </section>
+      {showButton && (
+        <button
+          className="fixed z-10 right-10 bottom-10 bg-black text-white px-4 py-4 rounded-full shadow-lg hover:bg-gray-800 transition-all cursor-pointer"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          <IoIosArrowUp className="cursor-pointer" />
+        </button>
+      )}
       <GetInTouch />
       {pathname === "signup" ? (
         <SignUp open={openModel} onClose={setOpenModel} />
       ) : pathname === "login" ? (
         <Login open={openModel} onClose={setOpenModel} />
       ) : null}
-
-
-
-      
-      {isVisible && (
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-10 right-10 bg-black text-white px-4 py-4 rounded-full shadow-lg hover:bg-gray-800 transition-all"
-        >
-          <IoIosArrowUp />
-        </button>
-      )}
-
-
     </>
   );
 };

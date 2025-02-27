@@ -26,7 +26,7 @@ const ProfileCard = ({ ProfileDetals }) => {
             <img
               src={ProfileDetals?.profile_picture || User}
               alt=""
-              className="w-[210px] h-[210px] rounded-full object-cover"
+              className="w-[210px] h-[210px] rounded-full object-cover grayscale"
             />
           )}
           <div
