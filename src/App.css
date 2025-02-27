@@ -580,7 +580,16 @@ input[type="number"] {
     font-size: 50px;
   }
 
-  #stdrole{
+  #stdrole {
     font-size: 20px;
   }
-} 
+}
+
+#hideScoll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#hideScoll::-webkit-scrollbar {
+  display: none;
+}

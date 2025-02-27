@@ -126,7 +126,7 @@ const Chat = () => {
   return (
     <>
       <Tabs>
-        <div className="grid lg:grid-cols-4 grid-cols-1 h-[calc(100vh-180px)] overflow-y-auto">
+        <div className="grid lg:grid-cols-4 grid-cols-1 h-[calc(100vh-180px)] overflow-y-auto" id="hideScoll">
           <>
             <div className="py-7 border-r border-[#6b6b6b63] lg:block hidden">
               <div className="px-4 mb-3">
@@ -225,10 +225,11 @@ const Chat = () => {
                   messages before joining your class.
                 </p>
               </div>
-              <div className="flex flex-col justify-end px-5 mt-auto h-[68%] overflow-y-auto pb-10">
+              <div className="flex flex-col justify-end px-5 mt-auto h-[68%] overflow-y-auto pb-10" id="hideScoll">
                 <div
                   className="flex justify-between flex-col overflow-y-auto"
                   ref={chatContainerRef}
+                  id="hideScoll"
                 >
                   {chatMessages?.map((chat) => (
                     <>
@@ -332,7 +333,7 @@ const Chat = () => {
           </>
 
           {!showChat && (
-            <div className="py-7 border-r border-[#6b6b6b63] lg:hidden block">
+            <div className="py-7 border-r border-[#6b6b6b63] lg:hidden block" id="hideScoll">
               <div className="px-4 mb-3">
                 <div className="relative">
                   <input
@@ -420,14 +421,6 @@ const Chat = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="cursor-pointer">
-                    <ShareIcon />
-                  </div>
-                  <div className="cursor-pointer">
-                    <BsThreeDotsVertical className="text-2xl" />
-                  </div>
-                </div>
               </div>
               <div className="max-w-[957px] bg-Green-100 lg:h-[55px] lg:flex hidden text-green rounded-full mx-auto mt-8 items-center justify-center">
                 <p>
@@ -435,8 +428,8 @@ const Chat = () => {
                   messages before joining your class.
                 </p>
               </div>
-              <div className="flex flex-col justify-end lg:py-0 py-5 px-5 mt-auto h-[87%] overflow-y-auto pb-10">
-                <div className="flex justify-between flex-col overflow-auto">
+              <div className="flex flex-col justify-end lg:py-0 py-5 px-5 mt-auto h-[87%] overflow-y-auto pb-10" id="hideScoll">
+                <div className="flex justify-between flex-col overflow-y-auto" id="hideScoll" ref={chatContainerRef}>
                   {chatMessages?.map((chat) => (
                     <>
                       <div
