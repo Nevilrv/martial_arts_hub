@@ -443,7 +443,7 @@ const Index = () => {
           we've got you covered.
         </p>
         <p className="text-xl text-center text-white/50 mt-5 max-w-screen-lg mx-auto">
-          Join our online Taekwondo , Brazilian Jiu-Jitsu , MMA and learn from world-class martial arts
+          Join our online classes and learn from world-class martial arts
           instructors. Train at your own pace and master the art of self-defense
           or message our instructors for personalized guidance.
         </p>
