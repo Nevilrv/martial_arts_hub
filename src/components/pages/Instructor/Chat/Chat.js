@@ -14,14 +14,12 @@ const Chat = () => {
   const InstructorId = JSON.parse(localStorage.getItem("_id"));
   const [message, setMessage] = useState(null);
   const chatContainerRef = useRef(null);
-  const [live, setLive] = useState("")
   const [studentId, setstudentId] = useState({});
   const [showChat, setshowChat] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [StudentList, setStudentList] = useState([]);
   const [AllStudentList, setAllStudentList] = useState([]);
 
-  console.log(live, "========= studentdata")
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
@@ -41,7 +39,7 @@ const Chat = () => {
 
   const sendMessage = async () => {
     if (message.trim()) {
-      Socket.emit("loadchat", { roomId: studentId?.roomId, sender: "instructor", chatType: "msg", messages: message, updated_at: new Date(), isRead: studentId?.roomId === live, studentId: studentId?.studentId, instructorId: InstructorId, disputeId: "" });
+      Socket.emit("loadchat", { roomId: studentId?.roomId, sender: "instructor", chatType: "msg", messages: message, updated_at: new Date(), isRead: studentId?.roomId === localStorage.getItem('insLive'), studentId: studentId?.studentId, instructorId: InstructorId, disputeId: "" });
       setMessage("");
       scrollToBottom();
     }
@@ -89,14 +87,8 @@ const Chat = () => {
       }
     })
 
-    Socket.on('insLive', (data) => {
-      setLive(data)
-    })
-
-
     return () => {
       Socket.off("getchat");
-      Socket.off("insLive");
       Socket.off("loadStdChat");
     };
   }, [studentId?.roomId]);
@@ -163,7 +155,8 @@ const Chat = () => {
                         className="grayscale h-full w-full object-cover"
                       />
                     </div>
-                    <div className={`h-4 w-4 ${studentData.roomId === live ? "bg-green" : "bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
+                    <div className={`h-4 w-4 ${studentData.roomId === localStorage.getItem('insLive')
+                      ? "bg-green" : "bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
                   </div>
                   <div className="ml-3 w-full">
                     <div className="flex items-center justify-between w-full">
@@ -288,7 +281,7 @@ const Chat = () => {
                             )}
                           </p>
                           {chat.sender === JSON.parse(localStorage.getItem("Role"))?.toLocaleLowerCase() && (
-                            <RiCheckDoubleFill className={`${chat.roomId === live
+                            <RiCheckDoubleFill className={`${chat.roomId === localStorage.getItem('insLive')
                               ? "text-green"
                               : chat.isRead === true
                                 ? "text-green"
@@ -357,7 +350,7 @@ const Chat = () => {
                           className="grayscale h-full w-full object-cover"
                         />
                       </div>
-                      <div className={`h-4 w-4 ${studentData.roomId === live ? "bg-green" : "bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
+                      <div className={`h-4 w-4 ${studentData.roomId === localStorage.getItem('insLive') ? "bg-green" : "bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
                     </div>
                     <div className="ml-3 w-full">
                       <div className="flex items-center justify-between w-full">
@@ -492,7 +485,7 @@ const Chat = () => {
                               )}
                             </p>
                             {chat.sender === JSON.parse(localStorage.getItem("Role"))?.toLocaleLowerCase() && (
-                              <RiCheckDoubleFill className={`${chat.roomId === live
+                              <RiCheckDoubleFill className={`${chat.roomId === localStorage.getItem('insLive')
                                 ? "text-green"
                                 : chat.isRead === true
                                   ? "text-green"

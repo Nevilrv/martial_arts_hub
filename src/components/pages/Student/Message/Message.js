@@ -15,14 +15,10 @@ const Chat = () => {
   const [message, setMessage] = useState("");
   const [studentId, setstudentId] = useState({});
   const [showChat, setshowChat] = useState(false);
-  const [live, setLive] = useState("")
   const [chatMessages, setChatMessages] = useState([]);
   const [StudentList, setStudentList] = useState([]);
   const [AllStudentList, setAllStudentList] = useState([]);
   const StudentId = JSON.parse(localStorage.getItem("_id"));
-
-  console.log(live, "========= studentdata")
-
 
   const chatContainerRef = useRef(null);
 
@@ -47,7 +43,7 @@ const Chat = () => {
 
   const sendMessage = async () => {
     if (message.trim()) {
-      Socket.emit("loadchat", { roomId: studentId?.roomId, sender: "student", chatType: "msg", messages: message, updated_at: new Date(), isRead: studentId?.roomId === live, studentId: StudentId, instructorId: studentId?.instructorId, disputeId: "" });
+      Socket.emit("loadchat", { roomId: studentId?.roomId, sender: "student", chatType: "msg", messages: message, updated_at: new Date(), isRead: studentId?.roomId === localStorage.getItem('stdLive'), studentId: StudentId, instructorId: studentId?.instructorId, disputeId: "" });
       setMessage("");
       scrollToBottom();
     }
@@ -95,14 +91,8 @@ const Chat = () => {
       }
     })
 
-    Socket.on('stdLive', (data) => {
-      setLive(data)
-    })
-
-
     return () => {
       Socket.off("getchat");
-      Socket.off("stdLive");
       Socket.off("loadInsChat");
     };
   }, [studentId?.roomId]);
@@ -169,7 +159,7 @@ const Chat = () => {
                             className="grayscale h-full w-full object-cover"
                           />
                         </div>
-                        <div className={`h-4 w-4 ${studentData.roomId === live ? "bg-green" : "bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
+                        <div className={`h-4 w-4 ${studentData.roomId === localStorage.getItem('stdLive') ? "bg-green" : "bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
                       </div>
                       <div className="ml-3 w-full">
                         <div className="flex items-center justify-between w-full">
@@ -301,7 +291,7 @@ const Chat = () => {
                               )}
                             </p>
                             {chat.sender === JSON.parse(localStorage.getItem("Role"))?.toLocaleLowerCase() && (
-                              <RiCheckDoubleFill className={`${chat.roomId === live
+                              <RiCheckDoubleFill className={`${chat.roomId === localStorage.getItem('stdLive')
                                 ? "text-green"
                                 : chat.isRead === true
                                   ? "text-green"
@@ -371,7 +361,7 @@ const Chat = () => {
                           className="grayscale h-full w-full object-cover"
                         />
                       </div>
-                      <div className={`h-4 w-4 ${studentData.roomId === live ? "bg-green" : "bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
+                      <div className={`h-4 w-4 ${studentData.roomId === localStorage.getItem('stdLive') ? "bg-green" : "bg-gay-300"} rounded-full absolute bottom-0 right-0 border-[3px] border-primary`}></div>
                     </div>
                     <div className="ml-3 w-full">
                       <div className="flex items-center justify-between w-full">
@@ -508,7 +498,7 @@ const Chat = () => {
                               )}
                             </p>
                             {chat.sender === JSON.parse(localStorage.getItem("Role"))?.toLocaleLowerCase() && (
-                              <RiCheckDoubleFill className={`${chat.roomId === live
+                              <RiCheckDoubleFill className={`${chat.roomId === localStorage.getItem('stdLive')
                                 ? "text-green"
                                 : chat.isRead === true
                                   ? "text-green"
