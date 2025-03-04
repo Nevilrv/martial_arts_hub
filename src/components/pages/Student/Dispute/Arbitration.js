@@ -26,7 +26,7 @@ const Arbitration = () => {
     if (result?.success === true) {
       setLoading(false);
       setDisputeDetails(result.data);
-       
+
     } else {
       setLoading(false);
       toast.error(result?.message);
@@ -69,7 +69,7 @@ const Arbitration = () => {
   }, [DisputeChats]);
   return (
     <>
-    {loading&&<Spinner/>}
+      {loading && <Spinner />}
       <Tabs />
       <div className="mt-11 px-3 lg:px-8">
         <div className="flex items-center justify-between">
@@ -105,10 +105,10 @@ const Arbitration = () => {
         </div>
         <div className="mt-10 border border-black/10 rounded-xl p-5">
           <h2 className="text-black font-semibold text-[17px]">
-          Stage 3 - Arbitration
+            Stage 3 - Arbitration
           </h2>
           <p className="text-base text-gay-400 font-light mt0.5">
-          At this stage, students and instructors can discuss about the dispute, admin will give the final solution.
+            At this stage, students and instructors can discuss about the dispute, admin will give the final solution.
           </p>
         </div>
         <div className="mt-5 bg-[#D2CFC9] rounded-xl p-5">
@@ -135,9 +135,8 @@ const Arbitration = () => {
             >
               {DisputeChats.map((chats) => (
                 <div
-                  className={`flex ${
-                    chats.sender === "student" ? "flex-row-reverse" : null
-                  }  gap-3`}
+                  className={`flex ${chats.sender === "student" ? "flex-row-reverse" : null
+                    }  gap-3`}
                 >
                   <div className="h-[60px] w-[60px] overflow-hidden rounded-full grayscale">
                     <img
@@ -151,22 +150,20 @@ const Arbitration = () => {
                   </div>
                   <div>
                     <div
-                      className={`${
-                        chats.sender === "student"
-                          ? "bg-Green-100 rounded-tr-none"
-                          : "bg-red-100 rounded-tl-none"
-                      } p-4 pr-[25px] rounded-xl `}
+                      className={`${chats.sender === "student"
+                        ? "bg-Green-100 rounded-tr-none"
+                        : "bg-red-100 rounded-tl-none"
+                        } p-4 pr-[25px] rounded-xl `}
                     >
                       <p className="text-gay-400 max-w-[480px] font-light">
                         {chats.messages}
                       </p>
                     </div>
                     <p
-                      className={`${
-                        chats.sender === "student"
-                          ? "text-green text-right"
-                          : "text-red-200"
-                      }  mt-2 text-xs`}
+                      className={`${chats.sender === "student"
+                        ? "text-green text-right"
+                        : "text-red-200"
+                        }  mt-2 text-xs`}
                     >
                       {dayjs(chats.updated_at).format("MMM DD,YYYY")} at {dayjs(chats.updated_at).format("hh:mm A")}
                     </p>
@@ -184,7 +181,7 @@ const Arbitration = () => {
                 Total Disputed Amount:
               </h4>
               <h2 className="text-red-200 font-bold text-[22px]">
-                ${DisputeDetails.rate}
+                £{DisputeDetails.rate}
               </h2>
             </div>
             <div className="pb-9 border-b border-black/15 mt-8">
@@ -193,7 +190,7 @@ const Arbitration = () => {
                   Student (You) wants to receive:
                 </h4>
                 <h2 className="text-red-200 font-bold text-[22px]">
-                  $
+                  £
                   {DisputeDetails.RefundAmount === null
                     ? 0
                     : DisputeDetails.RefundAmount}
@@ -204,7 +201,7 @@ const Arbitration = () => {
                   Admin ({DisputeDetails.instructorName}) wants to pay:
                 </h4>
                 <h2 className="text-red-200 font-bold text-[22px]">
-                  $
+                  £
                   {DisputeDetails.RefundAmount === null
                     ? 0
                     : DisputeDetails.RefundAmount}

@@ -17,7 +17,7 @@ import {
   InstructorLike,
 } from "../../../services/student/Homepage/Homepage";
 import Spinner from "../../../layouts/Spinner";
-import { useNavigate, useParams } from "react-router-dom";
+import { json, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaArrowLeft, FaHeart } from "react-icons/fa6";
 import { AiOutlineMessage } from "react-icons/ai";
@@ -73,6 +73,9 @@ const InstructorProfile = () => {
   const [MessageSend, setMessageSend] = useState(false);
   const [Like, setLike] = useState(false);
   const [rating, setRating] = useState(0);
+  const [freeFrist, setfreeFrist] = useState({})
+  const [freeFristType, setfreeFristType] = useState({})
+  console.log(freeFrist, "===================", freeFristType)
   const [inqurymessage, setInqurymessage] = useState({
     title: "",
     body: "",
@@ -116,6 +119,8 @@ const InstructorProfile = () => {
   const getInstructor = async () => {
     setLoading(true);
     const result = await GetInstructorDetails(id);
+    setfreeFrist(JSON.parse(result.data.firstFreeSessionHourlyRate))
+    setfreeFristType(JSON.parse(result.data.classTypeFirstFreeSession))
     if (result?.success === true) {
       setLoading(false);
       setInstructor(result.data);
@@ -260,30 +265,11 @@ const InstructorProfile = () => {
                 <p className="text-black/70 text-lg text-justify my-4">
                   Hi, I'm {Instructor?.name}! I started my martial arts journey{" "}
                 </p>
-                {/* <p className="text-black/70 text-lg text-justify">
-                  {Instructor?.experience}
-                </p> */}
               </div>
               <div className="mt-14">
                 <h2 className="text-[22px] font-semibold text-black">
                   About the Class
                 </h2>
-                {/* <div className="flex items-center gap-3 my-5">
-                  <OutlineBtn
-                    text={"Online"}
-                    className={"font-medium"}
-                    icon={
-                      <HiMiniSignal className="text-gay-300 text-2xl mr-2" />
-                    }
-                  />
-                  <OutlineBtn
-                    text={"All Levels"}
-                    className={"font-medium"}
-                    icon={
-                      <HiMiniSignal className="text-gay-300 text-2xl mr-2" />
-                    }
-                  />
-                </div> */}
                 <p className="text-black/70 text-lg text-justify">
                   “This hour of martial arts training is a powerful gift to your
                   body and mind, fostering inner strength and outer resilience.
@@ -306,17 +292,6 @@ const InstructorProfile = () => {
                   </div>
                 </div>
               </div>
-              {/* <div className="mt-14">
-                <h2 className="text-[22px] font-semibold text-black">
-                  Certifications
-                </h2>
-                <div className="grid grid-cols-2 gap-2 my-5 justify-between">
-                  <p className="flex items-center gap-2 text-black/70 text-lg">
-                    <BsPatchCheckFill className="text-gay-400" />
-                    {Instructor?.certifications}
-                  </p>
-                </div>
-              </div> */}
               <div className="mt-14">
                 <h2 className="text-[22px] font-semibold text-black">
                   Hourly Rates
@@ -328,7 +303,7 @@ const InstructorProfile = () => {
                       Online Lesson
                     </p>
                     <p className="text-black text-lg pl-5">
-                      ${Instructor?.privateSessionOnlineHourlyRate} per hour
+                      £{Instructor?.privateSessionOnlineHourlyRate} per hour
                     </p>
                   </div>
                   <div>
@@ -337,7 +312,7 @@ const InstructorProfile = () => {
                       Private Lesson (1-on-1)
                     </p>
                     <p className="text-black text-lg pl-5">
-                      ${Instructor?.privateSessionFaceToFaceHourlyRate} per hour
+                      £{Instructor?.privateSessionFaceToFaceHourlyRate} per hour
                     </p>
                   </div>
                 </div>
@@ -388,6 +363,11 @@ const InstructorProfile = () => {
                   alt={Instructor4}
                   className="w-full h-[613px] grayscale object-cover"
                 />
+                {freeFrist.value === 'Yes' && (
+                  <div className="absolute top-10 left-0 bg-[#434343] text-white pl-2 text-xs w-[130px] h-[30px] flex items-center" style={{ clipPath: "polygon(75% 0%, 86% 52%, 75% 100%, 0% 100%, 0 50%, 0% 0%)" }}>
+                    <span>1<sup>st</sup> Class is Free</span>
+                  </div>
+                )}
                 {Like === false ? (
                   <div
                     className="h-[34px] w-[34px] bg-white rounded-full absolute top-4 right-3 flex items-center justify-center cursor-pointer"

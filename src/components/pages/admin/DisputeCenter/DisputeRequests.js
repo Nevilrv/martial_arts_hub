@@ -29,7 +29,7 @@ const DisputeRequests = () => {
 
 
   const filteredDisputes = Disputes_List.filter(person => {
-    if(selectedStatus === 'All'){
+    if (selectedStatus === 'All') {
       return person
     }
     return person.status.toLowerCase() === selectedStatus.toLowerCase();
@@ -130,7 +130,7 @@ const DisputeRequests = () => {
                     {person.against}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.amount}
+                    £{person.amount}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
                     {person.raisedDate}

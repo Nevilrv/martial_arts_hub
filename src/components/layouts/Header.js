@@ -39,7 +39,7 @@ const Header = () => {
   const Instructornavigation = [
     { name: "Dashboard", href: Routing.InstructorDashboard },
     { name: "My Profile", href: Routing.InstructorProfile },
-    { name: "Create Slot", href: Routing.InstructorCreateClass },
+    { name: "Create Slot", href: Routing.InstructorCreateSlot },
     { name: "Chat", href: Routing.InstructorChat },
     { name: "Message Requests", href: Routing.InstructorMessageRequests },
   ];
@@ -68,16 +68,8 @@ const Header = () => {
   const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
 
   const heandleLogOut = () => {
-    if (JSON.parse(localStorage.getItem("Role")) === "Instructor") {
-      Socket.emit('StatusOffline', { sender: 'student', roomId: localStorage.getItem('prvRoomId'), studentId: localStorage.getItem('prvStudentId'), instructorId: JSON.parse(localStorage.getItem("_id")) })
-      localStorage.clear();
-    }
-
-    if (JSON.parse(localStorage.getItem("Role")) === "Student") {
-      Socket.emit('StatusOffline', { sender: 'instructor', roomId: localStorage.getItem('prvRoomId'), studentId: JSON.parse(localStorage.getItem("_id")), instructorId: localStorage.getItem('prvInstructorId') })
-      localStorage.clear();
-    }
-
+    
+    localStorage.clear();
     SetisOpen(false);
     setSelectedMailingLists("");
     navigate(Routing.Initial);

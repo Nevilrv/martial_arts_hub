@@ -55,6 +55,7 @@ const Login = () => {
       localStorage.setItem("name", JSON.stringify(result?.data?.name))
       localStorage.setItem("Stdplatfrom", result?.data?.platformReview)
       localStorage.setItem("profile_picture", JSON.stringify(result?.data?.profile_picture));
+      localStorage.setItem("FreeTrial", result?.data?.FreeTrial);
       localStorage.setItem("StripeVerify", result?.data?.StripeVerfiy);
       localStorage.setItem("token", result?.Token);
       localStorage.setItem("is_login", true);

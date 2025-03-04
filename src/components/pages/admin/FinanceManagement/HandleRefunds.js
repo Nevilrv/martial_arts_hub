@@ -22,7 +22,7 @@ const HandleRefunds = () => {
   const [Refund_details, SetRefund_details] = useState({});
   const [Refund_data, SetRefund_data] = useState({});
   const [Loading, setLoading] = useState(false);
-  const [InstructorId,  setInstructorId,] = useState("");
+  const [InstructorId, setInstructorId,] = useState("");
   const [Refund_Reason, setRefund_Reason] = useState("");
   const [Refund_amount, setRefund_amount] = useState("");
   const navigate = useNavigate();
@@ -103,7 +103,7 @@ const HandleRefunds = () => {
       studentPaymentId: Refund_details.studentPaymentId,
       disputeId: Refund_details.disputeId,
       amount: Refund_amount,
-      instructorId:  InstructorId,
+      instructorId: InstructorId,
     };
     const result = await Pay_out_Confirm(body);
     if (result?.success === true) {
@@ -194,7 +194,7 @@ const HandleRefunds = () => {
                     {person.studentId?.slice(0, 15)}...
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    $ {person.Amount}
+                    £ {person.Amount}
                   </td>
                   <td className={`whitespace-nowrap px-3 py-4 font-semibold`}>
                     {person.Reason?.slice(0, 15)}...
@@ -275,7 +275,7 @@ const HandleRefunds = () => {
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Amount</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
-                      ${Refund_details.Amount}
+                      £{Refund_details.Amount}
                     </div>
                   </div>
                   <div className="w-full">
@@ -287,7 +287,7 @@ const HandleRefunds = () => {
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Dispute Reason</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
-                      {Refund_details?.Reason?.slice(0,20)}
+                      {Refund_details?.Reason?.slice(0, 20)}
                     </div>
                   </div>
                   <div className="w-full">
@@ -305,11 +305,10 @@ const HandleRefunds = () => {
                       Refund Completed?
                     </p>
                     <div
-                      className={`bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg ${
-                        Refund_details.refundComplete === "No"
-                          ? "text-red-200"
-                          : "text-green"
-                      }  text-lg font-medium`}
+                      className={`bg-[#D8D6CF] px-5 py-4 w-full h-[55px] mt-1 rounded-lg ${Refund_details.refundComplete === "No"
+                        ? "text-red-200"
+                        : "text-green"
+                        }  text-lg font-medium`}
                     >
                       {Refund_details.refundComplete}
                     </div>

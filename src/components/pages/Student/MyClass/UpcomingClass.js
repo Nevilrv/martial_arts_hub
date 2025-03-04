@@ -96,8 +96,14 @@ const UpcomingClass = () => {
                     </h3>
                   </div>
                   <div className="flex items-center">
+                    <p className="text-[13px] text-black/70 mt-0.5">
+                      <span className="font-medium">Message: </span>
+                      {upcoming_class?.message || 'No meesage...'}
+                    </p>
+                  </div>
+                  <div className="flex items-center">
                     <p className="text-[13px] text-black/70  mt-0.5">
-                      <span className="font-medium">Class Date:</span>{" "}
+                      <span className="font-medium">Class Date: </span>{" "}
                       {upcoming_class?.classdate}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>

@@ -4,6 +4,9 @@ import { Routing } from "../../../shared/Routing";
 import { useNavigate, useParams } from "react-router-dom";
 import Instructors4 from "../../../../assets/images/Instructor-4.png";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { parsePhoneNumber } from "react-phone-number-input";
 import { BiHeart } from "react-icons/bi";
 import { Star7 } from "../../../../assets/icon";
 import Inputfild from "../../common/Inputfild";
@@ -37,24 +40,29 @@ const BookClass = () => {
     },
   ];
   const [selectedTimeSlot, setSelectedTimeSlot] = useState([]);
-  console.log("🚀 ~ BookClass ~ selectedTimeSlot:", selectedTimeSlot)
   const [selectedMailingLists, setSelectedMailingLists] = useState();
   const [ShowCalendar, setShowCalendar] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [freeSession, setfreeSession] = useState({})
+  const [freeSessionType, setfreeSessionType] = useState({})
   // Calendar
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [highlightedDates, setHighlightedDates] = useState([]);
   const [heandalChangeData, setheandalChangeData] = useState({
     message: "",
+    className: "",
     studentEmail: "",
     mobileNumber: "",
     classRate: "",
     timeslotId: "",
+    country_code: "",
   });
 
   const [TimeSlot, setTimeSlot] = useState([]);
   const [instructorData, setinstructorData] = useState({});
   const [rating, setRating] = useState(0);
+
+  console.log(freeSessionType.value, "=================")
 
   const tileContent = ({ date, view }) => {
     if (view === "month") {
@@ -74,6 +82,10 @@ const BookClass = () => {
   const GetSlot = async () => {
     setLoading(true);
     const result = await Student_get_Slot(instructorId, selectedMailingLists);
+
+    setfreeSession(JSON.parse(result.data.instructor.firstFreeSessionHourlyRate))
+    setfreeSessionType(JSON.parse(result.data.instructor.classTypeFirstFreeSession))
+
     if (result?.success === true) {
       setLoading(false);
       setHighlightedDates(result.data.classdates.map((date) => new Date(date)));
@@ -134,8 +146,20 @@ const BookClass = () => {
 
   useEffect(() => {
     GetSlot();
-    // eslint-disable-next-line
   }, [selectedMailingLists]);
+
+
+  useEffect(() => {
+    if (freeSession.value === "Yes" && freeSessionType.value === "FaceToFace" && localStorage.getItem('FreeTrial') === 'No') {
+      setSelectedMailingLists(mailingLists[0].title);
+
+    } else if (freeSession.value === "Yes" && freeSessionType.value === "Online" && localStorage.getItem('FreeTrial') === 'No') {
+
+      setSelectedMailingLists(mailingLists[1].title);
+
+    }
+  }, [freeSession, freeSessionType])
+
 
   const handleChange = (e) => {
     setheandalChangeData({
@@ -149,15 +173,20 @@ const BookClass = () => {
     const timeSlots = selectedTimeSlot.map((slot) => slot.value);
     const body = {
       message: heandalChangeData.message,
+      className: heandalChangeData.className,
+      FreeTrial: localStorage.getItem('FreeTrial'),
       classdate: dayjs(selectedDate).format("YYYY-MM-DD"),
       timeslote: timeSlots,
-      classRate: heandalChangeData.classRate,
+      classRate: localStorage.getItem('FreeTrial') === 'No' ? 0 : heandalChangeData.classRate,
       attendType: selectedMailingLists,
       studentEmail: JSON.parse(localStorage.getItem("email")),
+      country_code: heandalChangeData.country_code,
       mobileNumber: heandalChangeData.mobileNumber,
       instructorId: instructorId
     };
-    if (heandalChangeData.message === "" || null || undefined) {
+    if (heandalChangeData.className === "" || null || undefined) {
+      toast.error("Please Enter your ClassName");
+    } else if (heandalChangeData.message === "" || null || undefined) {
       toast.error("Please Enter your message");
     } else if (selectedMailingLists === "" || null || undefined) {
       toast.error("Please Select Class Type");
@@ -170,8 +199,10 @@ const BookClass = () => {
       JSON.parse(localStorage.getItem("_id")),
       body
     );
+    console.log(result)
     if (result?.success === true) {
       setLoading(false);
+      localStorage.setItem('FreeTrial', 'Yes')
       setheandalChangeData({
         message: "",
         mobileNumber: "",
@@ -183,7 +214,7 @@ const BookClass = () => {
       toast.success("Booking request sent successfully");
     } else {
       setLoading(false);
-      toast.error(result.message);
+      toast.error(result?.message);
     }
   };
 
@@ -195,6 +226,28 @@ const BookClass = () => {
       setShowCalendar(!ShowCalendar);
     }
   };
+
+  const handlePhoneNumberChange = (value) => {
+    if (value) {
+      try {
+        const phoneNumberDetails = parsePhoneNumber(value);
+        setheandalChangeData({
+          ...heandalChangeData,
+          country_code: phoneNumberDetails?.countryCallingCode,
+          mobileNumber: phoneNumberDetails?.nationalNumber,
+        });
+      } catch (error) {
+        console.error("Error parsing phone number:", error);
+      }
+    } else {
+      setheandalChangeData((prevDetails) => ({
+        ...prevDetails,
+        country_code: "",
+        mobileNumber: "",
+      }));
+    }
+  };
+
 
   return (
     <>
@@ -224,12 +277,23 @@ const BookClass = () => {
               <div className="relative">
                 <Star7 />
                 <div className=" items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <h2 className="text-white text-xl font-bold">
-                    ${heandalChangeData.classRate || 0}
-                  </h2>
-                  <p className="text-white text-xl text-center font-medium">
-                    hr
-                  </p>
+                  {localStorage.getItem('FreeTrial') === 'No' && freeSession.value === 'Yes'
+                    ?
+                    <>
+                      <h2 className="text-white text-xl text-center font-bold">
+                        First Free Class
+                      </h2>
+                    </>
+                    :
+                    <>
+                      <h2 className="text-white text-xl font-bold">
+                        £{heandalChangeData.classRate || 0}
+                      </h2>
+                      <p className="text-white text-xl text-center font-medium">
+                        hr
+                      </p>
+                    </>
+                  }
                 </div>
               </div>
             </div>
@@ -252,8 +316,12 @@ const BookClass = () => {
           </div>
         </div>
 
-        <div className="md:col-span-3 mt-[72px]">
+        <div className="md:col-span-3 mt-8">
           <label className={`text-xl font-semibold text-black block`}>
+            Your ClassName
+          </label>
+          <input type="text" name="className" onChange={(e) => handleChange(e)} value={heandalChangeData.className} placeholder="Write Your ClassName here*" className="bg-[#DAD8D0] mt-2 focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[70px] rounded-xl" />
+          <label className={`text-xl font-semibold text-black block mt-8`}>
             Your message
           </label>
           <textarea
@@ -266,13 +334,14 @@ const BookClass = () => {
           <div className="grid md:grid-cols-2 gap-x-3 gap-y-8 grid-cols-1 mt-9">
             <div className="w-full">
               <label className="text-black/100 font-semibold text-xl">
-                How would you like to attend your class?
+                {freeSession.value === "Yes" && localStorage.getItem('FreeTrial') === "No" ? `Get started with your first free ${freeSessionType.value} session.` : 'How would you like to attend your class?'}
               </label>
               <fieldset>
                 <RadioGroup
                   value={selectedMailingLists}
                   onChange={setSelectedMailingLists}
                   className="mt-2"
+                  disabled={freeSession.value === 'Yes' && localStorage.getItem("FreeTrial") === 'No' ? true : false}
                 >
                   <Radio
                     value={mailingLists[0].title}
@@ -293,13 +362,14 @@ const BookClass = () => {
             </div>
             <div className="w-full">
               <label className="text-black/100 font-semibold text-xl  md:block hidden opacity-0">
-                How would you like to attend your class?
+                {freeSession.value === "Yes" && localStorage.getItem('FreeTrial') === "No" ? `Get started with your first free ${freeSessionType} session.` : 'How would you like to attend your class?'}
               </label>
               <fieldset>
                 <RadioGroup
                   value={selectedMailingLists}
                   onChange={setSelectedMailingLists}
                   className="mt-2"
+                  disabled={freeSession.value === 'Yes' && localStorage.getItem("FreeTrial") === 'No' ? true : false}
                 >
                   <Radio
                     value={mailingLists[1].title}
@@ -383,26 +453,22 @@ const BookClass = () => {
               name="studentEmail"
               value={JSON.parse(localStorage.getItem("email"))}
             />
-            <Inputfild
-              type={"number"}
-              name="mobileNumber"
-              value={heandalChangeData.mobileNumber}
-              onChange={(e) => handleChange(e)}
-              // with the Limit of 10 digit Only
-
-              //  onChange={(e) => {
-              //    const value = e.target.value;
-              //     Allow only numbers and restrict to 10 digits
-              //    if (/^\d{0,10}$/.test(value)) {
-              //      handleChange(e);
-              //    }
-              //  }}
-
-              placeholder={"Mobile No. here"}
-              Label={"Mobile No."}
-              className={"h-[80px] md:w-full customradius mt-1"}
-              Labelclass={"text-black/100 font-semibold text-xl"}
-            />
+            <div className="h-[80px] md:w-full  mt-1">
+              <label className={'text-black/50 font-semibold text-xl'}>
+                Mobile No.
+              </label>
+              <PhoneInput
+                placeholder="Enter phone number"
+                value={
+                  heandalChangeData?.mobileNumber
+                    ? `+${heandalChangeData?.country_code}${heandalChangeData?.mobileNumber}`
+                    : ""
+                }
+                className="input-phone-number"
+                onChange={handlePhoneNumberChange}
+                enableSearch={true}
+              />
+            </div>
           </div>
           <div className="mt-10 flex justify-end">
             <OutlineBtn

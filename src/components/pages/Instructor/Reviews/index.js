@@ -68,7 +68,7 @@ const Index = () => {
               </p>
             </div>
           )}
-          <div className="mt-8 flex flex-col gap-4">
+          <div className="mt-8 flex flex-col gap-4 overflow-y-auto h-[500px]" id="hideScoll">
             {reviewsList.map((review, i) => (
               <div className="bg-primary_dark flex gap-4 p-6 rounded-lg">
                 <img

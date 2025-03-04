@@ -152,7 +152,7 @@ const DisputeDetails = () => {
           </div>
           <div className="flex items-center gap-1 flex-wrap">
             <h3 className="text-gay-300 font-medium">Amount:</h3>
-            <p className="text-Dark_black font-[450]">${Disputes?.rate}</p>
+            <p className="text-Dark_black font-[450]">£{Disputes?.rate}</p>
           </div>
           <div className="flex items-center gap-1 flex-wrap">
             <h3 className="text-gay-300 font-medium">Dispute Against:</h3>
@@ -254,7 +254,7 @@ const DisputeDetails = () => {
                     className={`${chat?.sender === "student" ? "text-red-200" : "text-black"
                       }  text-xs mt-2`}
                   >
-                     {dayjs(chat?.updated_at).format("MMM DD,YYYY")} at {dayjs(chat?.updated_at).format("hh:mm A")}
+                    {dayjs(chat?.updated_at).format("MMM DD,YYYY")} at {dayjs(chat?.updated_at).format("hh:mm A")}
                   </p>
                 </div>
               </div>

@@ -281,7 +281,7 @@ const FinanceDashboardChart = () => {
           offsetY: 0,
           rotate: 0,
           formatter: (val) => {
-            return val + "$";
+            return val + "£";
           },
         },
       },

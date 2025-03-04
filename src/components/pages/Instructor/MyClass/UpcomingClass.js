@@ -28,22 +28,22 @@ const UpcomingClass = () => {
     // eslint-disable-next-line
   }, []);
 
-    const Change_Status_Classes = async (upcoming_class) => {
-      setLoading(true);
-      const result = await Instructor_change_class_status(
-        upcoming_class?.classId
-      );
-      if (result?.success === true) {
-        localStorage.setItem("studentId", upcoming_class?.studentId);
-        localStorage.setItem("classId", upcoming_class?.classId);
+  const Change_Status_Classes = async (upcoming_class) => {
+    setLoading(true);
+    const result = await Instructor_change_class_status(
+      upcoming_class?.classId
+    );
+    if (result?.success === true) {
+      localStorage.setItem("studentId", upcoming_class?.studentId);
+      localStorage.setItem("classId", upcoming_class?.classId);
 
-  
-        window.location.replace(upcoming_class?.instructor_url);
-        setLoading(false);
-      } else {
-        setLoading(false);
-      }
-    };
+
+      window.location.replace(upcoming_class?.instructor_url);
+      setLoading(false);
+    } else {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -72,6 +72,12 @@ const UpcomingClass = () => {
                     <h3 className="text-xl font-medium">
                       {upcoming_class?.className}
                     </h3>
+                  </div>
+                  <div className="flex items-center">
+                    <p className="text-[13px] text-black/70 mt-0.5">
+                      <span className="font-medium">Message: </span>
+                      {upcoming_class?.message || 'No meesage...'}
+                    </p>
                   </div>
                   <div className="flex flex-wrap items-center">
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
@@ -102,9 +108,9 @@ const UpcomingClass = () => {
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] mt-0.5 text-red-200 font-medium">
                       <span className="font-medium text-black/70 ">
-                        Class Rate: 
+                        Class Rate:
                       </span>
-                      ${parseInt(upcoming_class?.classRate).toFixed(2)}
+                      £{parseInt(upcoming_class?.classRate).toFixed(2)}
                     </p>
                   </div>
                 </div>

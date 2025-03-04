@@ -59,12 +59,12 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
             </div>
             <div>
               <h2 className="text-red-200 font-semibold text-xl sm:text-right text-left sm:mb-0 mb-2">
-                {payments?.paidAmount}
+                £{payments?.paidAmount}
               </h2>
               <div
                 className={`p-1.5 px-3 ${payments?.paymentStatus === "success"
-                    ? "bg-green"
-                    : "bg-red-200"
+                  ? "bg-green"
+                  : "bg-red-200"
                   } text-white rounded-full flex items-center text-[11px]`}
               >
                 Payment{" "}

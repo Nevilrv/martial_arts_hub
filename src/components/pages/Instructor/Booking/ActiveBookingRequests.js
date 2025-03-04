@@ -69,13 +69,18 @@ const ActiveBookingRequests = ({ data, getBookingRequests }) => {
               />
             </div>
             <div className="sm:ml-5">
-              <h2 className="text-black texrt-[20px] font-medium">
-                {booking?.studentName}
-              </h2>
+              <div className="flex items-center gap-2">
+                <h2 className="text-black texrt-[20px] font-medium">
+                  {booking?.studentName}
+                </h2>
+                {booking?.FreeTrial === 'No' && (
+                  <span className="bg-red-200 text-xs rounded-xl px-2 h-4 text-white">Free Trial</span>
+                )}
+              </div>
               <div className="flex items-center flex-wrap">
                 <p className="text-[13px] text-black/70 font-light mt-0.5">
                   <span className="font-medium">Class Name:</span>{" "}
-                  {booking?.message?.slice(0, 20)}
+                  {booking?.className || 'No className...'}
                 </p>
                 <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                 <p className="text-[13px] text-black/70 font-light mt-0.5">
@@ -90,7 +95,7 @@ const ActiveBookingRequests = ({ data, getBookingRequests }) => {
               </div>
               <div className="flex items-center flex-wrap">
                 <p className="text-[13px] text-black/70 font-light mt-0.5">
-                  <span className="font-medium">Class Time:</span>
+                  <span className="font-medium">Class Time: </span>
                   {booking?.startTimeLocal}
                 </p>
                 <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
@@ -98,7 +103,13 @@ const ActiveBookingRequests = ({ data, getBookingRequests }) => {
                   <span className="font-medium text-black/70 ">
                     Class Rate:
                   </span>
-                  ${booking?.classRate}
+                  £{booking?.classRate}
+                </p>
+              </div>
+              <div className="flex items-center">
+                <p className="text-[13px] text-black/70 mt-0.5">
+                  <span className="font-medium">Message: </span>
+                  {booking?.message || 'No meesage...'}
                 </p>
               </div>
             </div>

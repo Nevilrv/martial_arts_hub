@@ -28,28 +28,28 @@ const FinanceDashboard = () => {
   const data = [
     {
       title: "Total Funds",
-      amount: "$ 24520",
+      amount: "£ 24520",
       trend: "positive",
       change_in_Percentage: "3.52%",
       pastEarning: "$9500",
     },
     {
       title: "Released Funds",
-      amount: "$ 15570",
+      amount: "£ 15570",
       trend: "positive",
       change_in_Percentage: "3.52%",
       pastEarning: "$9500",
     },
     {
       title: "Refunded Funds",
-      amount: "$ 3725",
+      amount: "£ 3725",
       trend: "negative",
       change_in_Percentage: "2.54%",
       pastEarning: "$4500",
     },
     {
       title: "Admin Earnings",
-      amount: "$ 1525",
+      amount: "£ 1525",
       trend: "positive",
       change_in_Percentage: "3.54%",
       pastEarning: "$3500",
@@ -158,7 +158,7 @@ const FinanceDashboard = () => {
           <div className="bg-[#E1DFD7] rounded-xl p-6">
             <p className="text-gay-300 text-base ">Total Funds</p>
             <h2 className="text-Dark_black text-[32px] font-semibold pb-3 border-b border-gay-300/25">
-              $
+              £
               {Earningdata?.total_Funds?.total_Funds === null || ""
                 ? 0
                 : Earningdata?.total_Funds?.total_Funds}
@@ -185,7 +185,7 @@ const FinanceDashboard = () => {
           <div className="bg-[#E1DFD7] rounded-xl p-6">
             <p className="text-gay-300 text-base ">Released Funds</p>
             <h2 className="text-Dark_black text-[32px] font-semibold pb-3 border-b border-gay-300/25">
-              $
+              £
               {Earningdata?.Release_Funds?.Release_Funds === null || ""
                 ? 0
                 : Earningdata?.Release_Funds?.Release_Funds}
@@ -212,7 +212,7 @@ const FinanceDashboard = () => {
           <div className="bg-[#E1DFD7] rounded-xl p-6">
             <p className="text-gay-300 text-base ">Refunded Funds</p>
             <h2 className="text-Dark_black text-[32px] font-semibold pb-3 border-b border-gay-300/25">
-              $
+              £
               {Earningdata?.refund_Funds?.refund_Funds === null || ""
                 ? 0
                 : Earningdata?.refund_Funds?.refund_Funds}
@@ -239,7 +239,7 @@ const FinanceDashboard = () => {
           <div className="bg-[#E1DFD7] rounded-xl p-6">
             <p className="text-gay-300 text-base "> Admin Earnings</p>
             <h2 className="text-Dark_black text-[32px] font-semibold pb-3 border-b border-gay-300/25">
-              $
+              £
               {Earningdata?.Admin_Earnings?.Admin_Earnings === null || ""
                 ? 0
                 : Earningdata?.Admin_Earnings?.Admin_Earnings}
@@ -320,7 +320,7 @@ const FinanceDashboard = () => {
                 Label={"Insert Amount"}
                 Labelclass={"customradiusBlack font-bold"}
                 className={"rounded-lg h-[50px] md:w-full"}
-                placeholder={"eg $5.99"}
+                placeholder={"eg £5.99"}
                 type={"number"}
               />
             </div>
@@ -328,7 +328,7 @@ const FinanceDashboard = () => {
               <h2 className="text-gay-300 text-base font-medium">
                 Your Balance:
               </h2>
-              <h2 className="text-green text-base font-medium">$124242</h2>
+              <h2 className="text-green text-base font-medium">£124242</h2>
             </div>
             <div className="mt-9">
               <OutlineBtn
@@ -416,7 +416,7 @@ const FinanceDashboard = () => {
                 </div>
                 <div>
                   <h3 className="text-lg text-Dark_black font-semibold text-right">
-                    ${transaction?.paidAmount}
+                    £{transaction?.paidAmount}
                   </h3>
                   <p
                     className={`${transaction?.transactionType === "received"
@@ -458,7 +458,7 @@ const FinanceDashboard = () => {
               </p>
               <div className="flex items-center gap-7 mt-3">
                 <h2 className="text-black font-semibold text-[34px]">
-                  {Lastcalculated?.total_transction?.currentMonthTransaction}
+                  £{Lastcalculated?.total_transction?.currentMonthTransaction}
                 </h2>
                 {Lastcalculated?.total_transction?.TransactionsGrowth >= 0 ? (
                   <h2 className="text-green text-sm font-medium text-right">
@@ -497,7 +497,7 @@ const FinanceDashboard = () => {
               <p className="text-gay-300 text-base font-medium">Total Funds</p>
               <div className="flex items-center gap-7 mt-3">
                 <h2 className="text-black font-semibold text-[34px]">
-                  {Lastcalculated?.total_funds?.funds}
+                  £{Lastcalculated?.total_funds?.funds}
                 </h2>
                 <div
                   className={`${Lastcalculated?.total_funds?.TotalFundsGrowth >= 0
@@ -517,7 +517,7 @@ const FinanceDashboard = () => {
               </p>
               <div className="flex items-center gap-7 mt-3">
                 <h2 className="text-black font-semibold text-[34px]">
-                  {Lastcalculated?.total_releaseFund?.realseFund === null
+                  £{Lastcalculated?.total_releaseFund?.realseFund === null
                     ? 0
                     : Lastcalculated?.total_releaseFund?.realseFund}
                 </h2>

@@ -156,7 +156,7 @@ const ReleaseFunds = () => {
   useEffect(() => {
     Get_Refund_List();
     handleFetchCharges();
-  },[]);
+  }, []);
 
   return (
     <>
@@ -245,13 +245,13 @@ const ReleaseFunds = () => {
                     {person.name}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.total_funds}
+                    £{person.total_funds}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.totalEarnings}
+                    £{person.totalEarnings}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.totalRefunds}
+                    £{person.totalRefunds}
                   </td>
                   <td
                     //  ${
@@ -259,7 +259,7 @@ const ReleaseFunds = () => {
                     // }
                     className={`whitespace-nowrap px-3 py-4 font-semibold`}
                   >
-                    {(person.totalEarnings - person.totalRefunds).toFixed(2)}
+                    £{(person.totalEarnings - person.totalRefunds).toFixed(2)}
                   </td>
                   <td className="whitespace-nowrap px-3 pr-6 py-4 text-Dark_black font-medium w-[200px]">
                     <div className="flex items-center gap-2 justify-end">
@@ -347,7 +347,7 @@ const ReleaseFunds = () => {
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Account Balance</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium">
-                      $ {RefundDetails.balance}
+                      £ {RefundDetails.balance}
                     </div>
                   </div>
                   <div className="w-full">
@@ -356,7 +356,7 @@ const ReleaseFunds = () => {
                     </p>
                     <div className="flex items-center gap-3">
                       <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
-                        $ {RefundDetails.prvMonthAmount}
+                        £ {RefundDetails.prvMonthAmount}
                       </div>{" "}
                       <span className="lg:block hidden">-</span>
                     </div>
@@ -367,7 +367,7 @@ const ReleaseFunds = () => {
                     </p>
                     <div className="flex items-center gap-3">
                       <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
-                        $ {RefundDetails.prvMonthReAmount}
+                        £ {RefundDetails.prvMonthReAmount}
                       </div>{" "}
                       <span className="lg:block hidden">=</span>
                     </div>
@@ -375,7 +375,7 @@ const ReleaseFunds = () => {
                   <div className="w-full">
                     <p className="text-gay-300 text-[13px]">Payble Amount</p>
                     <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-lg font-medium">
-                      $ {TotalPaid.Instructor_TotalPaid}
+                      £ {TotalPaid.Instructor_TotalPaid}
                     </div>
                   </div>
                   <div className="w-full">
@@ -400,7 +400,7 @@ const ReleaseFunds = () => {
                     </p>
                     <div className="flex items-center gap-3">
                       <div id="TestAmount" className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
-                        $ {TotalPaid.Admin_Recive_Amount}
+                        £ {TotalPaid.Admin_Recive_Amount}
                       </div>
                       <span className="lg:block hidden">=</span>
                     </div>
@@ -410,7 +410,7 @@ const ReleaseFunds = () => {
                       Final Paid Amout To Instructor
                     </p>
                     <div className="bg-[#D8D6CF] px-5 py-4 md:w-[280px] w-full h-[55px] mt-1 rounded-lg text-black text-lg font-medium flex">
-                      $ {TotalPaid.Final_Amout}
+                      £ {TotalPaid.Final_Amout}
                     </div>
                   </div>
                 </div>

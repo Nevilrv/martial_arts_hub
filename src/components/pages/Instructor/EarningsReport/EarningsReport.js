@@ -62,14 +62,14 @@ const EarningsReport = () => {
             <div className="sm:w-auto w-full">
               <p className="text-black/70 text-base">Total earnings</p>
               <h1 className="text-red-200 text-3xl font-semibold">
-                ${Earnings?.totalEarnings}
+                £{Earnings?.totalEarnings}
               </h1>
             </div>
           </div>
           <div className="md:flex grid sm:grid-cols-2 grid-cols-1 items-center mt-5 gap-2 mb-3">
             <OutlineBtn
               text={"All"}
-              className={`${duration === ""?"bg-gay-300 text-white font-semibold":"bg-transparent"}  min-w-[75px]`}
+              className={`${duration === "" ? "bg-gay-300 text-white font-semibold" : "bg-transparent"}  min-w-[75px]`}
               onClick={() => setduration("")}
             />
             <div className="relative z-[1]">
@@ -97,46 +97,46 @@ const EarningsReport = () => {
             </div>
           </div>
         </div>
-          {sortedData?.map((Earning) => (
-            <div
-              className="px-3 lg:px-8 sm:py-3 py-4 flex items-center justify-between border-b border-gay-400 flex-wrap"
-              key={Earning.id}
-            >
-              <div className="flex items-center flex-wrap">
-                <div className="sm:w-[60px] sm:h-[60px] overflow-hidden sm:rounded-full rounded-lg sm:mx-0 mx-auto sm:mb-0 mb-4 aspect-square">
-                  <img
-                    src={Earning.profile || User}
-                    alt="Wrestling"
-                    className="w-full h-full object-cover object-top grayscale scale-x-[-1]"
-                  />
-                </div>
-                <div className="sm:ml-5">
-                  <h2 className="text-black texrt-[20px] font-semibold">
-                    {Earning.studentName}
-                  </h2>
-                  <div className="sm:flex  items-center">
-                    <p className="text-[13px] text-black/70  mt-0.5">
-                      <span className="font-medium">Class Name: </span>{" "}
-                      {Earning.className}
-                    </p>
-                    <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1 sm:block hidden"></span>
-                    <p className="text-[13px] text-black/70  mt-0.5">
-                      <span className="font-medium">Class Date: </span>
-                      {Earning.classDate}
-                    </p>
-                    <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1 sm:block hidden"></span>
-                    <p className="text-[13px] text-black/70  mt-0.5">
-                      <span className="font-medium">Payment Date:</span>
-                      {Earning.paymentDate}
-                    </p>
-                  </div>
+        {sortedData?.map((Earning) => (
+          <div
+            className="px-3 lg:px-8 sm:py-3 py-4 flex items-center justify-between border-b border-gay-400 flex-wrap"
+            key={Earning.id}
+          >
+            <div className="flex items-center flex-wrap">
+              <div className="sm:w-[60px] sm:h-[60px] overflow-hidden sm:rounded-full rounded-lg sm:mx-0 mx-auto sm:mb-0 mb-4 aspect-square">
+                <img
+                  src={Earning.profile || User}
+                  alt="Wrestling"
+                  className="w-full h-full object-cover object-top grayscale scale-x-[-1]"
+                />
+              </div>
+              <div className="sm:ml-5">
+                <h2 className="text-black texrt-[20px] font-semibold">
+                  {Earning.studentName}
+                </h2>
+                <div className="sm:flex  items-center">
+                  <p className="text-[13px] text-black/70  mt-0.5">
+                    <span className="font-medium">Class Name: </span>{" "}
+                    {Earning.className}
+                  </p>
+                  <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1 sm:block hidden"></span>
+                  <p className="text-[13px] text-black/70  mt-0.5">
+                    <span className="font-medium">Class Date: </span>
+                    {Earning.classDate}
+                  </p>
+                  <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1 sm:block hidden"></span>
+                  <p className="text-[13px] text-black/70  mt-0.5">
+                    <span className="font-medium">Payment Date:</span>
+                    {Earning.paymentDate}
+                  </p>
                 </div>
               </div>
-              <h1 className="text-red-200 text-xl font-semibold">
-                $ {Earning.paidAmount}
-              </h1>
             </div>
-          ))}
+            <h1 className="text-red-200 text-xl font-semibold">
+              £ {Earning.paidAmount}
+            </h1>
+          </div>
+        ))}
       </Tabs>
     </>
   );

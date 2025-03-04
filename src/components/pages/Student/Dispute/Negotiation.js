@@ -226,7 +226,7 @@ const Negotiation = () => {
                 Total Disputed Amount:
               </h4>
               <h2 className="text-red-200 font-bold text-[22px]">
-                ${DisputeDetails.rate}
+                £{DisputeDetails.rate}
               </h2>
             </div>
             <div className="pb-9 border-b border-black/15 mt-8">
@@ -235,7 +235,7 @@ const Negotiation = () => {
                   Student (You) wants to receive:
                 </h4>
                 <h2 className="text-red-200 font-bold text-[22px]">
-                  $
+                  £
                   {DisputeDetails.RefundAmount === null
                     ? 0
                     : DisputeDetails.RefundAmount}
@@ -246,7 +246,7 @@ const Negotiation = () => {
                   Admin ({DisputeDetails.instructorName}) wants to pay:
                 </h4>
                 <h2 className="text-red-200 font-bold text-[22px]">
-                  $
+                  £
                   {DisputeDetails.RefundAmount === null
                     ? 0
                     : DisputeDetails.RefundAmount}

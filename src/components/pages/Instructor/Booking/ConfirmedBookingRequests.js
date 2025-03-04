@@ -9,7 +9,7 @@ import { Routing } from "../../../shared/Routing";
 
 const ConfirmedBookingRequests = ({ data }) => {
 
-  const navigate =  useNavigate()
+  const navigate = useNavigate()
 
   return (
     <>
@@ -30,24 +30,28 @@ const ConfirmedBookingRequests = ({ data }) => {
           <div className="flex flex-wrap items-center gap-y-5">
             <div className="sm:w-[82px] sm:h-[82px] w-1/2 sm:mx-0 mx-auto overflow-hidden rounded-full aspect-square">
               <img
-                src={confirm?.studentProfile||User}
+                src={confirm?.studentProfile || User}
                 alt="Wrestling"
                 className="w-full h-full object-cover object-top grayscale"
               />
             </div>
             <div className="sm:ml-5">
-              <h2 className="text-black texrt-[20px] font-medium">
-                {confirm?.studentName}
-              </h2>
-              
+              <div className="flex items-center gap-2">
+                <h2 className="text-black texrt-[20px] font-medium">
+                  {confirm?.studentName}
+                </h2>
+                {confirm?.FreeTrial === 'No' && (
+                  <span className="bg-red-200 text-xs rounded-xl px-2 h-4 text-white">Free Trial</span>
+                )}
+              </div>
               <div className="flex items-center flex-wrap">
                 <p className="text-[13px] text-black/70 font-light mt-0.5">
-                  <span className="font-medium">Class Name:</span>
-                  {confirm?.message?.slice(0, 20)}
+                  <span className="font-medium">Class Name: </span>
+                  {confirm?.className || 'No className...'}
                 </p>
                 <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                 <p className="text-[13px] text-black/70 font-light mt-0.5">
-                  <span className="font-medium">Class Date:</span>{" "}
+                  <span className="font-medium">Class Date: </span>{" "}
                   {confirm?.classDate}
                 </p>
                 <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
@@ -58,7 +62,7 @@ const ConfirmedBookingRequests = ({ data }) => {
               </div>
               <div className="flex items-center flex-wrap">
                 <p className="text-[13px] text-black/70 font-light mt-0.5">
-                  <span className="font-medium">Class Time:</span>
+                  <span className="font-medium">Class Time: </span>
                   {confirm?.startTimeLocal}
                 </p>
                 <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
@@ -66,7 +70,13 @@ const ConfirmedBookingRequests = ({ data }) => {
                   <span className="font-medium text-black/70 ">
                     Class Rate:
                   </span>
-                  ${confirm?.classRate}
+                  £{confirm?.classRate}
+                </p>
+              </div>
+              <div className="flex items-center">
+                <p className="text-[13px] text-black/70 mt-0.5">
+                  <span className="font-medium">Message: </span>
+                  {confirm?.message || 'No meesage...'}
                 </p>
               </div>
             </div>
@@ -75,10 +85,10 @@ const ConfirmedBookingRequests = ({ data }) => {
             <OutlineBtn
               text={confirm?.HostUrl === "FaceToFace" ? "FaceToFace" : "Start"}
               className={"bg-transparent min-w-[138px] border-black text-black font-medium sm:w-auto w-full"}
-              onClick={() =>navigate(Routing.InstructorMyClass)}
+              onClick={() => navigate(Routing.InstructorMyClass)}
             />
           </div>
-        </div>
+        </div >
       ))}
     </>
   );

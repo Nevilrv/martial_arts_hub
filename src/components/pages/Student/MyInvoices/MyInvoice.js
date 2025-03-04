@@ -164,7 +164,7 @@ const MyInvoice = () => {
                     </div>
                     <div className="flex items-center justify-between">
                       <h2 className="text-black text-[15px]">
-                      {InvoiceDetails.className}
+                        {InvoiceDetails.className}
                       </h2>
                       <h2 className="text-black text-[15px]">{InvoiceDetails.paymentDate}</h2>
                     </div>
@@ -187,16 +187,16 @@ const MyInvoice = () => {
                     <div className="mt-6">
                       <div className="flex items-center justify-between pb-2.5">
                         <h2 className="text-black text-[15px] font-medium w-[30%]">
-                        {InvoiceDetails.className}
+                          {InvoiceDetails.className}
                         </h2>
                         <h2 className="text-black text-[15px] font-medium">
-                          ${InvoiceDetails.price}
+                          £{InvoiceDetails.price}
                         </h2>
                         <h2 className="text-black text-[15px] font-medium">
-                        {InvoiceDetails.hour}
+                          {InvoiceDetails.hour}
                         </h2>
                         <h2 className="text-red-200 text-[15px] font-medium">
-                          ${InvoiceDetails.subtotal}
+                          £{InvoiceDetails.subtotal}
                         </h2>
                       </div>
                     </div>
@@ -223,10 +223,10 @@ const MyInvoice = () => {
                     <h2 className="text-black text-[14px] ">ID: ********{InvoiceDetails?.paymentId?.slice(-3)}</h2>
                   </div>
                   <h2 className="text-black text-[18px] font-medium">
-                  {InvoiceDetails?.paymentDate}
+                    {InvoiceDetails?.paymentDate}
                   </h2>
                   <h2 className="text-red-200 text-[18px] font-semibold">
-                    ${InvoiceDetails?.subtotal}
+                    £{InvoiceDetails?.subtotal}
                   </h2>
                 </div>
                 <div className="flex items-center justify-between mt-7 ">

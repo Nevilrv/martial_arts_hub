@@ -593,3 +593,13 @@ input[type="number"] {
 #hideScoll::-webkit-scrollbar {
   display: none;
 }
+
+.input-phone-number input{
+  border-radius: 10px;
+}
+
+.input-phone-number input:focus{
+  outline: none !important;
+  border:none !important;
+  box-shadow: none !important;
+}

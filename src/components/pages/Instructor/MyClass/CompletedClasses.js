@@ -50,7 +50,7 @@ const CompletedClasses = () => {
             <div className="px-3 lg:px-8 md:h-[143px] md:py-0 gap-y-5 py-3 flex flex-wrap items-center sm:justify-between border-b border-gay-400">
               <div className="flex items-center flex-wrap gap-y-5">
                 <div className="sm:w-[125px] sm:h-[85px] w-full overflow-hidden rounded-lg">
-                  <img src={upcoming_class?.profile || Wrestling} alt="Wrestling" className="w-full h-full object-cover  grayscale" />
+                  <img src={upcoming_class?.profile || Wrestling} alt="Wrestling" className="w-full h-full object-cover grayscale" />
                 </div>
                 <div className="sm:ml-5">
                   <div className="flex items-center cursor-pointer">
@@ -58,14 +58,20 @@ const CompletedClasses = () => {
                       {upcoming_class?.className}
                     </h3>
                   </div>
+                  <div className="flex items-center">
+                    <p className="text-[13px] text-black/70 mt-0.5">
+                      <span className="font-medium">Message: </span>
+                      {upcoming_class?.message || 'No meesage...'}
+                    </p>
+                  </div>
                   <div className="flex flex-wrap items-center">
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
-                      <span className="font-medium">Class Date:</span>{" "}
+                      <span className="font-medium">Class Date: </span>{" "}
                       {upcoming_class?.classdate}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
-                      <span className="font-medium"> Created on:</span>
+                      <span className="font-medium"> Created on: </span>
                       {upcoming_class?.createdOn}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
@@ -76,12 +82,12 @@ const CompletedClasses = () => {
                   </div>
                   <div className="flex flex-wrap items-center">
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
-                      <span className="font-medium">Class Time:</span>
+                      <span className="font-medium">Class Time: </span>
                       {upcoming_class?.classTime}
                     </p>
                     <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                     <p className="text-[13px] text-black/70 font-light mt-0.5">
-                      <span className="font-medium">Class Duration:</span>
+                      <span className="font-medium">Class Duration: </span>
                       {upcoming_class?.classduration}
                       hr
                     </p>
@@ -90,7 +96,7 @@ const CompletedClasses = () => {
                       <span className="font-medium text-black/70 ">
                         Class Rate:
                       </span>
-                      ${parseInt(upcoming_class?.classRate).toFixed(2)}
+                      £{parseInt(upcoming_class?.classRate).toFixed(2)}
                     </p>
                   </div>
                 </div>

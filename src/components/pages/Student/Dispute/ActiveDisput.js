@@ -30,7 +30,7 @@ const ActiveDisput = ({ data }) => {
                 Time to Respond
               </th>
               <th className="text-gay-650 bg-gay-700 text-left pl-6 rounded-tr-lg">
-               
+
               </th>
             </tr>
           </thead>
@@ -66,7 +66,7 @@ const ActiveDisput = ({ data }) => {
                   {dispute.instructorName}
                 </td>
                 <td className="text-lg text-black font-medium text-left pl-6">
-                  $ {dispute.disputeAmount}
+                  £ {dispute.disputeAmount}
                 </td>
                 <td className="text-lg text-black font-medium text-left pl-6">
                   {dispute.status}
@@ -75,7 +75,7 @@ const ActiveDisput = ({ data }) => {
                   {dispute.timeToresponde}
                 </td>
                 <td className="text-lg text-black font-medium text-left pl-6">
-                  <span className="text-red-200 font-medium text-[18px] cursor-pointer" onClick={()=>navigate(`/student/negotiation/${dispute.disputeId}`)}>View Details</span>
+                  <span className="text-red-200 font-medium text-[18px] cursor-pointer" onClick={() => navigate(`/student/negotiation/${dispute.disputeId}`)}>View Details</span>
                 </td>
               </tr>
             ))}

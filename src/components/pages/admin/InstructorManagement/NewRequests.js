@@ -378,7 +378,7 @@ const NewRequests = () => {
                           Private Lesson (1-on-1)
                         </p>
                         <p className="text-black/70 text-[15px] font-medium">
-                          ${" "}
+                          £{" "}
                           {
                             Instructor_Request_detail?.privateSessionFaceToFaceHourlyRate
                           }{" "}
@@ -394,7 +394,7 @@ const NewRequests = () => {
                           Online Session
                         </p>
                         <p className="text-black/70 text-[15px] font-medium">
-                          ${" "}
+                          £{" "}
                           {
                             Instructor_Request_detail?.privateSessionOnlineHourlyRate
                           }{" "}

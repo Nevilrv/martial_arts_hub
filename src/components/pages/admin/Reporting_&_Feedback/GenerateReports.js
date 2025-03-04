@@ -109,7 +109,7 @@ const GenerateReports = () => {
             Total Transaction Amount
           </p>
           <h2 className="text-Dark_black font-semibold text-[32px]">
-            ${Repot?.total_transaction}
+            £{Repot?.total_transaction}
           </h2>
         </div>
       </div>
@@ -225,18 +225,16 @@ const GenerateReports = () => {
                   </td>
                   <td className={`whitespace-nowrap px-3 py-4 font-semibold`}>
                     <div
-                      className={`flex items-center gap-2 ${
-                        repot.status === "Active"
+                      className={`flex items-center gap-2 ${repot.status === "Active"
                           ? "text-green"
                           : "text-red-200"
-                      }`}
+                        }`}
                     >
                       <div
-                        className={`h-3 w-3 rounded-full ${
-                          repot.status === "Active"
+                        className={`h-3 w-3 rounded-full ${repot.status === "Active"
                             ? "bg-green"
                             : "bg-red-200 text-red-200"
-                        }`}
+                          }`}
                       ></div>
                       {repot.status}
                     </div>

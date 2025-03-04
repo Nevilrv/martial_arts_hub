@@ -72,16 +72,14 @@ const MonitorPayments = () => {
       <div className="flex items-center gap-3 mt-4 flex-wrap">
         <OutlineBtn
           text={"Student’s Payments"}
-          className={`${
-            Payments === "Student" && "bg-black text-white"
-          } sm:w-auto w-full`}
+          className={`${Payments === "Student" && "bg-black text-white"
+            } sm:w-auto w-full`}
           onClick={() => setPayments("Student")}
         />
         <OutlineBtn
           text={"Instructor’s Payments"}
-          className={`${
-            Payments === "Instructor" && "bg-black text-white"
-          } sm:w-auto w-full`}
+          className={`${Payments === "Instructor" && "bg-black text-white"
+            } sm:w-auto w-full`}
           onClick={() => setPayments("Instructor")}
         />
       </div>
@@ -159,14 +157,13 @@ const MonitorPayments = () => {
                     {person.paymentDate}
                   </td>
                   <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                    {person.paidAmount}
+                    £{person.paidAmount}
                   </td>
                   <td
-                    className={`whitespace-nowrap px-3 py-4 font-semibold ${
-                      person.Released === "reject"
-                        ? "text-red-200"
-                        : "text-green"
-                    }`}
+                    className={`whitespace-nowrap px-3 py-4 font-semibold ${person.Released === "reject"
+                      ? "text-red-200"
+                      : "text-green"
+                      }`}
                   >
                     {person.Released}
                   </td>
@@ -258,11 +255,10 @@ const MonitorPayments = () => {
                       {person.received}
                     </td>
                     <td
-                      className={`whitespace-nowrap px-3 py-4 font-semibold ${
-                        person.receivedDate === "Pending"
-                          ? "text-red-200"
-                          : "text-green"
-                      }`}
+                      className={`whitespace-nowrap px-3 py-4 font-semibold ${person.receivedDate === "Pending"
+                        ? "text-red-200"
+                        : "text-green"
+                        }`}
                     >
                       {person.receivedDate}
                     </td>
@@ -300,13 +296,13 @@ const MonitorPayments = () => {
                       {dayjs(person.paymentsDate).format("DD/MM/YYYY")}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                      {person.prvTotalpaid}
+                      £{person.prvTotalpaid}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                      {person.finalAmount}
+                      £{person.finalAmount}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-Dark_black font-medium">
-                      {person.AdminEarning}
+                      £{person.AdminEarning}
                     </td>
                   </tr>
                 ))}
@@ -368,11 +364,10 @@ const MonitorPayments = () => {
                   <div className="w-full">
                     <p className="text-gay-300">Released?</p>
                     <div
-                      className={`bg-[#D8D6CF] px-5 py-4 w-[280px] h-[55px] mt-1 rounded-lg text-lg font-medium ${
-                        StudentPaymentDetails.Released === "success"
-                          ? "text-green"
-                          : "text-red-200"
-                      }`}
+                      className={`bg-[#D8D6CF] px-5 py-4 w-[280px] h-[55px] mt-1 rounded-lg text-lg font-medium ${StudentPaymentDetails.Released === "success"
+                        ? "text-green"
+                        : "text-red-200"
+                        }`}
                     >
                       {StudentPaymentDetails.Released}
                     </div>
