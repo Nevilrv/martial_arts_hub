@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./utils/PrivateRoute";
 
 // components
+
 const PaymentSuccessful = lazy(() =>
   import("./components/pages/common/PaymentSuccessful.js")
 );

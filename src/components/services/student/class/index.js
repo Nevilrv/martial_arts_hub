@@ -31,7 +31,7 @@ export const Change_class_status = async (classId) => {
   }
 };
 
-export const Student_Payment = async (studentId,classId,bookingId,instructorId) => {
+export const Student_Payment = async (studentId, classId, bookingId, instructorId) => {
   try {
     let response = await axios({
       method: "POST",
@@ -47,7 +47,7 @@ export const Student_Payment = async (studentId,classId,bookingId,instructorId) 
 };
 
 
-export const Payment_Successful_Data = async (studentId,classId,bookingId,instructorId,body) => {
+export const Payment_Successful_Data = async (studentId, classId, bookingId, instructorId, body) => {
   try {
     let response = await axios({
       method: "POST",
@@ -63,7 +63,7 @@ export const Payment_Successful_Data = async (studentId,classId,bookingId,instru
   }
 };
 
-export const Payment_Book_class = async (studentId,body) => {
+export const Payment_Book_class = async (studentId, body) => {
   try {
     let response = await axios({
       method: "POST",
@@ -73,13 +73,14 @@ export const Payment_Book_class = async (studentId,body) => {
       },
       data: body,
     });
+
     return response.data;
   } catch (error) {
     return error?.response?.data;
   }
 };
 
-export const Student_get_Slot = async (instructorId,classType) => {
+export const Student_get_Slot = async (instructorId, classType) => {
   try {
     let response = await axios({
       method: "GET",

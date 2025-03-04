@@ -47,8 +47,8 @@ const RecentClasses = ({ cardDetails, data }) => {
                 <h2 className="text-black text-xl font-semibold">
                   {recentClass.className}
                 </h2>
-                <p className="text-black/70 max-w-[390px]">
-                  {recentClass.className}
+                <p className="text-black/70 max-w-[500px]">
+                  {recentClass.message.slice(0,90) || 'No Message'}...
                 </p>
               </div>
             </div>

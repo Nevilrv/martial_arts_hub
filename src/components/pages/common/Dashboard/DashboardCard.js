@@ -18,7 +18,7 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
             </div>
           ) : (
             <p className="text-red-200 font-bold text-xl">
-              ${earnings?.totalEarnings}
+              £{earnings?.totalEarnings}
             </p>
           )}
         </div>
@@ -89,12 +89,12 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
               </h2>
               <p className="text-black/70 font-light">
                 <span className="font-medium">Class Name:</span>{" "}
-                {earning.className} •{" "}
+                {earning.className.message(0, 15)} •{" "}
                 <span className="font-medium">Class Date:</span>{" "}
                 {earning.classDate}
               </p>
             </div>
-            <h2 className="text-lg text-red-200 font-semibold">${earning.paidAmount}</h2>
+            <h2 className="text-lg text-red-200 font-semibold">£{earning.paidAmount}</h2>
           </div>
         ))}
       </div>
