@@ -89,7 +89,7 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
               </h2>
               <p className="text-black/70 font-light">
                 <span className="font-medium">Class Name:</span>{" "}
-                {earning.className.message(0, 15)} •{" "}
+                {earning.className.message.slice(0, 15)} •{" "}
                 <span className="font-medium">Class Date:</span>{" "}
                 {earning.classDate}
               </p>
