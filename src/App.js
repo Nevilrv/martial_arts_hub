@@ -29,7 +29,7 @@ const InstructorsPage = lazy(() =>
 const StudentHome = lazy(() =>
   import("./components/pages/Student/homepage/Index")
 );
-
+ 
 const StudentLogin = lazy(() =>
   import("./components/pages/Student/Login/Login")
 );
