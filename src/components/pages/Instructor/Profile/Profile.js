@@ -26,7 +26,7 @@ import {
 } from "../../../services/Admin/Discipline_Centre/Discipline_Centre";
 import { Confirm_Popup_Icon } from "../../../../assets/icon";
 import { FaSpinner } from "react-icons/fa";
-import { getOrientation } from 'get-orientation/browser'
+import { getOrientation } from 'get-orientation'
 import { getCroppedImg, getRotatedImage } from '../../common/ProfileAdujust/canvasUtils'
 import ProfileImageUploader from "../../common/ProfileAdujust/StudentProfileAdjust";
 

@@ -17,7 +17,7 @@ import { IoCamera } from "react-icons/io5";
 import Inputfild from "../../common/Inputfild";
 import StudentProfileView from "./StudentProfileView";
 import ProfileImageUploader from "../../common/ProfileAdujust/StudentProfileAdjust";
-import { getOrientation } from 'get-orientation/browser'
+import { getOrientation } from 'get-orientation'
 import { getCroppedImg, getRotatedImage } from '../../common/ProfileAdujust/canvasUtils'
 
 const ORIENTATION_TO_ANGLE = {
