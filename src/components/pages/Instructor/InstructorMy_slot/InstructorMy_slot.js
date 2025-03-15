@@ -13,7 +13,7 @@ const InstructorMy_slot = () => {
     setLoading(true);
     const result = await Get_Instructor_Created_slot(instructorId);
     if (result?.success === true) {
-        setInstructor_Slot(result?.data);
+      setInstructor_Slot(result?.data);
       setLoading(false);
     } else {
       setLoading(false);
@@ -61,25 +61,25 @@ const InstructorMy_slot = () => {
                         scope="col"
                         className="py-3.5 pl-4 pr-3 text-left text-gay-900 text-sm font-semibold text-gray-900 sm:pl-6"
                       >
-                        classdate
+                        Class Date
                       </th>
                       <th
                         scope="col"
                         className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900"
                       >
-                        classType
+                        Class Type
                       </th>
                       <th
                         scope="col"
                         className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900"
                       >
-                        classRate
+                        Class Rate
                       </th>
                       <th
                         scope="col"
                         className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900"
                       >
-                        Created timeSlot
+                        Created Time Slot
                       </th>
                     </tr>
                   </thead>
@@ -98,13 +98,25 @@ const InstructorMy_slot = () => {
                         <td className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900">
                           {item?.classRate}
                         </td>
-                        <td className="px-3 py-3.5 text-left text-gay-900 text-sm font-semibold text-gray-900 max-w-[200px]">
-                          <div className="grid md:grid-cols-3 sm:grid-cols-2 items-center gap-2 flex-wrap">
-                            {item?.timeSlot?.map((item) => (
-                              <span className="bg-primary_dark mx-2 px-2 py-1.5 text-center">
-                                {item}
-                              </span>
-                            ))}
+                        <td className="px-3 py-3.5 text-left text-sm font-semibold text-gay-900 max-w-[250px]">
+                          <div className="lg:hidden flex flex-wrap gap-2">
+                            {item?.timeSlot?.map((slot, i) => {
+                              const parts = slot.split("To");
+                              return (
+                                <span key={i} className="bg-primary_dark px-2 py-1.5 text-nowrap block">
+                                  {parts[0].trim()} To <br /> {parts[1].trim()}
+                                </span>
+                              );
+                            })}
+                          </div>
+                          <div className="hidden lg:flex flex-wrap gap-2">
+                            {item?.timeSlot?.map((timeslot, i) => {
+                              return (
+                                <span key={i} className="bg-primary_dark px-2 py-1.5 text-nowrap block">
+                                  {timeslot}
+                                </span>
+                              );
+                            })}
                           </div>
                         </td>
                       </tr>

@@ -15,14 +15,9 @@ const RecentClasses = ({ cardDetails, data }) => {
           <h3 className="text-gay-300 text-lg font-medium">
             {cardDetails.CardTitle}
           </h3>
-          {cardDetails.Plus !== false ? (
-            <div className="h-7 w-7 rounded-full bg-black flex items-center justify-center text-white">
-              <FiPlus className="text-white text-xl" />
-            </div>
-          ) : null}
         </div>
         {data?.length === 0 && (
-          <div className="flex items-center justify-center flex-col my-6">
+          <div className="flex items-center justify-center flex-col mt-24">
             {cardDetails.CardIcon}
             <h3 className="text-black font-semibold text-lg">
               {cardDetails.CardHeadding}

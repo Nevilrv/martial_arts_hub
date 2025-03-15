@@ -26,8 +26,8 @@ import { Category_List } from "../../../services/Admin/Discipline_Centre/Discipl
 
 const AskedQuestions = [
   {
-    title: "What age groups can participate in martial arts classes?",
-    body: "Martial arts classes are available for all ages, from young children (3+) to seniors. Classes are typically grouped by age: kids, teens, adults, and specialized sessions for older adults. Many schools also offer family classes for all ages to train together.",
+    title: "Do adults participate in martial arts classes?",
+    body: "Absolutely! Martial arts are great for adults, whether they’re looking to stay fit, learn self-defense, or relieve stress. Many adults join to build confidence, improve discipline, and even compete. There’s no age limit to starting!",
   },
   {
     title: "Do I need any prior experience to join?",
@@ -227,11 +227,10 @@ const Index = () => {
         <h1 className="sm:text-[70px] text-[47px] text-center font-extrabold">
           martial arts hub.
         </h1>
-        <p className="text-[18px] text-center max-w-[669px] mx-auto leading-[26px] px-2">
-          The place to begin or elevate your martial arts journey. <br />
+        <p className="text-[16px] text-center max-w-[669px] mx-auto leading-[22px] px-2">
+          The place to begin or elevate your martial arts journey.<br />
           Created by martial artists for martial artists.
         </p>
-
         {!isLogin && (
           <div className="flex justify-center items-center mt-6 flex-wrap gap-y-2">
             <button

@@ -594,12 +594,27 @@ input[type="number"] {
   display: none;
 }
 
-.input-phone-number input{
+.input-phone-number input {
   border-radius: 10px;
 }
 
-.input-phone-number input:focus{
+.input-phone-number input:focus {
   outline: none !important;
-  border:none !important;
+  border: none !important;
   box-shadow: none !important;
+}
+
+#Confrim {
+  display: none;
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 820px) {
+  #Confrim {
+    display: block;
+  }
+
+  #ConfirmBooking{
+    display: none;
+  }
 }

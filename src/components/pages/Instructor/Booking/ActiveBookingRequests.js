@@ -84,13 +84,8 @@ const ActiveBookingRequests = ({ data, getBookingRequests }) => {
                 </p>
                 <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                 <p className="text-[13px] text-black/70 font-light mt-0.5">
-                  <span className="font-medium">Class Date:</span>{" "}
+                  <span className="font-medium"> Class Date: </span>
                   {booking?.classDate}
-                </p>
-                <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
-                <p className="text-[13px] text-black/70 font-light mt-0.5">
-                  <span className="font-medium"> Joined on: </span>
-                  {booking?.joinDate}
                 </p>
               </div>
               <div className="flex items-center flex-wrap">
@@ -101,29 +96,36 @@ const ActiveBookingRequests = ({ data, getBookingRequests }) => {
                 <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                 <p className="text-[13px] mt-0.5 text-red-200 font-medium">
                   <span className="font-medium text-black/70 ">
-                    Class Rate:
+                    Class Rate:&nbsp;
                   </span>
                   £{booking?.classRate}
                 </p>
               </div>
               <div className="flex items-center">
-                <p className="text-[13px] text-black/70 mt-0.5">
+                <p className="text-[13px] text-black/70 mt-0.5 w-96 xl:w-full">
                   <span className="font-medium">Message: </span>
-                  {booking?.message || 'No meesage...'}
+                  {booking?.message || 'No message...'}
                 </p>
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-3 flex-wrap sm:w-auto w-full">
+          <div className="flex items-center gap-3 sm:w-auto w-full">
             <OutlineBtn
               text={"See Profile"}
               className={"bg-transparent border-black text-black font-medium sm:w-auto w-full"}
               onClick={() => heandleStudentDetails(booking.studentId)}
             />
             <OutlineBtn
+              text={"Confirm"}
+              className={"bg-red-100 border-red-200 text-red-200 font-medium sm:w-auto w-full"}
+              onClick={() => heandleConform(booking.bookingId)}
+              id="Confrim"
+            />
+            <OutlineBtn
               text={"Confirm Booking"}
               className={"bg-red-100 border-red-200 text-red-200 font-medium sm:w-auto w-full"}
               onClick={() => heandleConform(booking.bookingId)}
+              id="ConfirmBooking"
             />
           </div>
         </div>

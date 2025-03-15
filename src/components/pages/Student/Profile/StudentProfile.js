@@ -16,6 +16,16 @@ import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import { IoCamera } from "react-icons/io5";
 import Inputfild from "../../common/Inputfild";
 import StudentProfileView from "./StudentProfileView";
+import ProfileImageUploader from "../../common/ProfileAdujust/StudentProfileAdjust";
+import { getOrientation } from 'get-orientation/browser'
+import { getCroppedImg, getRotatedImage } from '../../common/ProfileAdujust/canvasUtils'
+
+const ORIENTATION_TO_ANGLE = {
+  '3': 180,
+  '6': 90,
+  '8': -90,
+}
+
 
 const StudentProfile = ({ children }) => {
   const ProfileTeab = [
@@ -46,7 +56,6 @@ const StudentProfile = ({ children }) => {
   ];
   const { pathname } = useLocation();
   const [loading, setLoading] = useState(false);
-  const [isOpen, setisOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [Profiledetails, setProfiledetails] = useState({});
   const [Update_Profiledetail, setUpdate_Profiledetail] = useState({
@@ -56,6 +65,13 @@ const StudentProfile = ({ children }) => {
     adetail: "",
   });
   const studentId = JSON.parse(localStorage.getItem("_id"));
+  const [imageSrc, setImageSrc] = useState(null)
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [rotation, setRotation] = useState(0)
+  const [zoom, setZoom] = useState(1)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
+  const [croppedImage, setCroppedImage] = useState(null)
+  const [openDialog, setOpenDialog] = useState(false)
 
   const GetProfiledetails = async () => {
     setLoading(true);
@@ -84,7 +100,6 @@ const StudentProfile = ({ children }) => {
   useEffect(() => {
     Get_Profile_Data();
     GetProfiledetails();
-    // eslint-disable-next-line
   }, []);
 
   const handleChange = (e) => {
@@ -98,10 +113,10 @@ const StudentProfile = ({ children }) => {
     const file = e.currentTarget.files[0];
 
     if (file) {
-      const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+      const maxSize = 50 * 1024 * 1024; // 10MB in bytes
 
       if (file.size > maxSize) {
-        toast.info("File size must be less than 10MB.");
+        toast.info("File size must be less than 50MB.");
         return;
       }
 
@@ -119,7 +134,12 @@ const StudentProfile = ({ children }) => {
     formData.append("name", Update_Profiledetail.name);
     formData.append("aboutMe", Update_Profiledetail.about);
     formData.append("additionalDetail", Update_Profiledetail.adetail);
-    formData.append("profile_picture", Update_Profiledetail.profile);
+    // formData.append("profile_picture", Update_Profiledetail.profile);
+
+    if (croppedImage) {
+      const blob = await fetch(croppedImage).then(res => res.blob());
+      formData.append("profile_picture", blob, "cropped-image.jpg");
+    }
 
     const result = await Student_Profile_Update_Data(formData);
     if (result?.success === true) {
@@ -148,6 +168,53 @@ const StudentProfile = ({ children }) => {
       toast.error(result?.message);
     }
   }
+
+  const onCropComplete = (croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels)
+  }
+
+  const showCroppedImage = async () => {
+    try {
+      const croppedImage = await getCroppedImg(
+        imageSrc,
+        croppedAreaPixels,
+        rotation
+      )
+      setCroppedImage(croppedImage)
+      setOpenDialog(false)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const onFileChange = async (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0]
+      let imageDataUrl = await readFile(file)
+
+      try {
+        const orientation = await getOrientation(file)
+        const rotation = ORIENTATION_TO_ANGLE[orientation]
+        if (rotation) {
+          imageDataUrl = await getRotatedImage(imageDataUrl, rotation)
+        }
+      } catch (e) {
+        console.warn('Failed to detect the orientation')
+      }
+
+      setImageSrc(imageDataUrl)
+      setOpenDialog(true) // Open the dialog after selecting an image
+    }
+  }
+
+  function readFile(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.addEventListener('load', () => resolve(reader.result), false)
+      reader.readAsDataURL(file)
+    })
+  }
+
 
   return (
     <>
@@ -236,7 +303,39 @@ const StudentProfile = ({ children }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="md:w-[245px] w-full h-[202px] rounded-xl overflow-hidden bg-[#DAD8D0] flex items-center justify-center relative">
+                  <ProfileImageUploader open={openDialog} onClose={() => setOpenDialog(false)} image={imageSrc} crop={crop} zoom={zoom} rotation={rotation} onCropChange={setCrop} onRotationChange={setRotation} onCropComplete={onCropComplete} onZoomChange={setZoom} setZoomchange={(e, zoom) => setZoom(zoom)} setRoationchnage={(e, rotation) => setRotation(rotation)} onClick={() => setOpenDialog(false)} showCroppedImageOnclick={showCroppedImage}>
+                    <div className="md:w-[245px] w-full h-[202px] rounded-xl overflow-hidden bg-[#DAD8D0] flex items-center justify-center relative">
+                      {(croppedImage || Update_Profiledetail?.profile) ? (
+                        <>
+                          <img src={croppedImage || Update_Profiledetail?.profile} alt="Cropped" className='rounded-xl' />
+                          <input
+                            type="file"
+                            name="profile"
+                            accept="image/*"
+                            onChange={onFileChange}
+                            className="h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer"
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex items-center justify-center flex-col absolute top-0 left-0 h-full w-full bg-[#DAD8D0]">
+                            <IoCamera className="text-black/20 text-4xl" />
+                            <p className="text-black/20 text-[13px] font-medium">
+                              Add Profile Picture
+                            </p>
+                          </div>
+                          <input
+                            type="file"
+                            name="profile"
+                            accept="image/*"
+                            onChange={onFileChange}
+                            className="h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer"
+                          />
+                        </>
+                      )}
+                    </div>
+                  </ProfileImageUploader>
+                  {/* <div className="md:w-[245px] w-full h-[202px] rounded-xl overflow-hidden bg-[#DAD8D0] flex items-center justify-center relative">
                     {Update_Profiledetail?.profile === null ||
                       Update_Profiledetail?.profile === "" ? (
                       <div className="flex items-center justify-center flex-col absolute top-0 left-0 h-full w-full bg-[#DAD8D0]">
@@ -265,7 +364,7 @@ const StudentProfile = ({ children }) => {
                       onChange={heandleImage}
                       className="h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer"
                     />
-                  </div>
+                  </div> */}
                 </div>
                 <div className="grid md:grid-cols-2 grid-cols-1 gap-4 w-full mt-5">
                   <div className="w-full">

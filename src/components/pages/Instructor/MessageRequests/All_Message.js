@@ -112,19 +112,19 @@ const All_Message = () => {
                 <h2 className="text-black texrt-[20px] font-medium">
                   {messageReques?.Student?.name}
                 </h2>
-                <div className="flex items-center flex-wrap">
-                  <p className="text-[13px] text-black/70  mt-0.5">
-                    <span className="font-medium">Request received on:</span>{" "}
+                <div className="xl:flex items-center">
+                  <p className="text-[13px] text-black/70  mt-0.5 leading-none">
+                    <span className="font-medium">Request received on: </span>{" "}
                     {dayjs(messageReques?.createdAt).format("DD-MM-YYYY")}
                   </p>
-                  <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
-                  <p className="text-[13px] text-black/70  mt-0.5">
-                    <span className="font-medium">Inquiry class:</span>
+                  <span className="hidden xl:block text-xl text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1 "></span>
+                  <p className="text-[13px] text-black/70  mt-1">
+                    <span className="font-medium">Inquiry class: </span>
                     {messageReques?.title}
                   </p>
                 </div>
-                <p className="text-black/70 text-base max-w-5xl">
-                  {messageReques?.body}
+                <p className="text-black/70 text-sm max-w-5xl mt-1">
+                  {messageReques?.body.slice(0,20)}...
                 </p>
               </div>
             </div>
@@ -171,7 +171,7 @@ const All_Message = () => {
               <div className="mt-10">
                 <div className="flex items-center sm:justify-between justify-center flex-wrap">
                   <div className="flex items-center flex-wrap sm:justify-start justify-center">
-                    <div className="sm:w-[70px] sm:h-[70px] rounded-full overflow-hidden">
+                    <div className="w-[150px] h-[150px] md:w-[70px] md:h-[70px] rounded-full overflow-hidden">
                       <img
                         src={
                           StudentMessageRequest?.Student?.profile_picture ||
@@ -185,7 +185,7 @@ const All_Message = () => {
                       <h2 className="text-black texrt-[20px] font-semibold">
                         {StudentMessageRequest?.Student?.name}
                       </h2>
-                      <div className="flex items-center flex-wrap">
+                      <div className="xl:flex items-center flex-wrap">
                         <p className="text-[13px] text-black/70  mt-0.5">
                           <span className="font-medium">
                             Request received on:
@@ -194,7 +194,7 @@ const All_Message = () => {
                             "DD-MM-YYYY"
                           )}
                         </p>
-                        <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
+                        <span className="hidden xl:block text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1"></span>
                         <p className="text-[13px] text-black/70  mt-0.5">
                           <span className="font-medium">Inquiry class:</span>
                           {StudentMessageRequest?.title}
@@ -220,7 +220,7 @@ const All_Message = () => {
                   </div>
                 </div>
                 <div className="mt-6 py-6 md:px-5">
-                  <p className="text-base text-black font-medium break-words">
+                  <p className="text-base text-black/70 font-medium break-words">
                     {StudentMessageRequest.body}
                   </p>
                 </div>

@@ -13,30 +13,27 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
             {cardDetails.CardTitle}
           </h3>
           {cardDetails.Plus !== false ? (
-            <div className="h-7 w-7 rounded-full bg-black flex items-center justify-center text-white">
-              <FiPlus className="text-white text-xl" />
-            </div>
+            ""
           ) : (
             <p className="text-red-200 font-bold text-xl">
               £{earnings?.totalEarnings}
             </p>
           )}
         </div>
-        {data?.length <= 0 ||
-          (earnings?.length <= 0 && (
-            <div className="flex items-center justify-center flex-col mt-24">
-              {cardDetails.CardIcon}
-              <h3 className="text-black font-semibold text-lg">
-                {cardDetails.CardHeadding}
-              </h3>
-              <p
-                className={`text-gay-300 text-[13px] text-center mx-auto ${cardDetails.CardDetailsclassName || "max-w-[346px]"
-                  }`}
-              >
-                {cardDetails.CardDetails}
-              </p>
-            </div>
-          ))}
+        {(earnings?.formatedData?.length <= 0 || data?.length <= 0) && (
+          <div className="flex items-center justify-center flex-col mt-24">
+            {cardDetails.CardIcon}
+            <h3 className="text-black font-semibold text-lg">
+              {cardDetails.CardHeadding}
+            </h3>
+            <p
+              className={`text-gay-300 text-[13px] text-center mx-auto ${cardDetails.CardDetailsclassName || "max-w-[346px]"
+                }`}
+            >
+              {cardDetails.CardDetails}
+            </p>
+          </div>
+        )}
         {data?.map((payments) => (
           <div className="sm:flex grid grid-cols-1 items-center justify-between mt-7 flex-wrap gap-y-3 gap-x-3">
             <img src={payments?.instructor?.profile_picture || Wrestling} alt="" className="2xl:w-20 lg:w-full md:w-[30%] w-full 2xl:h-14 rounded-lg object-cover grayscale" />

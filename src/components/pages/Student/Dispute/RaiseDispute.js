@@ -23,7 +23,7 @@ const RaiseDispute = () => {
       setActiveDisputdata(result?.data?.Active);
       setClosedDisputdata(result?.data?.Close);
     } else {
-      toast.error(result.mess);
+      toast.error(result?.message);
       setLoading(false);
     }
   };

@@ -25,16 +25,33 @@ import {
   Sub_Category_List_For_Instructor,
 } from "../../../services/Admin/Discipline_Centre/Discipline_Centre";
 import { Confirm_Popup_Icon } from "../../../../assets/icon";
+import { FaSpinner } from "react-icons/fa";
+import { getOrientation } from 'get-orientation/browser'
+import { getCroppedImg, getRotatedImage } from '../../common/ProfileAdujust/canvasUtils'
+import ProfileImageUploader from "../../common/ProfileAdujust/StudentProfileAdjust";
 
+
+const ORIENTATION_TO_ANGLE = {
+  '3': 180,
+  '6': 90,
+  '8': -90,
+}
 
 const Profile = () => {
   const navigate = useNavigate();
   const [category_list, Set_Category_List] = useState([]);
-  const [previewUrl, setPreviewUrl] = useState(null);
   // const [previewidUrl, setPreviewidUrl] = useState(null);
   const [Sub_category_list, SetSub_category_list] = useState([]);
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [imgloading, setimgLoading] = useState(false);
+  const [imageSrc, setImageSrc] = useState(null)
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [rotation, setRotation] = useState(0)
+  const [zoom, setZoom] = useState(1)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
+  const [croppedImage, setCroppedImage] = useState(null)
+  const [openDialog, setOpenDialog] = useState(false)
 
   const options = [
     { value: "Online", label: "Online" },
@@ -145,41 +162,6 @@ const Profile = () => {
     });
   };
 
-  const handleImage = async (e) => {
-    setLoading(true);
-    const file = e.target.files[0];
-
-    if (file) {
-      const maxSize = 10 * 1024 * 1024; // 5MB in bytes
-
-      if (file.size > maxSize) {
-        toast.info("File size must be less than 10MB.");
-        return;
-      }
-
-      setPreviewUrl(URL.createObjectURL(file));
-
-
-      setInstructorDetails((prevDetails) => ({
-        ...prevDetails,
-        [e.target.name]: file,
-      }));
-
-
-      const formData = new FormData();
-      formData.append("profile_picture", file);
-
-      const result = await InstructorPicProfile(formData);
-
-      if (result?.success) {
-        setLoading(false);
-      } else {
-        toast.error("Image upload failed");
-      }
-    } else {
-      console.error("No file selected");
-    }
-  };
 
   const handleSaveProfile = async () => {
 
@@ -370,9 +352,88 @@ const Profile = () => {
     }
   }
 
+
+  const onCropComplete = (croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels)
+  }
+
+  const showCroppedImage = async () => {
+    try {
+      setOpenDialog(false)
+      setimgLoading(true)
+      const croppedImage = await getCroppedImg(
+        imageSrc,
+        croppedAreaPixels,
+        rotation
+      )
+
+      const formData = new FormData();
+      if (croppedImage) {
+        const blob = await fetch(croppedImage).then(res => res.blob());
+        formData.append("profile_picture", blob, "cropped-image.jpg");
+      }
+
+      const result = await InstructorPicProfile(formData);
+
+      if (result?.success) {
+        setimgLoading(false);
+        setCroppedImage(croppedImage);
+        setCroppedAreaPixels(null)
+        setImageSrc(null)
+        setRotation(0)
+        setCrop({ x: 0, y: 0 })
+        setZoom(1)
+      } else {
+        toast.error("Image upload failed");
+      }
+
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const onFileChange = async (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0]
+      let imageDataUrl = await readFile(file)
+
+      try {
+        const orientation = await getOrientation(file)
+        const rotation = ORIENTATION_TO_ANGLE[orientation]
+        if (rotation) {
+          imageDataUrl = await getRotatedImage(imageDataUrl, rotation)
+        }
+      } catch (e) {
+        console.warn('Failed to detect the orientation')
+      }
+
+      setImageSrc(imageDataUrl)
+      setOpenDialog(true)
+    }
+  }
+
+  function readFile(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.addEventListener('load', () => resolve(reader.result), false)
+      reader.readAsDataURL(file)
+    })
+  }
+
+  const clearAllsets = () => {
+    setOpenDialog(false)
+    setCroppedImage(null);
+    setCroppedAreaPixels(null)
+    setImageSrc(null)
+    setRotation(0)
+    setCrop({ x: 0, y: 0 })
+    setZoom(1)
+  }
+
+
   return (
     <>
-      {loading && <Spinner />}
+      {/* {loading && <Spinner />} */}
       <div className="mt-12 px-3 lg:px-20">
         <FaArrowLeft
           className="text-2xl cursor-pointer"
@@ -399,56 +460,47 @@ const Profile = () => {
                   className={`rounded-xl md:w-full h-[70px]`}
                 />
               </div>
-              {/* <div className="md:w-1/2 w-full">
-                <label className={`text-sm text-black/50 block ${getFieldClass("mobileNo")}`}>
-                  Mobile No.
-                </label>
-                <PhoneInput
-                  placeholder="Enter phone number"
-                  value={
-                    instructorDetails?.mobileNo
-                      ? `+${instructorDetails?.country_code}${instructorDetails?.mobileNo}`
-                      : ""
-                  }
-                  onChange={handlePhoneNumberChange}
-                  enableSearch={true}
-                />
-              </div> */}
             </div>
           </div>
-          <div className="md:w-[245px] w-full h-[202px] rounded-xl overflow-hidden bg-[#DAD8D0] flex items-center justify-center relative">
-            {instructorDetails?.profile_picture === null ||
-              instructorDetails?.profile_picture === "" ? (
-              <div className={`flex items-center justify-center flex-col absolute top-0 left-0 h-full w-full bg-[#DAD8D0]`}>
-                <IoCamera className="text-black/20 text-4xl" />
-                <p className={`text-black/20 text-[13px] font-medium ${getFieldClass("profile_picture")}`}>
-                  Add Profile Picture
-                </p>
-              </div>
-            ) : (
-              <img
-                src={instructorDetails?.profile_picture || User}
-                alt=""
-                className={`h-full object-cover absolute top-0 left-0`}
-              />
-            )}
-            <div className="flex items-center justify-center flex-col">
-              <IoCamera className="text-black/20 text-4xl" />
-              <p className="text-black text-[13px] font-medium">
-                <img
-                  src={previewUrl}
-                  alt=""
-                  className={`h-full object-cover absolute top-0 left-0`}
-                />
-              </p>
+          <ProfileImageUploader open={openDialog} onClose={clearAllsets} image={imageSrc} crop={crop} zoom={zoom} rotation={rotation} onCropChange={setCrop} onRotationChange={setRotation} onCropComplete={onCropComplete} onZoomChange={setZoom} setZoomchange={(e, zoom) => setZoom(zoom)} setRoationchnage={(e, rotation) => setRotation(rotation)} onClick={clearAllsets} showCroppedImageOnclick={showCroppedImage}>
+            <div className="md:w-[245px] w-full h-[202px] rounded-xl overflow-hidden bg-[#DAD8D0] flex items-center justify-center relative">
+              {(croppedImage || instructorDetails?.profile_picture) ? (
+                <>
+                  {imgloading && (
+                    <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center bg-black/20">
+                      <FaSpinner className="text-white text-4xl animate-spin" />
+                    </div>
+                  )}
+                  <div className="w-full h-full">
+                    <img src={croppedImage || instructorDetails?.profile_picture} alt="Cropped" className="rounded-xl h-full w-full" />
+                    <input
+                      type="file"
+                      name="profile"
+                      accept="image/*"
+                      onChange={onFileChange}
+                      className="h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer"
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center justify-center flex-col w-full">
+                    <IoCamera className="text-black/20 text-4xl" />
+                    <p className={`text-black/20 text-[13px] font-medium ${getFieldClass("profile_picture")}`}>
+                      Add Profile Picture
+                    </p>
+                  </div>
+                  <input
+                    type="file"
+                    name="profile"
+                    accept="image/*"
+                    onChange={onFileChange}
+                    className="h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer"
+                  />
+                </>
+              )}
             </div>
-            <input
-              type="file"
-              name="profile_picture"
-              onChange={handleImage}
-              className={`h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer`}
-            />
-          </div>
+          </ProfileImageUploader>
         </div>
         <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 gap-y-9 mt-9">
           <div>
@@ -611,46 +663,6 @@ const Profile = () => {
               }
             </div>
           </div>
-
-          {/* <div className="md:col-span-2 col-span-1">
-            <label className={`${getFieldClass("idProof")} text-sm text-black block font-medium`}>
-              Upload ID Proof (Driving License/Passport)
-            </label>
-            <div className="h-[200px] rounded-xl bg-[#DAD8D0] flex items-center justify-center relative mt-1">
-              {instructorDetails?.idProof === null ||
-                instructorDetails?.idProof === "" ? (
-                <div className="flex items-center justify-center flex-col">
-                  <MdCloudUpload className="text-black/20 text-4xl" />
-                  <p className={` text-black/20 text-[13px] font-medium text-center`}>
-                    Upload ID Proof (Driving License/Passport) here
-                  </p>
-                </div>
-              ) : (
-                <img
-                  src={instructorDetails?.idProof || previewidUrl}
-                  className="h-full text-center object-cover absolute top-0 left-1/2 -translate-x-1/2"
-                />
-              )}
-              {instructorDetails?.idProof && (
-                <div className="flex items-center justify-center flex-col">
-                  <MdCloudUpload className="text-black/20 text-4xl" />
-                  <p className="text-black text-[13px] font-medium text-center">
-                    <img
-                      src={previewidUrl}
-                      className="h-full text-center object-cover absolute top-0 left-1/2 -translate-x-1/2"
-                    />
-                  </p>
-                </div>
-              )}
-              <input
-                type="file"
-                name="idProof"
-                // value={instructorDetails.idProof}
-                onChange={handleIdProofImage}
-                className={`h-full w-full absolute top-0 left-0 opacity-0 cursor-pointer`}
-              />
-            </div>
-          </div> */}
         </div>
         <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 gap-y-9 mt-[75px]">
           <h2 className="md:col-span-2 col-span-1 text-2xl text-black font-semibold">

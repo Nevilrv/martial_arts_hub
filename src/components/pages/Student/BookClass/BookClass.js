@@ -169,8 +169,32 @@ const BookClass = () => {
   };
 
   const HeandleCreateClass = async () => {
-    setLoading(true);
+
+    const requiredFields = [
+      "message", "className", "mobileNumber", "country_code"
+    ];
+
+    const missingFields = requiredFields.filter(field => !heandalChangeData?.[field]);
+
+    if (missingFields.length > 0) {
+      toast.error(`The following fields are required: ${missingFields.join(", ")}`);
+      return;
+    }
+
     const timeSlots = selectedTimeSlot.map((slot) => slot.value);
+
+    if (selectedMailingLists === "" || null || undefined) {
+      toast.error("Please Select Class Type");
+      return;
+    } 
+    
+    if (timeSlots.length === 0) {
+      toast.error("Please Select TimeSlots");
+      return;
+    }
+
+    setLoading(true);
+
     const body = {
       message: heandalChangeData.message,
       className: heandalChangeData.className,
@@ -184,17 +208,7 @@ const BookClass = () => {
       mobileNumber: heandalChangeData.mobileNumber,
       instructorId: instructorId
     };
-    if (heandalChangeData.className === "" || null || undefined) {
-      toast.error("Please Enter your ClassName");
-    } else if (heandalChangeData.message === "" || null || undefined) {
-      toast.error("Please Enter your message");
-    } else if (selectedMailingLists === "" || null || undefined) {
-      toast.error("Please Select Class Type");
-    } else if (timeSlots.length === 0) {
-      toast.error("Please Select TimeSlots");
-    } else if (heandalChangeData.mobileNumber === "" || null || undefined) {
-      toast.error("Please Enter Your Number");
-    }
+
     const result = await Payment_Book_class(
       JSON.parse(localStorage.getItem("_id")),
       body
@@ -276,7 +290,7 @@ const BookClass = () => {
             <div className="absolute bottom-[-7%] -right-[7%]">
               <div className="relative">
                 <Star7 />
-                <div className=" items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                   {localStorage.getItem('FreeTrial') === 'No' && freeSession.value === 'Yes'
                     ?
                     <>
@@ -318,9 +332,9 @@ const BookClass = () => {
 
         <div className="md:col-span-3 mt-8">
           <label className={`text-xl font-semibold text-black block`}>
-            Your ClassName
+            Your Class Name
           </label>
-          <input type="text" name="className" onChange={(e) => handleChange(e)} value={heandalChangeData.className} placeholder="Write Your ClassName here*" className="bg-[#DAD8D0] mt-2 focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[70px] rounded-xl" />
+          <input type="text" name="className" onChange={(e) => handleChange(e)} value={heandalChangeData.className} placeholder="What do you want to learn?" className="bg-[#DAD8D0] mt-2 focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[70px] rounded-xl" />
           <label className={`text-xl font-semibold text-black block mt-8`}>
             Your message
           </label>

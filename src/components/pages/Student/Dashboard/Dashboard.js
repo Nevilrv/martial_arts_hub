@@ -41,6 +41,7 @@ const Dashboard = () => {
   const Getdata = async () => {
     setLoading(true);
     const result = await StudentDashboard();
+    console.log(result.data.payments, "=========")
     if (result?.success === true) {
       setLoading(false);
       setStudentData(result.data);
@@ -61,9 +62,9 @@ const Dashboard = () => {
     <>
       {loading && <Spinner />}
       <Tabs>
-        <div className="mt-10 px-3 lg:px-8 grid lg:grid-cols-3 gap-5">
+        <div className="mt-10 px-3 lg:px-8 grid lg:grid-cols-4 gap-5">
           <ProfileCard ProfileDetals={studentData.profile} />
-          <div className="lg:col-span-2 grid lg:grid-cols-2 gap-5">
+          <div className="lg:col-span-3 grid lg:grid-cols-2 gap-5">
             <ClassRequestcard
               cardDetails={ClassCard}
               data={studentData.ClassRequests}

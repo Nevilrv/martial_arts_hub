@@ -102,7 +102,7 @@ const CompletedClasses = () => {
                 </div>
               </div>
               <OutlineBtn
-                text={`Completed on ${upcoming_class?.startsOn}`}
+                text={`Completed ${upcoming_class?.startsOn}`}
                 className={"bg-black border-none text-white sm:w-auto w-full"}
               />
             </div>
