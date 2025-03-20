@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import Cropper from 'react-easy-crop'
-import Slider from '@material-ui/core/Slider'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Slider from "@mui/material/Slider";
+import { styled } from "@mui/material/styles";
+
 import { styles } from './styles'
 
 const Demo = ({ classes, open, onClose, image, crop, rotation, zoom, onCropChange, onRotationChange, onCropComplete, onZoomChange, setZoomchange, setRoationchnage, onClick, showCroppedImageOnclick, children }) => {
@@ -80,6 +81,6 @@ const Demo = ({ classes, open, onClose, image, crop, rotation, zoom, onCropChang
 }
 
 
-const StyledDemo = withStyles(styles)(Demo)
+const StyledDemo = styled(styles)(Demo)
 
 export default StyledDemo
