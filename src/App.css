@@ -612,7 +612,9 @@ input[type="number"] {
 .ModelBoxes {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  max-height: 80vh;
+  max-height: 100vh;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 @media screen and (min-width: 768px) and (max-width: 820px) {
