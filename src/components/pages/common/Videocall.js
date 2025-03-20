@@ -87,6 +87,10 @@ const Videocall = () => {
     const result = await Instructor_End_Class(_id, classid);
     if (result?.success === true) {
       SetisOpen(true);
+      setRtcProps({
+        enableVideo: false,
+        enableAudio: false,
+      });
     }
   };
 
@@ -239,16 +243,6 @@ const Videocall = () => {
       ? navigate(Routing.StudentMyClass, { replace: true })
       : navigate(Routing.InstructorMyClass, { replace: true });
   };
-
-
-  // useEffect(() => {
-
-  //   setVideoCall(false);
-  //   userRole === "Student"
-  //     ? navigate(Routing.StudentMyClass, { replace: true })
-  //     : navigate(Routing.InstructorMyClass, { replace: true });
-
-  // }, [videoCall]);
 
   return !videoCall ? (
     <div style={{ textAlign: "center", marginTop: "20px" }}>

@@ -118,7 +118,7 @@ const RataingPopup = ({
   return (
     <>
       <Dialog
-        className="relative z-[9999]"
+        className="relative z-[9999] overflow-y-auto"
         open={isOpen}
         onClose={SetisOpen}
       >
@@ -126,7 +126,7 @@ const RataingPopup = ({
           transition
           className="fixed inset-0 bg-black/60 backdrop-blur-md transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
         />
-        <div className="fixed inset-0 z-10 w-screen">
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <DialogPanel
               transition
