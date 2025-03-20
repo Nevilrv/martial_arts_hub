@@ -9,7 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./utils/PrivateRoute";
-
+ 
 const PaymentSuccessful = lazy(() =>
   import("./components/pages/common/PaymentSuccessful.js")
 );
