@@ -22,15 +22,15 @@ const Header = () => {
   const navigate = useNavigate();
   const navigation = [
     { name: "Home", href: "home" },
-    { name: "About Us", href: "about" },
-    { name: "Contact Us", href: "Contact_Us" },
+    { name: "About Us", href: "about", id: "WhoWeAre" },
+    { name: "Contact Us", href: "Contact_Us", id: "gta" },
   ];
   const Studentnavigation = [
     { name: "Dashboard", href: Routing.StudentDashboard },
     { name: "My Profile", href: Routing.StudentProfile },
     { name: "Messages", href: Routing.StudentMessages },
     { name: "Log In Details", href: Routing.StudentLogInDetails },
-    { name: "Forgot Password", href: Routing.Student_Forgot_Password },
+    // { name: "Forgot Password", href: Routing.Student_Forgot_Password },
     { name: "Reset Password", href: Routing.Student_Reset_Password },
     { name: "Favorite Instructors", href: Routing.Student_Favorite_Instructors },
     { name: "Booking History", href: Routing.Student_Booking_History },
@@ -41,7 +41,7 @@ const Header = () => {
     { name: "My Profile", href: Routing.InstructorProfile },
     { name: "Create Slot", href: Routing.InstructorCreateSlot },
     { name: "Chat", href: Routing.InstructorChat },
-    { name: "Message Requests", href: Routing.InstructorMessageRequests },
+    { name: "Message Requests", href: Routing.InstructorMessageRequest },
   ];
 
   const Adminnavigation = [
@@ -68,7 +68,7 @@ const Header = () => {
   const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
 
   const heandleLogOut = () => {
-    
+
     localStorage.clear();
     SetisOpen(false);
     setSelectedMailingLists("");
@@ -92,40 +92,47 @@ const Header = () => {
   const userName = JSON.parse(localStorage.getItem("email"))?.charAt(0);
 
   const Role = JSON.parse(localStorage.getItem("Role"));
-  useEffect(() => {
-    Events.scrollEvent.register("begin", (to, element) => {
-      Setscroll_event(element.getAttribute("name"));
-    });
-    scrollSpy.update();
-    const handleScroll = () => {
-      const position = window.scrollY;
-      setScrollPosition({ x: window.scrollX, y: position });
-      if (position <= 1763) {
-        Setscroll_event("home");
-      } else if (position <= 4514) {
-        Setscroll_event("about");
-      } else if (position >= 5532) {
-        Setscroll_event("Contact_Us");
-      }
-    };
+  // useEffect(() => {
+  //   Events.scrollEvent.register("begin", (to, element) => {
+  //     Setscroll_event(element.getAttribute("name"));
+  //   });
+  //   scrollSpy.update();
+  //   const handleScroll = () => {
+  //     const position = window.scrollY;
+  //     setScrollPosition({ x: window.scrollX, y: position });
+  //     if (position <= 1763) {
+  //       Setscroll_event("home");
+  //     } else if (position <= 4514) {
+  //       Setscroll_event("about");
+  //     } else if (position >= 5532) {
+  //       Setscroll_event("Contact_Us");
+  //     }
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
+  //   window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      Events.scrollEvent.remove("begin");
-      Events.scrollEvent.remove("end");
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  //   return () => {
+  //     Events.scrollEvent.remove("begin");
+  //     Events.scrollEvent.remove("end");
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
-  const headerClasses = `sticky top-0 left-0 z-[9] ${scrollPosition.y >= 50
-    ? "bg-primary/60 backdrop-filter backdrop-blur-lg"
-    : "bg-transparent"
-    }`;
+  // const headerClasses = `sticky top-0 left-0 z-[9] ${scrollPosition.y >= 50
+  //   ? "bg-primary/60 backdrop-filter backdrop-blur-lg"
+  //   : "bg-transparent"
+  //   }`;
+
+  const handleScroll = (elementIds) => {
+    const element = document.getElementById(elementIds)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" }); // Smoothly scroll to the section
+    }
+  };
 
   return (
     <>
-      <header className={headerClasses}>
+      <header>
         <nav
           aria-label="Global"
           className="mx-auto flex items-center justify-between p-6 lg:px-8"
@@ -172,7 +179,7 @@ const Header = () => {
                 <div
                   key={i}
                   activeClass="active"
-                  onClick={() => navigate(Routing.Initial)}
+                  onClick={() => { handleScroll(item.id); navigate(Routing.Initial) }}
                   spy={true}
                   smooth={true}
                   offset={50}
@@ -358,7 +365,7 @@ const Header = () => {
                     ))}
                   <div
                     activeClass="active"
-                    onClick={() => navigate("/instructors/all")}
+                    onClick={() => { setMobileMenuOpen(false); navigate("/instructors/all"); }}
                     className={`text-sm leading-6 hover:text-black cursor-pointer ${currentLocation === "/instructors/all"
                       ? "font-semibold text-black relative after:absolute after:bg-black after:h-[2px] after:w-[20px] after:bottom-0 after:left-0"
                       : "text-black/70 font-normal"

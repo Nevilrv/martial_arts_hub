@@ -166,7 +166,7 @@ const Profile = () => {
   const handleSaveProfile = async () => {
 
     const requiredFields = [
-      "email", "name", "country_code", "mobileNo", "profile_picture",
+      "email", "name", "country_code", "mobileNo",
       "maincategory", "category", "bio", "tagline",
       "experience", "firstFreeSessionHourlyRate", "classTypeFirstFreeSession",
       "privateSessionOnlineHourlyRate", "privateSessionFaceToFaceHourlyRate"
@@ -186,6 +186,11 @@ const Profile = () => {
     if (missingFields.length > 0) {
       toast.error(`The following fields are required: ${missingFields.join(", ")}`);
       setErrors(missingFields);
+      return;
+    }
+
+    if(instructorDetails?.profile_picture === "") {
+      toast.error("Uploading a profile picture is mandatory");
       return;
     }
 
@@ -463,7 +468,7 @@ const Profile = () => {
             </div>
           </div>
           <ProfileImageUploader open={openDialog} onClose={clearAllsets} image={imageSrc} crop={crop} zoom={zoom} rotation={rotation} onCropChange={setCrop} onRotationChange={setRotation} onCropComplete={onCropComplete} onZoomChange={setZoom} setZoomchange={(e, zoom) => setZoom(zoom)} setRoationchnage={(e, rotation) => setRotation(rotation)} onClick={clearAllsets} showCroppedImageOnclick={showCroppedImage}>
-            <div className="md:w-[245px] w-full h-[202px] rounded-xl overflow-hidden bg-[#DAD8D0] flex items-center justify-center relative">
+            <div className="w-[245px] h-[202px] rounded-xl overflow-hidden bg-[#DAD8D0] flex items-center justify-center relative">
               {(croppedImage || instructorDetails?.profile_picture) ? (
                 <>
                   {imgloading && (

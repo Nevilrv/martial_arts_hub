@@ -63,7 +63,6 @@ const ProfileCard = ({ ProfileDetals }) => {
                 <span className="text-Green-200 ml-1">
                   {ProfileDetals?.profile_completion}%
                 </span>
-                <span className="text-red-200 cursor-pointer"  onClick={heandleProfile}>(Complete Now)</span>
               </div>
             </>
           </div>

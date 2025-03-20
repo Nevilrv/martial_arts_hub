@@ -186,8 +186,8 @@ const BookClass = () => {
     if (selectedMailingLists === "" || null || undefined) {
       toast.error("Please Select Class Type");
       return;
-    } 
-    
+    }
+
     if (timeSlots.length === 0) {
       toast.error("Please Select TimeSlots");
       return;
@@ -332,7 +332,7 @@ const BookClass = () => {
 
         <div className="md:col-span-3 mt-8">
           <label className={`text-xl font-semibold text-black block`}>
-            Your Class Name
+            What Would You Like to Learn?
           </label>
           <input type="text" name="className" onChange={(e) => handleChange(e)} value={heandalChangeData.className} placeholder="What do you want to learn?" className="bg-[#DAD8D0] mt-2 focus:outline-none placeholder:text-black/25 text-[17px] px-6 w-full h-[70px] rounded-xl" />
           <label className={`text-xl font-semibold text-black block mt-8`}>

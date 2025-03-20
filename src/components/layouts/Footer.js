@@ -58,7 +58,7 @@ const Footer = () => {
           </div>
           <div>
             <h2 className="text-black text-xl font-medium">About</h2>
-            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer" onClick={() => { handleScroll('WhoWeAre') }}>Who we are</p>
+            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer" onClick={() => { handleScroll('WhoWeAre');navigate(Routing.Initial) }}>Who we are</p>
             <p className="text-[15px] hover:text-black text-black/50 cursor-pointer" onClick={() => { handleScroll('WhyJoinUs') }}>Why Join Us</p>
             <p className="text-[15px] hover:text-black text-black/50 cursor-pointer" onClick={() => navigate(`/instructors/all`)}>Instructors</p>
           </div>

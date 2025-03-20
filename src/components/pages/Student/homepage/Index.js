@@ -27,7 +27,7 @@ import { Category_List } from "../../../services/Admin/Discipline_Centre/Discipl
 const AskedQuestions = [
   {
     title: "Do adults participate in martial arts classes?",
-    body: "Absolutely! Martial arts are great for adults, whether they’re looking to stay fit, learn self-defense, or relieve stress. Many adults join to build confidence, improve discipline, and even compete. There’s no age limit to starting!",
+    body: "Our martial arts classes are exclusively for adults, whether they’re looking to stay fit, learn self-defense, or relieve stress. Many adults join to build confidence, improve discipline, and even compete. No prior experience is needed—just a willingness to learn and grow!"
   },
   {
     title: "Do I need any prior experience to join?",
@@ -227,7 +227,7 @@ const Index = () => {
         <h1 className="sm:text-[70px] text-[47px] text-center font-extrabold">
           martial arts hub.
         </h1>
-        <p className="text-[16px] text-center max-w-[669px] mx-auto leading-[22px] px-2">
+        <p className="text-[12px] sm:text-[16px] text-nowrap text-center max-w-[600px] mx-auto leading-[20px] px-2">
           The place to begin or elevate your martial arts journey.<br />
           Created by martial artists for martial artists.
         </p>

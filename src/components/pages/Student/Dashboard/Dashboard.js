@@ -64,16 +64,16 @@ const Dashboard = () => {
       <Tabs>
         <div className="mt-10 px-3 lg:px-8 grid lg:grid-cols-4 gap-5">
           <ProfileCard ProfileDetals={studentData.profile} />
-          <div className="lg:col-span-3 grid lg:grid-cols-2 gap-5">
-            <ClassRequestcard
+          <div className="grid lg:grid-cols-1 lg:col-span-3 gap-5">
+            {/* <ClassRequestcard
               cardDetails={ClassCard}
               data={studentData.ClassRequests}
-            />
+            /> */}
             <DashboardCard
               cardDetails={PaymentsCard}
               data={studentData.payments}
             />
-            <div className="lg:col-span-2 bg-gay-600 rounded-3xl  overflow-auto">
+            <div className="bg-gay-600 rounded-3xl  overflow-auto">
               <RecentClasses
                 cardDetails={RecentClasseCard}
                 data={studentData.recentClass}

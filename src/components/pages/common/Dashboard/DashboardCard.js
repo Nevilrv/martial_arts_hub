@@ -36,7 +36,7 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
         )}
         {data?.map((payments) => (
           <div className="sm:flex grid grid-cols-1 items-center justify-between mt-7 flex-wrap gap-y-3 gap-x-3">
-            <img src={payments?.instructor?.profile_picture || Wrestling} alt="" className="2xl:w-20 lg:w-full md:w-[30%] w-full 2xl:h-14 rounded-lg object-cover grayscale" />
+            <img src={payments?.instructor?.profile_picture || Wrestling} alt="" className="2xl:w-32 lg:w-full md:w-[30%] w-full 2xl:h-20 rounded-lg object-cover grayscale" />
             <div className="w-[228px]">
               <h2 className="text-Dark_black font-medium text-lg">
                 {payments?.className}

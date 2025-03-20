@@ -103,7 +103,7 @@ const Index = () => {
               <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[375px] overflow-auto w-full">
                 <div className="flex items-center justify-between">
                   <h3 className="text-gay-300 text-lg font-medium">
-                    Messages Requests
+                    Message Requests
                   </h3>
                 </div>
                 {MessagesRequest?.length <= 0 ? (
