@@ -92,6 +92,10 @@ const Videocall = () => {
 
   const StudentEndclass = () => {
     SetisOpen(true);
+    setRtcProps({
+      enableVideo: false,
+      enableAudio: false,
+    });
   };
 
   useEffect(() => {
@@ -200,7 +204,7 @@ const Videocall = () => {
   const callbacks = {
     EndCall: () => {
       userRole === "Student" ? StudentEndclass() : SetEndClassPopup(true);
-    },
+    }
   };
 
   const styleProps = {

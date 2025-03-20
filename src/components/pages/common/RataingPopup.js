@@ -120,20 +120,18 @@ const RataingPopup = ({
       <Dialog
         className="relative z-[9999]"
         open={isOpen}
+        onClose={SetisOpen}
       >
         <DialogBackdrop
           transition
           className="fixed inset-0 bg-black/60 backdrop-blur-md transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
         />
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div className="fixed inset-0 z-10 w-screen">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <DialogPanel
               transition
               className="relative transform overflow-hidden rounded-lg bg-primary px-6 pb-6 pt-[80px] text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full md:max-w-[775px]  data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
-              style={{
-                maxHeight: "80vh",  // Ensures dialog doesn't overflow viewport height
-                overflowY: "auto"   // Enables scrolling within the modal
-              }}
+      
             >
               <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
                 <button
@@ -171,11 +169,6 @@ const RataingPopup = ({
                     value={ReviewMessage}
                     className="h-[135px] px-6 py-5 w-full rounded-xl bg-[#DAD8D0] text-black/50 placeholder:text-black/50 focus:outline-none text-lg placeholder:text-lg"
                     placeholder="Write Your message here*"
-                    style={{
-                      resize: "none",
-                      maxHeight: "50vh", // Prevents the textarea from growing too tall
-                      overflowY: "auto"  // Enables scrolling for long messages
-                    }}
                   />
                 </div>
                 <div className="flex sm:flex-row flex-col items-center gap-3 mt-14 justify-center">
