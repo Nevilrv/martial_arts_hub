@@ -6,8 +6,6 @@ import { toast } from "react-toastify";
 import { Subscribe } from "../services/Admin/ContactUs/ContactUs";
 import { Routing } from "../shared/Routing";
 import { useNavigate } from "react-router-dom";
-import RataingPopup from "../pages/common/RataingPopup";
-import { Reviewsvg } from "../../assets/icon";
 
 
 const Footer = () => {
@@ -86,19 +84,7 @@ const Footer = () => {
             © Copyright 2024 - <span className="font-bold">martial arts hub.</span>, All Rights Reserved.
           </p>
         </div>
-        <button className="px-5 py-2 bg-black text-white" onClick={() => SetisOpen(true)}>Click this button</button>
       </footer>
-
-      <RataingPopup
-        isOpen={isOpen}
-        SetisOpen={SetisOpen}
-        Icons={<Reviewsvg />}
-        Headding={"Rate Student!"}
-        BodyText={
-          "Thank you for joining the session! Your feedback helps us improve! Rate your experience about our instructor to let us know what they’re doing right and where they can grow."
-        }
-        BtnText={"Submit"}
-      />
     </>
   );
 };
