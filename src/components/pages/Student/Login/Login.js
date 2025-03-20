@@ -103,13 +103,13 @@ const Login = () => {
           className="fixed inset-0 bg-[#0F0F0F91] transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
         />
 
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center lg:p-0">
+        <div className="fixed inset-0 z-10 w-screen ModelBoxes">
+          <div className="flex min-h-full items-end justify-center p-4 text-center ModelBoxes sm:items-center lg:p-0">
             <DialogPanel
               transition
               className="relative transform overflow-hidden bg-white text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full lg:max-w-6xl data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
             >
-              <div className="bg-primary p-5">
+              <div className="bg-primary p-5 ModelBoxes">
                 <div className="flex items-start gap-9 lg:flex-nowrap flex-wrap lg:justify-start justify-center">
                   <div className="relative after:absolute after:bg-[linear-gradient(180deg,_#09090900_0%,_#090909_100%)] after:h-1/2 after:w-full after:bottom-0 after:left-0 after:z-20 after:backdrop-blur-[1.2999999523162842px] rounded-[20px] overflow-hidden lg:block hidden">
                     <img

@@ -6,9 +6,12 @@ import { toast } from "react-toastify";
 import { Subscribe } from "../services/Admin/ContactUs/ContactUs";
 import { Routing } from "../shared/Routing";
 import { useNavigate } from "react-router-dom";
+import RataingPopup from "../pages/common/RataingPopup";
+import { Reviewsvg } from "../../assets/icon";
 
 
 const Footer = () => {
+  const [isOpen, SetisOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const navigate = useNavigate()
@@ -58,7 +61,7 @@ const Footer = () => {
           </div>
           <div>
             <h2 className="text-black text-xl font-medium">About</h2>
-            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer" onClick={() => { handleScroll('WhoWeAre');navigate(Routing.Initial) }}>Who we are</p>
+            <p className="text-[15px] hover:text-black text-black/50 cursor-pointer" onClick={() => { handleScroll('WhoWeAre'); navigate(Routing.Initial) }}>Who we are</p>
             <p className="text-[15px] hover:text-black text-black/50 cursor-pointer" onClick={() => { handleScroll('WhyJoinUs') }}>Why Join Us</p>
             <p className="text-[15px] hover:text-black text-black/50 cursor-pointer" onClick={() => navigate(`/instructors/all`)}>Instructors</p>
           </div>
@@ -83,7 +86,19 @@ const Footer = () => {
             © Copyright 2024 - <span className="font-bold">martial arts hub.</span>, All Rights Reserved.
           </p>
         </div>
+        <button className="px-5 py-2 bg-black text-white" onClick={() => SetisOpen(true)}>Click this button</button>
       </footer>
+
+      <RataingPopup
+        isOpen={isOpen}
+        SetisOpen={SetisOpen}
+        Icons={<Reviewsvg />}
+        Headding={"Rate Student!"}
+        BodyText={
+          "Thank you for joining the session! Your feedback helps us improve! Rate your experience about our instructor to let us know what they’re doing right and where they can grow."
+        }
+        BtnText={"Submit"}
+      />
     </>
   );
 };
