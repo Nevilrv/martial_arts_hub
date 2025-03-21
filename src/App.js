@@ -19,7 +19,7 @@ const PaymentFailed = lazy(() =>
 const Video = lazy(() =>
   import("./components/pages/common/Videocall.js")
 );
-
+ 
 const InstructorsPage = lazy(() =>
   import("./components/pages/common/InstructorsPage.js")
 );
