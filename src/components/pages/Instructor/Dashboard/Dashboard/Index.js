@@ -12,6 +12,7 @@ import Spinner from "../../../../layouts/Spinner";
 import { Routing } from "../../../../shared/Routing";
 import { useNavigate } from "react-router-dom";
 import User from "../../../../../assets/images/userProfile.jpg";
+import BookingRequestcard from "./BookingRequestcard";
 
 const Index = () => {
   const ProfileDetals = [
@@ -53,6 +54,7 @@ const Index = () => {
   const [Profile, SetProfile] = useState({});
   const [Class, setClass] = useState([]);
   const [MessagesRequest, setMessagesRequest] = useState([]);
+  const [BookingRequest,setBookingRequest] = useState([])
   const [earning, setearning] = useState({});
   const Navigate = useNavigate();
 
@@ -67,6 +69,7 @@ const Index = () => {
       );
       setClass(result.data.myClasses);
       setMessagesRequest(result.data.messageRequest);
+      setBookingRequest(result.data.bookingRequest)
       setearning(result.data.earnings);
       setLoading(false);
     } else {
@@ -99,8 +102,11 @@ const Index = () => {
             <div className="xl:col-span-1 lg:col-span-2 col-span-1 max-h-[375px] overflow-y-auto">
               <DashboardCard cardDetails={EarningsCard} earnings={earning} />
             </div>
-            <div className="lg:col-span-2 bg-gay-600 rounded-3xl w-full overflow-x-auto">
-              <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[375px] overflow-auto w-full">
+            <div className="xl:col-span-1 lg:col-span-2 col-span-1 max-h-[375px] overflow-y-auto">
+              <BookingRequestcard cardDetails={BookingRequest} />
+            </div>
+            <div className="xl:col-span-1 lg:col-span-2 col-span-1 max-h-[375px] bg-gay-600 rounded-3xl overflow-x-auto" >
+              <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[375px] overflow-auto w-full" id="hideScoll">
                 <div className="flex items-center justify-between">
                   <h3 className="text-gay-300 text-lg font-medium">
                     Message Requests
@@ -121,11 +127,8 @@ const Index = () => {
                   </div>
                 ) : (
                   MessagesRequest.map((Request) => (
-                    <div
-                      className="md:h-[115px] md:py-0 py-3 flex items-center justify-between sm:border-none border-b border-gay-400 flex-wrap"
-                      onClick={() => Navigate(Routing.InstructorMessageRequest)}
-                    >
-                      <div className="flex items-center flex-wrap 2xl:w-[65%] w-full">
+                    <div className="sm:flex justify-between py-3" onClick={() => Navigate(Routing.InstructorMessageRequest)}>
+                      <div className="sm:flex gap-3">
                         <div className="sm:w-[82px] w-1/2 sm:mx-0 mx-auto sm:h-[82px] overflow-hidden rounded-full aspect-square">
                           <img
                             src={Request.profile_picture || User}
@@ -133,41 +136,37 @@ const Index = () => {
                             className="w-full h-full object-cover object-top grayscale"
                           />
                         </div>
-                        <div className="sm:ml-5 ml-0 lg:w-[80%] w-full">
+                        <div className="">
                           <h2 className="text-black texrt-[20px] font-medium">
                             {Request.name}
                           </h2>
-                          <div className="flex items-center flex-wrap">
+                          <div>
                             <p className="text-[13px] text-black/70  mt-0.5">
                               <span className="font-medium">
                                 Request received on:
                               </span>{" "}
                               {Request.recived}
                             </p>
-                            <span className="text-xl mt-1 text-black/70 h-[5px] w-[5px] rounded-full bg-black/70 mx-1 sm:block hidden"></span>
-                            <p className="text-[13px] text-black/70  mt-0.5">
+                          <p className="text-[13px] text-black/70  mt-0.5">
                               <span className="font-medium">
-                                Inquiry class:
+                                Inquiry:
                               </span>
                               {Request.title}
                             </p>
                           </div>
-                          <p className="text-black/70 text-base max-w-2xl">
-                            {Request.body}
+                          <p className="text-black/70 text-[13px]">
+                          <span className="font-medium">
+                                Message:
+                              </span>
+                            {Request.body.slice(0,50)}...
                           </p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 flex-wrap sm:w-auto w-full">
-                        <OutlineBtn
-                          text={"See Profile"}
-                          className={
-                            "bg-transparent border-black text-black text-sm sm:w-auto w-full sm:mt-0 mt-3"
-                          }
-                        />
+                      <div>
                         <OutlineBtn
                           text={"View Request"}
                           className={
-                            "bg-green border-none text-white font-medium sm:w-auto w-full"
+                            "bg-green text-nowrap border-none text-white font-medium sm:w-auto w-full"
                           }
                         />
                       </div>

@@ -3,11 +3,14 @@ import { FiPlus } from "react-icons/fi";
 import OutlineBtn from "../../../common/OutlineBtn";
 import dayjs from "dayjs";
 import Boxing from "../../../../../assets/images/Boxing.png";
+import { useNavigate } from "react-router-dom";
+import { Routing } from "../../../../shared/Routing";
 
 const ClassRequestcard = ({ cardDetails, data }) => {
+  const navigate = useNavigate()
   return (
     <>
-      <div className="bg-gay-600 rounded-3xl px-8 py-7 h-full overflow-auto">
+      <div className="bg-gay-600 rounded-3xl px-8 py-7 h-full overflow-auto" id="hideScoll">
         <div className="flex items-center justify-between ">
           <h3 className="text-gay-300 text-lg font-medium">
             {cardDetails.CardTitle}
@@ -28,72 +31,62 @@ const ClassRequestcard = ({ cardDetails, data }) => {
           </div>
         )}
         {data.map((classdata) =>
-          classdata?.classStatus === "ongoing" ? (
-            <div className="flex items-start mt-6 gap-3 md:flex-nowrap flex-wrap sm:border-0 border-b pb-3">
-              <img
-                src={Boxing}
-                className="md:w-[80px] w-full md:h-[66px] rounded-lg grayscale"
-                alt=""
-              />
+          classdata?.classStatus === "upcoming" ? (
+            <div className="sm:flex items-center gap-5 w-full py-3" >
+              <div className="flex justify-center">
+                <img src={classdata?.profile} className="sm:h-[80px] sm:w-[150px] w-[150px] h-[150px] rounded-full sm:rounded-lg object-cover grayscale" alt="" />
+              </div>
               <div className="w-full">
-                <div className="flex items-center justify-between w-full flex-wrap gap-y-2 xl:mb-0 mb-2">
-                  <h2 className="text-black text-xl font-semibold">
-                    {classdata.className}
+                <div className="sm:flex items-center justify-between py-2 sm:py-0">
+                  <h2 className="text-Dark_black text-xl font-medium text-[18px]">
+                    {classdata?.className}
                   </h2>
                   <OutlineBtn
-                    text={`Start on ${dayjs(classdata.classdate).format(
+                    text={`Start on ${dayjs(classdata?.classdate).format(
                       "DD-MM-YYYY"
                     )}`}
                     className={
-                      " sm:w-[160px] w-full bg-gay-300/50 text-white border-none sm:text-[11px] text-xs sm:h-[28px]"
+                      "bg-gay-300/50 text-white border-none sm:text-[11px] text-xs mt-1 w-full sm:w-auto sm:mt-0"  
                     }
-                    onClick={() =>
-                      window.open(
-                        classdata.instructor_url,
-                        "_blank",
-                        "noopener,noreferrer"
-                      )
-                    }
+                    onClick={() => navigate(Routing.InstructorMyClass)}
                   />
                 </div>
-
-                <div className="grid lg:grid-cols-2 items-center">
-                  <div className="mt-1">
-                    <div className="flex items-center sm:justify-start justify-between">
-                      <p className="text-black/50 text-[15px] font-semibold">
+                <div>
+                  <div className="flex gap-2">
+                    <div className="flex items-center gap-[2px]">
+                      <p className="text-black/70 text-[12px] font-semibold">
                         Class Date:
                       </p>
                       <p className="text-black/70 text-[12px] font-light">
                         {classdata.classdate}
                       </p>
                     </div>
+                    <div className="flex items-center gap-[2px]">
+                      <p className="text-black/70 text-[12px] font-semibold">
+                        Class Time:
+                      </p>
+                      <p className="text-black/70 text-[12px] font-light">
+                        {classdata?.classTime}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex items-center sm:justify-start justify-between mt-1">
-                    <p className="text-black/50 text-[15px] font-semibold">
-                      Created on:{" "}
-                    </p>
-                    <p className="text-black/70 text-[13px] font-light">
-                      {classdata.createdOn}
-                    </p>
-                    <span className="text-xl mt-1 text-black/70 h-[3px] w-[3px] rounded-full bg-black/70 mx-0.5 sm:block hidden"></span>
-                  </div>
-
-                  <div className="flex items-center sm:justify-start justify-between">
-                    <p className="text-black/50 text-[15px] font-semibold">
-                      Class Time:{" "}
-                    </p>
-                    <p className="text-black/70 text-[13px] font-light">
-                      {classdata.classTime}
-                    </p>
-                    <span className="text-xl mt-1 text-black/70 h-[3px] w-[3px] rounded-full bg-black/70 mx-0.5 sm:block hidden"></span>
-                  </div>
-                  <div className="flex items-center sm:justify-start justify-between">
-                    <p className="text-black/50 text-[15px] font-semibold">
-                      Class Rate:{" "}
-                    </p>
-                    <p className="text-red-200 text-[13px] font-semibold">
-                      ${classdata.classRate}
-                    </p>
+                  <div className="flex gap-2">
+                    <div className="flex items-center gap-[2px]">
+                      <p className="text-black/70 text-[12px] font-semibold">
+                        Created on:{" "}
+                      </p>
+                      <p className="text-black/70 text-[12px] font-light">
+                        {classdata?.createdOn}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-[2px]">
+                      <p className="text-black/70 text-[12px] font-semibold">
+                        Class Rate:{" "}
+                      </p>
+                      <p className="text-red-200 text-[12px] font-semibold">
+                        £{classdata?.classRate}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>

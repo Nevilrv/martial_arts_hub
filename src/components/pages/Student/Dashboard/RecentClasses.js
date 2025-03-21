@@ -10,7 +10,7 @@ const RecentClasses = ({ cardDetails, data }) => {
   const navigate = useNavigate();
   return (
     <>
-      <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[400px]">
+      <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[470px] sm:max-h-[400px] overflow-auto" id="hideScoll">
         <div className="flex items-center justify-between ">
           <h3 className="text-gay-300 text-lg font-medium">
             {cardDetails.CardTitle}

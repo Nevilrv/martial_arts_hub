@@ -87,19 +87,11 @@ const Videocall = () => {
     const result = await Instructor_End_Class(_id, classid);
     if (result?.success === true) {
       SetisOpen(true);
-      setRtcProps({
-        enableVideo: false,
-        enableAudio: false,
-      });
     }
   };
 
   const StudentEndclass = () => {
     SetisOpen(true);
-    setRtcProps({
-      enableVideo: false,
-      enableAudio: false,
-    });
   };
 
   useEffect(() => {

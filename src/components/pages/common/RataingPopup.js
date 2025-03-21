@@ -120,7 +120,9 @@ const RataingPopup = ({
       <Dialog
         className="relative z-[9999] ModelBoxes"
         open={isOpen}
-        onClose={SetisOpen}
+        onClose={() => {
+          toast.info("Please Enter Your Review First");
+        }}
       >
         <DialogBackdrop
           transition
@@ -136,7 +138,9 @@ const RataingPopup = ({
               <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
                 <button
                   type="button"
-                  onClick={() => HeandleSkipReview()}
+                  onClick={() => {
+                    toast.info("Please Enter Your Review First");
+                  }}
                   className="rounded-md bg-transparent text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   <span className="sr-only">Close</span>

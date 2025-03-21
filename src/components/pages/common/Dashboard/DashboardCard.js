@@ -7,7 +7,7 @@ import User from "../../../../assets/images/userProfile.jpg"
 const DashboardCard = ({ cardDetails, data, earnings }) => {
   return (
     <>
-      <div className=" bg-gay-600 rounded-3xl px-8 py-7 h-full overflow-auto">
+      <div className=" bg-gay-600 rounded-3xl px-8 py-7 max-h-[490px] sm:h-full overflow-auto" id="hideScoll">
         <div className="flex items-center justify-between">
           <h3 className="text-gay-300 text-lg font-medium">
             {cardDetails.CardTitle}
@@ -36,23 +36,25 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
         )}
         {data?.map((payments) => (
           <div className="sm:flex grid grid-cols-1 items-center justify-between mt-7 flex-wrap gap-y-3 gap-x-3">
-            <img src={payments?.instructor?.profile_picture || Wrestling} alt="" className="2xl:w-32 lg:w-full md:w-[30%] w-full 2xl:h-20 rounded-lg object-cover grayscale" />
-            <div className="w-[228px]">
-              <h2 className="text-Dark_black font-medium text-lg">
-                {payments?.className}
-              </h2>
-              <p className="text-sm font-light flex sm:justify-start justify-between">
-                <span className="text-black/70 font-medium">
-                  Course Duration:
-                </span>
-                {payments?.classDuration} hr
-              </p>
-              <p className="text-sm font-light flex sm:justify-start justify-between sm:mt-0 mt-2">
-                <span className="text-black/70 font-medium">
-                  Instructor Name:{" "}
-                </span>
-                {payments?.instructor?.name}
-              </p>
+            <div className="sm:flex gap-5 items-center">
+              <img src={payments?.instructor?.profile_picture || Wrestling} alt="" className="2xl:w-32 lg:w-full md:w-[30%] w-full 2xl:h-20 rounded-lg object-cover grayscale" />
+              <div className="w-[228px]">
+                <h2 className="text-Dark_black font-medium text-lg">
+                  {payments?.className}
+                </h2>
+                <p className="text-sm font-light flex sm:justify-start justify-between">
+                  <span className="text-black/70 font-medium">
+                    Course Duration:
+                  </span>
+                  {payments?.classDuration} hr
+                </p>
+                <p className="text-sm font-light flex sm:justify-start justify-between sm:mt-0 mt-2">
+                  <span className="text-black/70 font-medium">
+                    Instructor Name:{" "}
+                  </span>
+                  {payments?.instructor?.name}
+                </p>
+              </div>
             </div>
             <div>
               <h2 className="text-red-200 font-semibold text-xl sm:text-right text-left sm:mb-0 mb-2">
@@ -62,7 +64,7 @@ const DashboardCard = ({ cardDetails, data, earnings }) => {
                 className={`p-1.5 px-3 ${payments?.paymentStatus === "success"
                   ? "bg-green"
                   : "bg-red-200"
-                  } text-white rounded-full flex items-center text-[11px]`}
+                  } text-white w-36 rounded-full flex items-center text-[11px]`}
               >
                 Payment{" "}
                 {payments?.paymentStatus !== "success"

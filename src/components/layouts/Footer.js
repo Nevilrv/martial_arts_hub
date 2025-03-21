@@ -31,12 +31,23 @@ const Footer = () => {
     }
   };
 
-  const handleScroll = (elementIds) => {
-    const element = document.getElementById(elementIds)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" }); // Smoothly scroll to the section
+  const handleScroll = (elementId) => {
+    if (window.location.pathname !== Routing.Initial) {
+      navigate(Routing.Initial);
+      setTimeout(() => {
+        const element = document.getElementById(elementId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 500); 
+    } else {
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
+  
   return (
     <>
       {loading && <Spinner />}
