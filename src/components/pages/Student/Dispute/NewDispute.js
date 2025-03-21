@@ -167,6 +167,33 @@ const NewDispute = () => {
             Stage 1 - Identify the issue
           </h2>
           <div className="flex flex-col gap-2 mt-4">
+          <div className="flex items-center gap-2">
+              <BsPatchCheckFill className="text-gay-400 text-xl" />
+              <p className="text-gay-400">
+                <span className="font-semibold">
+                Booking Requirement:
+                </span>{" "}
+                To raise a dispute, you must have booked an instructor, made the payment, and completed the class.
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <BsPatchCheckFill className="text-gay-400 text-xl" />
+              <p className="text-gay-400">
+                <span className="font-semibold">
+                Dispute Timeframe:
+                </span>{" "}
+                The dispute option is available only within 24 hours after joining the class.
+              </p>
+            </div>         
+             <div className="flex items-center gap-2">
+              <BsPatchCheckFill className="text-gay-400 text-xl" />
+              <p className="text-gay-400">
+                <span className="font-semibold">
+                Visibility of Class Details:
+                </span>{" "}
+                If the class details are not visible for dispute, it means the 24-hour window has passed, and disputes can no longer be raised.
+              </p>
+            </div>
             <div className="flex items-center gap-2">
               <BsPatchCheckFill className="text-gay-400 text-xl" />
               <p className="text-gay-400">
